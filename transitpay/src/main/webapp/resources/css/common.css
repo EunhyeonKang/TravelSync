@@ -1,0 +1,112 @@
+
+a {
+    text-decoration: none;
+    color: black;
+    margin-right: 60px;
+    font-weight: 500;
+}
+
+li {
+    list-style-type: none;
+}
+.nav {
+    display: flex;
+    align-items: center;
+    color: white;
+    justify-content: center;
+    margin: 20px auto;
+    width: 100%;
+    max-width: 1200px;
+}
+
+
+.title {
+    display: flex;
+    align-items: center;
+    float: right;
+    font-size: 1.6em;
+}
+
+.title > a {
+    color: white;
+    font-weight: 900;
+}
+
+@font-face {
+    font-family: "hana";
+    src: url("../../resources/font/Hana2-Bold.otf") format('opentype');
+}
+.title p{
+    font-family: hana;
+    font-size: smaller;
+}
+
+.menu {
+    margin: 0 auto;
+}
+
+.menu li {
+    margin-right: 20px;
+    display: contents;
+}
+#menu {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+
+@media screen and (max-width: 625px) {
+
+    .nav {
+        padding: 30px 40px;
+    }
+
+    #menu {
+        display: none;
+    }
+
+    .fab {
+        display : none;
+    }
+
+    .fas {
+        font-size: 2em;
+    }
+}
+
+.navhr{
+    border: 1px solid #e8e8e8;
+}
+
+.navbar-fixed {
+    display: none;
+}
+
+.totalmenu{
+    display: block;
+    width: 30px;
+    height: 30px;
+    background: url(https://image.kebhana.com/cont/common/img/newmain2021/icon-30-menu-all.png) no-repeat center;
+    text-indent: -9999px;
+}
+
+.hanamenu {
+    text-align: center;
+    margin: 30px auto;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+.hanamenu li{
+    margin-right: 20px;
+    display: contents;
+}
+.hanamenu li a{
+    color: #8b8b8b;;
+
+}
+.main-2 hr{
+     width: 90%;
+     border: 1px solid #d8d8d8;
+ }

@@ -1,0 +1,428 @@
+.group71{
+    width: 100%;
+    height: auto;
+    text-align: center;
+    margin: auto;
+    text-align: center;
+    padding: 80px 0 80px 0;
+}
+body{
+    margin: 0;
+    padding: 0;
+}
+.btn-group {
+    display: flex;
+    width: 400px;
+    justify-content: left;
+    right: 150px;
+    margin: 0 auto;
+    border-radius: 35px;
+    overflow: hidden;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    position: relative;
+    background-color: #E9E9E9;
+}
+
+.main {
+    width: 100%;
+    height: 850px;
+}
+.btn {
+    cursor: pointer;
+    flex: 1;
+    padding: 15px 30px;
+    text-align: center;
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    transition: background-color 0.3s, color 0.3s;
+    position: relative;
+}
+
+.btn button {
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    color: #8C8989;
+    font-size: 20px;
+    transition: all 0.3s;
+    position: relative;
+    z-index: 1;
+}
+
+.btn.active button {
+    color: #383636;
+}
+
+.active-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 46px;
+    background-color: #ffffff;
+    border-radius: 35px;
+    z-index: 0;
+    transition: left 0.3s, width 0.3s;
+    margin: 5px;
+}
+
+.btn1, .btn2 {
+    flex: 1;
+    position: relative;
+}
+.search {
+    position: relative;
+    width: 700px;
+    margin: 30px auto;
+}
+
+input {
+    width: 95%;
+    border: 1px solid #bbb;
+    border-radius: 10px;
+    padding: 15px 15px;
+}
+
+.searchimg {
+    position: absolute;
+    top: 13px;
+    right: 0;
+    margin: 0;
+}
+.contents{
+    width: 1200px;
+    display: flex;
+    margin: 30px auto;
+}
+.places{
+    display: flex;
+    margin: 30px 10px 30px 40px;
+}
+.img{
+    display: flex;
+    float: left;
+    width: 200px;
+    height: 200px;
+    background: #17A1FA;
+}
+.place{
+    display: contents;
+}
+.place > span{
+    margin:10px 10px;
+}
+.pbutton{
+    width: 85px;
+    height: 45px;
+    display: flex;
+    float: right;
+    box-sizing: border-box;
+    background: rgba(181, 181, 181, 0.35);
+    border: 1px solid #FFFFFF;
+    border-radius: 35px;
+    transition: transform 0.1s;
+}
+
+
+.pbutton:hover {
+    transform: scale(1.1); /* 버튼을 110% 크기로 확대 */
+}
+
+.select {
+    transition: color 0.1s;
+}
+
+.pbutton:hover .select {
+    color: #000000; /* 호버 시 글씨색 변경 */
+}
+
+.select{
+    font-weight: 700;
+    padding: 12px;
+    font-size: 15px;
+    margin: 0 auto;
+    color: #393333;
+}
+.placeleft{
+    float: left;
+    width: 500px;
+}
+.placeselect{
+    float: left;
+    width: 700px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    display: flex;
+    color: #363636;
+    margin-top: 13px;
+}
+.categoryselect{
+    position: relative;
+    width: 146.27px;
+    height: 51.95px;
+    border: 1px solid #008485;
+    background: #008485;
+    mix-blend-mode: normal;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 35px;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+.selectinfo{
+    width: 700px;
+    margin: 0 auto;
+}
+.region{
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 18px;
+    text-align: center;
+    color: #FFFFFF;
+}
+.ximg{
+    padding-left: 20px;
+    height: 13px;
+}
+.tvlbutton{
+    box-sizing: border-box;
+    width: 700px;
+    height: 50px;
+    background: #FFFFFF;
+    border: 1px solid #008485;
+    border-radius: 10px;
+    margin-top: 20px;
+    margin: 0 auto;
+    display: block;
+    margin-top: 35px;
+}
+.tvlselect{
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 18px;
+    text-align: center;
+    color: #008485;
+}
+.placeselect2{
+    float: left;
+    display: flex;
+    height: 80px;
+    width: 100%;
+}
+.pbuttonaction{
+    box-sizing: border-box;
+    width: 85px;
+    height: 45px;
+    background: #FFFFFF;
+    border: 1px solid #008485;
+    border-radius: 35px;
+}
+.selectaction{
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 15px;
+    text-align: center;
+    color: #008485;
+}
+.pbutton{
+    width: 85px;
+    height: 45px;
+    display: flex;
+    float: right;
+    box-sizing: border-box;
+    background: rgba(181, 181, 181, 0.35);
+    border: 1px solid #e8e8e8;
+    border-radius: 35px;
+    transition: transform 0.1s;
+}
+
+.pbutton:hover {
+    transform: scale(1.1); /* 버튼을 110% 크기로 확대 */
+}
+
+.select {
+    transition: color 0.1s;
+}
+
+.pbutton:hover .select {
+    color: #000000; /* 호버 시 글씨색 변경 */
+}
+
+.searchimg{
+    transition: transform 0.1s;
+}
+.searchimg:hover {
+    transform: scale(1.1); /* 버튼을 110% 크기로 확대 */
+}
+
+.pbuttonaction{
+    transition: transform 0.1s;
+}
+
+.pbuttonaction:hover {
+    transform: scale(1.1); /* 버튼을 110% 크기로 확대 */
+}
+
+.selectaction{
+    transition: color 0.1s;
+}
+
+.tvlbutton:hover {
+    background-color: #008485;
+}
+
+.tvlbutton:hover .tvlselect{
+    transition: color 0.1s;
+    color: white;
+}
+.contents-1{
+    padding: 35px 0 20px 20px;
+    border-radius: 50px;
+    width: 800px;
+    display: table;
+}
+.menu1 {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    border-radius: 0px;
+    padding: 10px;
+    float: left;
+    margin: 20px;
+}
+
+.menu1 a {
+    text-decoration: none;
+    color: #333;
+    padding: 8px 10px;
+    text-align: center;
+    margin: 0 auto;
+    border-radius: 5px;
+    transition: background-color 0.2s;
+}
+
+.menu1 a:hover {
+    background-color: #008485;
+    color: white;
+}
+.menu1-1{
+    text-align: center;
+    padding-top: 10px;
+    color: #008485;
+    font-weight: 700;
+    font-size: 20px;
+}
+.menuhr hr{
+    border: 2px solid #008485;
+}
+
+.traveltitle{
+    text-align: left;
+    left: 10px;
+    color: #7a7d7d;
+    font-size: 29px;
+    width: 1155px;
+    margin: 30px auto;
+    font-weight: 600;
+}
+.traveltitle hr{
+    border: 1px solid #929292;
+}
+.cancel-box{
+    width: 40%;
+    text-align: center;
+}
+
+/* 검색 드롭다운 스타일 */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: white;
+    z-index: 1;
+}
+
+.dropdown-item {
+    width: 100%;
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+    border: 1px solid #fff;
+    background-color: #fff;
+}
+
+.dropdown-item:hover {
+    background-color: #f5f5f5;
+}
+
+/* 검색 이미지 스타일 */
+.searchimg {
+    cursor: pointer;
+    margin-left: -40px;
+}
+
+/* 검색 입력 필드 포커스 시 드롭다운 보이기 */
+.search:focus-within .dropdown-content {
+    display: block;
+}
+.placespan{
+    font-weight: 700;
+    font-size: large;
+    color: darkgray;
+}
+.tagsSpan{
+    color: slategray;
+}
+.placebox{
+    margin: 10px 0 20px 0px;
+}
+.place-search-result{
+    background-color: #f7f7f7;
+    text-align: center;
+    width: 700px;
+    border: 1px solid #b7b7b7;
+    padding: 100px 0px;
+    border-radius: 10px;
+    margin: 30px auto;
+    color: #a7a7a7;
+}
+.placeselect-child{
+    text-align: center;
+    padding: 10px;
+}
+.datetimes{
+    margin-top: 13px;
+}
+.title-text{
+    margin-top: 13px;
+}
+.scheduleShare{
+    display: flex;
+    flex-direction: column;
+    width: 80px;
+    border-radius: 0px;
+    padding: 10px;
+    float: left;
+    margin: 100px 20px 0 20px;
+}
+.userCircle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #3498db;
+    margin: 5px auto;
+    background-image: url('../../resources/images/testAcc.png');
+    background-size: cover;
+}

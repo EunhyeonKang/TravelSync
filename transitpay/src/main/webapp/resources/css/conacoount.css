@@ -1,0 +1,173 @@
+.exchange{
+    background-color: #ffffff;
+    width: 100%;
+    height: 270px;
+}
+.exchangebox{
+    width: 100%;
+    background-color: #ededed;
+}
+.container2{
+    display: flex;
+    margin: 0 auto;
+    width: 800px;
+}
+.day{
+    font-weight: 700;
+    text-align: center;
+    color: #979292;
+    padding: 10px;
+}
+.addplace-1{
+    box-sizing: border-box;
+    background: #FFFFFF;
+    border: 1px solid #008485;
+    border-radius: 30px;
+    padding: 8px;
+    color: #5F5F5F;
+    margin-right: 10px;
+}
+.addplace-1 .addtext{
+    color: #008485;
+}
+.addplace-2{
+    box-sizing: border-box;
+    background: #FFFFFF;
+    border: 1px solid #9E9E9E;
+    border-radius: 30px;
+    padding: 8px;
+}
+.addplace-2 .addtext{
+    color: #9E9E9E;
+}
+.exchange-1{
+    padding: 30px;
+}
+#searchForm{
+    display: flex;
+}
+#searchForm input{
+    width: 60%;
+    border: 1px solid #bbb;
+    padding: 15px 15px;
+    border-radius: 10px;
+    background-color: #f2f0f0;
+    margin-right: 5px;
+}
+
+.selecttype{
+    width: 30%;
+    border: 1px solid #bbb;
+    padding: 15px 15px;
+    border-radius: 10px;
+    margin-right: 5px;
+}
+.row{
+    margin: 15px;
+}
+#searchForm-1 input{
+    width: 48.4%;
+    border: 1px solid #bbb;
+    padding: 15px 15px;
+    border-radius: 0px;
+}
+.pbuttonaction{
+    box-sizing: border-box;
+    width: 85px;
+    height: 45px;
+    background: #FFFFFF;
+    border: 1px solid #008485;
+    border-radius: 0px;
+}
+.perrate{
+    width: 80px;
+    height: 20px;
+    margin: 15px;
+    border: 1px solid #c5c0c0;
+    padding: 4px;
+    background-color: #fff;
+    color: #444444;
+    border-radius: 5px;
+}
+.exchangebox-1{
+    padding: 20px;
+    color: #7a7d7d;
+}
+.exchangebox2{
+    width: 100%;
+    height: 100px;
+    border-bottom: 1px solid #008485;
+    border-top: 1px solid #008485;
+    margin-top: 30px;
+    background-color: #f7f7f7;
+}
+.payment-amount{
+    float: left;
+    height: 100%;
+    width: 50%;
+    border-right: 1px solid #008485;
+}
+.exchange-rate{
+    width: 49%;
+    float: right;
+    height: 100%;
+}
+.amount-value{
+    font-weight: bold;
+    padding-left: 20px;
+    font-size: 30px;
+    color: #008485;
+}
+.amount-label{
+    color: dimgrey;
+    font-weight: 500;
+    padding: 20px 0px 5px 20px;
+}
+.rate-section{
+    width: 100%;
+    display: inline-table;
+}
+.rate-label{
+    color: dimgrey;
+    font-weight: 500;
+    padding: 20px 0px 5px 20px;
+    display: flex;
+    float: left;
+}
+.rate-value {
+    float: right;
+    padding: 20px 0px 5px 20px;
+    color: #008485;
+}
+.discount-section{
+    width: 100%;
+}
+.discount-label{
+    color: dimgrey;
+    font-weight: 500;
+    padding: 12px 0px 5px 20px;
+    display: flex;
+    float: left;
+}
+.discount-value{
+    float: right;
+    padding: 12px 0px 5px 20px;
+}
+.tvlbuttons{
+    width: 100%;
+    text-align: center;
+}
+.tvlbtn2{
+    box-sizing: border-box;
+    width: 118px;
+    height: 50px;
+    margin-top: 30px;
+    background: #008485;
+    border: 1px solid #008485;
+    border-radius: 10px;
+}
+.tvlbtn2 div{
+    font-weight: 700;
+    font-size: 18px;
+    color: #FFFFFF;
+}

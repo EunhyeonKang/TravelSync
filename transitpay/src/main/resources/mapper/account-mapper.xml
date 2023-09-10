@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hanacard.transitpay.member.model.dao.AccountRepository">
+    <select id="selectBackAccount" resultType="com.hanacard.transitpay.member.model.dto.Account">
+        SELECT *
+        FROM account
+        WHERE member_id = #{memberId}
+    </select>
+
+    <update id="updateMainAccount">
+        UPDATE account
+        SET account_main = 0
+        WHERE account_id = #{accountId}
+    </update>
+    <update id="updateSubAccount">
+        UPDATE account
+        SET account_main = 1
+        WHERE account_id = #{accountId}
+    </update>
+
+    <select id="selectAmountMember" resultType="com.hanacard.transitpay.member.model.dto.GroupAccountDetail">
+        SELECT g_balance
+        FROM groups g
+                 INNER JOIN group_account ga ON g.group_account = ga.group_account
+                 INNER JOIN account a ON g.account_num = a.account_num
+        WHERE g.account_num IN (SELECT account_num FROM account WHERE member_id = #{memberId})
+    </select>
+
+    <insert id="insertGroupAccount">
+        insert into groups(group_id,group_name,group_type,group_account,account_num)
+        values (group_id_seq.nextval,#{group_name},#{group_type},'7979',#{account_num})
+    </insert>
+
+    <insert id="insertGroupDetail">
+        insert into group_account(g_account_id, group_account, g_month, g_day, g_dues, g_autopay,g_date)
+        values (g_account_id_seq.nextval, '7979', #{g_month}, #{g_day}, #{g_dues}, #{g_autopay},SYSTIMESTAMP)
+    </insert>
+
+    <select id="selectGroupAccountInfo" resultType="com.hanacard.transitpay.member.model.dto.GroupAccountDetail">
+        SELECT g.account_num AS account_num, ga.group_account AS group_account, g_date, a.account_bank
+        FROM groups g
+                 INNER JOIN group_account ga ON g.group_account = ga.group_account
+                 INNER JOIN account a ON g.account_num = a.account_num
+        WHERE g.account_num IN (SELECT account_num FROM account WHERE member_id = #{memberId})
+    </select>
+</mapper>
+
+

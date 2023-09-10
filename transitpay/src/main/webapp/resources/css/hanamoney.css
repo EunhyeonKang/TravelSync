@@ -1,0 +1,162 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+.mainBox1 {
+    width: 100%;
+    height: 432px;
+    display: grid;
+    background: linear-gradient(180deg, rgba(255, 184, 0, 0.37) 0%, rgba(0, 152, 153, 0.222) 100%);
+}
+.hanacontainer-1{
+    text-align: center;
+    height: 293px;
+    margin: 69px auto;
+    background: rgba(255, 251, 251, 0.68);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+}
+.hanacontainer-1 table {
+    padding: 40px;
+}
+.hanatitle{
+    font-weight: 700;
+    font-size: 30px;
+    display: inline-grid;
+    align-items: center;
+    text-align: center;
+    color: #616161;
+    float: left;
+}
+.connectact{
+    font-weight: 700;
+    font-size: 20px;
+    display: inline-grid;
+    align-items: center;
+    text-align: center;
+    text-decoration-line: underline;
+    float: left;
+    color: #616161;
+}
+.atomic{
+    width: 107px;
+    height: 47px;
+    background: #FFFFFF;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 40px;
+    border: 1px solid #ffffff;
+}
+.atomic span{
+    font-weight: 700;
+    font-size: 20px;
+    align-items: center;
+    text-align: center;
+    color: #008485;
+}
+.hanamoney{
+    font-weight: 700;
+    font-size: 40px;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    right: 10px;
+    margin: 20px;
+}
+.hanamoneybox{
+    width: 662px;
+    height: 59px;
+    background: rgba(255, 255, 255, 0.42);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 30px;
+}
+.hanabutton{
+    display: inline-grid;
+    float: right;
+}
+.charge{
+    width: 200px;
+    height: 37px;
+    border: 1px solid #FFFBFB;
+    background-color: #FFFBFB;
+    margin: 10px;
+}
+.charge span{
+    font-weight: 700;
+    font-size: 30px;
+    align-items: center;
+    text-align: center;
+    color: #393333;
+}
+.remit{
+    width: 200px;
+    height: 37px;
+    border: 1px solid #FFFBFB;
+    background-color: #FFFBFB;
+    margin: 10px;
+}
+.remit span{
+    font-weight: 700;
+    font-size: 30px;
+    align-items: center;
+    text-align: center;
+    color: #008485;
+}
+.hanabtn > span{
+    border: 1.5px solid #B3B3B3;
+    margin: 50px;
+}
+.accountinfo{
+    width: 745px;
+    /*height: 400px;*/
+    background: #F8F8F8;
+    display: grid;
+    margin: 0 auto;
+}
+
+.accountinfo table tr .total{
+    height: 10px;
+    padding: 20px 0px 4px 30px;
+}
+.totaltext{
+    font-weight: 700;
+    font-size: 15px;
+    align-items: center;
+    text-align: center;
+    color: #000000;
+}
+.accountinfo table tr .date{
+    height: 10px;
+    padding: 10px 0px 10px 30px;
+}
+.datetext{
+    font-weight: 700;
+    font-size: 15px;
+    align-items: center;
+    text-align: center;
+    color: #616161;
+}
+.acntdetail{
+    padding-left:30px;
+    float: left;
+}
+.detailinfo{
+    font-weight: 700;
+    font-size: 15px;
+    align-items: center;
+    text-align: center;
+    color: #000000;
+}
+.detailinfo-1{
+    font-weight: 700;
+    font-size: 12px;
+    color: #616161;
+    float: right;
+    padding-right: 30px;
+}
+.detailwon{
+    font-weight: 700;
+    font-size: 15px;
+    color: #008485;
+    text-align: right;
+    padding-right: 30px;
+}

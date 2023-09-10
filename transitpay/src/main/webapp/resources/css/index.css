@@ -1,0 +1,346 @@
+li {
+    list-style-type: none;
+}
+.nav {
+    display: flex;
+    align-items: center;
+    color: white;
+    justify-content: center;
+    margin: 20px auto;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.title {
+    font-size: 1.6em;
+}
+
+.title > a {
+    color: white;
+    font-weight: 900;
+}
+
+.menu {
+    margin: 0 auto;
+}
+
+.menu li {
+    margin-right: 20px;
+    display: contents;
+}
+
+@media screen and (max-width: 625px) {
+
+    .nav {
+        padding: 30px 40px;
+    }
+
+    #menu {
+        display: none;
+    }
+
+    .fab {
+        display : none;
+    }
+
+    .fas {
+        font-size: 2em;
+    }
+}
+
+body{
+    margin: 0;
+    padding: 0;
+}
+
+.mainBox1 {
+    margin: 30px auto;
+    justify-content: left;
+    display: flex;
+    padding: 30px;
+}
+
+.leftContent {
+    float: left;
+    box-sizing: border-box;
+    font-weight: 700;
+    display: inline-block;
+    align-items: center;
+    color: #FFFFFF;
+    position: relative;
+    left: -250%;
+    font-size: 2rem;
+}
+
+.leftContent-2{
+    font-size: 28px;
+    font-size: 1.2rem;
+    color: #FFFFFF;
+    display: inline-flex;
+    box-sizing: border-box;
+    position: relative;
+    left: -250%;
+}
+.rightContent {
+    justify-content: center;
+}
+.leftBox{
+    display: grid;
+    width: 56%;
+    padding: 30px;
+}
+.rightContent {
+    opacity: 0; /* 초기에 투명하게 설정 */
+    transform: translateY(20px); /* 초기 위치 설정 */
+    transition: opacity 2s ease, transform 2s ease;
+}
+
+.rightContent.show {
+    opacity: 1;
+    transform: translateY(0);
+    padding: 30px;
+}
+.mytravel{
+    position: relative;
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgb(255, 255, 255);
+    font-weight: bold;
+    font-size: larger;
+    transition: all 200ms ease-in-out 0s;
+    width: 180px;
+    height: 50px;
+    line-height: 40px;
+    border-radius: 25px;
+    color: rgb(255, 255, 255);
+    margin-top: 60px;
+    left: -250%;
+}
+
+img .tvlcard1 .tvlcard2{
+    box-shadow: rgba(0, 0, 0, 0.18) 0px 13px 24px 0px, rgba(0, 0, 0, 0.08) 0px -6px 9px 0px inset;
+}
+
+.navbar-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color:#0096885e;
+    -webkit-box-align: center;
+    border-bottom: 1px solid rgb(239, 239, 239);
+    height: 50px;
+    padding: 30px 140px 20px 150px;
+}
+
+
+#menu {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+@media screen and (max-width: 600px) {
+    .nav {
+        display: none;
+    }
+
+    .navbar-fixed {
+        display: flex;
+    }
+}
+.cardContainer{
+    position: relative; /* 부모 요소를 상대적인 위치로 설정 */
+}
+.tvlcard1 {
+    position: absolute;
+    top: -10px;
+    left: -40px;
+    width: 150px;
+    z-index: 1;
+}
+
+.tvlcard2 {
+    position: relative;
+    top: 25px;
+    width: 150px;
+    left: 50px;
+}
+.mytravel:hover{
+    background: #ffffff;
+    color:#59D0C9;
+}
+
+.main {
+    width: 63%;
+    height: 460px;
+    border-radius: 10px;
+    float: left;
+    background: linear-gradient(180deg, #31D8BA 0%, rgba(124, 218, 201, 0.65) 45.83%, rgba(3, 181, 182, 0.38) 60.42%, rgba(255, 184, 0, 0.37) 100%), url(../images/account.png);
+    background-size: auto;
+    background-repeat: no-repeat;
+    background-position: right bottom;
+}
+.main-2{
+    width: 35%;
+    float: right;
+    height: 460px;
+    border-radius: 10px;
+    border: 1px solid #d8d8d8;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+    margin-right: 60px;
+    font-weight: 500;
+}
+.mainBox1{
+    margin: 40px auto;
+    justify-content: left;
+    display: flex;
+    padding: 30px;
+}
+.navbar-fixed {
+    display: none;
+}
+@font-face {
+    font-family: "hana";
+    src: url("../../resources/font/Hana2-Bold.otf") format('opentype');
+}
+.title p{
+    font-family: hana;
+    font-size: smaller;
+
+}
+.title{
+    display: flex;
+    align-items: center;
+    float: right;
+}
+.box-container{
+    width: 100%;
+    max-width: 1200px; /* Adjust the max width as needed */
+    height: 460px;
+    margin: 50px auto;
+    flex-wrap: wrap;
+}
+.navhr{
+    border: 1px solid #e8e8e8;
+}
+
+.totalmenu{
+    display: block;
+    width: 30px;
+    height: 30px;
+    background: url(https://image.kebhana.com/cont/common/img/newmain2021/icon-30-menu-all.png) no-repeat center;
+    text-indent: -9999px;
+}
+
+.hanamenu {
+    text-align: center;
+    margin: 30px auto;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+.hanamenu li{
+    margin-right: 20px;
+    display: contents;
+}
+.hanamenu li .hanamenu-a{
+    color: #8b8b8b;;
+
+}
+.main-2 hr{
+    width: 90%;
+    border: 1px solid #d8d8d8;
+}
+.button-container{
+    position: relative;
+    width: 320px;
+    height: 50px;
+    border: 1px solid #0bb2a2;
+    background: #0bb2a2;
+    mix-blend-mode: normal;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    margin: 10px 0 14px 0;
+}
+.login-button{
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: bold;
+}
+.hanamenu-1{
+    text-align: center;
+}
+.phoneauth{
+    text-align: center;
+    color: #000000;
+    font-size: 20px;
+    display: grid;
+    font-weight: bold;
+    padding-bottom: 10px;
+}
+.phonebox img{
+    width: 50px;
+    margin: 20px;
+}
+.hanamenu > li{
+    position: relative;
+}
+.hanamenu > li > .hanamenu-a {
+    display: block;
+    position: relative;
+    padding-bottom: 19px;
+}
+.hanamenu > li > .hanamenu-a > img {
+    width: 30px;
+    height: 30px;
+}
+.hanameneSpan {
+    position:absolute; bottom:0; left:50%;  white-space:nowrap; transform:translate(-50%, 0)
+}
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%;
+    height: 560px;
+    border-radius: 20px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}

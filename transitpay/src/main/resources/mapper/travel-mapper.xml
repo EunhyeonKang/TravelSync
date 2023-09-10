@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hanacard.transitpay.travel.model.dao.TravelRepository">
+    <resultMap id="handleSearchRequest" type="com.hanacard.transitpay.travel.model.dto.TravelInfo">
+        <collection property="travelPlaces" ofType="java.util.List" resultMap="placeResultMap"/>
+        <collection property="travelPlace" ofType="java.util.List"/>
+    </resultMap>
+
+    <resultMap id="placeResultMap" type="java.util.Map">
+        <result column="place1" property="place1" />
+        <result column="place2" property="place2" />
+    </resultMap>
+
+
+
+    <!-- When combining both types of travelPlaces -->
+    <select id="handleSearchRequest" resultType="com.hanacard.transitpay.travel.model.dto.TravelInfo">
+        SELECT *
+        FROM travelinfo
+        WHERE
+        <if test="travelPlaces.size() > 0">
+            <foreach collection="travelPlaces" item="place" separator=" OR " open="(" close=")">
+                SUBSTR(location, 1, INSTR(location, ' ') - 1) LIKE '%'||#{place.place1}||'%'
+                AND SUBSTR(location, INSTR(location, ' ') + 1) LIKE '%'||#{place.place2}||'%'
+                AND (content LIKE '%'||#{searchText}||'%'
+                OR tags LIKE '#'||#{searchText}||'%')
+            </foreach>
+        </if>
+        <if test="travelPlace.size() > 0">
+            <foreach collection="travelPlace" item="place" separator=" OR " open="(" close=")">
+                SUBSTR(location, 1, INSTR(location, ' ') - 1) LIKE '%'||#{place}||'%'
+                AND (content LIKE '%'||#{searchText}||'%'
+                OR tags LIKE '#'||#{searchText}||'%')
+            </foreach>
+        </if>
+    </select>
+    <select id="getItemDetailsById" resultType="com.hanacard.transitpay.travel.model.dto.TravelInfo">
+        SELECT *
+        FROM travelInfo
+        WHERE t_num = #{itemId}
+    </select>
+    <select id="selectPlaceSearch" resultType="java.lang.String" parameterType="java.lang.String">
+        SELECT DISTINCT location
+        FROM travelInfo
+        WHERE location IS NOT NULL
+        AND location LIKE '%'|| #{searchText} ||'%'
+    </select>
+
+    <select id="selectTravelPlans" resultType="com.hanacard.transitpay.travel.model.dto.Travel">
+        SELECT *
+        FROM travel
+        WHERE travel_title = #{travelTitle}
+    </select>
+
+    <insert id="insertTravelAndGetId">
+        INSERT INTO travel (travel_id, travel_title, travel_start, travel_end, travel_place, d_day, member_id)
+        VALUES (travel_id_seq.nextval, #{travelTitle}, #{travelStart}, #{travelEnd}, #{travelPlaceJson}, #{dDay}, #{memberId})
+    </insert>
+
+    <insert id="insertScheduleSets">
+        INSERT INTO SCHEDULE (SCHEDULE_ID,SCHEDULE_DATE,START_PLACE,END_PLACE,START_PLACE_X,START_PLACE_Y,END_PLACE_X,END_PLACE_Y,TRAVEL_TITLE)
+        VALUES (schedule_id_seq.nextval,#{scheduleDate},#{travelTitle},#{travelTitle1},#{startPlaceX},#{startPlaceY},#{endPlaceX},#{endPlaceY},#{title})
+    </insert>
+
+    <!-- select는 별칭을 지어줘야함 -->
+    <resultMap id="ScheduleList" type="com.hanacard.transitpay.travel.model.dto.ScheduleSet">
+        <result column="SCHEDULE_ID" property="scheduleId" />
+        <result column="SCHEDULE_DATE" property="scheduleDate" />
+        <result column="START_PLACE" property="travelTitle" />
+        <result column="END_PLACE" property="travelTitle1" />
+        <result column="START_PLACE_X" property="startPlaceX" />
+        <result column="START_PLACE_Y" property="startPlaceY" />
+        <result column="END_PLACE_X" property="endPlaceX" />
+        <result column="END_PLACE_Y" property="endPlaceY" /> <!-- 수정된 부분 -->
+        <result column="TRAVEL_TITLE" property="title" />
+    </resultMap>
+    <select id="handleTrafficData" resultMap="ScheduleList">
+        SELECT *
+        FROM SCHEDULE
+        WHERE TRAVEL_TITLE = #{title}
+    </select>
+
+</mapper>

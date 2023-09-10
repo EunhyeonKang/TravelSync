@@ -1,0 +1,192 @@
+
+a {
+    text-decoration: none;
+    color: white;
+    margin-right: 20px;
+}
+
+li {
+    list-style-type: none;
+}
+.nav {
+    display: flex;
+    align-items: center;
+    padding: 85px 148px 17px 153px;
+    color: white;
+    width: 100%;
+}
+
+.title {
+    font-size: 1.6em;
+    width: 20%;
+}
+
+.title > a {
+    color: white;
+    font-weight: 900;
+}
+
+.menu {
+    text-align: right;
+    width: 55%;
+}
+
+.menu li {
+    margin-right: 20px;
+    display: contents;
+}
+
+@media screen and (max-width: 625px) {
+
+    .nav {
+        padding: 30px 40px;
+    }
+
+    #menu {
+        display: none;
+    }
+
+    .fab {
+        display : none;
+    }
+
+    .fas {
+        font-size: 2em;
+    }
+}
+
+body{
+    margin: 0;
+    padding: 0;
+}
+.main{
+    width: 100%;
+    height: 850px;
+    background: linear-gradient(180deg, #31D8BA 0%, rgba(124, 218, 201, 0.65) 45.83%, rgba(3, 181, 182, 0.38) 60.42%, rgba(255, 184, 0, 0.37) 100%);
+}
+
+.mainBox1 {
+    width: 100%;
+    margin: 100px auto;
+    justify-content: center;
+    display: flex;
+}
+
+.leftContent {
+    float: left;
+    width: 600px;
+    height: 100px;
+    box-sizing: border-box;
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 90px;
+    display: inline-block;
+    align-items: center;
+    color: #FFFFFF;
+    position: relative;
+    left: -250%; /* 처음에는 왼쪽으로 숨김 */
+
+}
+
+.leftContent-2{
+    font-size: 28px;
+    color: #FFFFFF;
+    display: inline-flex;
+    box-sizing: border-box;
+    position: relative;
+    left: -250%; /* 처음에는 왼쪽으로 숨김 */
+}
+.rightContent {
+    display: inline-flex;
+    justify-content: center;
+}
+.leftBox{
+    display: grid;
+    margin-right:130px;
+}
+.rightContent {
+    opacity: 0; /* 초기에 투명하게 설정 */
+    transform: translateY(20px); /* 초기 위치 설정 */
+    transition: opacity 2s ease, transform 2s ease;
+}
+
+.rightContent.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+.mytravel{
+    position: relative;
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    box-sizing: border-box;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgb(255, 255, 255);
+    font-weight: bold;
+    font-size: larger;
+    transition: all 200ms ease-in-out 0s;
+    width: 180px;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 25px;
+    color: rgb(255, 255, 255);
+    margin-top: 40px;
+    left: -250%; /* 처음에는 왼쪽으로 숨김 */
+}
+
+img .tvlcard1 .tvlcard2{
+    box-shadow: rgba(0, 0, 0, 0.18) 0px 13px 24px 0px, rgba(0, 0, 0, 0.08) 0px -6px 9px 0px inset;
+}
+
+.navbar-fixed {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color:#0096885e;
+    -webkit-box-align: center;
+    border-bottom: 1px solid rgb(239, 239, 239);
+    height: 50px;
+    padding: 30px 140px 20px 150px;
+}
+
+
+#menu {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+@media screen and (max-width: 600px) {
+    .nav {
+        display: none;
+    }
+
+    .navbar-fixed {
+        display: flex;
+    }
+}
+.cardContainer{
+    position: relative; /* 부모 요소를 상대적인 위치로 설정 */
+}
+.tvlcard1 {
+    position: absolute;
+    top: -10px; /* 살짝 위로 겹치도록 설정 */
+    left: -10px; /* 살짝 왼쪽으로 겹치도록 설정 */
+    z-index: 1; /* tvlcard2 위에 겹치도록 순서를 설정 */
+}
+
+.tvlcard2 {
+    position: relative; /* 기본적으로 상대적인 위치 */
+    top: 35px;
+    left: 130px;
+}
+.mytravel:hover{
+    background: #ffffff;
+    color:#59D0C9;
+}

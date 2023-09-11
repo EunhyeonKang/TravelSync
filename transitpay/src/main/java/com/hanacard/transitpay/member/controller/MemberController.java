@@ -4,6 +4,7 @@ import com.hanacard.transitpay.member.model.dto.Member;
 import com.hanacard.transitpay.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,7 +16,6 @@ import java.util.Map;
 @RestController
 public class MemberController {
     private final MemberService memberService;
-
     @Autowired
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
@@ -55,5 +55,17 @@ public class MemberController {
         mav.setViewName("/common/message");
         return mav;
     }
+    @GetMapping(value = "/api/social/login/kakao", produces = MediaType.APPLICATION_JSON_VALUE)
+    public void getKakaoUserInfo(String code) {
+        String access_token = memberService.getKakaoToken(code);
+        memberService.getKakaoUserInfo(access_token);
+    }
 
+    @GetMapping(value = "/groupShare")
+    public void shareKakaoGroup(String code, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Member member = (Member) session.getAttribute("member");
+        memberService.shareKakaoGroup(code,member);
+
+    }
 }

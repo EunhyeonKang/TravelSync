@@ -6,6 +6,10 @@
     <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.4.0/kakao.min.js"
+            integrity="sha384-mXVrIX2T/Kszp6Z0aEWaA8Nm7J6/ZeWXbL8UpGRjKwWe56Srd/iyNmWMBhcItAjH"
+            crossorigin="anonymous"></script>
 </head>
 <style>
 
@@ -234,7 +238,7 @@
     .textBox{
         padding: 10px 0;
     }
-    #invite{
+    #kakaotalk-sharing-btn{
         box-sizing: border-box;
         width: 800px;
         height: 50px;
@@ -311,7 +315,7 @@
                     <span class="actBottomText">&#183; 모임통장 신청일 이후 내역</span><span class="bottomText-1">부터 멤버들에게 보여집니다.</span><br>
                 </div>
             </div>
-            <button id="invite">
+            <button id="kakaotalk-sharing-btn" href="javascript:;" onclick="send()">
                 <span>친구 초대하기</span>
             </button>
         </div>
@@ -344,6 +348,38 @@
             }
         })
     }
+
+</script>
+<script>
+    function send() {
+        Kakao.Share.createDefaultButton({
+            container: '#kakaotalk-sharing-btn',
+            objectType: 'feed',
+            content: {
+                title: '트랜지싱크 모임통장에 초대되었습니다.',
+                description: '서태지와아이들 모임에 초대되었습니다. 회비는 얼마고 회비날짜는 2일입니다🐶',
+                imageUrl: 'https://ibb.co/HD27qgB',
+                link: {
+                    // [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
+                    mobileWebUrl: 'http://localhost:8080',
+                    webUrl: 'http://localhost:8080',
+                },
+            },
+            buttons: [
+                {
+                    title: '모임통장 참여하기',
+                    link: {
+                        mobileWebUrl: 'http://localhost:8080/groupShare',
+                        webUrl: 'http://localhost:8080/groupShare',
+                    },
+                }
+            ],
+            serverCallbackArgs: {
+                key: 'value', // 사용자 정의 파라미터 설정
+            },
+        });
+    }
+    Kakao.init('aa75059f83f9e745604b52cb811450f4'); // 사용하려는 앱의 JavaScript 키 입력
 </script>
 
 </html>

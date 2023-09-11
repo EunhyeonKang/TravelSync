@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="../../resources/css/main2.css">
     <script defer src="../../resources/js/index.js"></script>
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
     <style>
         .login{
             text-align: center;
@@ -166,6 +167,11 @@
         .t1{
             color: #ff6400;
         }
+        .kakaoa .kakao_btn{
+            width: 40px;
+            margin: 10px;
+            float: left;
+        }
 </style>
 </head>
 <body>
@@ -240,7 +246,7 @@
                                             하나트래블싱크
                                         </div>
                                         <div class="hanamoney-1">
-                                            <div class="hanawon"></div>
+                                            <div class="hanawon">0</div>
                                             <div class="hanawon-1"> > </div>
                                         </div>
                                         <div class="seemore">
@@ -301,7 +307,6 @@
                     <h2>로그인</h2>
                     <p>안전하고 간편하게 로그인하세요.</p>
                     <img src="../../resources/images/phone-call.svg" alt="">
-
                     <input type ="tel" id ="phone-number" name="phone" placeholder="전화번호를 입력해주세요">
                     <button type ="button" id ="auth-req-button">인증요청</button>
                     <p id="ViewTimer"></p>
@@ -309,14 +314,18 @@
                         <input type ="text" id ="auth-number" placeholder="인증번호를 입력해주세요">
                         <button type="button" class="confirm-button" id ="auth-res-button">확인</button>
                     </div>
+                    <a href="https://kauth.kakao.com/oauth/authorize?client_id=951e0627da48ee51855b252517b6352d
+&redirect_uri=http://localhost:8080/api/social/login/kakao&response_type=code" class="kakaoa"><img class="kakao_btn" src="../../resources/images/kakaologin.png" width="30"></a>
+                    <a href="https://kauth.kakao.com/oauth/logout?client_id=951e0627da48ee51855b252517b6352d&logout_redirect_uri=http://localhost:8080/logout" class="kakaoa">logout</a>
                 </div>
-            </div>
 
+            </div>
         </div>
     </div>
     <%@ include file="main2.jsp" %>
 </body>
 <script>
+
     /*
     // 핸드폰 인증
     const authReqButton= document.querySelector('#auth-req-button');

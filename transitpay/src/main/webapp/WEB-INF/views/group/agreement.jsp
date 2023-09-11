@@ -254,9 +254,9 @@
 
     .modal-content {
         background-color: #fff;
-        width: 50%;
         margin: 150px auto;
         padding: 30px;
+        width: 600px;
         border-radius: 5px;
     }
 
@@ -378,7 +378,7 @@
                                 <input type="hidden" name="roletype" value="user" class="rec6" id="gradio">
                             </form>
                             <button id="calculate" onclick="submitForm()">
-                                <span>정산하기</span>
+                                <span>모임 만들기</span>
                             </button>
                         </div>
                     </div>

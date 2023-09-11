@@ -1,13 +1,21 @@
 package com.hanacard.transitpay.member.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hanacard.transitpay.member.model.dao.MemberRepository;
 import com.hanacard.transitpay.member.model.dto.Member;
+import com.hanacard.transitpay.member.model.dto.SocialToken;
 import net.nurigo.java_sdk.api.Message;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -57,6 +65,7 @@ public class MemberServiceImpl implements MemberService {
         return authenticationCode;
     }
 
+
     @Override
     public Member selectOneMember(String phoneNumber) {
         try {
@@ -66,4 +75,106 @@ public class MemberServiceImpl implements MemberService {
         }
     }
 
+
+
+    @Override
+    public String getKakaoToken(String code) {
+        String access_token ="";
+        try {
+            URL url = new URL("https://kauth.kakao.com/oauth/token");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+
+            StringBuilder sb = new StringBuilder();
+            sb.append("grant_type=authorization_code");
+            sb.append("&client_id=" + "951e0627da48ee51855b252517b6352d");
+            sb.append("&code=" + code);
+            BufferedWriter bw = null;
+            try {
+                bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+                bw.write(sb.toString());
+            } catch (IOException e) {
+                throw e;
+            } finally {
+                if (bw != null) bw.flush();
+            }
+            BufferedReader br = null;
+            String line = "", result = "";
+            try {
+                br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                while ((line = br.readLine()) != null) {
+                    result += line;
+                }
+            } catch (IOException e) {
+                throw e;
+            } finally {
+                if (br != null)
+                    br.close();
+            }
+            ObjectMapper mapper = new ObjectMapper();
+            access_token = mapper.readValue(result, SocialToken.class).getAccess_token();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return access_token;
+    }
+
+    @Override
+    public void getKakaoUserInfo(String access_token) {
+        try{
+            URL url = new URL("https://kapi.kakao.com/v2/user/me");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+            conn.setRequestProperty("Authorization", "Bearer "+access_token);
+            System.out.println(access_token);
+            String line = "", result = "";
+            line = ""; result = "";
+
+            BufferedReader br = null;
+            try (InputStream is = conn.getInputStream();
+                 JsonReader jsonReader = Json.createReader(is)) {
+                 JsonObject jsonObject = jsonReader.readObject();
+                 // JSON 데이터에서 원하는 값을 추출
+                 long id = jsonObject.getJsonNumber("id").longValue();
+                 String connectedAt = jsonObject.getString("connected_at");
+                 String nickname = jsonObject.getJsonObject("properties").getString("nickname");
+
+                 // 추출한 값을 출력
+                System.out.println("ID: " + id);
+                System.out.println("Connected At: " + connectedAt);
+                System.out.println("Nickname: " + nickname);
+            }
+//            KakaoMessageServiceImpl kakaoMessage = new KakaoMessageServiceImpl();
+//            kakaoMessage.getKakaoMessageFriends(access_token);
+//            SocialToken myMsg = new SocialToken();
+//            myMsg.setBtnTitle("자세히보기");
+//            myMsg.setMobileUrl("");
+//            myMsg.setObjType("text");
+//            myMsg.setWebUrl("");
+//            myMsg.setText("메시지 테스트입니다.");
+//            kakaoMessage.sendMessage(access_token, myMsg);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void shareKakaoGroup(String accessToken, Member member) {
+        try {
+            URL url = new URL("https://kapi.kakao.com/v1/user/unlink");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST");
+            conn.setDoOutput(true);
+            conn.setRequestProperty("Authorization", "Bearer " + accessToken);
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

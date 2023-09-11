@@ -436,7 +436,7 @@
                     <br/>
                 </form>
                 <button id="calculate" onclick="submitForm()">
-                    <span>정산하기</span>
+                    <span>개설하기</span>
                 </button>
 
             </div>

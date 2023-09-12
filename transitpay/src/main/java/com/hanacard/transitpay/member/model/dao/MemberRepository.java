@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface MemberRepository {
-    Member selectOneMember(String phoneNumber);
-
+    Member selectOneMember(String phone);
+    void insertKakaoAndPhoneMember(Member member);
+    Member selectEmailOneMember(String email);
 }

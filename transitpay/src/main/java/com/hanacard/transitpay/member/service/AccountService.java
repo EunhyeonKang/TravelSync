@@ -14,4 +14,7 @@ public interface AccountService {
     void insertGroupAccount(GroupAccount groupAccount);
     void insertGroupDetail(Map<String,String> groupData);
     GroupAccountDetail selectGroupAccountInfo(String memberId);
+    String selectVirtureAccountNumber(String account_Num);
+
+    GroupAccount selectUseTypeAccount(String memberId);
 }

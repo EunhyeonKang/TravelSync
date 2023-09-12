@@ -297,7 +297,7 @@
                 <hr>
                 <div class="classSection">
                     <div class="class-1" >안심계좌번호</div>
-                    <div class="account" id="groupAccount"></div>
+                    <div class="account" id="groupAccount">심</div>
                 </div>
                 <hr>
                 <div class="classSection">

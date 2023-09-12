@@ -316,8 +316,12 @@
             <div class="menu1-1">약관동의</div>
             <div class="menuhr"><hr/></div>
             <a href="group">약관동의</a>
-            <a href="openedAccount">모임개설</a>
-            <a href="openedAccount">모임통장 초대</a>
+            <c:choose>
+                <c:when test="${sessionScope.member != null}">
+                    <a href="openedAccount">모임개설</a>
+                    <a href="groupInvite">모임통장 초대</a>
+                </c:when>
+            </c:choose>
         </div>
         <div class="contents-1">
             <div class="section-1">
@@ -369,7 +373,7 @@
                                 <br/>
                                 <div class="flexClass">
                                     <span class="idbox">계좌선택</span>
-                                    <select name="groupaccount" class="rec6" id="selAccount">
+                                    <select name="accounts" class="rec6" id="selAccount">
                                         <option value="" selected/>선택</option>
 
                                     </select>
@@ -512,34 +516,40 @@
             }
         });
     });
+
     // 모달 열기
     function openModal() {
-        var modal = document.getElementById('myModal');
-        modal.style.display = 'block';
-    }
+        var memberId = "${sessionScope.member.member_id}";
+        if(memberId != ""){
+            $.ajax({
+                url:'/selectBackAccount',
+                method: "POST",
+                success: function(response) {
+                    console.log(response)
+                    var selAccount = document.getElementById('selAccount');
+                    for (let i = 0; i < response.length; i++) {
+                        var option = document.createElement('option');
+                        option.value = response[i].account_num;
+                        option.textContent = response[i].account_bank + " "+response[i].account_num;
+                        selAccount.appendChild(option);
 
+                    }
+                }
+            })
+            var modal = document.getElementById('myModal');
+            modal.style.display = 'block';
+        }else{
+            alert("로그인을 하세요!");
+            location.href='/';
+        }
+
+    }
     // 모달 닫기
     function closeModal() {
         var modal = document.getElementById('myModal');
         modal.style.display = 'none';
     }
-    window.onload = function() {
-        $.ajax({
-            url:'/selectBackAccount',
-            method: "POST",
-            success: function(response) {
-                console.log(response)
-                var selAccount = document.getElementById('selAccount');
-                for (let i = 0; i < response.length; i++) {
-                    var option = document.createElement('option');
-                    option.value = response[i].account_num;
-                    option.textContent = response[i].account_bank + " "+response[i].account_num;
-                    selAccount.appendChild(option);
 
-                }
-            }
-        })
-    }
     function submitForm() {
         // form 요소 가져오기
         var form = document.getElementById('groupForm');
@@ -547,15 +557,14 @@
         // form 내의 값 가져오기
         var groupname = form.querySelector('input[name="groupname"]').value;
         var grouptype = form.querySelector('select[name="grouptype"]').value;
-        var groupaccount = form.querySelector('select[name="groupaccount"]').value;
+        var accounts = form.querySelector('select[name="accounts"]').value;
 
         // AJAX 요청을 위한 데이터 구성
         var data = {
             group_name: groupname,
             group_type: grouptype,
-            account_num: groupaccount
+            account_num: accounts
         };
-
         // AJAX 요청 보내기 (GET 방식)
         $.ajax({
             url: '/insertGroupAccount',

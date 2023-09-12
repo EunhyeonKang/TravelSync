@@ -9,6 +9,7 @@ import net.nurigo.java_sdk.exceptions.CoolsmsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -46,11 +47,11 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public String  sendAuthenticationCode(String phoneNumber) {
+    public String  sendAuthenticationCode(String phone) {
         Message coolsms = new Message(apiKey, api_secret);
         String authenticationCode=createAuthenticationCode();
         HashMap<String , String> params= new HashMap<String,String>();
-        params.put("to", phoneNumber);//누구에게
+        params.put("to", phone);//누구에게
         params.put("from","01093660469");//누가 보낼것인지
         params.put("type", "SMS");
         params.put("text", "트래블로그 가입 인증번호 "+authenticationCode+" 입니다");
@@ -122,7 +123,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void getKakaoUserInfo(String access_token) {
+    public Member getKakaoUserInfo(String access_token) {
+        Member member = new Member();
         try{
             URL url = new URL("https://kapi.kakao.com/v2/user/me");
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -139,15 +141,19 @@ public class MemberServiceImpl implements MemberService {
             try (InputStream is = conn.getInputStream();
                  JsonReader jsonReader = Json.createReader(is)) {
                  JsonObject jsonObject = jsonReader.readObject();
+                 System.out.println(jsonObject);
                  // JSON 데이터에서 원하는 값을 추출
                  long id = jsonObject.getJsonNumber("id").longValue();
                  String connectedAt = jsonObject.getString("connected_at");
                  String nickname = jsonObject.getJsonObject("properties").getString("nickname");
+                 String profileImage = jsonObject.getJsonObject("properties").getString("profile_image");
+                 String email = jsonObject.getJsonObject("kakao_account").getString("email");
 
-                 // 추출한 값을 출력
-                System.out.println("ID: " + id);
-                System.out.println("Connected At: " + connectedAt);
-                System.out.println("Nickname: " + nickname);
+                 member.setJoin_date(connectedAt);
+                 member.setName(nickname);
+                 member.setKakao_img(profileImage);
+                 member.setKakao_id(id);
+                 member.setEmail(email);
             }
 //            KakaoMessageServiceImpl kakaoMessage = new KakaoMessageServiceImpl();
 //            kakaoMessage.getKakaoMessageFriends(access_token);
@@ -161,6 +167,7 @@ public class MemberServiceImpl implements MemberService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return member;
     }
 
     @Override
@@ -176,5 +183,16 @@ public class MemberServiceImpl implements MemberService {
         }catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    @Transactional
+    public void insertKakaoAndPhoneMember(Member member) {
+        memberRepository.insertKakaoAndPhoneMember(member);
+    }
+
+    @Override
+    public Member selectEmailOneMember(String email) {
+        return memberRepository.selectEmailOneMember(email);
     }
 }

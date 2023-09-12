@@ -30,12 +30,12 @@
 
     <insert id="insertGroupAccount">
         insert into groups(group_id,group_name,group_type,group_account,account_num)
-        values (group_id_seq.nextval,#{group_name},#{group_type},'7979',#{account_num})
+        values (group_id_seq.nextval,#{group_name},#{group_type},#{group_account},#{account_num})
     </insert>
 
     <insert id="insertGroupDetail">
         insert into group_account(g_account_id, group_account, g_month, g_day, g_dues, g_autopay,g_date)
-        values (g_account_id_seq.nextval, '7979', #{g_month}, #{g_day}, #{g_dues}, #{g_autopay},SYSTIMESTAMP)
+        values (g_account_id_seq.nextval, #{group_account}, #{g_month}, #{g_day}, #{g_dues}, #{g_autopay},SYSTIMESTAMP)
     </insert>
 
     <select id="selectGroupAccountInfo" resultType="com.hanacard.transitpay.member.model.dto.GroupAccountDetail">
@@ -44,6 +44,24 @@
                  INNER JOIN group_account ga ON g.group_account = ga.group_account
                  INNER JOIN account a ON g.account_num = a.account_num
         WHERE g.account_num IN (SELECT account_num FROM account WHERE member_id = #{memberId})
+    </select>
+
+    <select id="selectVirtureAccountNumber" resultType="String">
+        SELECT group_account
+        FROM groups
+        WHERE account_num= #{accountNum}
+    </select>
+    <select id="selectUseTypeAccount" resultType="com.hanacard.transitpay.member.model.dto.GroupAccount">
+        SELECT
+            g.group_id AS group_id,
+            g.group_name AS group_name,
+            g.group_type AS group_type,
+            g.group_account AS group_account,
+            g.account_num AS account_num,
+            g.group_use AS group_use
+        FROM groups g
+                 JOIN account a ON g.account_num = a.account_num
+        WHERE a.member_id = #{memberId} AND g.group_use = 0
     </select>
 </mapper>
 

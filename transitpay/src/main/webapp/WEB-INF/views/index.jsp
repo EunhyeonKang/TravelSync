@@ -93,6 +93,8 @@
         }
         #hanaloginbox  .logout{
             float: right;
+            border: 0;
+            background: 0;
             margin-right: 50px;
             padding-top: 20px;
             font-weight: normal;
@@ -183,10 +185,20 @@
                     <p>하나 트래블싱크</p>
                 </a>
                 <ul class="menu">
-                    <li><a href="travel">TOP 여행지</a></li>
-                    <li><a href="mypage">내여행</a></li>
-                    <li><a href="group">모임통장</a></li>
-                    <li><a href="login">정산</a></li>
+                    <li><a href="top3Travel">TOP 여행지</a></li>
+                    <c:choose>
+                        <c:when test="${sessionScope.member != null}">
+                            <li><a href="mypage">내 여행</a></li>
+                            <li><a href="mygroup">내 모임통장</a></li>
+                            <li><a href="group">정산하기</a></li>
+                        </c:when>
+                        <c:otherwise>
+                            <li><a href="group">모임통장</a></li>
+                            <li><a href="top3Travel">고객지원</a></li>
+                            <li><a href="top3Travel">이용방법</a></li>
+                        </c:otherwise>
+                    </c:choose>
+
                 </ul>
                 <i class="totalmenu"></i>
             </div>
@@ -194,7 +206,7 @@
         <div class="navbar-fixed">
             <div class="title"><a href="/">TRAVELSYNC</a></div>
             <ul id="menu">
-                <li><a href="travelplans">TOP 여행지</a></li>
+                <li><a href="top3Travel">TOP 여행지</a></li>
                 <li><a href="mypage">내예약</a></li>
                 <li><a href="login">로그인</a></li>
             </ul>
@@ -220,8 +232,6 @@
                     </div>
                     <div class="rightContent">
                         <div class="cardContainer">
-<%--                            <img class="tvlcard2" src="../../resources/images/tvl_1.png">--%>
-<%--                            <img class="tvlcard1" src="../../resources/images/tvl_2.png">--%>
                         </div>
                     </div>
                 </div>
@@ -240,7 +250,6 @@
                                 <c:when test="${sessionScope.member != null}">
                                 <div class="loginafter">
                                     <div class="hanabox">
-
                                         <div class="hana-1">
                                             <img src="../../resources/images/tvl_main_effect02.png">
                                             하나트래블싱크
@@ -254,7 +263,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a class="logout" href="/logoutMember">로그아웃</a>
+                                <button class="logout" onclick="performLogout();">로그아웃</button>
                                     <script>
                                         $(document).ready(function() {
                                             var memberId = "${sessionScope.member.member_id}";
@@ -278,8 +287,8 @@
                                             <img src="../../resources/images/new_2204_my_login_img001.png" alt="">
                                             <span class="phoneauth">핸드폰 본인인증으로 로그인해주세요</span>
                                         </div>
-                                        <button class="button-container">
-                                            <span class="login-button">로그인</span>
+                                        <button class="button-container" onclick="performLogin();">
+                                            <span class="login-button">간편 로그인</span>
                                         </button>
                                     </div>
                                     <p>회원가입</p>
@@ -299,32 +308,19 @@
             </div>
         </div>
     </div>
-    <div id="myModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <div class="phone-container">
-                <div class="login">
-                    <h2>로그인</h2>
-                    <p>안전하고 간편하게 로그인하세요.</p>
-                    <img src="../../resources/images/phone-call.svg" alt="">
-                    <input type ="tel" id ="phone-number" name="phone" placeholder="전화번호를 입력해주세요">
-                    <button type ="button" id ="auth-req-button">인증요청</button>
-                    <p id="ViewTimer"></p>
-                    <div class="authbox">
-                        <input type ="text" id ="auth-number" placeholder="인증번호를 입력해주세요">
-                        <button type="button" class="confirm-button" id ="auth-res-button">확인</button>
-                    </div>
-                    <a href="https://kauth.kakao.com/oauth/authorize?client_id=951e0627da48ee51855b252517b6352d
-&redirect_uri=http://localhost:8080/api/social/login/kakao&response_type=code" class="kakaoa"><img class="kakao_btn" src="../../resources/images/kakaologin.png" width="30"></a>
-                    <a href="https://kauth.kakao.com/oauth/logout?client_id=951e0627da48ee51855b252517b6352d&logout_redirect_uri=http://localhost:8080/logout" class="kakaoa">logout</a>
-                </div>
-
-            </div>
-        </div>
-    </div>
     <%@ include file="main2.jsp" %>
 </body>
 <script>
+    function performLogout() {
+        // Kakao 로그아웃 URL 설정
+        var kakaoLogoutUrl = "https://kauth.kakao.com/oauth/logout?client_id=951e0627da48ee51855b252517b6352d&logout_redirect_uri=http://localhost:8080/logout";
+        // Kakao 로그아웃 URL로 리다이렉트
+        window.location.href = kakaoLogoutUrl;
+    };
+    function performLogin() {
+        // 새로운 URL로 이동
+        window.location.href = 'https://kauth.kakao.com/oauth/authorize?client_id=951e0627da48ee51855b252517b6352d&redirect_uri=http://localhost:8080/api/social/login/kakao&response_type=code';
+    };
 
     /*
     // 핸드폰 인증
@@ -364,32 +360,7 @@
 */
 
 
-    $(document).ready(function() {
-        // "인증확인" 버튼 클릭 시 AJAX 요청
-        $("#auth-res-button").click(function() {
-            var phoneNumber = $("#phone-number").val();
-            var modal = $("#myModal");
-            //var cleanedPhoneNumber = phoneNumber.replace(/-/g, '');
 
-            // AJAX 요청
-            $.ajax({
-                type: "POST",
-                url: "/selectOneMember", // 서버 측 엔드포인트 URL
-                data: JSON.stringify({ phoneNumber: phoneNumber }), // JSON 형태로 데이터 전송
-                contentType: "application/json", // 컨텐츠 타입을 JSON으로 설정
-                success: function(response) {
-                    // response 변수에 서버로부터 받은 응답이 들어있습니다.
-                    alert("로그인 성공")
-                    // modal.css("display", "none");
-                    location.href='/'
-                },
-                error: function(error) {
-                    // 요청 실패 시 처리
-                    console.error("인증번호 요청 실패:", error);
-                }
-            });
-        });
-    });
 
 </script>
 

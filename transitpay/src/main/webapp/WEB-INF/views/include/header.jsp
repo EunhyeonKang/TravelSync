@@ -15,10 +15,19 @@
                 <p>하나 트래블싱크</p>
             </a>
             <ul class="menu">
-                <li><a href="travel">TOP 여행지</a></li>
-                <li><a href="mypage">내예약</a></li>
-                <li><a href="group">모임통장</a></li>
-                <li><a href="login">정산</a></li>
+                <li><a href="top3Travel">TOP 여행지</a></li>
+                <c:choose>
+                    <c:when test="${sessionScope.member != null}">
+                        <li><a href="mypage">내 여행</a></li>
+                        <li><a href="mygroup">내 모임통장</a></li>
+                        <li><a href="group">정산하기</a></li>
+                    </c:when>
+                    <c:otherwise>
+                        <li><a href="group">모임통장</a></li>
+                        <li><a href="top3Travel">고객지원</a></li>
+                        <li><a href="top3Travel">이용방법</a></li>
+                    </c:otherwise>
+                </c:choose>
             </ul>
             <i class="totalmenu"></i>
         </div>

@@ -39,6 +39,11 @@ class RouteController {
         return "/travelplans/traffic";
     }
 
+    @GetMapping("/top3Travel")
+    public String top3Travel() throws Exception {
+        return "/travelplans/top3Travel";
+    }
+
     /***
      *  환전 기능(x)
      */
@@ -77,5 +82,10 @@ class RouteController {
     @GetMapping("/groupInvite")
     public String groupInvite() throws Exception {
         return "/group/groupInvite";
+    }
+
+    @GetMapping("/mygroup")
+    public String mygroup() throws Exception {
+        return "/group/mygroup";
     }
 }

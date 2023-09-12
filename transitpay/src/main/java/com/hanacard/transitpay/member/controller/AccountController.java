@@ -29,8 +29,9 @@ public class AccountController {
     public AccountController(AccountService accountService) {
         this.accountService = accountService;
     }
+
     @PostMapping(value = "/selectBackAccount")
-    public ResponseEntity<List<Account>> selectBackAccount(HttpServletRequest request){
+    public ResponseEntity<List<Account>> selectBackAccount(HttpServletRequest request) {
         HttpSession session = request.getSession();
         try {
             Member member = (Member) session.getAttribute("member");
@@ -41,7 +42,8 @@ public class AccountController {
             return (ResponseEntity<List<Account>>) ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PostMapping(value="/updateMainAccount")
+
+    @PostMapping(value = "/updateMainAccount")
     public ResponseEntity<String> updateMainAccount(@RequestBody List<Integer> accountIdList) {
         try {
             accountService.updateMainAccount(accountIdList);
@@ -51,8 +53,10 @@ public class AccountController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("계좌 변경 실패");
         }
     }
+
     @PostMapping(value = "/selectAmountMember")
-    public ResponseEntity<Integer> selectAmountMember(@RequestBody String memberId){
+    public ResponseEntity<Integer> selectAmountMember(@RequestBody String memberId) {
+
         try {
             GroupAccountDetail balance = accountService.selectAmountMember(memberId);
             return ResponseEntity.ok(balance.getG_balance());
@@ -62,8 +66,10 @@ public class AccountController {
     }
 
     @GetMapping(value = "insertGroupAccount")
-    public ResponseEntity<String> insertGroupAccount(GroupAccount groupAccount){
+    public ResponseEntity<String> insertGroupAccount(GroupAccount groupAccount, HttpServletRequest request) {
         try {
+            HttpSession session = request.getSession();
+            session.setAttribute("accountNum", groupAccount.getAccount_num());
             accountService.insertGroupAccount(groupAccount);
             return ResponseEntity.ok("모임통장 개설 성공");
         } catch (Exception e) {
@@ -83,7 +89,7 @@ public class AccountController {
     }
 
     @PostMapping("/selectGroupAccountInfo")
-    public ResponseEntity<GroupAccountDetail> selectGroupAccountInfo(@RequestBody String memberId){
+    public ResponseEntity<GroupAccountDetail> selectGroupAccountInfo(@RequestBody String memberId) {
         try {
             GroupAccountDetail groupAccountDetail = accountService.selectGroupAccountInfo(memberId);
             return ResponseEntity.ok(groupAccountDetail);
@@ -92,4 +98,26 @@ public class AccountController {
         }
     }
 
+    @PostMapping("/selectVirtureAccountNumber")
+    public ResponseEntity<String> selectVirtureAccountNumber(HttpServletRequest request) {
+        try {
+            HttpSession session = request.getSession();
+            String account_Num = (String) session.getAttribute("accountNum");
+            String virtureAccountNumber = accountService.selectVirtureAccountNumber(account_Num);
+            return ResponseEntity.ok(virtureAccountNumber);
+        } catch (Exception e) {
+            return (ResponseEntity<String>) ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    @PostMapping(value = "/selectUseTypeAccount")
+    public ResponseEntity<GroupAccount> selectUseTypeAccount(String memberId) {
+        try {
+            GroupAccount groupAccount = accountService.selectUseTypeAccount(memberId);
+            return ResponseEntity.ok(groupAccount);
+        } catch (Exception e) {
+            return (ResponseEntity<GroupAccount>) ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

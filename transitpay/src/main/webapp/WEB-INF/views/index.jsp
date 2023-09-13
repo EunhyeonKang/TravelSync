@@ -139,12 +139,12 @@
         }
 
         .hana-1 img{
-            width: 30px;
+            width: 40px;
             margin-right: 5px;
+            border-radius: 50px;
         }
         .seemore > .seemore-1{
             color: #0ec1b1;
-            float: right;
             align-items: center;
             width: 100%;
             float: right;
@@ -251,12 +251,13 @@
                                 <div class="loginafter">
                                     <div class="hanabox">
                                         <div class="hana-1">
-                                            <img src="../../resources/images/tvl_main_effect02.png">
-                                            하나트래블싱크
+                                            <img src="${sessionScope.member.kakao_img}">
+
+                                            ${sessionScope.member.name}님 모임통장
                                         </div>
                                         <div class="hanamoney-1">
                                             <div class="hanawon">0</div>
-                                            <div class="hanawon-1"> > </div>
+                                            <div class="hanawon-1">원</div>
                                         </div>
                                         <div class="seemore">
                                             <a class="seemore-1" href="mypage">연결 계좌</a>

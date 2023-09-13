@@ -35,6 +35,7 @@ public class AccountController {
         HttpSession session = request.getSession();
         try {
             Member member = (Member) session.getAttribute("member");
+            System.out.println(member);
             List<Account> account = accountService.selectBackAccount(member.getMember_id());
             return ResponseEntity.ok(account);
         } catch (Exception e) {

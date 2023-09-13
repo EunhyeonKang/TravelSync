@@ -38,7 +38,8 @@ public class MemberController {
                 return ResponseEntity.ok("로그인 성공");
             }else{
                 memberService.insertKakaoAndPhoneMember(member);
-                session.setAttribute("member", member);
+                Member memberId = memberService.selectOneMember(member.getPhone());
+                session.setAttribute("member", memberId);
                 return ResponseEntity.ok("로그인 성공");
             }
 

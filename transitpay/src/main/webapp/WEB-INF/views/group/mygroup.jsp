@@ -383,7 +383,7 @@
         var modal = document.getElementById('myModal');
         modal.style.display = 'block';
     }
-    
+
 
     $(document).ready(function() {
         var memberId = "${sessionScope.member.member_id}";

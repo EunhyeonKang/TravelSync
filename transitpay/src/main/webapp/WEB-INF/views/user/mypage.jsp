@@ -20,7 +20,7 @@
             <div class="menu1-1">계좌·모임 관리</div>
             <div class="menuhr"><hr/></div>
             <a href="mypage">계좌·모임 관리</a>
-            <a href="conaccount">회원정보수정</a>
+            <a href="editMember">회원정보수정</a>
             <a href="mytravel">여행 관리</a>
             <!-- 추가 메뉴 항목들 -->
         </div>

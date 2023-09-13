@@ -64,6 +64,10 @@ class RouteController {
         return "/user/mypage";
     }
 
+    @GetMapping("/editMember")
+    public String editMember() throws Exception {
+        return "/user/editMember";
+    }
     /***
      *  모임통장 기능
      */
@@ -88,4 +92,5 @@ class RouteController {
     public String mygroup() throws Exception {
         return "/group/mygroup";
     }
+
 }

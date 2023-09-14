@@ -34,8 +34,8 @@
     </insert>
 
     <insert id="insertGroupDetail">
-        insert into group_account(g_account_id, group_account, g_month, g_day, g_dues, g_autopay,g_date)
-        values (g_account_id_seq.nextval, #{group_account}, #{g_month}, #{g_day}, #{g_dues}, #{g_autopay},SYSTIMESTAMP)
+        insert into group_account(g_account_id, group_account, g_month, g_day, g_dues, g_autopay, group_pw, g_date)
+        values (g_account_id_seq.nextval, #{group_account}, #{g_month}, #{g_day}, #{g_dues}, #{g_autopay},#{group_pw},SYSTIMESTAMP)
     </insert>
 
     <select id="selectGroupAccountInfo" resultType="com.hanacard.transitpay.member.model.dto.GroupAccountDetail">

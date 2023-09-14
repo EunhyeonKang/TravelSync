@@ -27,7 +27,7 @@ public class TravelInfo {
     private String searchText;
     private int likeCount;
     private double starCount;
-    private int pricePer;
-    private int priceNumber;
-    private String sector;
+    private String foodImg;
+    private String foodName;
+    private String foodPrice;
 }

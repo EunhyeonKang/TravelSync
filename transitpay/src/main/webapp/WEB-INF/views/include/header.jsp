@@ -18,8 +18,8 @@
                 <li><a href="top3Travel">TOP 여행지</a></li>
                 <c:choose>
                     <c:when test="${sessionScope.member != null}">
-                        <li><a href="mypage">내 여행</a></li>
-                        <li><a href="mygroup">내 모임통장</a></li>
+                        <li><a href="travel">내 여행</a></li>
+                        <li><a href="/mygroup/${sessionScope.groupAccount.group_id}">내 모임통장</a></li>
                         <li><a href="group">정산하기</a></li>
                     </c:when>
                     <c:otherwise>

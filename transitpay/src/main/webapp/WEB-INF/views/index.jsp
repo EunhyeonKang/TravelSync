@@ -188,8 +188,8 @@
                     <li><a href="top3Travel">TOP 여행지</a></li>
                     <c:choose>
                         <c:when test="${sessionScope.member != null}">
-                            <li><a href="mypage">내 여행</a></li>
-                            <li><a href="mygroup">내 모임통장</a></li>
+                            <li><a href="travel">내 여행</a></li>
+                            <li><a href="javascript:void(0);" onclick="updateGroupAccount();">내 모임통장</a></li>
                             <li><a href="group">정산하기</a></li>
                         </c:when>
                         <c:otherwise>
@@ -252,7 +252,6 @@
                                     <div class="hanabox">
                                         <div class="hana-1">
                                             <img src="${sessionScope.member.kakao_img}">
-
                                             ${sessionScope.member.name}님 모임통장
                                         </div>
                                         <div class="hanamoney-1">
@@ -280,6 +279,7 @@
                                                 }
                                             });
                                         });
+
                                     </script>
                                 </c:when>
                                 <c:otherwise>
@@ -323,6 +323,26 @@
         window.location.href = 'https://kauth.kakao.com/oauth/authorize?client_id=951e0627da48ee51855b252517b6352d&redirect_uri=http://localhost:8080/api/social/login/kakao&response_type=code';
     };
 
+    function updateGroupAccount() {
+        var memberId = "${sessionScope.member.member_id}";
+
+        $.ajax({
+            type: "POST",
+            url: "/selectUseTypeAccount",
+            data: { memberId: memberId },
+            success: function (response) {
+                // 내 모임통장 페이지로 이동
+                if(response!=""){
+                    window.location.href = "mygroup/"+response.group_id;
+                }else{
+                    window.location.href = "group";
+                }
+            },
+            error: function (error) {
+                console.error("그룹 계정 업데이트 중 오류 발생: " + error);
+            }
+        });
+    }
     /*
     // 핸드폰 인증
     const authReqButton= document.querySelector('#auth-req-button');

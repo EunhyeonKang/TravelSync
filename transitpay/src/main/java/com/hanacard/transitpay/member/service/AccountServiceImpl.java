@@ -74,8 +74,9 @@ public class AccountServiceImpl implements AccountService {
         int gDay = Integer.parseInt(groupData.get("g_day"));
         int gDues = Integer.parseInt(groupData.get("g_dues"));
         String gAutopay = groupData.get("g_autopay");
-        System.out.println(groupAccount+" "+gMonth+" "+gDay+" "+gDues+" "+gAutopay);
-        accountRepository.insertGroupDetail(groupAccount, gMonth, gDay,gDues,gAutopay);
+        int groupPw = Integer.parseInt(groupData.get("group_pw"));
+        System.out.println(groupAccount+" "+gMonth+" "+gDay+" "+gDues+" "+gAutopay+" "+groupPw);
+        accountRepository.insertGroupDetail(groupAccount, gMonth, gDay,gDues,gAutopay,groupPw);
     }
 
     @Override

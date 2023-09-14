@@ -171,21 +171,6 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void shareKakaoGroup(String accessToken, Member member) {
-        try {
-            URL url = new URL("https://kapi.kakao.com/v1/user/unlink");
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-
-            conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("POST");
-            conn.setDoOutput(true);
-            conn.setRequestProperty("Authorization", "Bearer " + accessToken);
-        }catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
     @Transactional
     public void insertKakaoAndPhoneMember(Member member) {
         memberRepository.insertKakaoAndPhoneMember(member);

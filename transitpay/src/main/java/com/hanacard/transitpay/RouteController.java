@@ -2,6 +2,7 @@ package com.hanacard.transitpay;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 class RouteController {
@@ -88,9 +89,9 @@ class RouteController {
         return "/group/groupInvite";
     }
 
-    @GetMapping("/mygroup")
-    public String mygroup() throws Exception {
+
+    @GetMapping("/mygroup/{groupId}")
+    public String mygroup(@PathVariable int groupId) throws Exception {
         return "/group/mygroup";
     }
-
 }

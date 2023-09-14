@@ -113,9 +113,11 @@ public class AccountController {
 
 
     @PostMapping(value = "/selectUseTypeAccount")
-    public ResponseEntity<GroupAccount> selectUseTypeAccount(String memberId) {
+    public ResponseEntity<GroupAccount> selectUseTypeAccount(String memberId,HttpServletRequest request) {
         try {
+            HttpSession session = request.getSession();
             GroupAccount groupAccount = accountService.selectUseTypeAccount(memberId);
+            session.setAttribute("groupAccount",groupAccount);
             return ResponseEntity.ok(groupAccount);
         } catch (Exception e) {
             return (ResponseEntity<GroupAccount>) ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR);

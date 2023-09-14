@@ -349,7 +349,7 @@
                     <div class="hanaClass">하나 모여라 통장</div>
                 </div>
                 <div class="applyBox">
-                    <button class="applyBtn" onclick="openModal()">신청하기</button>
+                    <button class="applyBtn" onclick="openModal();">신청하기</button>
                 </div>
                 <div class="modal" id="myModal">
                     <div class="modal-content">
@@ -528,7 +528,7 @@
                 if(response!=""){
                     closeModal();
                     alert("이미 모임통장을 개설했습니다.");
-                    location.href='/';
+                    location.href='/mygroup/'+response.group_id;
                 }else{
                     var modal = document.getElementById('myModal');
                     modal.style.display = 'block';

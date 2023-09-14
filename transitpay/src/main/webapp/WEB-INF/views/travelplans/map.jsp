@@ -9,6 +9,123 @@
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=aa75059f83f9e745604b52cb811450f4&libraries=services"></script>
+    <style>
+        .mypriceText {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        /* Tooltip text */
+        .mypriceText::before {
+            content: "+ 버튼을 눌러 음식을 추가해주세요!";
+            position: absolute;
+            background-color: #333;
+            color: #fff;
+            padding: 5px;
+            border-radius: 4px;
+            width: 200px;
+            padding: 20px 10px;
+            margin: 5px;
+            font-size: 14px;
+            opacity: 0;
+            transition: opacity 0.2s;
+            visibility: hidden;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Show the tooltip on hover */
+        .mypriceText:hover::before {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .foodModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            overflow: auto;
+        }
+
+        /* Modal Content */
+        .food-modal-content {
+            background-color: #fff;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 5px;
+            max-width: 600px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+
+        .food-close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+
+        .food-select-box {
+            background-color: #fff;
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Styling for the food table */
+        #foodTable {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        #foodTable th, #foodTable td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        #foodTable th:first-child {
+            width: 20px; /* Adjust the checkbox column width */
+        }
+
+        /* Styling for checkboxes */
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+
+        /* Styling for the Add to Cart button */
+        #addToCart {
+            background-color: #fff;
+            color: #009688;
+            border: 1px solid #009688;;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            justify-content: center;
+            width: 100%;
+        }
+
+        #addToCart:hover {
+            background-color: #009688;
+            color: #fff;
+        }
+
+    </style>
 </head>
 <body>
 <div class="main">
@@ -68,7 +185,27 @@
                     </div>
                 </div>
             </div>
-
+            <div class="foodModal" id="foodModal">
+                <div class="food-modal-content">
+                    <span class="food-close-btn">&times;</span>
+                    <div class="select-date-box">
+                        <h3>음식을 선택해주세요.</h3>
+                        <div class="food-select-box">
+                            <table id="foodTable">
+                                <thead>
+                                <tr>
+                                    <th></th> <!-- Empty header for checkboxes -->
+                                    <th>음식</th>
+                                    <th>가격</th>
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                            <button id="addToCart">추가하기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <c:set var="travelStart" value="${param.travelStart}" />
             <c:set var="travelEnd" value="${param.travelEnd}" />
 
@@ -135,12 +272,86 @@
     var selectedDate = [];
     var placeDataList = [];
 
+
+
     function addPlaced(dateList,index) {
         const startModal = document.querySelector("#startModal");
         startModal.style.display = "none";
 
         // 선택된 장소 정보를 가져옴 (예시로 장소 이름 가져옴)
         var selectedPlaceName = selectedDetails.content;
+
+        let totalPriceForThisPlace = 0;
+        $.ajax({
+            url:'/travelplans/naverTravelData',
+            method: "GET",
+            data : {
+                selectedPlaceName : selectedPlaceName
+            },
+            success: function(response) {
+                const modal = document.getElementById("foodModal");
+                modal.style.display = "block";
+                const foodTable = document.getElementById("foodTable");
+                const tbody = foodTable.querySelector("tbody");
+                const addToCartButton = document.getElementById("addToCart");
+
+                for (let i = 0; i < response.length; i++) {
+                    const row = document.createElement("tr");
+
+                    const checkboxCell = document.createElement("td");
+                    const checkbox = document.createElement("input");
+                    checkbox.type = "checkbox";
+                    checkboxCell.appendChild(checkbox);
+
+                    const foodNameCell = document.createElement("td");
+                    foodNameCell.className = 'foodName';
+                    foodNameCell.textContent = response[i].foodName;
+
+                    const foodPriceCell = document.createElement("td");
+                    foodPriceCell.className = 'foodPrice';
+                    foodPriceCell.textContent = response[i].foodPrice;
+
+                    row.appendChild(checkboxCell);
+                    row.appendChild(foodNameCell);
+                    row.appendChild(foodPriceCell);
+
+                    tbody.appendChild(row);
+                }
+
+                addToCartButton.addEventListener("click", function () {
+                    const selectedItems = [];
+
+                    // Iterate through table rows to find selected checkboxes
+                    const rows = tbody.querySelectorAll("tr");
+                    for (let i = 0; i < rows.length; i++) {
+                        const checkbox = rows[i].querySelector("input[type='checkbox']");
+                        if (checkbox.checked) {
+                            const foodNameElement = rows[i].querySelector(".foodName");
+                            const foodPriceElement = rows[i].querySelector(".foodPrice");
+
+                            if (foodNameElement && foodPriceElement) {
+                                const foodName = foodNameElement.textContent;
+                                const foodPrice = parseFloat(foodPriceElement.textContent.replace(/[^0-9.]/g, ''));
+                                selectedItems.push({ foodName, foodPrice });
+                                totalPriceForThisPlace += foodPrice;
+                            }
+                        }
+                    }
+                    modal.style.display = "none";
+                    updatePriceText(totalPriceForThisPlace);
+                    totalPriceForThisPlace = 0;
+                });
+
+                const foodCloseButton = document.querySelector(".food-close-btn");
+                foodCloseButton.addEventListener("click", () => {
+                    modal.style.display = "none";
+                });
+            },
+            error: function(error) {
+                console.error("Error occurred:", error);
+            }
+        });
+
         // 새로운 요소 생성
         var newContainer = document.createElement('div');
         newContainer.className = 'container3';
@@ -166,22 +377,17 @@
         newPlusButton.className = 'plus-button';
         newPlusButton.textContent = '+';
 
-        var pricePerPerson = selectedDetails.pricePer;
-        var priceNumberOfPeople = selectedDetails.priceNumber;
-
         var newPriceText = document.createElement('div');
         newPriceText.className = 'mypriceText';
-        updatePriceText(); // 초기 요금 표시
 
         // + 버튼 클릭 시
         newPlusButton.addEventListener('click', function () {
-            priceNumberOfPeople += 1;
-            updatePriceText();
+            console.log('식비에 추가할거임ㅎ');
         });
-        function updatePriceText() {
-            var totalPrice = pricePerPerson * priceNumberOfPeople;
-            newPriceText.textContent = priceNumberOfPeople + '인분 ' + totalPrice.toLocaleString() + '원';
+        function updatePriceText(totalPrice) {
+            newPriceText.textContent = totalPrice+ '원';
         }
+
         var newLikeStarBox = document.createElement('div');
         newLikeStarBox.className = 'likeStarBox';
         var newLikeImg = document.createElement('img');
@@ -209,7 +415,6 @@
         newPriceInfo.appendChild(newLikeStarBox);
         newPriceInfo.appendChild(newPriceText);
         newPriceInfo.appendChild(newPlusButton);
-
         var newPNums = document.createElement('div');
         newPNums.className = 'pnums';
         var newPNum = document.createElement('div');
@@ -410,8 +615,12 @@
 
         const selectBox = modal.querySelector(".select-box");
         const dateContainer = modal.querySelector(".date-btn-box");
+        const foodSelectBox = document.querySelector('tbody');
+
         selectBox.innerHTML = ""; // 선택 정보 초기화
         dateContainer.innerHTML = ""; // 날짜 정보 초기화
+        foodSelectBox.innerHTML="";
+
         selectedDate = [];
         const selectBoxSpan1 = document.createElement("span");
         selectBoxSpan1.textContent =  selectedDetails.content+"("+selectedDetails.location+")";

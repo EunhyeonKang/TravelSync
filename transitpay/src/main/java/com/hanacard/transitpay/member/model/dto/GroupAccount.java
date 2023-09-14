@@ -16,4 +16,5 @@ public class GroupAccount {
     private String group_account;
     private String account_num;
     private char group_use;
+    private int group_pw;
 }

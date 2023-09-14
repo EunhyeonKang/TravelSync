@@ -297,7 +297,7 @@
                 <hr>
                 <div class="classSection">
                     <div class="class-1" >안심계좌번호</div>
-                    <div class="account" id="groupAccount">심</div>
+                    <div class="account" id="groupAccount"></div>
                 </div>
                 <hr>
                 <div class="classSection">
@@ -348,38 +348,50 @@
             }
         })
     }
-
-</script>
-<script>
     function send() {
-        Kakao.Share.createDefaultButton({
-            container: '#kakaotalk-sharing-btn',
-            objectType: 'feed',
-            content: {
-                title: '트랜지싱크 모임통장에 초대되었습니다.',
-                description: '서태지와아이들 모임에 초대되었습니다. 회비는 얼마고 회비날짜는 2일입니다🐶',
-                imageUrl: 'https://ibb.co/HD27qgB',
-                link: {
-                    // [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
-                    mobileWebUrl: 'http://localhost:8080',
-                    webUrl: 'http://localhost:8080',
-                },
-            },
-            buttons: [
-                {
-                    title: '모임통장 참여하기',
-                    link: {
-                        mobileWebUrl: 'http://localhost:8080/groupShare',
-                        webUrl: 'http://localhost:8080/groupShare',
-                    },
+        var memberId = "${sessionScope.member.member_id}";
+
+        $.ajax({
+            type: "POST",
+            url: "/selectUseTypeAccount",
+            data: { memberId : memberId },
+            success: function(response) {
+                if(response!=""){
+                    Kakao.Share.createDefaultButton({
+                        container: '#kakaotalk-sharing-btn',
+                        objectType: 'feed',
+                        content: {
+                            title: '트랜지싱크 모임통장에 초대되었습니다.',
+                            description: '서태지와아이들 모임에 초대되었습니다. 회비는 얼마고 회비날짜는 2일입니다🐶',
+                            imageUrl: 'https://ibb.co/HD27qgB',
+                            link: {
+                                // [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
+                                mobileWebUrl: 'http://localhost:8080',
+                                webUrl: 'http://localhost:8080',
+                            },
+                        },
+                        buttons: [
+                            {
+                                title: '모임통장 참여하기',
+                                link: {
+                                    mobileWebUrl: 'http://localhost:8080/mygroup/'+response.group_id,
+                                    webUrl: 'http://localhost:8080/mygroup/'+response.group_id
+                                },
+                            }
+                        ],
+                        serverCallbackArgs: '{"key" : "value"}',
+                    });
+                }else{``
+                    var modal = document.getElementById('myModal');
+                    modal.style.display = 'block';
                 }
-            ],
-            serverCallbackArgs: {
-                key: 'value', // 사용자 정의 파라미터 설정
             },
+            error: function(error) {
+            }
         });
+
     }
+
     Kakao.init('aa75059f83f9e745604b52cb811450f4'); // 사용하려는 앱의 JavaScript 키 입력
 </script>
-
 </html>

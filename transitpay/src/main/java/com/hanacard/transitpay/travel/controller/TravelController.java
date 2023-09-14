@@ -9,6 +9,10 @@ import com.hanacard.transitpay.travel.model.dto.ScheduleSet;
 import com.hanacard.transitpay.travel.model.dto.Travel;
 import com.hanacard.transitpay.travel.model.dto.TravelInfo;
 import com.hanacard.transitpay.travel.service.TravelService;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +24,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Controller
 public class TravelController {
@@ -44,6 +52,7 @@ public class TravelController {
     public ResponseEntity<TravelInfo> getItemDetails(@RequestParam int itemId) {
         // 여기에서 itemId를 사용하여 아이템을 조회하고 TravelInfo 객체를 반환
         TravelInfo itemDetails = travelService.getItemDetailsById(itemId);
+
         if (itemDetails != null) {
             return ResponseEntity.ok(itemDetails);
         } else {
@@ -109,6 +118,51 @@ public class TravelController {
     public ResponseEntity<List<ScheduleSet>> handleTrafficData(@RequestParam String title) {
         List<ScheduleSet> schedule = travelService.handleTrafficData(title);
         return ResponseEntity.ok(schedule);
+    }
+
+    @GetMapping("/travelplans/naverTravelData")
+    public ResponseEntity<List<TravelInfo>> naverTravelData(String selectedPlaceName) {
+        // 크롤링
+        String url = "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=" + selectedPlaceName;
+
+
+        Document document = null;
+        List<TravelInfo> travelMenuInfoList;
+        try {
+            document = Jsoup.connect(url).get();
+            String menuLinks = document.select("#_title a").attr("href");
+            // 정규 표현식 패턴
+            Pattern pattern = Pattern.compile("/(\\d+)\\?");
+            Matcher matcher = pattern.matcher(menuLinks);
+
+            travelMenuInfoList = new ArrayList<>();
+            if (matcher.find()) {
+                String extractedValue = matcher.group(1);
+                String menuListLink = "https://pcmap.place.naver.com/restaurant/" + extractedValue + "/menu/list";
+                document = Jsoup.connect(menuListLink).get();
+                Elements foodItems = document.select(".K0PDV, .lPzHi, .GXS1X");
+
+                TravelInfo currentFood = null;
+                for (Element item : foodItems) {
+                    if (item.hasClass("lPzHi")) {
+                        currentFood = new TravelInfo();
+                        currentFood.setFoodName(item.text());
+                    } else if (item.hasClass("GXS1X")) {
+                        if (currentFood != null) {
+                            currentFood.setFoodPrice(item.text());
+                            travelMenuInfoList.add(currentFood);
+                            currentFood = null;
+                        }
+                    }
+                }
+
+            } else {
+                System.out.println("값을 추출할 수 없습니다.");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return ResponseEntity.ok(travelMenuInfoList);
     }
 }
 

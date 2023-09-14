@@ -23,7 +23,9 @@ public interface AccountRepository {
                            @Param("g_month") String gMonth,
                            @Param("g_day") int gDay,
                            @Param("g_dues") int gDues,
-                           @Param("g_autopay") String gAutopay);
+                           @Param("g_autopay") String gAutopay,
+                           @Param("group_pw") int group_pw
+                           );
 
     GroupAccountDetail selectGroupAccountInfo(int memberId);
     String selectVirtureAccountNumber(String account_Num);

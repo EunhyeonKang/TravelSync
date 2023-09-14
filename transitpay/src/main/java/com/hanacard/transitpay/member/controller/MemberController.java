@@ -84,11 +84,4 @@ public class MemberController {
         return mav;
     }
 
-    @GetMapping(value = "/groupShare")
-    public void shareKakaoGroup(String code, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        Member member = (Member) session.getAttribute("member");
-        memberService.shareKakaoGroup(code,member);
-
-    }
 }

@@ -23,7 +23,7 @@
             background-color: #333;
             color: #fff;
             padding: 5px;
-            border-radius: 4px;
+            border-radius: 50px;
             width: 200px;
             padding: 20px 10px;
             margin: 5px;
@@ -32,7 +32,7 @@
             transition: opacity 0.2s;
             visibility: hidden;
             bottom: 100%;
-            left: 50%;
+            left: 100%;
             transform: translateX(-50%);
         }
 
@@ -271,87 +271,86 @@
     var selectedDetails;
     var selectedDate = [];
     var placeDataList = [];
+    let totalPriceForThisPlace=0;
+    let globalResponseData = null; // 전역 변수로 response 데이터를 담을 변수 추가
+    let priceTextIdCounter = 0;
+    var uniquePriceTextId;
 
+    const modal = document.getElementById("foodModal");
+    const tbody = foodTable.querySelector("tbody");
+    const addToCartButton = document.getElementById("addToCart");
+    addToCartButton.addEventListener("click", function () {
+        const selectedItems = [];
 
+        const rows = tbody.querySelectorAll("tr");
+        for (let i = 0; i < rows.length; i++) {
+            const checkbox = rows[i].querySelector("input[type='checkbox']");
+            if (checkbox.checked) {
+                const foodNameElement = rows[i].querySelector(".foodName");
+                const foodPriceElement = rows[i].querySelector(".foodPrice");
+
+                if (foodNameElement && foodPriceElement) {
+                    const foodName = foodNameElement.textContent;
+                    const foodPrice = parseFloat(foodPriceElement.textContent.replace(/[^0-9.]/g, ''));
+                    selectedItems.push({ foodName, foodPrice });
+                    totalPriceForThisPlace += foodPrice;
+                }
+            }
+        }
+
+        document.getElementById(uniquePriceTextId).textContent = totalPriceForThisPlace + ' 원';
+        modal.style.display = "none";
+        totalPriceForThisPlace = 0;
+    });
 
     function addPlaced(dateList,index) {
+        const modal = document.getElementById("foodModal");
+        modal.style.display = "block";
+        const foodTable = document.getElementById("foodTable");
+        const tbody = foodTable.querySelector("tbody");
+
+
+        for (let i = 0; i < globalResponseData.length; i++) {
+            const row = document.createElement("tr");
+
+            const checkboxCell = document.createElement("td");
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkboxCell.appendChild(checkbox);
+
+            const foodNameCell = document.createElement("td");
+            foodNameCell.className = 'foodName';
+            foodNameCell.textContent = globalResponseData[i].foodName;
+
+            const foodPriceCell = document.createElement("td");
+            foodPriceCell.className = 'foodPrice';
+            foodPriceCell.textContent = globalResponseData[i].foodPrice;
+
+            row.appendChild(checkboxCell);
+            row.appendChild(foodNameCell);
+            row.appendChild(foodPriceCell);
+
+            tbody.appendChild(row);
+        }
+
+        var newPriceText = document.createElement('div');
+        newPriceText.className = 'mypriceText';
+        uniquePriceTextId = "mypriceText-" + priceTextIdCounter; // 고유한 ID 생성
+        newPriceText.id = uniquePriceTextId; // ID를 요소에 할당
+        priceTextIdCounter++;
+
+
+        const foodCloseButton = document.querySelector(".food-close-btn");
+        foodCloseButton.addEventListener("click", () => {
+            modal.style.display = "none";
+        });
+
+
         const startModal = document.querySelector("#startModal");
         startModal.style.display = "none";
 
         // 선택된 장소 정보를 가져옴 (예시로 장소 이름 가져옴)
         var selectedPlaceName = selectedDetails.content;
-
-        let totalPriceForThisPlace = 0;
-        $.ajax({
-            url:'/travelplans/naverTravelData',
-            method: "GET",
-            data : {
-                selectedPlaceName : selectedPlaceName
-            },
-            success: function(response) {
-                const modal = document.getElementById("foodModal");
-                modal.style.display = "block";
-                const foodTable = document.getElementById("foodTable");
-                const tbody = foodTable.querySelector("tbody");
-                const addToCartButton = document.getElementById("addToCart");
-
-                for (let i = 0; i < response.length; i++) {
-                    const row = document.createElement("tr");
-
-                    const checkboxCell = document.createElement("td");
-                    const checkbox = document.createElement("input");
-                    checkbox.type = "checkbox";
-                    checkboxCell.appendChild(checkbox);
-
-                    const foodNameCell = document.createElement("td");
-                    foodNameCell.className = 'foodName';
-                    foodNameCell.textContent = response[i].foodName;
-
-                    const foodPriceCell = document.createElement("td");
-                    foodPriceCell.className = 'foodPrice';
-                    foodPriceCell.textContent = response[i].foodPrice;
-
-                    row.appendChild(checkboxCell);
-                    row.appendChild(foodNameCell);
-                    row.appendChild(foodPriceCell);
-
-                    tbody.appendChild(row);
-                }
-
-                addToCartButton.addEventListener("click", function () {
-                    const selectedItems = [];
-
-                    // Iterate through table rows to find selected checkboxes
-                    const rows = tbody.querySelectorAll("tr");
-                    for (let i = 0; i < rows.length; i++) {
-                        const checkbox = rows[i].querySelector("input[type='checkbox']");
-                        if (checkbox.checked) {
-                            const foodNameElement = rows[i].querySelector(".foodName");
-                            const foodPriceElement = rows[i].querySelector(".foodPrice");
-
-                            if (foodNameElement && foodPriceElement) {
-                                const foodName = foodNameElement.textContent;
-                                const foodPrice = parseFloat(foodPriceElement.textContent.replace(/[^0-9.]/g, ''));
-                                selectedItems.push({ foodName, foodPrice });
-                                totalPriceForThisPlace += foodPrice;
-                            }
-                        }
-                    }
-                    modal.style.display = "none";
-                    updatePriceText(totalPriceForThisPlace);
-                    totalPriceForThisPlace = 0;
-                });
-
-                const foodCloseButton = document.querySelector(".food-close-btn");
-                foodCloseButton.addEventListener("click", () => {
-                    modal.style.display = "none";
-                });
-            },
-            error: function(error) {
-                console.error("Error occurred:", error);
-            }
-        });
-
         // 새로운 요소 생성
         var newContainer = document.createElement('div');
         newContainer.className = 'container3';
@@ -376,17 +375,11 @@
         var newPlusButton = document.createElement('button');
         newPlusButton.className = 'plus-button';
         newPlusButton.textContent = '+';
-
-        var newPriceText = document.createElement('div');
-        newPriceText.className = 'mypriceText';
-
         // + 버튼 클릭 시
         newPlusButton.addEventListener('click', function () {
             console.log('식비에 추가할거임ㅎ');
         });
-        function updatePriceText(totalPrice) {
-            newPriceText.textContent = totalPrice+ '원';
-        }
+
 
         var newLikeStarBox = document.createElement('div');
         newLikeStarBox.className = 'likeStarBox';
@@ -420,7 +413,7 @@
         var newPNum = document.createElement('div');
 
         newPNum.className = 'pnum';
-        newPNum.innerHTML = '<span>' + 1 + '</span>';
+        newPNum.innerHTML = '<span>' + (priceTextIdCounter) + '</span>';
         newPNums.appendChild(newPNum);
 
         var newPlaceInfoDetails = document.createElement('div');
@@ -432,7 +425,7 @@
         newPlace.textContent = selectedPlaceName;
 
         var cancel = document.createElement('button');
-            cancel.className = 'cancel'
+        cancel.className = 'cancel'
         cancel.textContent = 'x';
 
         newPlaceName.appendChild(newPlace);
@@ -485,6 +478,7 @@
         // .cancel 버튼 클릭 이벤트 핸들러 추가
         cancel.addEventListener('click', function () {
             // .container3 요소를 부모 노드에서 제거
+            priceTextIdCounter--;
             newContainer.parentNode.removeChild(newContainer);
             // 배열에서 해당 장소 데이터를 제거
             var indexToRemove = placeDataList.findIndex(function (item) {
@@ -610,17 +604,30 @@
         return el;
     }
     function openModal() {
+        $.ajax({
+            url:'/travelplans/naverTravelData',
+            method: "GET",
+            data : {
+                selectedPlaceName : selectedDetails.content
+            },
+            success: function(response) {
+                globalResponseData = response;
+
+            },
+            error: function(error) {
+                console.error("Error occurred:", error);
+            }
+        });
         const modal = document.getElementById("startModal");
+        const foodModal = document.getElementById("foodModal");
         modal.style.display = "block";
 
         const selectBox = modal.querySelector(".select-box");
         const dateContainer = modal.querySelector(".date-btn-box");
-        const foodSelectBox = document.querySelector('tbody');
-
+        const foodModalTbody = foodModal.querySelector("tbody");
         selectBox.innerHTML = ""; // 선택 정보 초기화
         dateContainer.innerHTML = ""; // 날짜 정보 초기화
-        foodSelectBox.innerHTML="";
-
+        foodModalTbody.innerHTML="";
         selectedDate = [];
         const selectBoxSpan1 = document.createElement("span");
         selectBoxSpan1.textContent =  selectedDetails.content+"("+selectedDetails.location+")";

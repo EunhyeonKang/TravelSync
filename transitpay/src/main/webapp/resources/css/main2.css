@@ -104,17 +104,16 @@
 }
 .main2-2{
     width: 100%;
-    max-width: 1200px; /* Adjust the max width as needed */
-    height: 460px;
+    max-width: 1200px;
     margin: 50px auto;
     flex-wrap: wrap;
     border: 1px solid #d8d8d8;
     border-radius: 10px;
 }
-.parent{
+.parent, .parent-1{
     margin: 0px auto;
     display: flex;
-    padding: 30px;
+    padding: 10px 30px 30px 30px;
 }
 
 .first {
@@ -156,20 +155,6 @@
 }
 
 
-.exchange-container {
-    display: flex;
-    overflow: hidden;
-    margin: 10px auto;
-    width: 100%; /* Add this line to ensure the container's width is set properly */
-}
-
-.exchange-slide {
-    flex: 0 0 100%;
-    background-color: #dcf2fe;
-    border-radius: 10px;
-    min-width: 100%;
-    text-align: center;
-}
 
 .exchange-img {
     overflow: hidden;
@@ -193,7 +178,4 @@
 .exchange-rate {
     margin-top: 5px;
     font-size: 14px;
-}
-.parent > div:nth-child(1){
-    background-color: #dcf2fe;
 }

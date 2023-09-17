@@ -31,7 +31,7 @@
                         <button class="account-button">연결계좌</button>
                         <div class="bank"></div>
                         <div class="account-info">
-                            <span class="account-number"></span>
+                            <span class="account-number" name="account_num"></span>
                             <input type="hidden" name="accountId" value="">
                             <button class="change-account" id="change-account">연결계좌 변경</button>
                         </div>
@@ -66,9 +66,9 @@
                 <div class="account2">
                     <div class="new-account-details">
                         <button class="account-button">안심계좌</button>
-                        <div class="bank">트래블싱크</div>
+                        <div class="bank">${groupAccount.group_name}</div>
                         <div class="account-info">
-                            <span class="account-number">7979-1235-1234567</span>
+                            <span class="account-number">${groupAccount.group_account}</span>
                             <input type="hidden" name="accountId" value="">
                             <button class="change-account" onclick="location.href='groupAccountDetail'">모임통장 내역</button>
                         </div>

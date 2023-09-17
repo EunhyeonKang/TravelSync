@@ -5,118 +5,101 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="../../resources/css/index.css">
     <link rel="stylesheet" href="../../resources/css/main2.css">
-    <script defer src="../../resources/js/index.js"></script>
+
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
     <style>
+        .top3{
+            padding: 30px 30px 0 50px;
+            display: flex;
+            font-size: larger;
+            font-weight: 700;
+        }
     </style>
 </head>
 <body>
-<div class="main2-2">
-    <div class="parent">
-        <div class="first">
-            <a href="">
-                <div class="exchange-container">
-                    <div class="exchange-slide">
-                        <div class="exchange-img">
-                            <img src="../../resources/images/new_2204_my_bottom_img002.png" alt="">
-                        </div>
-                        <div class="exchange-info">
-                            <p class="name">실시간 여행계획 기능</p>
-                            <p class="exchange-rate">1234.3234 $</p>
-                        </div>
-                    </div>
-
-                    <div class="exchange-slide">
-                        <div class="exchange-img">
-                            <img src="../../resources/images/new_2204_my_bottom_img002.png" alt="">
-                        </div>
-                        <div class="exchange-info">
-                            <p class="name">여행짜기2</p>
-                            <p class="exchange-rate">1123 $</p>
-                        </div>
-                    </div>
-
-                    <!-- Add more exchange slides as needed -->
-                </div>
-            </a>
+<div class="main1">
+    <%@ include file="../include/header.jsp" %>
+    <div class="main2-2">
+        <span class="top3">TOP3</span>
+        <div class="parent">
         </div>
-        <div class="first">
-            <a href="">
-                <div class="img">
-                    <img src="../../resources/images/pay.png" style="" alt="">
-                </div>
-                <div class="t_wrap">
-                    <p class="name">모임통장</p>
-
-                </div>
-            </a>
+    </div>
+    <div class="main2-2">
+        <span class="top3">즐겨찾기</span>
+        <div class="parent-1">
         </div>
-        <div class="first">
-            <a href="">
-                <div class="img">
-                    <img src="../../resources/images/img-hana-symbol.png" style="" alt="">
-                </div>
-                <div class="t_wrap">
-                    <p class="name">정산하기</p>
-
-                </div>
-            </a>
-        </div>
-
     </div>
 </div>
-<div class="main2">
-    <div class="ttext">
-        <div class="ctext1">총무님은 쉬세요</div><br>
-        <div class="ctext1"><span class="t1"> 트래블싱크</span>가 대신할게요.</div>
-    </div>
-    <div class="mtext">
-        <div class="ctext2">회비 낼 때 알림으로 알려주고</div><br>
-        <div class="ctext2">회비가 밀려 알아서 관리할게요.</div>
-    </div>
-    <div class="bbutton">
-        <button type="submit" class="tbutton" onclick="location.href = 'group'">
-            <div class="tTrable">모임통장 개설하기</div>
-        </button>
-    </div>s
-</div>
-<div class="main3">
-    <div class="exchangebox1">
-        <button type="submit" class="exchgbutton">
-            <div class="exchgtext">정산</div>
-        </button>
-        <button type="submit" class="exchgbutton">
-            <div class="exchgtext">알림</div>
-        </button>
-    </div>
-    <div class="exchangebox2">
-        <img class="exchgimg" src="../../resources/images/exchange.png">
-        <div class="ctext2">나의 여행 기반으로 제공되는</div><br>
-        <div class="ctext2">환율, 길찾기 정보로 더 쉬운 여행을 경험하세요.</div>
-    </div>
 
+
+
+    <%@ include file="../include/footer.jsp" %>
 </div>
-<%@ include file="../include/footer.jsp" %>
 </body>
 </html>
+
 <script>
-    let currentIndex = 0;
-    const slides = document.querySelectorAll('.exchange-slide');
-
-    function showSlide(index) {
-        slides.forEach(slide => {
-            slide.style.display = 'none';
+    $(document).ready(function() {
+        $.ajax({
+            type: "GET",
+            url: "/selectTop3Travel",
+            success: function(response) {
+                travleBoxList(response,1)
+            },
+            error: function(error) {
+            }
         });
-        slides[index].style.display = 'block';
-    }
+    })
 
-    function nextSlide() {
-        currentIndex = (currentIndex + 1) % slides.length;
-        showSlide(currentIndex);
-    }
 
-    setInterval(nextSlide, 3000); // Change slide every 3 seconds
+    $(document).ready(function() {
+        $.ajax({
+            type: "GET",
+            url: "/selectStarTravel",
+            success: function(response) {
+                travleBoxList(response,2)
+            },
+            error: function(error) {
+            }
+        });
+    })
+
+    function travleBoxList(response,index){
+        var parent = ".parent";
+        if(index===2){
+            parent = parent+"-1";
+        }
+        const parentElement = document.querySelector(parent);
+
+        for(let i=0;i<response.length;i++){
+            var itemContent = response[i].content;
+            var itemTags = response[i].tags;
+            var originalURL =response[i].photo;
+            var idMatch = originalURL.match(/id=([^&]+)/);
+            var id = idMatch ? idMatch[1] : null;
+            var modifiedURL = id ? originalURL.replace(idMatch[0], "&" + "id=" + id) : originalURL;
+
+            const newTravelElement = document.createElement('div');
+            newTravelElement.className = 'first';
+            const newTravelA = document.createElement('a');
+            const newTravelDivImg = document.createElement('div');
+            const newTravelImg = document.createElement('img');
+            newTravelImg.src = modifiedURL;
+            newTravelDivImg.appendChild(newTravelImg);
+            const newTravelTWrap = document.createElement('div');
+            newTravelTWrap.className= 't_wrap';
+            const newTravelP = document.createElement('p');
+            newTravelP.className= 'name';
+            newTravelP.textContent = itemContent;
+            newTravelTWrap.appendChild(newTravelP);
+            newTravelA.appendChild(newTravelDivImg);
+            newTravelA.appendChild(newTravelTWrap);
+            newTravelElement.appendChild(newTravelA);
+            // 부모 요소에 생성한 요소를 추가합니다.
+            parentElement.appendChild(newTravelElement);
+        }
+    }
 
     // 요소들을 찾습니다.
     const ttext = document.querySelector('.ttext');

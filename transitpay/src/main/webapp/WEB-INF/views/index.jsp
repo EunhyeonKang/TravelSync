@@ -312,6 +312,13 @@
     <%@ include file="main2.jsp" %>
 </body>
 <script>
+    const groupSid ="${groupId}";
+    var memberId = "${sessionScope.member.member_id}";
+    // alert(groupSid);
+    // if(groupSid!="" && memberId!=""){
+    //     //모임원들은 가입동의를하고 모임통장에 들어가야함
+    // }
+
     function performLogout() {
         // Kakao 로그아웃 URL 설정
         var kakaoLogoutUrl = "https://kauth.kakao.com/oauth/logout?client_id=951e0627da48ee51855b252517b6352d&logout_redirect_uri=http://localhost:8080/logout";

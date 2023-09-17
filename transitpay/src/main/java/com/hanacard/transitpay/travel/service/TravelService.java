@@ -14,4 +14,6 @@ public interface  TravelService {
     void insertTravelAndGetId(Travel travel);
     void insertScheduleSets(List<Schedule> scheduleList);
     List<ScheduleSet>  handleTrafficData(String title);
+    List<TravelInfo> selectTop3Travel();
+    List<TravelInfo> selectStarTravel();
 }

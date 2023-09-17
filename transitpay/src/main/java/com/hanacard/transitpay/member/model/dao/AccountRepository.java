@@ -10,9 +10,12 @@ import java.util.List;
 
 @Mapper
 public interface AccountRepository {
-    List<Account> selectBackAccount(int memberId);
-    void updateMainAccount(Integer accountId);
-    void updateSubAccount(Integer accountId);
+    List<Account> selectBackAccount(@Param("account_id") int account_id,
+                                    @Param("account_phone") String account_phone);
+    void updateMainAccount(@Param("account_id") int account_id,
+                           @Param("account_phone") String account_phone);
+    void updateSubAccount(@Param("account_id") int account_id,
+                          @Param("account_phone") String account_phone);
     GroupAccountDetail selectAmountMember(int memberId);
     void insertGroupAccount(@Param("group_name") String groupName,
                             @Param("group_type") String groupType,
@@ -30,4 +33,5 @@ public interface AccountRepository {
     GroupAccountDetail selectGroupAccountInfo(int memberId);
     String selectVirtureAccountNumber(String account_Num);
     GroupAccount selectUseTypeAccount(int memberId);
+    String inputCheckPassword(String groupId);
 }

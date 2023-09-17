@@ -15,4 +15,7 @@ public interface TravelRepository {
     void insertTravelAndGetId(Travel travel);
     void insertScheduleSets(ScheduleSet scheduleSets);
     List<ScheduleSet> handleTrafficData(String title);
+    List<TravelInfo> selectTop3Travel();
+
+    List<TravelInfo> selectStarTravel();
 }

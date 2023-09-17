@@ -67,8 +67,9 @@ $('#auth-res-button').click(function () {
     var selectedOption = $('#selecttype option:selected');
 
     var accountIdList = [];
-    accountIdList.push( $('input[name=accountId]').val());
-    accountIdList.push(selectedOption.val());
+    accountIdList.push($('input[name=accountId]').val());
+    accountIdList.push($('span[name=account_num]').text());
+    accountIdList.push(selectedOption.attr('data-account-num'));
 
     // AJAX 요청을 보냅니다.
     $.ajax({

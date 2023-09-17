@@ -4,6 +4,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @Controller
 class RouteController {
     @GetMapping("/")
@@ -89,9 +92,10 @@ class RouteController {
         return "/group/groupInvite";
     }
 
-
     @GetMapping("/mygroup/{groupId}")
-    public String mygroup(@PathVariable int groupId) throws Exception {
+    public String mygroup(@PathVariable int groupId, HttpServletRequest request) throws Exception {
+        HttpSession session = request.getSession();
+        session.setAttribute("groupId",groupId);
         return "/group/mygroup";
     }
 }

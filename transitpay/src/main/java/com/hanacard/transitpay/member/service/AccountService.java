@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 public interface AccountService {
-    List<Account> selectBackAccount(int memberId);
-    void updateMainAccount(List<Integer> accountIdList);
+    List<Account> selectBackAccount(int account_id,String account_phone);
+    void updateMainAccount(List<String> accountIdList);
     GroupAccountDetail selectAmountMember(String memberId);
     void insertGroupAccount(GroupAccount groupAccount);
     void insertGroupDetail(Map<String,String> groupData);
@@ -17,4 +17,5 @@ public interface AccountService {
     String selectVirtureAccountNumber(String account_Num);
 
     GroupAccount selectUseTypeAccount(String memberId);
+    String inputCheckPassword(String groupId);
 }

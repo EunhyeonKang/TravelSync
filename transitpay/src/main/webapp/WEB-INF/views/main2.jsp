@@ -5,35 +5,11 @@
     <div class="parent">
         <div class="first">
             <a href="">
-<%--                <div class="img">--%>
-<%--                    <img src="../../resources/images/new_2204_my_r_img002.png" style="" alt="">--%>
-<%--                </div>--%>
-<%--                <div class="t_wrap">--%>
-<%--                    <p class="name">실시간환율</p>--%>
-
-<%--                </div>--%>
-                <div class="exchange-container">
-                    <div class="exchange-slide">
-                        <div class="exchange-img">
-                            <img src="../../resources/images/new_2204_my_bottom_img002.png" alt="">
-                        </div>
-                        <div class="exchange-info">
-                            <p class="name">실시간 여행계획 기능</p>
-                            <p class="exchange-rate">1234.3234 $</p>
-                        </div>
-                    </div>
-
-                    <div class="exchange-slide">
-                        <div class="exchange-img">
-                            <img src="../../resources/images/new_2204_my_bottom_img002.png" alt="">
-                        </div>
-                        <div class="exchange-info">
-                            <p class="name">여행짜기2</p>
-                            <p class="exchange-rate">1123 $</p>
-                        </div>
-                    </div>
-
-                    <!-- Add more exchange slides as needed -->
+                <div class="img">
+                    <img src="../../resources/images/pay.png" style="" alt="">
+                </div>
+                <div class="t_wrap">
+                    <p class="name">모임통장</p>
                 </div>
             </a>
         </div>
@@ -44,7 +20,6 @@
                 </div>
                 <div class="t_wrap">
                     <p class="name">모임통장</p>
-
                 </div>
             </a>
         </div>
@@ -55,11 +30,9 @@
                 </div>
                 <div class="t_wrap">
                     <p class="name">정산하기</p>
-
                 </div>
             </a>
         </div>
-
     </div>
 </div>
 <div class="main2">
@@ -95,22 +68,22 @@
 </div>
 <%@ include file="include/footer.jsp" %>
 <script>
-    let currentIndex = 0;
-    const slides = document.querySelectorAll('.exchange-slide');
-
-    function showSlide(index) {
-        slides.forEach(slide => {
-            slide.style.display = 'none';
-        });
-        slides[index].style.display = 'block';
-    }
-
-    function nextSlide() {
-        currentIndex = (currentIndex + 1) % slides.length;
-        showSlide(currentIndex);
-    }
-
-    setInterval(nextSlide, 3000); // Change slide every 3 seconds
+    // let currentIndex = 0;
+    // const slides = document.querySelectorAll('.exchange-slide');
+    //
+    // function showSlide(index) {
+    //     slides.forEach(slide => {
+    //         slide.style.display = 'none';
+    //     });
+    //     slides[index].style.display = 'block';
+    // }
+    //
+    // function nextSlide() {
+    //     currentIndex = (currentIndex + 1) % slides.length;
+    //     showSlide(currentIndex);
+    // }
+    //
+    // setInterval(nextSlide, 3000); // Change slide every 3 seconds
 
     // 요소들을 찾습니다.
     const ttext = document.querySelector('.ttext');

@@ -19,7 +19,7 @@
                 <c:choose>
                     <c:when test="${sessionScope.member != null}">
                         <li><a href="travel">내 여행</a></li>
-                        <li><a href="/mygroup/${sessionScope.groupAccount.group_id}">내 모임통장</a></li>
+                        <li><a href="javascript:void(0);" onclick="updateGroupAccount();">내 모임통장</a></li>
                         <li><a href="group">정산하기</a></li>
                     </c:when>
                     <c:otherwise>
@@ -43,4 +43,26 @@
     <hr class="navhr">
 </div>
 </body>
+<script>
+    function updateGroupAccount() {
+        var memberId = "${sessionScope.member.member_id}";
+
+        $.ajax({
+            type: "POST",
+            url: "/selectUseTypeAccount",
+            data: { memberId: memberId },
+            success: function (response) {
+                // 내 모임통장 페이지로 이동
+                if(response!=""){
+                    window.location.href = "mygroup/"+response.group_id;
+                }else{
+                    window.location.href = "group";
+                }
+            },
+            error: function (error) {
+                console.error("그룹 계정 업데이트 중 오류 발생: " + error);
+            }
+        });
+    }
+</script>
 </html>

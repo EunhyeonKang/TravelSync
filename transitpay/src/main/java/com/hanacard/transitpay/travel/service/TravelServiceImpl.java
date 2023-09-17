@@ -114,4 +114,14 @@ public class TravelServiceImpl implements TravelService {
     public List<ScheduleSet> handleTrafficData(String title) {
         return travelRepository.handleTrafficData(title);
     }
+
+    @Override
+    public List<TravelInfo> selectTop3Travel() {
+        return travelRepository.selectTop3Travel();
+    }
+
+    @Override
+    public List<TravelInfo> selectStarTravel() {
+        return travelRepository.selectStarTravel();
+    }
 }

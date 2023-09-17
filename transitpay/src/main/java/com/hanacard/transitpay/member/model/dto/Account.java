@@ -18,6 +18,7 @@ public class Account {
     private String account_bank;
     private int account_pwd;
     private String account_main;
-    private int memberId;
+    private String account_phone;
+    private String account_use;
     private List<Integer> accountIdList;
 }

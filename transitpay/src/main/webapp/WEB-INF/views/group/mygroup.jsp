@@ -267,11 +267,7 @@
         display: none;
     }
 
-    .group71{
-        display: grid;
-    }
     .rec6{
-        float: right;
         padding: 15px;
         width: 100%;
         box-sizing: border-box;
@@ -298,13 +294,13 @@
         margin: 30px auto;
     }
     .idbox{
-        text-align: left;
+        float: left;
     }
     h2{
         text-align: center;
     }
-    form{
-        margin: 0 auto;
+    .group71 {
+        text-align: center;
     }
 </style>
 <body>
@@ -351,15 +347,14 @@
                         <span class="close-btn" onclick="closeModal()">&times;</span>
                         <h2>비밀번호 입력</h2>
                         <div class="group71">
-                            <form id="groupForm">
+                            <div class="groupForm" id="groupForm">
                                 <br/>
                                 <div class="flexClass">
                                     <span class="idbox">비밀번호</span>
-                                    <input type="password" name="groupname" class="rec6" placeholder="비밀번호를 입력해주세요"/>
+                                    <input type="password" name="groupPwd" class="rec6" placeholder="비밀번호를 입력해주세요"/>
                                 </div>
                                 <br/>
-                                <input type="hidden" name="roletype" value="user" class="rec6" id="gradio">
-                            </form>
+                            </div>
                             <button id="calculate" onclick="submitForm()">
                                 <span>접속하기</span>
                             </button>
@@ -377,6 +372,29 @@
     function submitForm(){
         var modal = document.getElementById('myModal');
         modal.style.display = 'none';
+        var groupId = "${groupId}";
+
+        var groupPwdInputs = document.getElementsByName("groupPwd");
+        var firstGroupPwdInput = groupPwdInputs[0];
+        var groupPwdValue = firstGroupPwdInput.value;
+
+        $.ajax({
+            type: "POST",
+            url: "/inputCheckPassword",
+            data: { groupId : groupId },
+            success: function(response) {
+                //로그인이 안되어있으면 로그인 폼으로 이동
+                if(groupPwdValue === response){
+                    alert('접속완료')
+                    // 모임통장 가입동의여부 무조건 해야할듯 -> mygroup이동
+                    //
+                }else{
+                    openModal();
+                }
+            },
+            error: function(error) {
+            }
+        });
     }
     // 모달 열기
     function openModal() {
@@ -384,25 +402,30 @@
         modal.style.display = 'block';
     }
 
-
     $(document).ready(function() {
         var memberId = "${sessionScope.member.member_id}";
-        $.ajax({
-            type: "POST",
-            url: "/selectUseTypeAccount",
-            data: { memberId : memberId },
-            success: function(response) {
-                if(response!=null){
-                    //비밀번호 입력
-                    openModal();
-                }else{
-                    console.log("모임통장을 개설하세요!");
-                    location.href='group';
+
+        if(memberId==""){
+            alert('로그인을 하세요');
+            location.href='/';
+        }else {
+            $.ajax({
+                type: "POST",
+                url: "/selectUseTypeAccount",
+                data: {memberId: memberId},
+                success: function (response) {
+                    if (response != null) {
+                        //비밀번호 입력
+                        openModal();
+                    } else {
+                        console.log("모임통장을 개설하세요!");
+                        location.href = 'group';
+                    }
+                },
+                error: function (error) {
                 }
-            },
-            error: function(error) {
-            }
-        });
+            });
+        }
     });
 
 </script>

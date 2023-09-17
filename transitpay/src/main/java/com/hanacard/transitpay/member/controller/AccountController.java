@@ -30,13 +30,13 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    @PostMapping(value = "/selectBackAccount")
+    @PostMapping("/selectBackAccount")
     public ResponseEntity<List<Account>> selectBackAccount(HttpServletRequest request) {
         HttpSession session = request.getSession();
         try {
             Member member = (Member) session.getAttribute("member");
-            System.out.println(member);
-            List<Account> account = accountService.selectBackAccount(member.getMember_id());
+            List<Account> account = accountService.selectBackAccount(member.getMember_id(),member.getPhone());
+            session.setAttribute("account",account);
             return ResponseEntity.ok(account);
         } catch (Exception e) {
             // 예외 처리 로직
@@ -44,8 +44,8 @@ public class AccountController {
         }
     }
 
-    @PostMapping(value = "/updateMainAccount")
-    public ResponseEntity<String> updateMainAccount(@RequestBody List<Integer> accountIdList) {
+    @PostMapping("/updateMainAccount")
+    public ResponseEntity<String> updateMainAccount(@RequestBody List<String> accountIdList) {
         try {
             accountService.updateMainAccount(accountIdList);
             return ResponseEntity.ok("계좌 변경 성공");
@@ -55,7 +55,7 @@ public class AccountController {
         }
     }
 
-    @PostMapping(value = "/selectAmountMember")
+    @PostMapping("/selectAmountMember")
     public ResponseEntity<Integer> selectAmountMember(@RequestBody String memberId) {
 
         try {
@@ -66,7 +66,7 @@ public class AccountController {
         }
     }
 
-    @GetMapping(value = "insertGroupAccount")
+    @GetMapping("insertGroupAccount")
     public ResponseEntity<String> insertGroupAccount(GroupAccount groupAccount, HttpServletRequest request) {
         try {
             HttpSession session = request.getSession();
@@ -112,7 +112,7 @@ public class AccountController {
     }
 
 
-    @PostMapping(value = "/selectUseTypeAccount")
+    @PostMapping("/selectUseTypeAccount")
     public ResponseEntity<GroupAccount> selectUseTypeAccount(String memberId,HttpServletRequest request) {
         try {
             HttpSession session = request.getSession();
@@ -121,6 +121,18 @@ public class AccountController {
             return ResponseEntity.ok(groupAccount);
         } catch (Exception e) {
             return (ResponseEntity<GroupAccount>) ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/inputCheckPassword")
+    public  ResponseEntity<String> inputCheckPassword(String groupId,HttpServletRequest request) {
+        try {
+            HttpSession session = request.getSession();
+            String grouppwd = accountService.inputCheckPassword(groupId);
+            session.setAttribute("grouppwd",grouppwd);
+            return ResponseEntity.ok(grouppwd);
+        } catch (Exception e) {
+            return (ResponseEntity<String>) ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

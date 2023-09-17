@@ -164,6 +164,35 @@ public class TravelController {
         }
         return ResponseEntity.ok(travelMenuInfoList);
     }
+
+    @GetMapping("/selectTop3Travel")
+    public ResponseEntity<?> selectTop3Travel() {
+        try {
+            List<TravelInfo> selectTop3TravelList =  travelService.selectTop3Travel();
+            return ResponseEntity.ok(selectTop3TravelList);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("요청 처리 중에 오류가 발생");
+        }
+    }
+
+    @GetMapping("/selectStarTravel")
+    public ResponseEntity<?> selectStarTravel() {
+        try {
+            List<TravelInfo> selectStarTravelList =  travelService.selectStarTravel();
+            return ResponseEntity.ok(selectStarTravelList);
+        }catch (Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("요청 처리 중에 오류가 발생");
+        }
+    }
+
+    @PostMapping("/saveTravelInfo")
+    public ResponseEntity<?> saveTravelInfo(@RequestBody List<TravelInfo> travelInfoList) {
+        try {
+            return ResponseEntity.ok("여행 정보가 성공적으로 저장되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("요청 처리 중에 오류가 발생");
+        }
+    }
 }
 
 

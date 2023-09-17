@@ -6,18 +6,18 @@
     <select id="selectBackAccount" resultType="com.hanacard.transitpay.member.model.dto.Account">
         SELECT *
         FROM account
-        WHERE member_id = #{memberId}
+        WHERE account_id = #{account_id} and account_phone = #{account_phone}
     </select>
 
     <update id="updateMainAccount">
         UPDATE account
         SET account_main = 0
-        WHERE account_id = #{accountId}
+        WHERE account_id = #{account_id} and account_num = #{account_phone}
     </update>
     <update id="updateSubAccount">
         UPDATE account
         SET account_main = 1
-        WHERE account_id = #{accountId}
+        WHERE account_id = #{account_id} and account_num = #{account_phone}
     </update>
 
     <select id="selectAmountMember" resultType="com.hanacard.transitpay.member.model.dto.GroupAccountDetail">
@@ -25,7 +25,7 @@
         FROM groups g
                  INNER JOIN group_account ga ON g.group_account = ga.group_account
                  INNER JOIN account a ON g.account_num = a.account_num
-        WHERE g.account_num IN (SELECT account_num FROM account WHERE member_id = #{memberId})
+        WHERE g.account_num IN (SELECT account_num FROM account WHERE account_id = #{memberId})
     </select>
 
     <insert id="insertGroupAccount">
@@ -43,7 +43,7 @@
         FROM groups g
                  INNER JOIN group_account ga ON g.group_account = ga.group_account
                  INNER JOIN account a ON g.account_num = a.account_num
-        WHERE g.account_num IN (SELECT account_num FROM account WHERE member_id = #{memberId})
+        WHERE g.account_num IN (SELECT account_num FROM account WHERE a.account_id = #{memberId})
     </select>
 
     <select id="selectVirtureAccountNumber" resultType="String">
@@ -61,7 +61,14 @@
             g.group_use AS group_use
         FROM groups g
                  JOIN account a ON g.account_num = a.account_num
-        WHERE a.member_id = #{memberId} AND g.group_use = 0
+        WHERE a.account_id = #{memberId} AND g.group_use = 0
+    </select>
+    <select id="inputCheckPassword">
+        select group_pw
+        from group_account g
+            join groups g1 on g.group_account = g1.group_account
+        where g1.group_id = #{groupId}
+
     </select>
 </mapper>
 

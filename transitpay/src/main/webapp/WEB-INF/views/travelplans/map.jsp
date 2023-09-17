@@ -77,7 +77,6 @@
 
         .food-select-box {
             background-color: #fff;
-            width: 80%;
             margin: 20px auto;
             padding: 20px;
             border-radius: 5px;
@@ -94,6 +93,7 @@
         #foodTable th, #foodTable td {
             padding: 10px;
             text-align: left;
+            width: 20%;
             border-bottom: 1px solid #ddd;
         }
 
@@ -194,9 +194,10 @@
                             <table id="foodTable">
                                 <thead>
                                 <tr>
-                                    <th></th> <!-- Empty header for checkboxes -->
+                                    <th>선택</th> <!-- Empty header for checkboxes -->
                                     <th>음식</th>
                                     <th>가격</th>
+                                    <th>개수</th>
                                 </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -238,22 +239,29 @@
             <div class="exchangebox2">
                 <div class="payment-amount">
                     <div class="amount-label">여행예산(원)</div>
-                    <div class="amount-value">98,912</div>
+                    <div class="amount-value">0</div>
                 </div>
                 <div class="exchange-rate">
-                    <div class="rate-section">
-                        <span class="rate-label">숙박비 + 식비</span>
-                        <span class="rate-value">200,000</span>
-                    </div>
                     <div class="discount-section">
-                        <span class="discount-label">교통비</span>
-                        <span class="discount-value">15000</span>
+                        <span class="discount-label">식비</span>
+                        <span class="discount-value">0</span>
+                    </div>
+                    <div class="rate-section">
+                        <span class="rate-label">숙박비</span>
+                        <span class="rate-value">0</span>
+                    </div>
+                    <div class="etc-section">
+                        <span class="etc-label">문화·기타</span>
+                        <span class="etc-value">0</span>
                     </div>
                 </div>
             </div>
             <div class="tvlbuttons">
                 <button class="tvlbtn2" onclick="tvlBtnFunc()">
-                    <div>저장</div>
+                    <div>교통보기</div>
+                </button>
+                <button class="tvlbtn2" onclick="tvlStorageFunc()">
+                    <div>임시저장</div>
                 </button>
             </div>
         </div>
@@ -268,13 +276,79 @@
 </div>
 
 <script>
+
     var selectedDetails;
     var selectedDate = [];
     var placeDataList = [];
+
+
     let totalPriceForThisPlace=0;
-    let globalResponseData = null; // 전역 변수로 response 데이터를 담을 변수 추가
+    let globalResponseData = null;
     let priceTextIdCounter = 0;
     var uniquePriceTextId;
+
+
+    function tvlStorageFunc(){
+        // 날짜 정보와 여행지 정보를 저장할 리스트
+        const travelInfoList = [];
+
+        // 모든 container2-box 요소를 선택
+        const container2Boxes = document.querySelectorAll('.container2-box');
+
+        // 각 container2-box 요소를 순회하며 정보 추출
+        container2Boxes.forEach((container2Box, index) => {
+            // 날짜 정보 추출
+            const day = container2Box.querySelector('.day').textContent.trim();
+
+            // container2 클래스의 내용 추출
+            const container2 = container2Box.querySelector('.container2');
+            const detailedDate = container2.querySelector('.days').textContent.trim();
+
+            // 해당 container2-box 내부의 여행지 정보 추출
+            const container3Elements = container2Box.querySelectorAll('.container3');
+            const placesInfo = [];
+
+            container3Elements.forEach((container3) => {
+                const myplace = container3.querySelector('.myplace').textContent.trim();
+                const myplaceinfo = container3.querySelector('.myplaceinfo').textContent.trim();
+                const mypriceText = container3.querySelector('.mypriceText').textContent.trim();
+
+                placesInfo.push({
+                    myplace,
+                    myplaceinfo,
+                    mypriceText,
+                });
+            });
+
+            // 추출한 정보를 객체로 저장
+            const travelInfo = {
+                day,
+                detailedDate,
+                placesInfo,
+            };
+
+            // 리스트에 추가
+            travelInfoList.push(travelInfo);
+        });
+
+        // 결과 확인
+        console.log(travelInfoList);
+        $.ajax({
+            url: "/saveTravelInfo", // 실제 서버 URL로 변경
+            method: "POST",
+            data: {
+                travelInfoList: travelInfoList
+            },
+            success: function(response) {
+
+            },
+            error: function(error) {
+                console.error("에러 발생:", error);
+            }
+        });
+
+    }
+
 
     const modal = document.getElementById("foodModal");
     const tbody = foodTable.querySelector("tbody");
@@ -308,36 +382,65 @@
         modal.style.display = "block";
         const foodTable = document.getElementById("foodTable");
         const tbody = foodTable.querySelector("tbody");
+        let totalPrices = []; // 각 행의 가격을 추적하기 위한 배열
 
+        if (!globalResponseData || globalResponseData.length === 0) {
+            var foodInput = prompt("가격을 입력해주세요");
+            uniquePriceTextId = 'mypriceText-' + priceTextIdCounter;
 
-        for (let i = 0; i < globalResponseData.length; i++) {
-            const row = document.createElement("tr");
+            var newPriceText = document.createElement('div');
+            newPriceText.className = 'mypriceText';
+            newPriceText.id = uniquePriceTextId;
+            newPriceText.textContent = foodInput + ' 원';
+            priceTextIdCounter++;
+            modal.style.display = "none";
+        }else {
+            for (let i = 0; i < globalResponseData.length; i++) {
+                const row = document.createElement("tr");
 
-            const checkboxCell = document.createElement("td");
-            const checkbox = document.createElement("input");
-            checkbox.type = "checkbox";
-            checkboxCell.appendChild(checkbox);
+                const checkboxCell = document.createElement("td");
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkboxCell.appendChild(checkbox);
 
-            const foodNameCell = document.createElement("td");
-            foodNameCell.className = 'foodName';
-            foodNameCell.textContent = globalResponseData[i].foodName;
+                const foodNameCell = document.createElement("td");
+                foodNameCell.className = 'foodName';
+                foodNameCell.textContent = globalResponseData[i].foodName;
 
-            const foodPriceCell = document.createElement("td");
-            foodPriceCell.className = 'foodPrice';
-            foodPriceCell.textContent = globalResponseData[i].foodPrice;
+                const foodPriceCell = document.createElement("td");
+                foodPriceCell.className = 'foodPrice';
 
-            row.appendChild(checkboxCell);
-            row.appendChild(foodNameCell);
-            row.appendChild(foodPriceCell);
+                const priceText = globalResponseData[i].foodPrice.replace("원", "").replace(",", "");
+                const price = parseFloat(priceText);
 
-            tbody.appendChild(row);
+                foodPriceCell.textContent = globalResponseData[i].foodPrice; // "원"을 제거하지 않고 그대로 표시
+                totalPrices.push(price); // 각 행의 초기 가격을 배열에 추가
+
+                const actionCell = document.createElement("td");
+                const addButton = document.createElement("button");
+                addButton.textContent = "+";
+                addButton.addEventListener("click", () => {
+                    // + 버튼 클릭 시 해당 행의 가격을 2배로 증가
+                    const rowIndex = i; // 현재 행의 인덱스
+                    totalPrices[rowIndex] += price; // 현재 행의 가격을 2배로 증가
+                    foodPriceCell.textContent = totalPrices[rowIndex].toLocaleString() + "원"; // 숫자를 통화 형식으로 표시
+                });
+                actionCell.appendChild(addButton);
+
+                row.appendChild(checkboxCell);
+                row.appendChild(foodNameCell);
+                row.appendChild(foodPriceCell);
+                row.appendChild(actionCell);
+
+                tbody.appendChild(row);
+            }
+            var newPriceText = document.createElement('div');
+            newPriceText.className = 'mypriceText';
+            uniquePriceTextId = "mypriceText-" + priceTextIdCounter; // 고유한 ID 생성
+            newPriceText.id = uniquePriceTextId; // ID를 요소에 할당
+            priceTextIdCounter++;
+
         }
-
-        var newPriceText = document.createElement('div');
-        newPriceText.className = 'mypriceText';
-        uniquePriceTextId = "mypriceText-" + priceTextIdCounter; // 고유한 ID 생성
-        newPriceText.id = uniquePriceTextId; // ID를 요소에 할당
-        priceTextIdCounter++;
 
 
         const foodCloseButton = document.querySelector(".food-close-btn");
@@ -375,9 +478,16 @@
         var newPlusButton = document.createElement('button');
         newPlusButton.className = 'plus-button';
         newPlusButton.textContent = '+';
+
         // + 버튼 클릭 시
         newPlusButton.addEventListener('click', function () {
-            console.log('식비에 추가할거임ㅎ');
+            const mypriceText = document.getElementById(uniquePriceTextId).textContent;
+            const currentDiscountValue = getDiscountValue(selectedDetails.tags);
+            const priceValue = parseInt(mypriceText.replace(/\D/g, ''));
+            const newDiscountValue = parseInt(currentDiscountValue.replace(/\D/g, '')) + priceValue;
+            updateDiscountValue(selectedDetails.tags, newDiscountValue);
+            updateAmountValue(priceValue);
+
         });
 
 
@@ -433,7 +543,8 @@
 
         var newPlaceInfoContent = document.createElement('div');
         newPlaceInfoContent.className = 'myplaceinfo';
-        newPlaceInfoContent.textContent = selectedDetails.tags// 장소에 대한 추가 정보
+        newPlaceInfoContent.textContent = selectedDetails.tags;
+
         var newPlaceX = document.createElement('div');
         newPlaceX.className = 'placeX';
         newPlaceX.textContent = selectedDetails.x;
@@ -496,6 +607,34 @@
         });
     }
 
+    function getDiscountValue(tags) {
+        if (tags.includes('음식')) {
+            return document.querySelector('.discount-value').textContent;
+        } else if (tags.includes('숙박')) {
+            return document.querySelector('.rate-value').textContent;
+        } else {
+            return document.querySelector('.etc-value').textContent;
+        }
+    }
+
+
+    function updateDiscountValue(tags, value) {
+        if (tags.includes('음식')) {
+            document.querySelector('.discount-value').textContent = value.toLocaleString() + "원";
+        } else if (tags.includes('숙박')||tags.includes('캠핑장')) {
+            document.querySelector('.rate-value').textContent = value.toLocaleString() + "원";
+        } else {
+            document.querySelector('.etc-value').textContent = value.toLocaleString() + "원";
+        }
+    }
+
+    function updateAmountValue(value) {
+        const amountValue = document.querySelector('.amount-value');
+        const currentAmount = parseInt(amountValue.textContent.replace(/\D/g, ''));
+        amountValue.textContent = (currentAmount + value).toLocaleString() + "원";
+    }
+
+
     function tvlBtnFunc() {
         // 빈 배열을 선언하여 데이터를 저장할 준비를 합니다.
         var dataList = [];
@@ -529,7 +668,6 @@
                 dataList.push(data);
             });
         });
-
         // dataList 배열을 JSON 형식으로 변환합니다.
         var jsonData = JSON.stringify(dataList);
 

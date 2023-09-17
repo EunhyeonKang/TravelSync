@@ -82,4 +82,16 @@
         WHERE TRAVEL_TITLE = #{title}
     </select>
 
+    <select id="selectTop3Travel" resultType="com.hanacard.transitpay.travel.model.dto.TravelInfo">
+        SELECT *
+        FROM travelInfo
+        ORDER BY LIKECOUNT DESC
+            FETCH FIRST 3 ROWS ONLY
+    </select>
+    <select id="selectStarTravel" resultType="com.hanacard.transitpay.travel.model.dto.TravelInfo">
+        SELECT *
+        FROM travelInfo
+        ORDER BY LIKECOUNT DESC
+            FETCH FIRST 3 ROWS ONLY
+    </select>
 </mapper>

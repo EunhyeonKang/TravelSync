@@ -21,15 +21,15 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<Account> selectBackAccount(int memberId) {
-        return accountRepository.selectBackAccount(memberId);
+    public List<Account> selectBackAccount(int account_id,String account_phone) {
+        return accountRepository.selectBackAccount(account_id,account_phone);
     }
 
     @Override
     @Transactional
-    public void updateMainAccount(List<Integer> accountIdList) {
-        accountRepository.updateMainAccount(accountIdList.get(0));
-        accountRepository.updateSubAccount(accountIdList.get(1));
+    public void updateMainAccount(List<String> accountIdList) {
+        accountRepository.updateMainAccount(Integer.parseInt(accountIdList.get(0)), accountIdList.get(1));
+        accountRepository.updateSubAccount(Integer.parseInt(accountIdList.get(0)), accountIdList.get(2));
     }
 
     @Override
@@ -94,6 +94,11 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public GroupAccount selectUseTypeAccount(String memberId) {
         return accountRepository.selectUseTypeAccount(Integer.parseInt(memberId));
+    }
+
+    @Override
+    public String inputCheckPassword(String groupId) {
+        return accountRepository.inputCheckPassword(groupId);
     }
 }
 

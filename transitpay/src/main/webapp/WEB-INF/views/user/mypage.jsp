@@ -66,6 +66,7 @@
                 <div class="account2">
                     <div class="new-account-details">
                         <button class="account-button">안심계좌</button>
+                        <a href="group">더보기</a>
                         <div class="bank">${groupAccount.group_name}</div>
                         <div class="account-info">
                             <span class="account-number">${groupAccount.group_account}</span>

@@ -302,6 +302,64 @@
     .group71 {
         text-align: center;
     }
+
+
+    input[type="checkbox"] {
+        display: none;
+    }
+
+    /* Style for the custom checkbox container */
+    .checkbox-cell {
+        width: 20px;
+        text-align: center;
+    }
+
+    /* Style for the custom checkbox */
+    .checkbox-cell input[type="checkbox"] + label::before {
+        content: '\2713'; /* Unicode checkmark symbol */
+        font-size: 20px;
+        display: inline-block;
+        cursor: pointer;
+        transition: color 0.3s;
+    }
+
+    /* Style for checked custom checkbox */
+    .checkbox-cell input[type="checkbox"]:checked + label::before {
+        color: #007bff;
+    }
+
+    /* Style for the agreement text and view terms */
+    .text-cell {
+        flex: 1;
+        display: flex;
+        align-items: center;
+    }
+
+    .agreement-text {
+        padding-left: 10px;
+    }
+
+    /* Style for the link to view terms */
+    .view-terms a {
+        text-decoration: none;
+        color: #007bff;
+        transition: color 0.3s;
+    }
+
+    .view-terms a:hover {
+        color: #0056b3;
+    }
+
+    /* Add some margin between rows */
+    .agreement-row {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    .agreement-table{
+        width: 80%;
+        margin: 0 auto;
+    }
 </style>
 <body>
 <div class="main">
@@ -354,11 +412,59 @@
                                     <input type="password" name="groupPwd" class="rec6" placeholder="비밀번호를 입력해주세요"/>
                                 </div>
                                 <br/>
+                                <div class="agreement-table">
+                                    <div class="agreement-row">
+                                        <div class="checkbox-cell">
+                                            <input type="checkbox" id="selectAllCheckbox">
+                                            <label for="selectAllCheckbox"></label>
+                                        </div>
+                                        <div class="text-cell">
+                                            전체 선택
+                                        </div>
+                                    </div>
+                                    <div class="agreement-row">
+                                        <div class="checkbox-cell">
+                                            <input type="checkbox" id="termsCheckbox" class="required-checkbox">
+                                            <label for="termsCheckbox"></label>
+                                        </div>
+                                        <div class="text-cell">
+                                            서비스 이용약관 동의(필수) <a href="#">약관보기</a>
+                                        </div>
+                                    </div>
+                                    <div class="agreement-row">
+                                        <div class="checkbox-cell">
+                                            <input type="checkbox" id="privacyCheckbox" class="required-checkbox">
+                                            <label for="privacyCheckbox"></label>
+                                        </div>
+                                        <div class="text-cell">
+                                            개인정보처리방침 동의(필수) <a href="#">약관보기</a>
+                                        </div>
+                                    </div>
+                                    <div class="agreement-row">
+                                        <div class="checkbox-cell">
+                                            <input type="checkbox" id="locationCheckbox" class="required-checkbox">
+                                            <label for="locationCheckbox"></label>
+                                        </div>
+                                        <div class="text-cell">
+                                            위치정보사업 약관 동의(필수) <a href="#">약관보기</a>
+                                        </div>
+                                    </div>
+                                    <div class="agreement-row">
+                                        <div class="checkbox-cell">
+                                            <input type="checkbox" id="marketingCheckbox">
+                                            <label for="marketingCheckbox"></label>
+                                        </div>
+                                        <div class="text-cell">
+                                            마케팅 수집 동의(선택) <a href="#">약관보기</a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <button id="calculate" onclick="submitForm()">
                                 <span>접속하기</span>
                             </button>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -386,9 +492,10 @@
                 //로그인이 안되어있으면 로그인 폼으로 이동
                 if(groupPwdValue === response){
                     alert('접속완료')
-                    // 모임통장 가입동의여부 무조건 해야할듯 -> mygroup이동
-                    //
+                    //모임원이면 가입동의해야함
+                    selectGroupMember();
                 }else{
+                    alert("비밀번호가 틀립니다");
                     openModal();
                 }
             },
@@ -396,7 +503,21 @@
             }
         });
     }
-    // 모달 열기
+    function selectGroupMember(){
+        var groupId = "${groupId}";
+        $.ajax({
+            type: "POST",
+            url: "/selectGroupMember",
+            data: { groupId : groupId },
+            success: function(response) {
+                //모임원추가
+                console.log(response)
+            },
+            error: function(error) {
+            }
+        });
+    }
+
     function openModal() {
         var modal = document.getElementById('myModal');
         modal.style.display = 'block';
@@ -404,7 +525,6 @@
 
     $(document).ready(function() {
         var memberId = "${sessionScope.member.member_id}";
-
         if(memberId==""){
             alert('로그인을 하세요');
             location.href='/';

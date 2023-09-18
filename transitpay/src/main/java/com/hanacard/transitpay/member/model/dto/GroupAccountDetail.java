@@ -9,7 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+/**
+ * 모임통장 계좌
+ */
 public class GroupAccountDetail {
+    private int group_id;
     private int g_account_id;
     private String group_account;
     private int g_balance;

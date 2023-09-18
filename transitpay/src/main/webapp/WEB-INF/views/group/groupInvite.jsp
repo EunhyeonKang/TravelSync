@@ -381,17 +381,17 @@
                         ],
                         serverCallbackArgs: '{"key" : "value"}',
                     });
-                }else{``
+                }else{
                     var modal = document.getElementById('myModal');
                     modal.style.display = 'block';
                 }
+
             },
             error: function(error) {
             }
         });
 
     }
-
     Kakao.init('aa75059f83f9e745604b52cb811450f4'); // 사용하려는 앱의 JavaScript 키 입력
 </script>
 </html>

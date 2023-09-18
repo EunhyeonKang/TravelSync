@@ -313,16 +313,17 @@
         모임통장 계좌 개설<hr/></div>
     <div class="contents">
         <div class="menu1">
-            <div class="menu1-1">약관동의</div>
+            <div class="menu1-1">모임약관동의</div>
             <div class="menuhr"><hr/></div>
-            <a href="group">약관동의</a>
+            <a href="group">모임약관동의</a>
             <c:choose>
                 <c:when test="${sessionScope.member != null}">
-                    <a href="openedAccount">모임개설</a>
+                    <a href="openedAccount">모임통장 개설</a>
                     <a href="groupInvite">모임통장 초대</a>
                 </c:when>
             </c:choose>
         </div>
+
         <div class="contents-1">
             <div class="section-1">
                 <div class="contentsText">모임개설 전에 꼭 확인하세요</div>
@@ -570,7 +571,7 @@
     function submitForm() {
         // form 요소 가져오기
         var form = document.getElementById('groupForm');
-
+        var memberId = "${sessionScope.member.member_id}";
         // form 내의 값 가져오기
         var groupname = form.querySelector('input[name="groupname"]').value;
         var grouptype = form.querySelector('select[name="grouptype"]').value;
@@ -580,7 +581,8 @@
         var data = {
             group_name: groupname,
             group_type: grouptype,
-            account_num: accounts
+            account_num: accounts,
+            group_leader : memberId
         };
         // AJAX 요청 보내기 (GET 방식)
         $.ajax({
@@ -590,8 +592,7 @@
             success: function(response) {
                 // 성공적으로 응답을 받았을 때 수행할 동작
                 alert(response);
-                location.href='/openedAccount?groupName='+encodeURIComponent(groupname) +
-                    "&groupType=" + encodeURIComponent(grouptype);
+                location.href='/openedAccount';
             },
             error: function(error) {
                 // 에러 처리

@@ -10,15 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 /**
- * 모임
+ * 모임통장 멤버
  */
-public class GroupAccount {
+public class GroupMember {
+    private int group_member_id;
+    private String group_member_type;
+    private int member_id;
     private int group_id;
-    private String group_name;
-    private String group_type;
-    private String group_account;
-    private char group_use;
-    private String account_num;
-    private int group_leader;
-    private int group_pw;
 }

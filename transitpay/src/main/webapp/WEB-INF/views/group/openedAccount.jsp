@@ -365,11 +365,15 @@
         모임통장 계좌 개설<hr/></div>
     <div class="contents">
         <div class="menu1">
-            <div class="menu1-1">모임개설</div>
+            <div class="menu1-1">모임통장 개설</div>
             <div class="menuhr"><hr/></div>
-            <a href="group">약관동의</a>
-            <a href="openedAccount">모임개설</a>
-            <a href="groupInvite">모임통장 초대</a>
+            <a href="group">모임약관동의</a>
+            <c:choose>
+                <c:when test="${sessionScope.member != null}">
+                    <a href="openedAccount">모임통장 개설</a>
+                    <a href="groupInvite">모임통장 초대</a>
+                </c:when>
+            </c:choose>
         </div>
         <div class="contents-1">
             <div class="section-1">
@@ -394,14 +398,14 @@
                 <form id="groupForm">
                     <br/>
                     <div class="flexClass">
-                        <span class="idbox"><span class="groupname">${param.groupName}</span>&#32;의 모임[${param.groupType}]</span>
+                        <span class="idbox"><span class="groupname" name="group_name">${sessionScope.groupAccount.group_name}</span>&#32;의 모임[<span name="group_type">${sessionScope.groupAccount.group_type}</span>]</span>
                     </div>
                     <br/>
 
                     <br/>
                     <div class="flexClass">
-                        <span class="idbox">안심계좌번호</span>
-                        <input class="rec6" id="group_account" name="group_account" value="" readonly/>
+                        <span class="idbox">연결 계좌번호</span>
+                        <input class="rec6" id="group_account" name="group_account" value="${sessionScope.groupAccount.account_num}" readonly/>
                     </div>
                     <br/>
                     <div class="flexClass">
@@ -482,17 +486,9 @@
 </div>
 </body>
 <script>
-    window.onload = function() {
-        $.ajax({
-            url:'/selectVirtureAccountNumber',
-            method: "POST",
-            success: function(response) {
-                $('#group_account').val(response);
-            }
-        })
-    }
     function submitForm() {
-        var formData = $("#groupForm").serialize(); // serialize 함수를 사용하여 문자열로 직렬화
+        // serialize 함수를 사용하여 문자열로 직렬화
+        var formData = $("#groupForm").serialize();
 
         // 폼 데이터를 파싱하여 JSON 객체로 변환
         var formDataObj = {};

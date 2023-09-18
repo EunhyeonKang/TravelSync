@@ -3,10 +3,12 @@ package com.hanacard.transitpay.member.model.dao;
 import com.hanacard.transitpay.member.model.dto.Account;
 import com.hanacard.transitpay.member.model.dto.GroupAccount;
 import com.hanacard.transitpay.member.model.dto.GroupAccountDetail;
+import com.hanacard.transitpay.member.model.dto.GroupMember;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface AccountRepository {
@@ -20,18 +22,16 @@ public interface AccountRepository {
     void insertGroupAccount(@Param("group_name") String groupName,
                             @Param("group_type") String groupType,
                             @Param("group_account") String groupAccount,
-                            @Param("account_num") String accountNum);
+                            @Param("account_num") String accountNum,
+                            @Param("group_leader") int groupLeader);
 
-    void insertGroupDetail(@Param("group_account") String groupAccount,
-                           @Param("g_month") String gMonth,
-                           @Param("g_day") int gDay,
-                           @Param("g_dues") int gDues,
-                           @Param("g_autopay") String gAutopay,
-                           @Param("group_pw") int group_pw
-                           );
+    void insertGroupDetail(Map<String, String> groupData);
 
     GroupAccountDetail selectGroupAccountInfo(int memberId);
-    String selectVirtureAccountNumber(String account_Num);
+    String selectVirtureAccountNumber(String account_num);
     GroupAccount selectUseTypeAccount(int memberId);
     String inputCheckPassword(String groupId);
+    void updateGroupAccount(String account_num);
+    void insertGroupMember(String memberType,int memberId,int groupId);
+    GroupMember selectGroupMember(int memberId, int groupId);
 }

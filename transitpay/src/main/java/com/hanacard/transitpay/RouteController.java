@@ -98,4 +98,9 @@ class RouteController {
         session.setAttribute("groupId",groupId);
         return "/group/mygroup";
     }
+
+    @GetMapping("/더")
+    public String groupStatement() throws Exception {
+        return "/group/groupStatement";
+    }
 }

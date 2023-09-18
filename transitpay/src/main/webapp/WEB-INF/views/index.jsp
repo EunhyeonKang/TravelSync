@@ -174,7 +174,59 @@
             margin: 10px;
             float: left;
         }
-</style>
+
+
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 20% auto;
+            padding: 20px;
+            width: 400px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            text-align: center;
+            position: relative;
+            border-radius: 20px;
+        }
+
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .selecloc-1, .selecloc-2{
+            box-sizing: border-box;
+            height: 50px;
+            border: 1px solid #0073681c;
+            border-radius: 26px;
+            text-align: center;
+            margin: 0 auto;
+            margin-right: 5px;
+            margin-left: 5px;
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            box-shadow: rgba(0, 0, 0, 0.18) 0px 13px 24px 0px, rgba(0, 0, 0, 0.08) 0px -6px 9px 0px inset;
+        }
+        .selecloc-1{
+            background: #0bb2a2;
+        }
+        .selecloc-2{
+            background: #d91717c4;
+        }
+    </style>
 </head>
 <body>
     <div class="main-1">
@@ -309,15 +361,69 @@
             </div>
         </div>
     </div>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>이용 선택</h2>
+            <button class="selecloc-1" onclick="location.href='/mypage/'">인증서로 한번에 계좌연동</button>
+            <button class="selecloc-2" onclick="location.href='/mygroup/'+groupSid;">내 모임통장으로 가기</button>
+        </div>
+    </div>
     <%@ include file="main2.jsp" %>
 </body>
 <script>
+    // Get the modal and button elements
+    const modal = document.getElementById('myModal');
+    const openModalBtn = document.getElementById('openModalBtn');
+    const closeModalBtn = document.querySelector('.close');
+
+    // Function to open the modal
+    function openModal() {
+        modal.style.display = 'block';
+    }
+
+    // Function to close the modal
+    function closeModal() {
+        modal.style.display = 'none';
+    }
+
+    closeModalBtn.addEventListener('click', closeModal);
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+
+
     const groupSid ="${groupId}";
     var memberId = "${sessionScope.member.member_id}";
-    // alert(groupSid);
-    // if(groupSid!="" && memberId!=""){
-    //     //모임원들은 가입동의를하고 모임통장에 들어가야함
-    // }
+    var phone = "${sessionScope.member.phone}";
+
+    if(groupSid!="" && memberId!=""){
+        $.ajax({
+            url:'/selectBackAccount',
+            method: "POST",
+            success: function(response) {
+                if(response!=null){
+                    openModal();
+                }else{
+                    location.href='/mypage';
+                }
+            },
+            error: function(error) {
+                console.error("Error occurred:", error);
+            }
+        });
+        //그룹에 초대된 회원
+        //1.계좌연동 여부(acocunt)
+        //2.모임통장 가입동의 여부
+        //3.초대된 모임통장 접속
+    } else if(!(groupSid!="" && memberId!="")){
+        //그룹에 초대되지 않은 비회원
+        //1.로그인
+        //2.모임장이될 수 있음
+    }
 
     function performLogout() {
         // Kakao 로그아웃 URL 설정

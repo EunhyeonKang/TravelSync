@@ -102,6 +102,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void insertGroupMember(String memberType,int memberId, int groupId) {
         accountRepository.insertGroupMember(memberType,memberId,groupId);
+
     }
 
     @Override
@@ -109,7 +110,31 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.selectGroupMember(memberId,groupId);
     }
 
+    @Override
+    @Transactional
+    public void updateAccountBalance(int memberId, Map<String, String> depositData) {
+        //계좌
+        String accountBank = (String) depositData.get("accountBank");
+        String accountNum = (String) depositData.get("accountNum");
+        //모임통장
+        String groupName = (String) depositData.get("groupName");
+        String groupAccount = (String) depositData.get("groupAccount");
+        String balance = (String) depositData.get("balance");
+        accountRepository.insertAccountStatement(accountNum,groupAccount,"OUT",Integer.parseInt(balance),"테스트용1");
+        accountRepository.insertGroupAccountStatement(accountNum,groupAccount,"IN",Integer.parseInt(balance),"테스트용2");
+        accountRepository.updateAccountBalance(memberId, accountNum, Integer.parseInt(balance), accountBank);
+        accountRepository.updateGroupAccountBalance(groupAccount,Integer.parseInt(balance));
+    }
 
+    @Override
+    public List<GroupAccount> selectGroupAccountStatement(String groupAccount) {
+        return accountRepository.selectGroupAccountStatement(groupAccount);
+    }
+
+    @Override
+    public Account JoinGroupAccountAndMemberAccount(int memberId) {
+        return accountRepository.JoinGroupAccountAndMemberAccount(memberId);
+    }
 }
 
 

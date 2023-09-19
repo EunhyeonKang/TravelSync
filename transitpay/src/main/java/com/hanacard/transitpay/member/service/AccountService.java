@@ -19,4 +19,7 @@ public interface AccountService {
     String inputCheckPassword(String groupId);
     void insertGroupMember(String memberType,int memberId,int groupId);
     GroupMember selectGroupMember(int memberId, int groupId);
+    void updateAccountBalance(int memberId,Map<String, String> depositData);
+    List<GroupAccount> selectGroupAccountStatement(String groupAccount);
+    Account JoinGroupAccountAndMemberAccount(int memberId);
 }

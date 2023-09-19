@@ -357,6 +357,70 @@
         font-size: 20px;
         font-weight: 700;
     }
+
+
+    .cont{
+        padding: 15px 15px;
+        overflow-y: auto;
+    }
+    .searchArea{
+        background: #eef2fb;
+        border: solid 1px #c5d4e9;
+        border-radius: 5px;
+        padding: 10px 15px;
+        margin-bottom: 15px;
+        clear: both;
+    }
+    .searchArea .searchIn p:first-child{
+        padding-top: 0px;
+    }
+    .searchArea .searchIn p{
+        padding-top: 7px;
+    }
+    .searchArea .searchIn span{
+        margin-right: 40px;
+    }
+
+    .searchArea .searchIn span label{
+        padding-right: 7px;
+        color: #05090c;
+        vertical-align: middle;
+    }
+    .bt{
+        display: inline-block;
+        padding: 1px 10px;
+        border: solid 1px #94a2b9;
+        background: #f9fafe;
+        border-radius: 2px;
+        box-shadow: inset 0 0 1px 1px #d7dfeb;
+        color: #404144;
+        font-size: 12px;
+    }
+    .stit{
+        text-align: right;
+        margin-bottom: 10px;
+        position: relative;
+    }
+    .stit h3{
+        float: left;
+        color: #1d1d1d;
+        margin-top: 8px;
+        font-size: 14px;
+        padding-left: 18px;
+        font-weight: bold;
+        background-size: 15px auto;
+    }
+    .stit .s_search em{
+        margin-right: 10px;
+    }
+    .list{
+        border-top: solid 1px #3758a7;
+        border-bottom: solid 1px #8393b4;
+    }
+    .list table{
+        width: 100%;
+        border-collapse: collapse;
+    }
 </style>
 <body>
 <div class="main">
@@ -791,6 +855,7 @@
 
 
             </div>
+
         </div>
     </div>
     <%@ include file="../include/footer.jsp" %>

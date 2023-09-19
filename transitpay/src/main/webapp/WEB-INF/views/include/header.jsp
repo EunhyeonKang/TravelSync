@@ -46,23 +46,12 @@
 <script>
     function updateGroupAccount() {
         var memberId = "${sessionScope.member.member_id}";
-
-        $.ajax({
-            type: "POST",
-            url: "/selectUseTypeAccount",
-            data: { memberId: memberId },
-            success: function (response) {
-                // 내 모임통장 페이지로 이동
-                if(response!=""){
-                    window.location.href = "mygroup/"+response.group_id;
-                }else{
-                    window.location.href = "group";
-                }
-            },
-            error: function (error) {
-                console.error("그룹 계정 업데이트 중 오류 발생: " + error);
-            }
-        });
+        var groupId = "${sessionScope.groupAccount.group_id}";
+        if(groupId!=""){
+            window.location.href = "mygroup/"+groupId;
+        }else{
+            window.location.href = "group";
+        }
     }
 </script>
 </html>

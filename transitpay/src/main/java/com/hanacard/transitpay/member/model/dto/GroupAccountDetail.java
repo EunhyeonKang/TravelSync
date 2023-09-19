@@ -23,5 +23,5 @@ public class GroupAccountDetail {
     private String g_date;
     private String g_autopay;
     private String account_num;
-    private String account_bank;
+    private String group_name;
 }

@@ -6,6 +6,7 @@
     <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <style>
 
@@ -75,36 +76,7 @@
         display: flex;
         padding: 20px 0;
     }
-    .section-2{
-        display: flex;
-        margin-bottom: 30px;
-    }
-    .section-2 div:nth-child(1), .section-2 div:nth-child(2){
-        box-sizing: border-box;
-        background: #FFFFFF;
-        border: 2px solid #EBF1F1;
-        font-weight: 600;
-        font-size: 20px;
-        text-align: center;
-        align-items: center;
-        color: #000000;
-        padding: 30px 0;
-        margin: 0 auto;
-        width: 48%;
-    }
-    .section-2 div:nth-child(2){
-        box-sizing: border-box;
-        background: #FFFFFF;
-        border: 2px solid #EBF1F1;
-        font-weight: 600;
-        font-size: 20px;
-        text-align: center;
-        align-items: center;
-        color: #000000;
-        padding: 30px 0;
-        margin: 0 auto;
-        width: 48%;
-    }
+
     .section-3{
         box-sizing: border-box;
         background: #F7F9F9;
@@ -114,7 +86,7 @@
 
     }
     .newAccount{
-        width: 141px;
+        width: 180px;
         border: 1px solid rgba(0, 152, 153, 0.73);
         border-radius: 5px;
         font-weight: 700;
@@ -122,12 +94,12 @@
         padding: 5px 0;
         text-align: center;
         color: #008485;
-        margin: 30px auto;
+        margin: 20px auto;
     }
     .hanaClassBox{
         width: 511px;
         padding: 15px 0;
-        margin: 0 auto;
+        margin: 10px auto;
         background: #FFFFFF;
         border-radius: 5px;
     }
@@ -138,12 +110,13 @@
         color: #000000;
     }
     .applyBox{
-        width: 358px;
+        width: 300px;
         height: 50px;
-        margin: 20px auto;
         background: rgba(0, 152, 153, 0.73);
         border: 1px solid #FFFFFF;
         border-radius: 5px;
+        text-align: center;
+        margin: 10px;
     }
     .applyBtn{
         font-weight: 700;
@@ -304,9 +277,6 @@
     }
 
 
-    input[type="checkbox"] {
-        display: none;
-    }
 
     /* Style for the custom checkbox container */
     .checkbox-cell {
@@ -316,7 +286,7 @@
 
     /* Style for the custom checkbox */
     .checkbox-cell input[type="checkbox"] + label::before {
-        content: '\2713'; /* Unicode checkmark symbol */
+        /*content: '\2713'; !* Unicode checkmark symbol *!*/
         font-size: 20px;
         display: inline-block;
         cursor: pointer;
@@ -359,6 +329,51 @@
     .agreement-table{
         width: 80%;
         margin: 0 auto;
+        display: grid;
+        text-align: left;
+    }
+
+    .mygroup-box{
+        margin: 20px auto;
+        display: flex;
+        width: 70%;
+    }
+    /* 추가된 CSS 스타일링 */
+    .fold-content {
+        display: none; /* 초기에는 숨김 */
+        padding: 10px;
+        border: 1px solid #ccc;
+        background-color: #f8f8f8;
+    }
+
+    .fold-open .fold-content {
+        display: block; /* .fold-open 클래스가 있는 경우 보이게 함 */
+    }
+
+    .fold-table {
+        width: 100%;
+    }
+
+    .fold-table th, .fold-table td {
+        padding: 8px;
+        border: 1px solid #ccc;
+        text-align: center;
+    }
+
+    .fold-table th {
+        background-color: #a1a1a1;
+        color: white;
+    }
+
+    .fold-table tr.view:hover {
+        background-color: #f5f5f5;
+    }
+    .chartbox{
+        display: block;
+        box-sizing: border-box;
+        height: 300px;
+        width: 300px;
+        margin: 0 auto;
     }
 </style>
 <body>
@@ -370,7 +385,8 @@
         <div class="menu1">
             <div class="menu1-1">내 모임통장</div>
             <div class="menuhr"><hr/></div>
-            <a href="group">모임통장 내역</a>
+            <a href="group">모임통장 </a>
+            <a href="/groupStatement">모임통장 내역</a>
         </div>
         <div class="contents-1">
             <div class="section-1">
@@ -388,18 +404,69 @@
                     </div>
                 </div>
             </div>
-            <div class="section-2">
-                <div>날짜별 회비 내역</div>
-                <div>회원별 회비 내역</div>
-            </div>
+
+
             <div class="section-3">
-                <div class="newAccount">매월 1일, 10만원씩</div>
+                <div class="newAccount"></div>
+                <div class="chartbox">
+                    <canvas id="myChart"></canvas>
+                </div>
                 <div class="hanaClassBox">
-                    <div class="hanaClass">10,000,000</div>
+                    <div class="hanaClass"></div>
+                    <script>
+                        $(document).ready(function() {
+                            var memberId = "${sessionScope.member.member_id}";
+                            $.ajax({
+                                url:'/selectGroupAccountInfo',
+                                data: { memberId : memberId },
+                                method: "POST",
+                                success: function(response) {
+                                    if(response!=""){
+                                        const contentsText = document.querySelector('.contentsText');
+                                        contentsText.textContent= response.group_name +" "+response.group_account;
+
+                                        const hanaClass = document.querySelector('.hanaClass');
+                                        hanaClass.textContent = "총 "+response.g_balance+"원";
+                                        const newAccount = document.querySelector('.newAccount');
+                                        newAccount.textContent = response.g_month + " "+response.g_day+"일, "+response.g_dues+"만원씩"
+                                    }else{
+                                        location.href='/';
+                                    }
+                                }
+                            })
+                        })
+                    </script>
                 </div>
-                <div class="applyBox">
-                    <button class="applyBtn" onclick="openModal()">자세히보기</button>
+                <div class="mygroup-box">
+                    <div class="applyBox">
+                        <button class="applyBtn" onclick="depositOrWithdrawal()">입출금</button>
+                    </div>
+                    <div class="applyBox">
+                        <button class="applyBtn" onclick="location.href='/travel'">여행하러가기</button>
+                    </div>
                 </div>
+
+
+
+                <table class="fold-table">
+                    <thead>
+                        <tr>
+                            <th>보낸사람</th>
+                            <th>받는사람</th>
+                            <th>날짜</th>
+                            <th><span class="visible-small" title="Premiumns"></span><span class="visible-big">출금</span></th>
+                            <th><span class="visible-small" title="Strategy A"></span><span class="visible-big">입금</span></th>
+                            <th><span class="visible-small" title="Strategy B"></span><span class="visible-big">금액</span></th>
+                            <th><span class="visible-small" title="Strategy C"></span><span class="visible-big">거래내용</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="view">
+                            <!-- 첫 번째 행 내용 -->
+                        </tr>
+
+                    </tbody>
+                </table>
                 <div class="modal" id="myModal">
                     <div class="modal-content">
                         <span class="close-btn" onclick="closeModal()">&times;</span>
@@ -413,58 +480,36 @@
                                 </div>
                                 <br/>
                                 <div class="agreement-table">
-                                    <div class="agreement-row">
-                                        <div class="checkbox-cell">
-                                            <input type="checkbox" id="selectAllCheckbox">
-                                            <label for="selectAllCheckbox"></label>
-                                        </div>
-                                        <div class="text-cell">
-                                            전체 선택
-                                        </div>
-                                    </div>
-                                    <div class="agreement-row">
-                                        <div class="checkbox-cell">
-                                            <input type="checkbox" id="termsCheckbox" class="required-checkbox">
-                                            <label for="termsCheckbox"></label>
-                                        </div>
-                                        <div class="text-cell">
-                                            서비스 이용약관 동의(필수) <a href="#">약관보기</a>
-                                        </div>
-                                    </div>
-                                    <div class="agreement-row">
-                                        <div class="checkbox-cell">
-                                            <input type="checkbox" id="privacyCheckbox" class="required-checkbox">
-                                            <label for="privacyCheckbox"></label>
-                                        </div>
-                                        <div class="text-cell">
-                                            개인정보처리방침 동의(필수) <a href="#">약관보기</a>
-                                        </div>
-                                    </div>
-                                    <div class="agreement-row">
-                                        <div class="checkbox-cell">
-                                            <input type="checkbox" id="locationCheckbox" class="required-checkbox">
-                                            <label for="locationCheckbox"></label>
-                                        </div>
-                                        <div class="text-cell">
-                                            위치정보사업 약관 동의(필수) <a href="#">약관보기</a>
-                                        </div>
-                                    </div>
-                                    <div class="agreement-row">
-                                        <div class="checkbox-cell">
-                                            <input type="checkbox" id="marketingCheckbox">
-                                            <label for="marketingCheckbox"></label>
-                                        </div>
-                                        <div class="text-cell">
-                                            마케팅 수집 동의(선택) <a href="#">약관보기</a>
-                                        </div>
-                                    </div>
+                                    <label for="agree_all">
+                                        <input type="checkbox" name="agree_all" id="agree_all">
+                                        <span>모두 동의합니다</span>
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="agree" value="1">
+                                        <span>서비스 이용약관 동의<strong>(필수)</strong></span>
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="agree" value="2">
+                                        <span>개인정보처리방침 동의<strong>(필수)</strong></span>
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="agree" value="3">
+                                        <span>개인정보처리방침 동의<strong>(필수)</strong></span>
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="agree" value="4">
+                                        <span>위치정보사업 약관 동의<strong>(필수)</strong></span>
+                                    </label>
+                                    <label>
+                                        <input type="checkbox" name="agree" value="5">
+                                        <span>마케팅 수집 동의<strong class="select_disable">(선택)</strong></span>
+                                    </label>
                                 </div>
                             </div>
                             <button id="calculate" onclick="submitForm()">
                                 <span>접속하기</span>
                             </button>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -475,6 +520,68 @@
 </div>
 </body>
 <script>
+        const data = {
+            labels: [
+            '은현',
+            '민영',
+            '태현'
+            ],
+            datasets: [{
+            label: 'My First Dataset',
+            data: [300, 50, 100],
+            backgroundColor: [
+            'rgb(255, 99, 132)',
+            'rgb(54, 162, 235)',
+            'rgb(255, 205, 86)'
+            ],
+            hoverOffset: 4
+        }]
+        };
+            const config = {
+            type: 'doughnut',
+            data: data,
+        };
+
+            const myChart = new Chart(
+            document.getElementById('myChart'),
+            config
+            );
+
+        $(document).ready(function() {
+            var memberId = "${sessionScope.member.member_id}";
+            var groupSid = `${sessionScope.groupId}`;
+            if(memberId==""){
+                alert('로그인을 하세요');
+                location.href='/';
+            }else {
+                if(groupSid!=""){
+                    //비밀번호 입력
+                    openModal();
+                }else{
+                    console.log("모임통장을 개설하세요!");
+                    location.href = '/group';
+                }
+            }
+        });
+
+    // 동의 모두선택 / 해제
+    const agreeChkAll = document.querySelector('input[name=agree_all]');
+    agreeChkAll.addEventListener('change', (e) => {
+        let agreeChk = document.querySelectorAll('input[name=agree]');
+        for(let i = 0; i < agreeChk.length; i++){
+            agreeChk[i].checked = e.target.checked;
+        }
+    });
+    function depositOrWithdrawal(){
+        var groupAccount = "${sessionScope.groupAccount}";
+        if(groupAccount !=""){
+            //입출금
+            location.href='/depositOrWithdrawal';
+        }else{
+            //계좌개설
+            location.href='/account';
+        }
+    }
     function submitForm(){
         var modal = document.getElementById('myModal');
         modal.style.display = 'none';
@@ -492,8 +599,10 @@
                 //로그인이 안되어있으면 로그인 폼으로 이동
                 if(groupPwdValue === response){
                     alert('접속완료')
-                    //모임원이면 가입동의해야함
+                    //모임원조회
                     selectGroupMember();
+                    //연결계좌 확인
+                    connectAccount();
                 }else{
                     alert("비밀번호가 틀립니다");
                     openModal();
@@ -510,43 +619,104 @@
             url: "/selectGroupMember",
             data: { groupId : groupId },
             success: function(response) {
-                //모임원추가
-                console.log(response)
+                console.log(response+ " selectGroupMember");
             },
             error: function(error) {
             }
         });
     }
+    function connectAccount(){
+        $.ajax({
+            type: "POST",
+            url: "/JoinGroupAccountAndMemberAccount",
+            success: function (response) {
+                //연동 계좌가 있는지 확인
+                if(response!=""){
+                    //연동계좌가 있으면 그룹계좌 가져오기
+                    groupAccountStatement();
+                }else{
+                    //연동하러가기
+                    // location.href='/mypage'
+                }
+            },
+            error: function (error) {
+                // 오류 처리
+            }
+        })
 
+    }
+    function groupAccountStatement(){
+        //모임통장 거래내역
+        $.ajax({
+            type: "POST",
+            url: "/selectGroupAccountStatement",
+            success: function (response) {
+                if(response!="") {
+                    var tableBody = document.querySelector(".fold-table tbody");
+
+                    response.forEach(function (item) {
+                        // 데이터 행 생성
+                        var dataRow = document.createElement("tr");
+                        dataRow.className = 'view';
+
+                        var td = document.createElement("td");
+                        td.textContent = item.account_num;
+
+                        var tdcur = document.createElement("td");
+                        tdcur.className = 'cur';
+                        tdcur.textContent = item.target_account_num;
+
+                        var tdpcs = document.createElement("td");
+                        tdpcs.className = 'pcs';
+                        tdpcs.textContent = item.transaction_date;
+
+                        var tdcur1 = document.createElement("td");
+                        tdcur1.className = 'cur';
+                        tdcur1.textContent = '-';
+
+                        var tdper = document.createElement("td");
+                        tdper.className = 'per';
+                        tdper.textContent = item.transaction_type;
+
+                        var tdper1 = document.createElement("td");
+                        tdper1.className = 'per';
+                        tdper1.textContent = item.amount;
+
+                        var tdper2 = document.createElement("td");
+                        tdper2.className = 'per';
+                        tdper2.textContent = item.transaction_content;
+
+
+                        // .fold 클래스 요소 생성
+                        var foldElement = document.createElement("tr");
+                        foldElement.className = 'fold';
+
+                        // 각 요소를 해당 부모 요소에 추가
+                        dataRow.appendChild(td);
+                        dataRow.appendChild(tdcur);
+                        dataRow.appendChild(tdpcs);
+                        dataRow.appendChild(tdcur1);
+                        dataRow.appendChild(tdper);
+                        dataRow.appendChild(tdper1);
+                        dataRow.appendChild(tdper2);
+
+                        tableBody.appendChild(dataRow);
+                    });
+                }else{
+                    console.log("거래내역이 없음")
+                }
+            },
+            error: function (error) {
+                // 오류 처리
+            }
+        });
+    }
     function openModal() {
         var modal = document.getElementById('myModal');
         modal.style.display = 'block';
+
     }
 
-    $(document).ready(function() {
-        var memberId = "${sessionScope.member.member_id}";
-        if(memberId==""){
-            alert('로그인을 하세요');
-            location.href='/';
-        }else {
-            $.ajax({
-                type: "POST",
-                url: "/selectUseTypeAccount",
-                data: {memberId: memberId},
-                success: function (response) {
-                    if (response != null) {
-                        //비밀번호 입력
-                        openModal();
-                    } else {
-                        console.log("모임통장을 개설하세요!");
-                        location.href = 'group';
-                    }
-                },
-                error: function (error) {
-                }
-            });
-        }
-    });
 
 </script>
 

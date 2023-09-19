@@ -1,5 +1,19 @@
 // 페이지가 로드되면 애니메이션 및 메뉴바 처리 시작
+/*
 window.onload = function() {
+    var memberId = "${sessionScope.member.member_id}";
+
+    $.ajax({
+        type: "POST",
+        url: "/selectUseTypeAccount",
+        data: { memberId: memberId },
+        success: function (response) {
+            console.log(response)
+        },
+        error: function (error) {
+            console.error("그룹 계정 업데이트 중 오류 발생: " + error);
+        }
+    });
     // rightContent 요소를 찾습니다.
     const rightContent = document.querySelector('.rightContent');
 

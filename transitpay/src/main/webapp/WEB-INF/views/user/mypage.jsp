@@ -28,7 +28,9 @@
             <div class="accountbox">
                 <div class="account">
                     <div class="account-details">
+                        <a href="/accountDetail">
                         <button class="account-button">연결계좌</button>
+                        </a>
                         <div class="bank"></div>
                         <div class="account-info">
                             <span class="account-number" name="account_num"></span>
@@ -65,15 +67,15 @@
             <div class="card-1">
                 <div class="account2">
                     <div class="new-account-details">
-                        <button class="account-button">안심계좌</button>
-                        <a href="group">더보기</a>
+                        <button class="account-button" onclick="location.href='/mygroup/${groupAccount.group_id}'">모임통장</button>
                         <div class="bank">${groupAccount.group_name}</div>
                         <div class="account-info">
                             <span class="account-number">${groupAccount.group_account}</span>
                             <input type="hidden" name="accountId" value="">
-                            <button class="change-account" onclick="location.href='groupAccountDetail'">모임통장 내역</button>
+                            <button class="change-account" onclick="location.href='/groupAccountDetail'">모임통장 내역</button>
                         </div>
                     </div>
+                    </a>
                 </div>
                 <span class="tvl-card">여행 모임통장 관리</span>
                 <div class="auto-charge">

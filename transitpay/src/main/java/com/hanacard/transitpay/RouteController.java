@@ -55,9 +55,13 @@ class RouteController {
     public String currencyhanam() throws Exception {
         return "/hana/currencyhanam";
     }
-    @GetMapping("/conaccount")
-    public String conaccount() throws Exception {
-        return "/hana/conaccount";
+    @GetMapping("/depositOrWithdrawal")
+    public String depositOrWithdrawal() throws Exception {
+        return "/hana/depositOrWithdrawal";
+    }
+    @GetMapping("/account")
+    public String account() throws Exception {
+        return "/hana/account";
     }
 
     /***
@@ -71,6 +75,11 @@ class RouteController {
     @GetMapping("/editMember")
     public String editMember() throws Exception {
         return "/user/editMember";
+    }
+
+    @GetMapping("/accountDetail")
+    public String accountDetaul() throws Exception {
+        return "/user/accountDetail";
     }
     /***
      *  모임통장 기능
@@ -99,8 +108,13 @@ class RouteController {
         return "/group/mygroup";
     }
 
-    @GetMapping("/더")
+    @GetMapping("/groupStatement")
     public String groupStatement() throws Exception {
         return "/group/groupStatement";
+    }
+
+    @GetMapping("/socket")
+    public String socket() throws Exception {
+        return "socket";
     }
 }

@@ -288,7 +288,7 @@
             </div>
             <div class="section-4">
                 <div class="classSection">
-                    <div class="class-1">계좌/계좌은행</div>
+                    <div class="class-1">모임장 연결계좌</div>
                     <div class="accountBox">
                         <div class="account" id="account"></div>
                         <div class="account" id="bank"></div>
@@ -296,8 +296,13 @@
                 </div>
                 <hr>
                 <div class="classSection">
-                    <div class="class-1" >안심계좌번호</div>
+                    <div class="class-1" >모임통장 계좌번호</div>
                     <div class="account" id="groupAccount"></div>
+                </div>
+                <hr>
+                <div class="classSection">
+                    <div class="class-1" >회비 정보</div>
+                    <div class="account" id="groupInfo"></div>
                 </div>
                 <hr>
                 <div class="classSection">
@@ -308,7 +313,7 @@
             </div>
             <div>
                 <div class="textBox">
-                    <span class="actBottomText">&#183; 안심계좌번호</span><span class="bottomText-1">란 예금주의 계좌 정보 보호를 위해 멤버들에게</span><br>
+                    <span class="actBottomText">&#183; 모임통장 계좌번호</span><span class="bottomText-1">란 예금주의 계좌 정보 보호를 위해 멤버들에게</span><br>
                     <span class="bottomText-1">보여지는 계좌번호입니다.</span>
                 </div>
                 <div class="textBox">
@@ -325,6 +330,7 @@
 </div>
 </body>
 <script>
+
     window.onload = function() {
         var memberId = "${sessionScope.member.member_id}";
 
@@ -334,13 +340,12 @@
             method: "POST",
             success: function(response) {
                 var account = document.getElementById('account');
-                account.textContent = response.account_num;
-
-                var bank = document.getElementById('bank');
-                bank.textContent = response.account_bank + '계좌';
-
+                account.textContent = response.account_num.substring(0, 2) + "***" + response.account_num.substring(response.account_num.length - 2);
+                var groupInfo = document.getElementById('groupInfo');
+                groupInfo.textContent= response.g_month + " "+ response.g_day+"일 "+response.g_dues;
+                //group_name group_type 모임장 - group_leader g_month g_day g_dues
                 var groupAccount = document.getElementById('groupAccount');
-                groupAccount.textContent = response.group_account;
+                groupAccount.textContent = response.group_name+" "+response.group_account;
 
                 var groupDate = document.getElementById('groupDate');
                 groupDate.textContent = response.g_date;
@@ -350,47 +355,36 @@
     }
     function send() {
         var memberId = "${sessionScope.member.member_id}";
-
-        $.ajax({
-            type: "POST",
-            url: "/selectUseTypeAccount",
-            data: { memberId : memberId },
-            success: function(response) {
-                if(response!=""){
-                    Kakao.Share.createDefaultButton({
-                        container: '#kakaotalk-sharing-btn',
-                        objectType: 'feed',
-                        content: {
-                            title: '트랜지싱크 모임통장에 초대되었습니다.',
-                            description: '서태지와아이들 모임에 초대되었습니다. 회비는 얼마고 회비날짜는 2일입니다🐶',
-                            imageUrl: 'https://ibb.co/HD27qgB',
-                            link: {
-                                // [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
-                                mobileWebUrl: 'http://localhost:8080',
-                                webUrl: 'http://localhost:8080',
-                            },
+        var groupId = "${sessionScope.groupAccount.group_id}";
+        if(groupId!=""){
+            Kakao.Share.createDefaultButton({
+                container: '#kakaotalk-sharing-btn',
+                objectType: 'feed',
+                content: {
+                    title: '트랜지싱크 모임통장에 초대되었습니다.',
+                    description: '서태지와아이들 모임에 초대되었습니다. 회비는 얼마고 회비날짜는 2일입니다🐶',
+                    imageUrl: 'https://ibb.co/HD27qgB',
+                    link: {
+                        // [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
+                        mobileWebUrl: 'http://localhost:8080',
+                        webUrl: 'http://localhost:8080',
+                    },
+                },
+                buttons: [
+                    {
+                        title: '모임통장 참여하기',
+                        link: {
+                            mobileWebUrl: 'http://localhost:8080/mygroup/'+groupId,
+                            webUrl: 'http://localhost:8080/mygroup/'+groupId
                         },
-                        buttons: [
-                            {
-                                title: '모임통장 참여하기',
-                                link: {
-                                    mobileWebUrl: 'http://localhost:8080/mygroup/'+response.group_id,
-                                    webUrl: 'http://localhost:8080/mygroup/'+response.group_id
-                                },
-                            }
-                        ],
-                        serverCallbackArgs: '{"key" : "value"}',
-                    });
-                }else{
-                    var modal = document.getElementById('myModal');
-                    modal.style.display = 'block';
-                }
-
-            },
-            error: function(error) {
-            }
-        });
-
+                    }
+                ],
+                serverCallbackArgs: '{"key" : "value"}',
+            });
+        }else{
+            var modal = document.getElementById('myModal');
+            modal.style.display = 'block';
+        }
     }
     Kakao.init('aa75059f83f9e745604b52cb811450f4'); // 사용하려는 앱의 JavaScript 키 입력
 </script>

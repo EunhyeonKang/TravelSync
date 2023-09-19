@@ -3,7 +3,7 @@ package com.hanacard.transitpay.travel.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hanacard.transitpay.member.model.dto.Member;
+import com.hanacard.transitpay.member.model.dto.GroupMember;
 import com.hanacard.transitpay.travel.model.dto.Schedule;
 import com.hanacard.transitpay.travel.model.dto.ScheduleSet;
 import com.hanacard.transitpay.travel.model.dto.Travel;
@@ -70,8 +70,8 @@ public class TravelController {
     public ResponseEntity<?> insertTravelPlans(@RequestBody Travel travelRequest,
                                           HttpServletRequest request) {
         HttpSession session = request.getSession();
-        Member member = (Member) session.getAttribute("member");
-        if (member == null) {
+        GroupMember groupMember = (GroupMember) session.getAttribute("groupMember");
+        if (groupMember == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("세션이 존재하지 않음");
         }
         else {
@@ -90,7 +90,7 @@ public class TravelController {
                 travel.setTravelPlaceJson(travelPlaceJson);
                 travel.setDaysLeft(daysLeft);
                 travel.setDDay(dDay);
-                travel.setMemberId(member.getMember_id());
+                travel.setMemberId(groupMember.getGroup_member_id());
 
                 // Travel 서비스 호출
                 travelService.insertTravelAndGetId(travel);

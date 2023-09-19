@@ -1,4 +1,4 @@
-package com.hanacard.transitpay.util;
+package com.hanacard.transitpay.travel.controller;
 
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -12,8 +12,9 @@ public class DataStreamingScheduler {
         this.realTimeDataService = realTimeDataService;
     }
 
-    @Scheduled(fixedRate = 30000) // 30초마다 실행
+    @Scheduled(fixedRate = 3000) // 30초마다 실행
     public void streamRealTimeData() {
+        System.out.println("123");
         realTimeDataService.streamExchangeRate();
     }
 }

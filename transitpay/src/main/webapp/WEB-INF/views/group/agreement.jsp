@@ -521,23 +521,16 @@
     // 모달 열기
     function openModal() {
         var memberId = "${sessionScope.member.member_id}";
-        $.ajax({
-            type: "POST",
-            url: "/selectUseTypeAccount",
-            data: { memberId : memberId },
-            success: function(response) {
-                if(response!=""){
-                    closeModal();
-                    alert("이미 모임통장을 개설했습니다.");
-                    location.href='/mygroup/'+response.group_id;
-                }else{
-                    var modal = document.getElementById('myModal');
-                    modal.style.display = 'block';
-                }
-            },
-            error: function(error) {
-            }
-        });
+        var groupId = "${sessionScope.groupAccount.group_id}";
+        if(groupId!=""){
+            closeModal();
+            alert("이미 모임통장을 개설했습니다.");
+            location.href='/mygroup/'+groupId;
+        }else{
+            var modal = document.getElementById('myModal');
+            modal.style.display = 'block';
+        }
+
 
         if(memberId != ""){
             $.ajax({

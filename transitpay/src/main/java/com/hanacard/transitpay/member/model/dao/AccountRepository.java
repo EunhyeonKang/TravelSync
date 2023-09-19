@@ -34,4 +34,16 @@ public interface AccountRepository {
     void updateGroupAccount(String account_num);
     void insertGroupMember(String memberType,int memberId,int groupId);
     GroupMember selectGroupMember(int memberId, int groupId);
+    void updateAccountBalance(@Param("account_id") int account_id,
+                              @Param("account_num") String account_num,
+                              @Param("balance") int balance,
+                              @Param("account_bank") String account_bank);
+    void updateGroupAccountBalance(String groupAccount, int balance);
+
+    void insertAccountStatement(String accountNum, String groupAccount, String type, int balance, String accountContent);
+
+    void insertGroupAccountStatement(String accountNum, String groupAccount, String type, int balance, String accountContent);
+
+    List<GroupAccount> selectGroupAccountStatement(String groupAccount);
+    Account JoinGroupAccountAndMemberAccount(int memberId);
 }

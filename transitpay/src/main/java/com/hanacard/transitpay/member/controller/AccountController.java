@@ -7,10 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -135,17 +132,59 @@ public class AccountController {
         }
     }
     @PostMapping("/selectGroupMember")
-    public ResponseEntity<String> selectGroupMember(String groupId,HttpServletRequest request) {
+    public ResponseEntity<GroupMember> selectGroupMember(String groupId,HttpServletRequest request) {
         try {
             HttpSession session = request.getSession();
             Member member = (Member) session.getAttribute("member");
+            GroupAccount groupAccount = (GroupAccount) session.getAttribute("groupAccount");
             accountService.insertGroupMember("M",member.getMember_id(), Integer.parseInt(groupId));
             GroupMember groupMember = accountService.selectGroupMember(member.getMember_id(),Integer.parseInt(groupId));
             session.setAttribute("groupMember",groupMember);
-            return ResponseEntity.ok("ok");
+            return ResponseEntity.ok(groupMember);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
 
     }
+
+
+    @PostMapping("/insertGroupAccountDeposit")
+    public ResponseEntity<String> insertGroupAccountDeposit(@RequestBody Map<String, String> depositData, HttpServletRequest request) {
+        try {
+            HttpSession session = request.getSession();
+            Member member = (Member) session.getAttribute("member");
+            accountService.updateAccountBalance(member.getMember_id(),depositData);
+            return new ResponseEntity<>("Success", HttpStatus.OK);
+        } catch (Exception e) {
+            // 오류 처리 로직 추가
+
+            // 오류 응답 보내기
+            return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/selectGroupAccountStatement")
+    public ResponseEntity<List<GroupAccount>> selectGroupAccountStatement(HttpServletRequest request){
+        try {
+            HttpSession session = request.getSession();
+            GroupAccount groupAccount = (GroupAccount)session.getAttribute("groupAccount");
+            List<GroupAccount> groupAccountList = accountService.selectGroupAccountStatement(groupAccount.getGroup_account());
+            return ResponseEntity.ok(groupAccountList);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @PostMapping("JoinGroupAccountAndMemberAccount")
+    public ResponseEntity<Account> JoinGroupAccountAndMemberAccount(HttpServletRequest request){
+        try {
+            HttpSession session = request.getSession();
+            Member member = (Member)session.getAttribute("member");
+            Account groupAccountList = accountService.JoinGroupAccountAndMemberAccount(member.getMember_id());
+            return ResponseEntity.ok(groupAccountList);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
 }

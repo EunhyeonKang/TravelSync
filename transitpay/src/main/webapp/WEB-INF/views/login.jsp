@@ -14,7 +14,7 @@
     <%@ include file="include/header.jsp" %>
     <div class="group71">
         <div class="group31">
-            <form action="/LoginOk" method="post">
+
                 <span id="login">로그인</span>
                 <br/>
                 <div class="flexlogin">
@@ -31,13 +31,40 @@
                 <button id="login2">
                     <span>로그인하기</span>
                 </button>
-            </form>
+
             <br/>
-            <a href="join">회원가입</a>
         </div>
     </div>
     <%@ include file="include/footer.jsp" %>
 </div>
 </body>
+<script>
+    $("#login2").click(function() {
+        var member = {
+            name: "테스트1",
+            phone: "01022254433",
+            email: "test1@test.com",
+            join_date: "2023-09-12T04:17:16Z",
+            kakao_img: "http://k.kakaocdn.net/dn/b8XagJ/btssTqJHXWP/y9huItKDndOduWJJEY7S3K/img_640x640.jpg",
+            kakao_id: "3024819436"
+        }
 
+        var modal = $("#myModal");
+
+        // AJAX 요청
+        $.ajax({
+            type: "POST",
+            url: "/insertKakaoAndPhoneMember",
+            data: JSON.stringify(member),
+            contentType: "application/json",
+            success: function(response) {
+                alert(response);
+                location.href = '/';
+            },
+            error: function(error) {
+                console.error("로그인 실패 : ", error);
+            }
+        });
+    });
+</script>
 </html>

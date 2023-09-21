@@ -162,32 +162,32 @@
     </script>
 </head>
 <body>
-    <div id="container" class="container">
-        <h1>DevLog Chat</h1>
-        <input type="hidden" id="sessionId" value="">
+<div id="container" class="container">
+    <h1>DevLog Chat</h1>
+    <input type="hidden" id="sessionId" value="">
 
-            <div id="chating" class="chating">
-            </div>
-
-            <div id="yourName">
-                <table class="inputTable">
-                    <tr>
-                        <th>닉네임</th>
-                        <th><input type="text" name="userName" id="userName"></th>
-                        <th><button onclick="chatName()" id="startBtn">채팅 참가</button></th>
-                    </tr>
-                </table>
-            </div>
-            <div id="yourMsg">
-                <table class="inputTable">
-                    <tr>
-                        <th>메시지</th>
-                        <th><input id="chatting" placeholder="보내실 메시지를 입력하세요."></th>
-                        <th><button onclick="send()" id="sendBtn">보내기</button></th>
-                    </tr>
-                </table>
-            </div>
+    <div id="chating" class="chating">
     </div>
+
+    <div id="yourName">
+        <table class="inputTable">
+            <tr>
+                <th>닉네임</th>
+                <th><input type="text" name="userName" id="userName"></th>
+                <th><button onclick="chatName()" id="startBtn">채팅 참가</button></th>
+            </tr>
+        </table>
+    </div>
+    <div id="yourMsg">
+        <table class="inputTable">
+            <tr>
+                <th>메시지</th>
+                <th><input id="chatting" placeholder="보내실 메시지를 입력하세요."></th>
+                <th><button onclick="send()" id="sendBtn">보내기</button></th>
+            </tr>
+        </table>
+    </div>
+</div>
 </body>
 
 </html>

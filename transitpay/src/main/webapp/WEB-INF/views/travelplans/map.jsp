@@ -125,6 +125,9 @@
             color: #fff;
         }
 
+        element.style {
+        }
+
     </style>
 </head>
 <body>
@@ -266,28 +269,148 @@
             </div>
         </div>
         <div class="scheduleShare">
-            <div class="userCircle"></div>
-            <div class="userCircle"></div>
-            <div class="userCircle"></div>
-
+            <div class="sessionId" id="sessionId">
+                <div id="chating"></div>
+            </div>
         </div>
     </div>
     <%@ include file="../include/footer.jsp" %>
 </div>
 
 <script>
-
     var selectedDetails;
     var selectedDate = [];
     var placeDataList = [];
-
-
+    var selectedDateTmp=[];
     let totalPriceForThisPlace=0;
     let globalResponseData = null;
     let priceTextIdCounter = 0;
     var uniquePriceTextId;
+    $(document).ready(function() {
+        wsOpen();
+    })
+    var ws;
 
+    function wsOpen(){
+        //websocket을 지정한 URL로 연결
+        ws = new WebSocket("ws://" + location.host + "/websocket");
+        wsEvt();
+    }
+    // 웹 소켓 연결이 열렸을 때 실행
+    function wsEvt() {
+        ws.onopen = function (event) {
+            console.log("웹 소켓 연결이 열렸습니다.");
+        };
 
+        // 웹 소켓 서버로부터 메시지 수신 시 실행
+        ws.onmessage = function (event) {
+            //e 파라미터는 websocket이 보내준 데이터
+            var msg = event.data; // 전달 받은 데이터
+
+            if (msg != null && msg.trim() != '') {
+                var d = JSON.parse(msg);
+                //socket 연결시 sessionId 셋팅
+                if (d.type == "getId") {
+                    var si = d.sessionId != null ? d.sessionId : "";
+                    if (si != '') {
+                        $("#sessionId").val(si);
+                        var obj = {
+                            type: "open",
+                            sessionId: "${sessionScope.member.member_id}",
+                            userName: "${sessionScope.member.name}",
+                            memberImg : "${sessionScope.member.kakao_img}"
+                        }
+                        //서버에 데이터 전송
+                        ws.send(JSON.stringify(obj))
+                    }
+                }
+                //채팅 메시지를 전달받은 경우
+                else if (d.type == "message") {
+                    if (d.sessionId == $("#sessionId").val()) {
+                        $("#chating").append("<p class='me'>" + d.msg + "</p>");
+                    } else {
+                        $("#chating").append("<p class='others'>" + d.userName + " : " + d.msg + "</p>");
+                    }
+
+                }
+                else if(d.type=="displayPlaceMarker"){
+                    displayPlaces(d.data.places, d.data.details)
+
+                }
+                else if(d.type=="selectDateList"){
+                    addPlaced(d.data.dateList,d.data.selectedDate);
+                }
+                else if(d.type=='openModal'){
+                    openModal();
+                }
+                else if(d.type=='totalPriceForThisPlace'){
+                    totalPriceFunc(d.data);
+                }
+                //새로운 유저가 입장하였을 경우
+                else if (d.type == "open") {
+
+                    if (d.sessionId == $("#sessionId").val()) {
+                        $("#chating").append("<p class='start'>[채팅에 참가하였습니다.]</p>");
+                    } else {
+                        $("#chating").append("<img/>");
+                        $("#chating").append("<p class='start'>[" + d.userName + "]님이 입장하였습니다." + "</p>");
+                        // Create a container for the image with a unique class or ID
+                        var $userImageContainer = $("<div>").addClass("user-image-container");
+
+                        // Append the image to the container
+
+                        // Append the container to a specific location in your HTML (e.g., where you want the image to appear)
+                        $("#userImagesContainer").append($userImageContainer);
+                    }
+                }
+
+                //유저가 퇴장하였을 경우
+                else if (d.type == "close") {
+                    // $("#chating").append("<p class='exit'>[" + d.userName + "]님이 퇴장하였습니다." + "</p>");
+                    console.log("퇴장하셨음");
+                } else {
+                    console.warn("unknown type!")
+                }
+            }
+            // document.addEventListener("keypress", function (e) {
+            //     if (e.keyCode == 13) { //enter press
+            //         send();
+            //     }
+            // });
+
+        };
+        // 웹 소켓 연결이 닫혔을 때 실행
+        ws.onclose = function(event) {
+            if (event.wasClean) {
+                console.log("웹 소켓 연결이 정상적으로 닫혔습니다.");
+            } else {
+                console.error("웹 소켓 연결이 비정상적으로 닫혔습니다.");
+            }
+        };
+
+        // 웹 소켓 오류 발생 시 실행
+        ws.onerror = function(error) {
+            console.error("웹 소켓 오류 발생: " + error.message);
+        };
+
+    }
+
+    function send() {
+        var obj ={
+            type: "message",
+            sessionId : "${sessionScope.member.member_id}",
+            userName : "${sessionScope.member.name}",
+            msg : $("#chatting").val()
+        }
+        //서버에 데이터 전송
+        ws.send(JSON.stringify(obj))
+        $('#chatting').val("");
+    }
+
+    window.onload = function() {
+        getCurrentPosBtn();
+    }
+    /*
     function tvlStorageFunc(){
         // 날짜 정보와 여행지 정보를 저장할 리스트
         const travelInfoList = [];
@@ -348,42 +471,199 @@
         });
 
     }
+    */
+
+    function getDiscountValue(tags) {
+        if (tags.includes('음식')) {
+            return document.querySelector('.discount-value').textContent;
+        } else if (tags.includes('숙박')) {
+            return document.querySelector('.rate-value').textContent;
+        } else {
+            return document.querySelector('.etc-value').textContent;
+        }
+    }
 
 
-    const modal = document.getElementById("foodModal");
-    const tbody = foodTable.querySelector("tbody");
-    const addToCartButton = document.getElementById("addToCart");
-    addToCartButton.addEventListener("click", function () {
-        const selectedItems = [];
+    function updateDiscountValue(tags, value) {
+        if (tags.includes('음식')) {
+            document.querySelector('.discount-value').textContent = value.toLocaleString() + "원";
+        } else if (tags.includes('숙박')||tags.includes('캠핑장')) {
+            document.querySelector('.rate-value').textContent = value.toLocaleString() + "원";
+        } else {
+            document.querySelector('.etc-value').textContent = value.toLocaleString() + "원";
+        }
+    }
 
-        const rows = tbody.querySelectorAll("tr");
-        for (let i = 0; i < rows.length; i++) {
-            const checkbox = rows[i].querySelector("input[type='checkbox']");
-            if (checkbox.checked) {
-                const foodNameElement = rows[i].querySelector(".foodName");
-                const foodPriceElement = rows[i].querySelector(".foodPrice");
+    function updateAmountValue(value) {
+        const amountValue = document.querySelector('.amount-value');
+        const currentAmount = parseInt(amountValue.textContent.replace(/\D/g, ''));
+        amountValue.textContent = (currentAmount + value).toLocaleString() + "원";
+    }
+    function openModalFunc(){
+        ws.send(JSON.stringify({ type: 'openModal'}));
+    }
+    function openModal() {
+        $.ajax({
+            url:'/travelplans/naverTravelData',
+            method: "GET",
+            data : {
+                selectedPlaceName : selectedDetails.content
+            },
+            success: function(response) {
+                globalResponseData = response;
 
-                if (foodNameElement && foodPriceElement) {
-                    const foodName = foodNameElement.textContent;
-                    const foodPrice = parseFloat(foodPriceElement.textContent.replace(/[^0-9.]/g, ''));
-                    selectedItems.push({ foodName, foodPrice });
-                    totalPriceForThisPlace += foodPrice;
-                }
+            },
+            error: function(error) {
+                console.error("Error occurred:", error);
             }
+        });
+        const modal = document.getElementById("startModal");
+        const foodModal = document.getElementById("foodModal");
+        modal.style.display = "block";
+
+        const selectBox = modal.querySelector(".select-box");
+        const dateContainer = modal.querySelector(".date-btn-box");
+        const foodModalTbody = foodModal.querySelector("tbody");
+        selectBox.innerHTML = ""; // 선택 정보 초기화
+        dateContainer.innerHTML = ""; // 날짜 정보 초기화
+        foodModalTbody.innerHTML="";
+        selectedDate = [];
+        const selectBoxSpan1 = document.createElement("span");
+        selectBoxSpan1.textContent =  selectedDetails.content+"("+selectedDetails.location+")";
+        const selectBoxSpan2 = document.createElement("span");
+        selectBoxSpan2.textContent =  selectedDetails.tags;
+
+        var originalURL = selectedDetails.photo;
+        var idMatch = originalURL.match(/id=([^&]+)/);
+        var id = idMatch ? idMatch[1] : null;
+        var modifiedURL = id ? originalURL.replace(idMatch[0], "&" + "id=" + id) : originalURL;
+
+        selectBox.appendChild(selectBoxSpan1);
+        selectBox.appendChild(selectBoxSpan2);
+
+        for(var d=0;d<dateList.length;d++){
+            const dateBox = document.createElement("div");
+            dateBox.className = "date-box";
+
+            const dateBoxInner = document.createElement("div");
+            dateBoxInner.className = "date-box-1";
+
+            const dateElement = document.createElement("div");
+            dateElement.className = "dates";
+            dateElement.textContent = dateList[d].date;
+
+            dateBoxInner.appendChild(dateElement);
+            dateBox.appendChild(dateBoxInner);
+
+            const dateButton = document.createElement("button");
+            dateButton.className = "date-btn-1";
+            dateButton.textContent = "+";
+
+            dateButton.addEventListener("click", () => {
+                // ws.send(JSON.stringify({ type: 'dateButton' }));
+
+                const existingImages = dateBox.querySelectorAll("img");
+                const clickedDateElement = dateBox.querySelector(".dates");
+                const clickDateVal = clickedDateElement.textContent;
+                const index = selectedDate.indexOf(clickDateVal);
+
+                if (index !== -1) {
+                    selectedDate.splice(index, 1); // Remove the date if it's already selected
+                } else {
+                    selectedDate.push(clickDateVal); // Add the date if it's not selected
+                }
+
+                if (existingImages.length > 0) {
+                    existingImages.forEach(img => img.remove());
+                } else {
+                    const imageElement = document.createElement("img");
+                    imageElement.src = modifiedURL;
+                    imageElement.style.width = "60px";
+                    imageElement.style.height = "60px";
+                    imageElement.style.position = "absolute";
+                    imageElement.style.padding = "6px";
+                    imageElement.style.margin = "23px auto";
+
+                    imageElement.addEventListener("click", () => {
+                        const clickedImageIndex = selectedDate.indexOf(clickDateVal);
+                        if (clickedImageIndex !== -1) {
+                            selectedDate.splice(clickedImageIndex, 1); // Remove date from selectedDate
+                        }
+                        imageElement.remove(); // Remove the clicked image
+                        // console.log(selectedDate); // Log selectedDate after removal
+                    });
+                    dateBox.appendChild(imageElement);
+                }
+            });
+
+            const hotelSelectText = document.createElement("span");
+            hotelSelectText.textContent = "날짜선택";
+
+            dateBox.appendChild(dateButton);
+            dateBox.appendChild(hotelSelectText);
+
+            dateContainer.appendChild(dateBox);
         }
 
+
+        const completeButton = document.createElement("div");
+        completeButton.className = "date-select-btn";
+        dateContainer.appendChild(completeButton);
+
+
+        const departureButton = document.createElement("button");
+        departureButton.className = "departure-button";
+        departureButton.textContent = "출발지 선택";
+        departureButton.addEventListener("click", () => {
+            const dateListInfo = {
+                dateList : dateList,
+                selectedDate : selectedDate
+            };
+            ws.send(JSON.stringify({ type: 'selectDateList', data: dateListInfo }));
+        });
+        completeButton.appendChild(departureButton);
+
+        const closeButton = document.querySelector(".close");
+        closeButton.addEventListener("click", () => {
+            modal.style.display = "none";
+        });
+    }
+    function totalPriceFunc(totalPriceForThisPlace){
+        const modal = document.getElementById("foodModal");
         document.getElementById(uniquePriceTextId).textContent = totalPriceForThisPlace + ' 원';
         modal.style.display = "none";
         totalPriceForThisPlace = 0;
-    });
-
-    function addPlaced(dateList,index) {
+    }
+    function addPlaced(dateList,selectedDate) {
         const modal = document.getElementById("foodModal");
         modal.style.display = "block";
         const foodTable = document.getElementById("foodTable");
         const tbody = foodTable.querySelector("tbody");
         let totalPrices = []; // 각 행의 가격을 추적하기 위한 배열
 
+        const addToCartButton = document.getElementById("addToCart");
+        addToCartButton.addEventListener("click", function () {
+
+            const selectedItems = [];
+
+            const rows = tbody.querySelectorAll("tr");
+            for (let i = 0; i < rows.length; i++) {
+                const checkbox = rows[i].querySelector("input[type='checkbox']");
+                if (checkbox.checked) {
+                    const foodNameElement = rows[i].querySelector(".foodName");
+                    const foodPriceElement = rows[i].querySelector(".foodPrice");
+
+                    if (foodNameElement && foodPriceElement) {
+                        const foodName = foodNameElement.textContent;
+                        const foodPrice = parseFloat(foodPriceElement.textContent.replace(/[^0-9.]/g, ''));
+                        selectedItems.push({ foodName, foodPrice });
+                        totalPriceForThisPlace += foodPrice;
+                    }
+                }
+            }
+            ws.send(JSON.stringify({ type: 'totalPriceForThisPlace', data: totalPriceForThisPlace }));
+
+        });
         if (!globalResponseData || globalResponseData.length === 0) {
             var foodInput = prompt("가격을 입력해주세요");
             uniquePriceTextId = 'mypriceText-' + priceTextIdCounter;
@@ -391,7 +671,7 @@
             var newPriceText = document.createElement('div');
             newPriceText.className = 'mypriceText';
             newPriceText.id = uniquePriceTextId;
-            newPriceText.textContent = foodInput + ' 원';
+            newPriceText.textContent = foodInput + '을 원';
             priceTextIdCounter++;
             modal.style.display = "none";
         }else {
@@ -462,13 +742,7 @@
         var newCancelButton = document.createElement('button');
         var newCancelButtonContent = document.createElement('div');
         newCancelButtonBox.className = 'localBox';
-        if (index === 1) {
-            newCancelButtonBox.src = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/red_b.png'
-        } else {
-            newCancelButtonBox.src = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/blue_b.png'
-        }
-        newCancelButtonBox.style.width = '50px';
-        newCancelButtonBox.style.height = '45px';
+
         var newPlaceInfo = document.createElement('div');
         newPlaceInfo.className = 'myplaces';
 
@@ -514,7 +788,6 @@
         newLikeStarBox.appendChild(newLikeSpan);
         newLikeStarBox.appendChild(newStarImg);
         newLikeStarBox.appendChild(newStarSpan);
-
         newPriceInfo.appendChild(newLikeStarBox);
         newPriceInfo.appendChild(newPriceText);
         newPriceInfo.appendChild(newPlusButton);
@@ -569,22 +842,25 @@
         newContainer.appendChild(newPlaceInfo);
 
 
-        var startPlace = index === 1 ? selectedPlaceName : null;
+        // var startPlace = index === 1 ? selectedPlaceName : null;
         var startPlaceX = parseFloat(newContainer.querySelector('.placeX').textContent);
         var startPlaceY = parseFloat(newContainer.querySelector('.placeY').textContent);
 
         var container2Box;
         var dateData = {};
+
         for (var i = 0; i < dateList.length; i++) {
             // selectedDate와 dateList[i].date 비교하여 추가
+            console.log(selectedDate);
             if (selectedDate.includes(dateList[i].date)) {
+                console.log(i+ " test");
                 container2Box = document.querySelector('.dateListBox .container2-box:nth-child('+(i+1)+')');
-
-                if (container2Box) { // container2Box가 존재할 때만
+                if (container2Box) {
                     container2Box.appendChild(newContainer);
                 }
             }
         }
+
 
         // .cancel 버튼 클릭 이벤트 핸들러 추가
         cancel.addEventListener('click', function () {
@@ -607,34 +883,10 @@
         });
     }
 
-    function getDiscountValue(tags) {
-        if (tags.includes('음식')) {
-            return document.querySelector('.discount-value').textContent;
-        } else if (tags.includes('숙박')) {
-            return document.querySelector('.rate-value').textContent;
-        } else {
-            return document.querySelector('.etc-value').textContent;
-        }
-    }
 
 
-    function updateDiscountValue(tags, value) {
-        if (tags.includes('음식')) {
-            document.querySelector('.discount-value').textContent = value.toLocaleString() + "원";
-        } else if (tags.includes('숙박')||tags.includes('캠핑장')) {
-            document.querySelector('.rate-value').textContent = value.toLocaleString() + "원";
-        } else {
-            document.querySelector('.etc-value').textContent = value.toLocaleString() + "원";
-        }
-    }
-
-    function updateAmountValue(value) {
-        const amountValue = document.querySelector('.amount-value');
-        const currentAmount = parseInt(amountValue.textContent.replace(/\D/g, ''));
-        amountValue.textContent = (currentAmount + value).toLocaleString() + "원";
-    }
-
-
+    //교통
+    /*
     function tvlBtnFunc() {
         // 빈 배열을 선언하여 데이터를 저장할 준비를 합니다.
         var dataList = [];
@@ -694,19 +946,47 @@
         });
     }
 
-
+*/
 
     // 마커를 담을 배열입니다
     var markers = [];
 
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         mapOption = {
-            center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-            level: 7 // 지도의 확대 레벨
+            center: new kakao.maps.LatLng(37.56646, 126.98121), // 지도의 중심좌표
+            level: 9, // 지도의 확대 레벨
+            mapTypeId : kakao.maps.MapTypeId.ROADMAP // 지도종류
         };
 
-    // 지도를 생성합니다
+    // 지도를 생성한다
     var map = new kakao.maps.Map(mapContainer, mapOption);
+
+    function locationLoadSuccess(pos){
+        // 현재 위치 받아오기
+        var currentPos = new kakao.maps.LatLng(pos.coords.latitude,pos.coords.longitude);
+
+        // 지도 이동(기존 위치와 가깝다면 부드럽게 이동)
+        map.panTo(currentPos);
+
+        // 마커 생성
+        var marker = new kakao.maps.Marker({
+            position: currentPos
+        });
+
+        // 기존에 마커가 있다면 제거
+        marker.setMap(null);
+        marker.setMap(map);
+    };
+
+    function locationLoadError(pos){
+        alert('위치 정보를 가져오는데 실패했습니다.');
+    };
+
+    // 위치 가져오기 버튼 클릭시
+    function getCurrentPosBtn(){
+        navigator.geolocation.getCurrentPosition(locationLoadSuccess,locationLoadError);
+    };
+
 
     // 장소 검색 객체를 생성합니다
     var ps = new kakao.maps.services.Places();
@@ -716,7 +996,6 @@
 
     // 검색결과 항목을 Element로 반환하는 함수입니다
     function getListItem(index, places,details) {
-
         selectedDetails = details; // 선택된 장소 정보 저장
         var el = document.createElement('li'),
             itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
@@ -735,147 +1014,17 @@
 
         // "선택" 버튼 추가
         // itemStr += '<button class="select-button" onclick="addPlaced(' + index + ')">선택</button>';
-        itemStr += '<button class="select-button" onclick="openModal()">선택</button>';
+        itemStr += '<button class="select-button" onclick="openModalFunc()">선택</button>';
         el.innerHTML = itemStr;
         el.className = 'item';
 
         return el;
     }
-    function openModal() {
-        $.ajax({
-            url:'/travelplans/naverTravelData',
-            method: "GET",
-            data : {
-                selectedPlaceName : selectedDetails.content
-            },
-            success: function(response) {
-                globalResponseData = response;
-
-            },
-            error: function(error) {
-                console.error("Error occurred:", error);
-            }
-        });
-        const modal = document.getElementById("startModal");
-        const foodModal = document.getElementById("foodModal");
-        modal.style.display = "block";
-
-        const selectBox = modal.querySelector(".select-box");
-        const dateContainer = modal.querySelector(".date-btn-box");
-        const foodModalTbody = foodModal.querySelector("tbody");
-        selectBox.innerHTML = ""; // 선택 정보 초기화
-        dateContainer.innerHTML = ""; // 날짜 정보 초기화
-        foodModalTbody.innerHTML="";
-        selectedDate = [];
-        const selectBoxSpan1 = document.createElement("span");
-        selectBoxSpan1.textContent =  selectedDetails.content+"("+selectedDetails.location+")";
-        const selectBoxSpan2 = document.createElement("span");
-        selectBoxSpan2.textContent =  selectedDetails.tags;
-
-        var originalURL = selectedDetails.photo;
-        var idMatch = originalURL.match(/id=([^&]+)/);
-        var id = idMatch ? idMatch[1] : null;
-        var modifiedURL = id ? originalURL.replace(idMatch[0], "&" + "id=" + id) : originalURL;
-
-        selectBox.appendChild(selectBoxSpan1);
-        selectBox.appendChild(selectBoxSpan2);
-
-        for(var d=0;d<dateList.length;d++){
-            const dateBox = document.createElement("div");
-            dateBox.className = "date-box";
-
-            const dateBoxInner = document.createElement("div");
-            dateBoxInner.className = "date-box-1";
-
-            const dateElement = document.createElement("div");
-            dateElement.className = "dates";
-            dateElement.textContent = dateList[d].date;
-
-            dateBoxInner.appendChild(dateElement);
-            dateBox.appendChild(dateBoxInner);
-
-            const dateButton = document.createElement("button");
-            dateButton.className = "date-btn-1";
-            dateButton.textContent = "+";
-
-            dateButton.addEventListener("click", () => {
-                const existingImages = dateBox.querySelectorAll("img");
-                const clickedDateElement = dateBox.querySelector(".dates");
-                const clickDateVal = clickedDateElement.textContent;
-                const index = selectedDate.indexOf(clickDateVal);
-
-                if (index !== -1) {
-                    selectedDate.splice(index, 1); // Remove the date if it's already selected
-                } else {
-                    selectedDate.push(clickDateVal); // Add the date if it's not selected
-                }
-
-                if (existingImages.length > 0) {
-                    existingImages.forEach(img => img.remove());
-                } else {
-                    const imageElement = document.createElement("img");
-                    imageElement.src = modifiedURL;
-                    imageElement.style.width = "60px";
-                    imageElement.style.height = "60px";
-                    imageElement.style.position = "absolute";
-                    imageElement.style.padding = "6px";
-                    imageElement.style.margin = "23px auto";
-
-                    imageElement.addEventListener("click", () => {
-                        const clickedImageIndex = selectedDate.indexOf(clickDateVal);
-                        if (clickedImageIndex !== -1) {
-                            selectedDate.splice(clickedImageIndex, 1); // Remove date from selectedDate
-                        }
-                        imageElement.remove(); // Remove the clicked image
-                        // console.log(selectedDate); // Log selectedDate after removal
-                    });
-                    dateBox.appendChild(imageElement);
-                }
-
-            });
-
-            const hotelSelectText = document.createElement("span");
-            hotelSelectText.textContent = "날짜선택";
-
-            dateBox.appendChild(dateButton);
-            dateBox.appendChild(hotelSelectText);
-
-            dateContainer.appendChild(dateBox);
-        }
-
-
-        const completeButton = document.createElement("div");
-        completeButton.className = "date-select-btn";
-        dateContainer.appendChild(completeButton);
-
-
-        const departureButton = document.createElement("button");
-        departureButton.className = "departure-button";
-        departureButton.textContent = "출발지 선택";
-        departureButton.addEventListener("click", () => {
-            addPlaced(dateList,1);
-        });
-        completeButton.appendChild(departureButton);
-
-        const arrivalButton = document.createElement("button");
-        arrivalButton.className = "arrival-button";
-        arrivalButton.textContent = "도착지 선택";
-        arrivalButton.addEventListener("click", () => {
-            addPlaced(dateList,2);
-        });
-        completeButton.appendChild(arrivalButton);
-
-        const closeButton = document.querySelector(".close");
-        closeButton.addEventListener("click", () => {
-            modal.style.display = "none";
-        });
-    }
-
 
 
     // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
     function addMarker(position, idx, title) {
-        var imageSrc = '../../../resources/images/icons8-지도-핀-48.png',
+        var imageSrc = '../../../resources/images/marker2.png',
             imageSize = new kakao.maps.Size(36, 36),  // 마커 이미지의 크기
             markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize),
             marker = new kakao.maps.Marker({
@@ -887,6 +1036,21 @@
         markers.push(marker);  // 배열에 생성된 마커를 추가합니다
 
         return marker;
+    }
+    // 배열에 추가된 마커들을 지도에 표시하거나 삭제하는 함수입니다
+    function setMarkers(map) {
+        for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(map);
+        }
+    }
+    // "마커 보이기" 버튼을 클릭하면 호출되어 배열에 추가된 마커를 지도에 표시하는 함수입니다
+    function showMarkers() {
+        setMarkers(map)
+    }
+
+    // "마커 감추기" 버튼을 클릭하면 호출되어 배열에 추가된 마커를 지도에서 삭제하는 함수입니다
+    function hideMarkers() {
+        setMarkers(null);
     }
     // 지도 위에 표시되고 있는 마커를 모두 제거합니다
     function removeMarker() {
@@ -1018,7 +1182,13 @@
 
             // 정상적으로 검색이 완료됐으면
             // 검색 목록과 마커를 표출합니다
-            displayPlaces(data, details);
+            // displayPlaces(data, details);
+            const displayPlaceMarker = {
+                places : data,
+                details : details
+                // 다른 필요한 정보도 추가할 수 있음
+            };
+            ws.send(JSON.stringify({ type: 'displayPlaceMarker', data: displayPlaceMarker }));
 
             // 페이지 번호를 표출합니다
             displayPagination(pagination);
@@ -1042,16 +1212,17 @@
         var listEl = document.getElementById('placesList'),
             menuEl = document.getElementById('menu_wrap'),
             fragment = document.createDocumentFragment(),
-            bounds = new kakao.maps.LatLngBounds(),
+            // bounds = new kakao.maps.LatLngBounds(),
             listStr = '';
 
         // 검색 결과 목록에 추가된 항목들을 제거합니다
         removeAllChildNods(listEl);
 
         // 지도에 표시되고 있는 마커를 제거합니다
-        removeMarker();
+        // removeMarker();
 
         for ( var i=0; i<places.length; i++ ) {
+
             // 마커를 생성하고 지도에 표시합니다
             var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
                 marker = addMarker(placePosition, i),
@@ -1059,7 +1230,7 @@
 
             // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
             // LatLngBounds 객체에 좌표를 추가합니다
-            bounds.extend(placePosition);
+            // bounds.extend(placePosition);
 
             // 마커와 검색결과 항목에 mouseover 했을때
             // 해당 장소에 인포윈도우에 장소명을 표시합니다
@@ -1085,6 +1256,7 @@
             fragment.appendChild(itemEl);
             selectedDetails.x = places[i].x;
             selectedDetails.y = places[i].y;
+            break;
         }
 
         // 검색결과 항목들을 검색결과 목록 Element에 추가합니다
@@ -1092,7 +1264,7 @@
         menuEl.scrollTop = 0;
 
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-        map.setBounds(bounds);
+        // map.setBounds(bounds);
     }
 
     // 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
@@ -1110,7 +1282,7 @@
 
         contents += '<div class="infowindow-content">' + itemContent + '</div>';
         contents += '<div class="infowindow-tags">' + itemTags + '</div>';
-        contents += '<img class="detail-img" src="' + modifiedURL + '" alt="Item Image">';
+        contents += '<img class="detail-img" style="width: 300px; height: 200px" src="' + modifiedURL + '" alt="Item Image">';
         contents += '</div>';
 
         infowindow.setContent(contents);

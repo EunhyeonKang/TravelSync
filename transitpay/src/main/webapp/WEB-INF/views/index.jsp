@@ -473,7 +473,6 @@
     }
 
 */
-
     // 페이지가 로드되면 애니메이션 및 메뉴바 처리 시작
     window.onload = function() {
         var memberId = "${sessionScope.member.member_id}";
@@ -490,6 +489,17 @@
                 }
             });
         }
+        var groupId = "${groupId}";
+        $.ajax({
+            type: "POST",
+            url: "/selectGroupMember",
+            data: { groupId : groupId },
+            success: function(response) {
+                console.log(response+ " selectGroupMember");
+            },
+            error: function(error) {
+            }
+        });
         // rightContent 요소를 찾습니다.
         const rightContent = document.querySelector('.rightContent');
 

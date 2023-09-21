@@ -42,7 +42,6 @@ public class TravelSocketHandler extends TextWebSocketHandler {
         //로그인된 Member (afterConnectionEstablished 메소드에서 session을 저장함)
         for(String key : sessionMap.keySet()) {
             WebSocketSession wss = sessionMap.get(key);
-
             if(userMap.get(wss.getId()) == null) {
                 userMap.put(wss.getId(), (String)obj.get("userName"));
             }
@@ -58,12 +57,37 @@ public class TravelSocketHandler extends TextWebSocketHandler {
         super.afterConnectionEstablished(session);
         sessionMap.put(session.getId(), session);
 
-        JSONObject obj = new JSONObject();
-        obj.put("type", "getId");
-        obj.put("sessionId", session.getId());
+        // 현재 사용자 정보
+        JSONObject newUserObj = new JSONObject();
+        newUserObj.put("type", "open");
+        newUserObj.put("userName", "새로운 사용자"); // 현재 사용자의 이름
+        newUserObj.put("sessionId", session.getId());
 
-        //클라이언트에게 메시지 전달
-        session.sendMessage(new TextMessage(obj.toJSONString()));
+        // 현재 사용자에게 이전 세션들의 정보 전송
+        for (String key : sessionMap.keySet()) {
+            WebSocketSession wss = sessionMap.get(key);
+
+            // 이전 사용자 정보 전송
+            if (!key.equals(session.getId())) {
+                JSONObject oldUserObj = new JSONObject();
+                oldUserObj.put("type", "open");
+                oldUserObj.put("userName", "이전 사용자"); // 이전 사용자의 이름
+                oldUserObj.put("sessionId", wss.getId());
+
+                // 이전 사용자에게 현재 사용자 정보 전송
+                wss.sendMessage(new TextMessage(newUserObj.toJSONString()));
+
+                // 현재 사용자에게 이전 사용자 정보 전송
+                session.sendMessage(new TextMessage(oldUserObj.toJSONString()));
+            }
+        }
+
+        // 자신에게도 정보 전송 (자신 입장)
+        JSONObject selfObj = new JSONObject();
+        selfObj.put("type", "open");
+        selfObj.put("userName", "나"); // 자신의 이름
+        selfObj.put("sessionId", session.getId());
+        session.sendMessage(new TextMessage(selfObj.toJSONString()));
     }
 
     @Override

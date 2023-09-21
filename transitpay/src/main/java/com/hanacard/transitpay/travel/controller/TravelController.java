@@ -67,8 +67,7 @@ public class TravelController {
     }
 
     @PostMapping("/travelplans/map")
-    public ResponseEntity<?> insertTravelPlans(@RequestBody Travel travelRequest,
-                                          HttpServletRequest request) {
+    public ResponseEntity<?> insertTravelPlans(@RequestBody Travel travelRequest, HttpServletRequest request) {
         HttpSession session = request.getSession();
         GroupMember groupMember = (GroupMember) session.getAttribute("groupMember");
         if (groupMember == null) {

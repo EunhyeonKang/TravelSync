@@ -421,17 +421,13 @@
                                 data: { memberId : memberId },
                                 method: "POST",
                                 success: function(response) {
-                                    if(response!=""){
-                                        const contentsText = document.querySelector('.contentsText');
-                                        contentsText.textContent= response.group_name +" "+response.group_account;
+                                    const contentsText = document.querySelector('.contentsText');
+                                    contentsText.textContent= response.group_name +" "+response.group_account;
 
-                                        const hanaClass = document.querySelector('.hanaClass');
-                                        hanaClass.textContent = "총 "+response.g_balance+"원";
-                                        const newAccount = document.querySelector('.newAccount');
-                                        newAccount.textContent = response.g_month + " "+response.g_day+"일, "+response.g_dues+"만원씩"
-                                    }else{
-                                        location.href='/';
-                                    }
+                                    const hanaClass = document.querySelector('.hanaClass');
+                                    hanaClass.textContent = "총 "+response.g_balance+"원";
+                                    const newAccount = document.querySelector('.newAccount');
+                                    newAccount.textContent = response.g_month + " "+response.g_day+"일, "+response.g_dues+"만원씩";
                                 }
                             })
                         })
@@ -509,8 +505,10 @@
                             <button id="calculate" onclick="submitForm()">
                                 <span>접속하기</span>
                             </button>
+
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>

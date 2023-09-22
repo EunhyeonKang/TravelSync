@@ -15,25 +15,62 @@
             font-size: larger;
             font-weight: 700;
         }
+        /*섹션 넓이 지정*/
+        section {
+            min-width: 1320px;
+        }
+
+        /*.inner 구성잡기 1320X650 */
+        #container section .inner {
+            width: 1320px;
+            min-height: 485px;
+            padding-top: 165px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        /*li 수평정렬, 넓이설정*/
+        #container section .inner .box_wrap li {
+            float: left;
+            padding: 0 20px;
+            /* box 4개 - 좌우패딩  */
+            width: calc(25% - 40px);
+        }
+
+        /*.items 구성잡기*/
+        #container section .inner .box_wrap li .items {
+            border: 1px solid #e3e3e3;
+            padding: 45px 0;
+            /*270px - (상하패딩 90px)*/
+            min-height: 180px;
+        }
+
+        /*text 구성잡기*/
+        #container section .inner .box_wrap li .items h3 {
+            font-size: 20px;
+            line-height: 20px;
+        }
+
+        #container section .inner .box_wrap li .items p {
+            margin: 32px 0;
+            line-height: 24px;
+        }
     </style>
 </head>
 <body>
 <div class="main1">
     <%@ include file="../include/header.jsp" %>
     <div class="main2-2">
-        <span class="top3">TOP3</span>
+        <span class="top3">TOP3 👩‍💻</span>
         <div class="parent">
         </div>
     </div>
     <div class="main2-2">
-        <span class="top3">즐겨찾기</span>
+        <span class="top3">가성비여행지</span>
         <div class="parent-1">
         </div>
     </div>
 </div>
-
-
-
     <%@ include file="../include/footer.jsp" %>
 </div>
 </body>
@@ -50,13 +87,9 @@
             error: function(error) {
             }
         });
-    })
-
-
-    $(document).ready(function() {
         $.ajax({
             type: "GET",
-            url: "/selectStarTravel",
+            url: "/selectCostEffectiveTravel",
             success: function(response) {
                 travleBoxList(response,2)
             },
@@ -64,6 +97,9 @@
             }
         });
     })
+
+
+
 
     function travleBoxList(response,index){
         var parent = ".parent";

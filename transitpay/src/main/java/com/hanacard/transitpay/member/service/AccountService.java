@@ -12,9 +12,9 @@ public interface AccountService {
     List<Account> selectBackAccount(int account_id,String account_phone);
     void updateMainAccount(List<String> accountIdList);
     GroupAccountDetail selectAmountMember(String memberId);
-    void insertGroupAccount(GroupAccount groupAccount,Map<String, String> groupData);
+    Map<String, String> insertGroupAccount(GroupAccount groupAccount,Map<String, String> groupData);
     GroupAccountDetail selectGroupAccountInfo(String memberId);
-    String selectVirtureAccountNumber(String account_num);
+    GroupAccount selectVirtureAccountNumber(String account_num, int memberId);
     GroupAccount selectUseTypeAccount(String memberId);
     String inputCheckPassword(String groupId);
     void insertGroupMember(String memberType,int memberId,int groupId);
@@ -22,4 +22,7 @@ public interface AccountService {
     void updateAccountBalance(int memberId,Map<String, String> depositData);
     List<GroupAccount> selectGroupAccountStatement(String groupAccount);
     Account JoinGroupAccountAndMemberAccount(int memberId);
+    void deleteGroups(String groupId);
+
+    void accountJoinForm(int memberId,String phone);
 }

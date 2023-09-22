@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -290,24 +291,31 @@
                 <div class="classSection">
                     <div class="class-1">모임장 연결계좌</div>
                     <div class="accountBox">
-                        <div class="account" id="account"></div>
-                        <div class="account" id="bank"></div>
+                        <c:forEach var="account" items="${sessionScope.account}">
+                            <c:if test="${account.account_num eq sessionScope.groupAccount.account_num}">
+                                <div class="account" id="account">${account.account_num}</div>
+                                <div class="account" id="bank">${account.account_bank}</div>
+                            </c:if>
+                        </c:forEach>
                     </div>
                 </div>
                 <hr>
                 <div class="classSection">
                     <div class="class-1" >모임통장 계좌번호</div>
-                    <div class="account" id="groupAccount"></div>
+                    <div class="account" id="groupAccount">${sessionScope.groupAccountDetail.group_account}</div>
                 </div>
                 <hr>
                 <div class="classSection">
                     <div class="class-1" >회비 정보</div>
-                    <div class="account" id="groupInfo"></div>
+                    <div class="account" id="groupInfo">${sessionScope.groupAccountDetail.g_month} / ${sessionScope.groupAccountDetail.g_day}일 / ${sessionScope.groupAccountDetail.g_dues} 원</div>
                 </div>
                 <hr>
                 <div class="classSection">
                     <div class="class-1">모임통장 신청일</div>
-                    <div class="account" id="groupDate"></div>
+                    <div class="account" id="groupDate">
+                        <c:set var="ymd" value="<%=new java.util.Date()%>" />
+                        <fmt:formatDate value="${ymd}" pattern="yyyy-MM-dd" />
+                    </div>
                 </div>
                 <hr>
             </div>
@@ -330,61 +338,43 @@
 </div>
 </body>
 <script>
-
-    window.onload = function() {
-        var memberId = "${sessionScope.member.member_id}";
-
+    function send() {
         $.ajax({
-            url:'/selectGroupAccountInfo',
-            data: { memberId : memberId },
+            url:'/selectVirtureAccountNumber',
             method: "POST",
             success: function(response) {
-                var account = document.getElementById('account');
-                account.textContent = response.account_num.substring(0, 2) + "***" + response.account_num.substring(response.account_num.length - 2);
-                var groupInfo = document.getElementById('groupInfo');
-                groupInfo.textContent= response.g_month + " "+ response.g_day+"일 "+response.g_dues;
-                //group_name group_type 모임장 - group_leader g_month g_day g_dues
-                var groupAccount = document.getElementById('groupAccount');
-                groupAccount.textContent = response.group_name+" "+response.group_account;
-
-                var groupDate = document.getElementById('groupDate');
-                groupDate.textContent = response.g_date;
-
+                var groupId = response.group_id;
+                if(groupId!=""){
+                    Kakao.Share.createDefaultButton({
+                        container: '#kakaotalk-sharing-btn',
+                        objectType: 'feed',
+                        content: {
+                            title: '트랜지싱크 모임통장에 초대되었습니다.',
+                            description: '서태지와아이들 모임에 초대되었습니다. 회비는 얼마고 회비날짜는 2일입니다🐶',
+                            imageUrl: 'https://ibb.co/HD27qgB',
+                            link: {
+                                // [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
+                                mobileWebUrl: 'http://localhost:8080',
+                                webUrl: 'http://localhost:8080',
+                            },
+                        },
+                        buttons: [
+                            {
+                                title: '모임통장 참여하기',
+                                link: {
+                                    mobileWebUrl: 'http://localhost:8080/mygroup/'+groupId,
+                                    webUrl: 'http://localhost:8080/mygroup/'+groupId
+                                },
+                            }
+                        ],
+                        serverCallbackArgs: '{"key" : "value"}',
+                    });
+                }else{
+                    var modal = document.getElementById('myModal');
+                    modal.style.display = 'block';
+                }
             }
         })
-    }
-    function send() {
-        var memberId = "${sessionScope.member.member_id}";
-        var groupId = "${sessionScope.groupAccount.group_id}";
-        if(groupId!=""){
-            Kakao.Share.createDefaultButton({
-                container: '#kakaotalk-sharing-btn',
-                objectType: 'feed',
-                content: {
-                    title: '트랜지싱크 모임통장에 초대되었습니다.',
-                    description: '서태지와아이들 모임에 초대되었습니다. 회비는 얼마고 회비날짜는 2일입니다🐶',
-                    imageUrl: 'https://ibb.co/HD27qgB',
-                    link: {
-                        // [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
-                        mobileWebUrl: 'http://localhost:8080',
-                        webUrl: 'http://localhost:8080',
-                    },
-                },
-                buttons: [
-                    {
-                        title: '모임통장 참여하기',
-                        link: {
-                            mobileWebUrl: 'http://localhost:8080/mygroup/'+groupId,
-                            webUrl: 'http://localhost:8080/mygroup/'+groupId
-                        },
-                    }
-                ],
-                serverCallbackArgs: '{"key" : "value"}',
-            });
-        }else{
-            var modal = document.getElementById('myModal');
-            modal.style.display = 'block';
-        }
     }
     Kakao.init('aa75059f83f9e745604b52cb811450f4'); // 사용하려는 앱의 JavaScript 키 입력
 </script>

@@ -28,7 +28,7 @@ public interface AccountRepository {
     void insertGroupDetail(Map<String, String> groupData);
 
     GroupAccountDetail selectGroupAccountInfo(int memberId);
-    String selectVirtureAccountNumber(String account_num);
+    GroupAccount selectVirtureAccountNumber(String account_num,int memberId);
     GroupAccount selectUseTypeAccount(int memberId);
     String inputCheckPassword(String groupId);
     void updateGroupAccount(String account_num);
@@ -46,4 +46,6 @@ public interface AccountRepository {
 
     List<GroupAccount> selectGroupAccountStatement(String groupAccount);
     Account JoinGroupAccountAndMemberAccount(int memberId);
+    void deleteGroups(int groupId);
+    void accountJoinForm(int memberId,String phone);
 }

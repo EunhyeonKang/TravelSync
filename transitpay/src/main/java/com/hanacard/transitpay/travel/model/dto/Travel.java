@@ -20,5 +20,6 @@ public class Travel     {
     private int daysLeft;
     private int dDay;
     private int memberId;
-
+    private int startRow;
+    private int endRow;
 }

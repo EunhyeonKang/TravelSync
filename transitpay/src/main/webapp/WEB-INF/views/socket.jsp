@@ -7,27 +7,13 @@
     <meta charset="UTF-8">
     <title>DevLog Chating</title>
     <style>
-        *{
-            margin:0;
-            padding:0;
-        }
-        .container{
-            width: 500px;
-            margin: 0 auto;
-            padding: 25px
-        }
-        .container h1{
-            text-align: left;
-            padding: 5px 5px 5px 15px;
-            color: #FFBB00;
-            border-left: 3px solid #FFBB00;
-            margin-bottom: 20px;
-        }
+
         .chating{
-            background-color: #000;
-            width: 500px;
-            height: 500px;
+            background-color: #e3efffc2;
+            height: 400px;
             overflow: auto;
+            border-radius: 10px;
+            margin-top: 30px;
         }
         .chating .me{
             color: #F6F6F6;
@@ -45,12 +31,23 @@
             color: red;
             text-align: center;
         }
-        input{
-            width: 330px;
-            height: 25px;
+        .nickname{
+            width: 50px;
         }
         #yourMsg{
             display: none;
+        }
+        #startBtn{
+            border: 0;
+            background: #2196F3;
+            border-radius: 5px;
+            padding: 10px;
+            color: white;
+            width: 80px;
+            float: right;
+        }
+        #userName{
+            padding: 8px;
         }
     </style>
     <script>
@@ -163,7 +160,6 @@
 </head>
 <body>
 <div id="container" class="container">
-    <h1>DevLog Chat</h1>
     <input type="hidden" id="sessionId" value="">
 
     <div id="chating" class="chating">
@@ -172,7 +168,7 @@
     <div id="yourName">
         <table class="inputTable">
             <tr>
-                <th>닉네임</th>
+                <th><div class="nickname">닉네임</div></th>
                 <th><input type="text" name="userName" id="userName"></th>
                 <th><button onclick="chatName()" id="startBtn">채팅 참가</button></th>
             </tr>

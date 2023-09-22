@@ -48,8 +48,13 @@ class RouteController {
         return "/travelplans/top3Travel";
     }
 
+    @GetMapping("/categoryTravel")
+    public String categoryTravel() throws Exception {
+        return "/travelplans/categoryTravel";
+    }
+
     /***
-     *  환전 기능(x)
+     *  금융거래 기능
      */
     @GetMapping("/currencyhanam")
     public String currencyhanam() throws Exception {
@@ -62,6 +67,11 @@ class RouteController {
     @GetMapping("/account")
     public String account() throws Exception {
         return "/hana/account";
+    }
+
+    @GetMapping("/accountJoinForm")
+    public String accountJoinForm() throws Exception {
+        return "/hana/accountJoinForm";
     }
 
     /***
@@ -112,7 +122,9 @@ class RouteController {
     public String groupStatement() throws Exception {
         return "/group/groupStatement";
     }
-
+    /***
+     *  채팅 기능
+     */
     @GetMapping("/socket")
     public String socket() throws Exception {
         return "socket";

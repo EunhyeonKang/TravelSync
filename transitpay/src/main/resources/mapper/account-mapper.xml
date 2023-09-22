@@ -46,10 +46,10 @@
         WHERE gm.member_id = #{memberId}
     </select>
 
-    <select id="selectVirtureAccountNumber" resultType="String">
-        SELECT group_account
+    <select id="selectVirtureAccountNumber" resultType="com.hanacard.transitpay.member.model.dto.GroupAccount">
+        SELECT *
         FROM groups
-        WHERE account_num= #{account_num}
+        WHERE account_num = #{param1} AND group_leader = #{param2}
     </select>
     <select id="selectUseTypeAccount" resultType="com.hanacard.transitpay.member.model.dto.GroupAccount">
         SELECT
@@ -109,7 +109,7 @@
     </insert>
     <insert id="insertGroupAccountStatement">
         INSERT INTO GROUP_ACCOUNT_STATEMENT (group_account_tid, account_num, target_account_num, transaction_type, amount, balance, transaction_date, transaction_content)
-        VALUES (group_account_tid_seq.NEXTVAL,  #{param1}, #{param2}, #{param3},
+        VALUES (group_account_tid_seq.NEXTVAL,  #{param2}, #{param1}, #{param3},
             (
             SELECT g_balance FROM group_account
             WHERE group_account =  #{param2}
@@ -127,5 +127,13 @@
         JOIN account a ON m.member_id = a.account_id
         WHERE gm.member_id = #{memberId} AND a.account_main =1
     </select>
+    <delete id="deleteGroups" parameterType="int">
+        delete from groups where group_id = #{groupId}
+    </delete>
+    <insert id="accountJoinForm">
+        INSERT INTO ACCOUNT (account_id,account_num, balance, account_bank, account_pwd, account_main, account_phone)
+        VALUES
+            (#{param1}, '1723133312312', 152000, '하나은행', 5454, 0, #{param2})
+    </insert>
 </mapper>
 

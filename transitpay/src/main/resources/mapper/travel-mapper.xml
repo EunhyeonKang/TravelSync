@@ -88,10 +88,27 @@
         ORDER BY LIKECOUNT DESC
             FETCH FIRST 3 ROWS ONLY
     </select>
-    <select id="selectStarTravel" resultType="com.hanacard.transitpay.travel.model.dto.TravelInfo">
+    <select id="selectCostEffectiveTravel" resultType="com.hanacard.transitpay.travel.model.dto.TravelInfo">
         SELECT *
-        FROM travelInfo
-        ORDER BY LIKECOUNT DESC
-            FETCH FIRST 3 ROWS ONLY
+        FROM (
+                 SELECT t.*, ROWNUM AS rnum
+                 FROM (
+                          SELECT *
+                          FROM travelInfo
+                          WHERE tags LIKE '%' || #{categoryName} || '%'
+                      ) t
+                 WHERE ROWNUM &lt;= #{endRow}
+             )
+        WHERE rnum &gt;= #{startRow}
+    </select>
+    <select id="selectAllTravel" resultType="com.hanacard.transitpay.travel.model.dto.TravelInfo">
+        select * from travelInfo
+        SELECT *
+        FROM (
+                 SELECT t.*, ROWNUM AS rnum
+                 FROM
+                 WHERE ROWNUM &lt;= #{endRow}
+             )
+        WHERE rnum &gt;= #{startRow}
     </select>
 </mapper>

@@ -422,7 +422,7 @@
                     </div>
                 </div>
             </div>
-            <form action="" id="joinForm">
+            <form action="/accountJoinForm" id="joinForm">
                 <ul class="join_box">
                     <li class="checkBox check01">
                         <ul class="clearfix">
@@ -480,8 +480,7 @@
                     </li>
                 </ul>
                 <ul class="footBtwrap clearfix">
-
-                    <li><button class="fpmgBt2">동의</button></li>
+                    <li><button class="fpmgBt2" type="submit">동의</button></li>
                 </ul>
             </form>
 
@@ -500,31 +499,7 @@
             agreeChk[i].checked = e.target.checked;
         }
     });
-    function submitForm() {
-        // serialize 함수를 사용하여 문자열로 직렬화
-        var formData = $("#groupForm").serialize();
 
-        // 폼 데이터를 파싱하여 JSON 객체로 변환
-        var formDataObj = {};
-        formData.split('&').forEach(function(item) {
-            var pair = item.split('=');
-            formDataObj[pair[0]] = decodeURIComponent(pair[1] || '');
-        });
-
-        $.ajax({
-            url: "/insertGroupDetail", // 실제 서버 URL로 변경
-            method: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(formDataObj), // JSON 형식으로 데이터 전송
-            success: function(response) {
-                alert(response);
-                location.href='groupInvite'
-            },
-            error: function(error) {
-                console.error("에러 발생:", error);
-            }
-        });
-    }
 </script>
 
 </html>

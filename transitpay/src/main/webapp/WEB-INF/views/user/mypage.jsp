@@ -92,7 +92,7 @@
                 </div>
                 <div class="auto-charge">
                     <span class="charge-info">모임통장 탈퇴</span>
-                    <button class="charge-status">ON</button>
+                    <button class="charge-status" id="deleteGroup">ON</button>
                 </div>
             </div>
         </div>
@@ -140,6 +140,18 @@
 </div>
 </body>
 <script>
-
+    $('#deleteGroup').click( function() {
+        var groupId = "${sessionScope.groupAccount.group_id}";
+        $.ajax({
+            type: "POST",
+            url: "/deleteGroups",
+            data: { groupId : groupId },
+            success: function(response) {
+                location.href="/";
+            },
+            error: function(error) {
+            }
+        });
+    } );
 </script>
 </html>

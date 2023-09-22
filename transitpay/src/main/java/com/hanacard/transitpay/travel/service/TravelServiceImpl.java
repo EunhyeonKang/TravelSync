@@ -121,7 +121,16 @@ public class TravelServiceImpl implements TravelService {
     }
 
     @Override
-    public List<TravelInfo> selectStarTravel() {
-        return travelRepository.selectStarTravel();
+    public List<TravelInfo> selectCategoryTravel(int page, int itemsPerPage,String categoryName) {
+        int startRow = (page - 1) * itemsPerPage + 1;
+        int endRow = startRow + itemsPerPage - 1;
+        return travelRepository.selectCostEffectiveTravel(startRow, endRow, categoryName);
+    }
+
+    @Override
+    public List<TravelInfo> selectAllTravel(int page, int itemsPerPage) {
+        int startRow = (page - 1) * itemsPerPage + 1;
+        int endRow = startRow + itemsPerPage - 1;
+        return travelRepository.selectAllTravel(startRow,endRow);
     }
 }

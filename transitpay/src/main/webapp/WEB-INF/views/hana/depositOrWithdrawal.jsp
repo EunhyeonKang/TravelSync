@@ -58,10 +58,10 @@
                         <div class="col-lg-12">
                             <form id="searchForm-1" action="">
                                 <span class="idbox">모임 통장</span>
-                                <input type="text" name="group_name" value="${sessionScope.groupAccount.group_name}"/>
+                                <input type="text" name="group_name" value="${sessionScope.groupAccountDetail.group_name}"/>
                                 <br/>
                                 <span class="idbox">입금 계좌</span>
-                                <input type="text" name="group_account" value="${sessionScope.groupAccount.group_account}"/>
+                                <input type="text" name="group_account" value="${sessionScope.groupAccountDetail.group_account}"/>
                                 <br/>
                                 <span class="idbox">입금 금액</span>
                                 <input type="text" name="balance" value="" placeholder="입금 금액을 입력해주세요"/>
@@ -94,7 +94,6 @@
 </body>
 <script>
     //입출금
-
     function deposit(){
         var selectedOption = $('#selecttype option:selected');
         var selectType = document.getElementById("selecttype");
@@ -104,7 +103,8 @@
         var groupName = document.querySelector('input[name="group_name"]').value;
         var groupAccount = document.querySelector('input[name="group_account"]').value;
         var balance = document.querySelector('input[name="balance"]').value;
-        var groupId = "${sessionScope.groupAccount.group_id}";
+        var groupId = ${sessionScope.groupAccountDetail.group_id};
+
         var dataToSend = {
             accountBank: accountBank,
             accountNum: accountNum,
@@ -119,7 +119,8 @@
             data: JSON.stringify(dataToSend),
             contentType: "application/json; charset=UTF-8", // 컨텐츠 타입 설정
             success: function(response) {
-                console.log("회비 입금 성공");
+                alert("회비 입금 성공");
+
                 location.href='/mygroup/'+groupId;
             },
             error: function(error) {

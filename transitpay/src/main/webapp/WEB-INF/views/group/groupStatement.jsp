@@ -863,15 +863,15 @@
 </div>
 </body>
 <script>
-    window.onload = function() {
-        $.ajax({
-            url:'/selectVirtureAccountNumber',
-            method: "POST",
-            success: function(response) {
-                $('#group_account').val(response);
-            }
-        })
-    }
+    // window.onload = function() {
+    //     $.ajax({
+    //         url:'/selectVirtureAccountNumber',
+    //         method: "POST",
+    //         success: function(response) {
+    //             $('#group_account').val(response);
+    //         }
+    //     })
+    // }
     function submitForm() {
         // serialize 함수를 사용하여 문자열로 직렬화
         var formData = $("#groupForm").serialize();

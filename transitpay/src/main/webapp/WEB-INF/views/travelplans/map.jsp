@@ -272,6 +272,7 @@
             <div class="sessionId" id="sessionId">
                 <div id="chating"></div>
             </div>
+            <%@ include file="../socket.jsp" %>
         </div>
     </div>
     <%@ include file="../include/footer.jsp" %>
@@ -345,6 +346,9 @@
                 }
                 else if(d.type=='totalPriceForThisPlace'){
                     totalPriceFunc(d.data);
+                }
+                else if(d.type=='selectedDates'){
+
                 }
                 //새로운 유저가 입장하였을 경우
                 else if (d.type == "open") {
@@ -560,17 +564,15 @@
             dateButton.textContent = "+";
 
             dateButton.addEventListener("click", () => {
-                // ws.send(JSON.stringify({ type: 'dateButton' }));
-
                 const existingImages = dateBox.querySelectorAll("img");
                 const clickedDateElement = dateBox.querySelector(".dates");
                 const clickDateVal = clickedDateElement.textContent;
                 const index = selectedDate.indexOf(clickDateVal);
 
                 if (index !== -1) {
-                    selectedDate.splice(index, 1); // Remove the date if it's already selected
+                    selectedDate.splice(index, 1);
                 } else {
-                    selectedDate.push(clickDateVal); // Add the date if it's not selected
+                    selectedDate.push(clickDateVal);
                 }
 
                 if (existingImages.length > 0) {
@@ -1297,6 +1299,5 @@
     }
 
 </script>
-
 </body>
 </html>

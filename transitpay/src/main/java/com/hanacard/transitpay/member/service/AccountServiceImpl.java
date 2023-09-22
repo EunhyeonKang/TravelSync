@@ -41,7 +41,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional
-    public void insertGroupAccount(GroupAccount groupAccount,Map<String, String> groupData) {
+    public Map<String, String> insertGroupAccount(GroupAccount groupAccount,Map<String, String> groupData) {
         // 13자리를 무작위로 최종 계좌 번호 형식 생성
         String virtualAccountNumber = generateRandomDigits();
         // 모임 개설
@@ -51,6 +51,7 @@ public class AccountServiceImpl implements AccountService {
         // 모임 통장 개설
         groupData.put("group_account",virtualAccountNumber);
         accountRepository.insertGroupDetail(groupData);
+        return groupData;
     }
     // 중복 없는 무작위 숫자 생성 메서드
     private static String generateRandomDigits() {
@@ -85,8 +86,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public String selectVirtureAccountNumber(String account_num) {
-        return accountRepository.selectVirtureAccountNumber(account_num);
+    public GroupAccount selectVirtureAccountNumber(String account_num, int memberId) {
+        return accountRepository.selectVirtureAccountNumber(account_num,memberId);
     }
 
     @Override
@@ -121,9 +122,13 @@ public class AccountServiceImpl implements AccountService {
         String groupAccount = (String) depositData.get("groupAccount");
         String balance = (String) depositData.get("balance");
         accountRepository.insertAccountStatement(accountNum,groupAccount,"OUT",Integer.parseInt(balance),"테스트용1");
+        System.out.println(1);
         accountRepository.insertGroupAccountStatement(accountNum,groupAccount,"IN",Integer.parseInt(balance),"테스트용2");
+        System.out.println(2);
         accountRepository.updateAccountBalance(memberId, accountNum, Integer.parseInt(balance), accountBank);
+        System.out.println(3);
         accountRepository.updateGroupAccountBalance(groupAccount,Integer.parseInt(balance));
+        System.out.println(4);
     }
 
     @Override
@@ -134,6 +139,17 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account JoinGroupAccountAndMemberAccount(int memberId) {
         return accountRepository.JoinGroupAccountAndMemberAccount(memberId);
+    }
+
+    @Override
+    @Transactional
+    public void deleteGroups(String groupId) {
+        accountRepository.deleteGroups(Integer.parseInt(groupId));
+    }
+
+    @Override
+    public void accountJoinForm(int memberId,String phone) {
+        accountRepository.accountJoinForm(memberId,phone);
     }
 }
 

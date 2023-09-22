@@ -174,11 +174,12 @@ public class TravelController {
         }
     }
 
-    @GetMapping("/selectStarTravel")
-    public ResponseEntity<?> selectStarTravel() {
+    @GetMapping("/selectCategoryTravel")
+    public ResponseEntity<?> selectCategoryTravel(@RequestParam int page, @RequestParam int itemsPerPage, @RequestParam  String category) {
+        System.out.println(page + " "+ itemsPerPage + " "+ category);
         try {
-            List<TravelInfo> selectStarTravelList =  travelService.selectStarTravel();
-            return ResponseEntity.ok(selectStarTravelList);
+            List<TravelInfo> selectTravelList =  travelService.selectCategoryTravel(page,itemsPerPage,category);
+            return ResponseEntity.ok(selectTravelList);
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("요청 처리 중에 오류가 발생");
         }
@@ -190,6 +191,15 @@ public class TravelController {
             return ResponseEntity.ok("여행 정보가 성공적으로 저장되었습니다.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("요청 처리 중에 오류가 발생");
+        }
+    }
+    @GetMapping("selectAllTravel")
+    public ResponseEntity<List<TravelInfo>> selectAllTravel(@RequestParam int page, @RequestParam int itemsPerPage) {
+        try {
+            List<TravelInfo> selectAllTravel =  travelService.selectAllTravel(page,itemsPerPage);
+            return ResponseEntity.ok(selectAllTravel);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 }

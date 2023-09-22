@@ -307,8 +307,8 @@
                                             ${sessionScope.member.name}님 모임통장
                                         </div>
                                         <div class="hanamoney-1">
-                                            <div class="hanawon">0</div>
-                                            <div class="hanawon-1">원</div>
+                                            <div class="hanawon"></div>
+                                            <div class="hanawon-1"></div>
                                         </div>
                                         <div class="seemore">
                                             <a class="seemore-1" href="mypage">연결 계좌</a>
@@ -320,18 +320,21 @@
                                         $(document).ready(function() {
                                             var memberId = "${sessionScope.member.member_id}";
                                             $.ajax({
-                                                type: "POST",
-                                                url: "/selectAmountMember",
+                                                url:'/selectGroupAccountInfo',
                                                 data: { memberId : memberId },
+                                                method: "POST",
                                                 success: function(response) {
                                                     const hanawon = document.querySelector('.hanawon');
-                                                    hanawon.textContent = response;
-                                                },
-                                                error: function(error) {
+                                                    if(response!="") {
+                                                        hanawon.textContent = response.g_balance + '원';
+                                                    }else{
+                                                        hanawon.textContent = '모임통장 개설';
+                                                    }
+                                                    // const newAccount = document.querySelector('.newAccount');
+                                                    // newAccount.textContent = response.g_month + " "+response.g_day+"일, "+response.g_dues+"만원씩";
                                                 }
-                                            });
-                                        });
-
+                                            })
+                                        })
                                     </script>
                                 </c:when>
                                 <c:otherwise>
@@ -354,7 +357,8 @@
                         <li>
                             <a href="mypage" class="hanamenu-a"><img src="../../resources/images/new_2204_my_login_ico001.png" alt=""><span class="hanameneSpan">계좌관리</span></a>
                         </li>
-                        <li><a href="/group" class="hanamenu-a"><img src="../../resources/images/new_2204_my_login_ico004.png" alt=""><span class="hanameneSpan">모임통장</span></a></li>
+
+                        <li><a href="/mygroup/${groupId}" class="hanamenu-a"><img src="../../resources/images/new_2204_my_login_ico004.png" alt=""><span class="hanameneSpan">모임통장</span></a></li>
                         <li><a href="travel" class="hanamenu-a"><img src="../../resources/images/new_2204_my_login_ico003.png" alt=""><span class="hanameneSpan">여행관리</span></a></li>
                     </ul>
                 </div>
@@ -401,14 +405,22 @@
     var phone = "${sessionScope.member.phone}";
 
     if(groupSid!="" && memberId!=""){
+        //계좌 존재 여부
         $.ajax({
             url:'/selectBackAccount',
             method: "POST",
             success: function(response) {
-                if(response!=null){
-                    openModal();
+                console.log(response)
+                if(response!=""){
+                    //계좌가 있음, 모임통장 접속
                 }else{
-                    location.href='/mypage';
+                    //계좌가 없음
+                    var seemore =  document.querySelector('.seemore-1');
+                    seemore.textContent = '계좌개설';
+                    seemore.href='/account'
+                    alert("계좌를 개설하세요!");
+                    // location.href='/account';
+                    // openModal();
                 }
             },
             error: function(error) {
@@ -420,6 +432,7 @@
         //2.모임통장 가입동의 여부
         //3.초대된 모임통장 접속
     } else if(!(groupSid!="" && memberId!="")){
+
         //그룹에 초대되지 않은 비회원
         //1.로그인
         //2.모임장이될 수 있음
@@ -473,8 +486,7 @@
     }
 
 */
-    // 페이지가 로드되면 애니메이션 및 메뉴바 처리 시작
-    window.onload = function() {
+    function selectGroupAccount(){
         var memberId = "${sessionScope.member.member_id}";
         if(memberId!="") {
             $.ajax({
@@ -482,24 +494,51 @@
                 url: "/selectUseTypeAccount",
                 data: {memberId: memberId},
                 success: function (response) {
-                    console.log(response)
+                    // if(response!=null){
+                    //     location.href='/mygroup/'+response.group_id;
+                    // }else{
+                    //     location.href='/mygroup';
+                    // }
                 },
                 error: function (error) {
                     console.error("그룹 계정 업데이트 중 오류 발생: " + error);
                 }
             });
         }
+    }
+    // 페이지가 로드되면 애니메이션 및 메뉴바 처리 시작
+    window.onload = function() {
+        if("${sessionScope.member}"!="") {
+            $.ajax({
+                type: "POST",
+                url: "/JoinGroupAccountAndMemberAccount",
+                success: function (response) {
+                    if (response != "") {
+                        selectGroupAccount();
+                        //2. 모임통장이 있으면 모임통장 경로로 이동
+                    } else {
+                        //1. 모임통장 개설하러가기
+
+                    }
+                },
+                error: function (error) {
+                    // 오류 처리
+                }
+            })
+        }
         var groupId = "${groupId}";
-        $.ajax({
-            type: "POST",
-            url: "/selectGroupMember",
-            data: { groupId : groupId },
-            success: function(response) {
-                console.log(response+ " selectGroupMember");
-            },
-            error: function(error) {
-            }
-        });
+        if("${sessionScope.groupAccount.group_id}"!="" && groupId !=""){
+            $.ajax({
+                type: "POST",
+                url: "/selectGroupMember",
+                data: {groupId: groupId},
+                success: function (response) {
+                    console.log(response + " selectGroupMember");
+                },
+                error: function (error) {
+                }
+            });
+        }
         // rightContent 요소를 찾습니다.
         const rightContent = document.querySelector('.rightContent');
 

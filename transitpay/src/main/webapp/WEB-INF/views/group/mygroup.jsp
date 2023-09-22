@@ -375,6 +375,34 @@
         width: 300px;
         margin: 0 auto;
     }
+    .selecloc-1, .selecloc-2{
+        width: 200px;
+        box-sizing: border-box;
+        height: 50px;
+        border: 1px solid #0073681c;
+        border-radius: 26px;
+        text-align: center;
+        margin: 0 auto;
+        margin-right: 5px;
+        margin-left: 5px;
+        color: white;
+        font-size: 18px;
+        font-weight: 700;
+        box-shadow: rgba(0, 0, 0, 0.18) 0px 13px 24px 0px, rgba(0, 0, 0, 0.08) 0px -6px 9px 0px inset;
+    }
+    .selecloc-1{
+        background: #0bb2a2;
+    }
+    .selecloc-2{
+        background: #d91717c4;
+    }
+    .invite-img{
+        width: 100px;
+    }
+    .invite-box{
+        margin: 40px;
+        text-align: center;
+    }
 </style>
 <body>
 <div class="main">
@@ -390,7 +418,10 @@
         </div>
         <div class="contents-1">
             <div class="section-1">
-                <div class="contentsText">내 계좌번호</div>
+                <div class="contentsText">
+                    <div class="accountName"></div>
+                    <div class="accountNum"></div>
+                </div>
                 <div class="stepper">
                     <div class="line"></div>
                     <div class="step">
@@ -421,8 +452,8 @@
                                 data: { memberId : memberId },
                                 method: "POST",
                                 success: function(response) {
-                                    const contentsText = document.querySelector('.contentsText');
-                                    contentsText.textContent= response.group_name +" "+response.group_account;
+                                    document.querySelector('.accountName').textContent = response.group_name;
+                                    document.querySelector('.accountNum').textContent = response.group_account;
 
                                     const hanaClass = document.querySelector('.hanaClass');
                                     hanaClass.textContent = "총 "+response.g_balance+"원";
@@ -510,6 +541,20 @@
                     </div>
 
                 </div>
+                <div class="modal" id="inviteModal">
+                    <div class="modal-content">
+                        <span class="close-btn" onclick="inviteCloseModal()">&times;</span>
+                        <h2>초대수락</h2>
+                        <div class="invite-box">
+                            <img class="invite-img" src="../../../resources/images/invite.png">
+                        </div>
+                        <div class="group71">
+                            <button class="selecloc-1" onclick="location.href='/'">초대수락</button>
+                            <button class="selecloc-2" onclick="location.href='/'">초대거절</button>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
@@ -545,23 +590,6 @@
             config
             );
 
-        $(document).ready(function() {
-            var memberId = "${sessionScope.member.member_id}";
-            var groupSid = `${sessionScope.groupId}`;
-            if(memberId==""){
-                alert('로그인을 하세요');
-                location.href='/';
-            }else {
-                if(groupSid!=""){
-                    //비밀번호 입력
-                    openModal();
-                }else{
-                    console.log("모임통장을 개설하세요!");
-                    location.href = '/group';
-                }
-            }
-        });
-
     // 동의 모두선택 / 해제
     const agreeChkAll = document.querySelector('input[name=agree_all]');
     agreeChkAll.addEventListener('change', (e) => {
@@ -571,7 +599,8 @@
         }
     });
     function depositOrWithdrawal(){
-        var groupAccount = "${sessionScope.groupAccount}";
+        var groupAccount = "${sessionScope.groupAccountDetail}";
+
         if(groupAccount !=""){
             //입출금
             location.href='/depositOrWithdrawal';
@@ -594,17 +623,43 @@
             url: "/inputCheckPassword",
             data: { groupId : groupId },
             success: function(response) {
-                //로그인이 안되어있으면 로그인 폼으로 이동
                 if(groupPwdValue === response){
                     alert('접속완료')
-                    //모임원조회
-                    selectGroupMember();
+                    //groupaccount에 insert
                     //연결계좌 확인
                     connectAccount();
+                    //총 그룹계좌 내역 조회
+                    // totalGroupAccountStat();
                 }else{
                     alert("비밀번호가 틀립니다");
                     openModal();
                 }
+            },
+            error: function(error) {
+            }
+        });
+    }
+
+    function totalGroupAccountStat(){
+        var groupId = "${groupId}";
+        $.ajax({
+            type: "POST",
+            url: "/totalGroupAccountStat",
+            data: { groupId : groupId },
+            success: function(response) {
+                // console.log(response+ " totalGroupAccountStat");
+            },
+            error: function(error) {
+            }
+        });
+    }
+    function insertGroupMember(){
+        var groupId = "${groupId}";
+        $.ajax({
+            type: "POST",
+            url: "/insertGroupMember",
+            data: { groupId : groupId },
+            success: function(response) {
             },
             error: function(error) {
             }
@@ -615,8 +670,15 @@
         $.ajax({
             type: "POST",
             url: "/selectGroupMember",
-            data: { groupId : groupId },
+            data: { groupId : groupId},
             success: function(response) {
+                if(response!=""){
+                    //모임원이면 비밀번호입력
+                    openModal();
+                }else{
+                    //모임원아니면 초대수락
+                    groupInviteModal();
+                }
                 console.log(response+ " selectGroupMember");
             },
             error: function(error) {
@@ -712,9 +774,25 @@
     function openModal() {
         var modal = document.getElementById('myModal');
         modal.style.display = 'block';
-
     }
-
+    function groupInviteModal(){
+        var modal = document.getElementById('inviteModal');
+        modal.style.display = 'block';
+        insertGroupMember();
+    }
+    function inviteCloseModal(){
+        var modal = document.getElementById('inviteModal');
+        modal.style.display = 'none';
+    }
+    $(document).ready(function() {
+        var memberId = "${sessionScope.member.member_id}";
+        var groupSid = `${sessionScope.groupId}`;
+        if(memberId==""){
+            location.href = '/';
+        }else{
+            selectGroupMember();
+        }
+    });
 
 </script>
 

@@ -14,8 +14,10 @@ public class WebSocketConfig implements WebSocketConfigurer {
     public TravelSocketHandler travelSocketHandler() {
         return new TravelSocketHandler();
     }
+    @Bean
+    public WebSocketHandshakeInterceptor webSocketHandshakeInterceptor() {return new WebSocketHandshakeInterceptor();}
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(travelSocketHandler(), "/websocket");
+        registry.addHandler(travelSocketHandler(), "/websocket").addInterceptors(webSocketHandshakeInterceptor());
     }
 }

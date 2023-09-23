@@ -1,6 +1,7 @@
 package com.hanacard.transitpay.travel.controller;
 
 import com.hanacard.transitpay.member.controller.AccountController;
+import com.hanacard.transitpay.member.model.dto.Member;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -50,17 +51,23 @@ public class TravelSocketHandler extends TextWebSocketHandler {
             wss.sendMessage(new TextMessage(obj.toJSONString()));
         }
     }
-    //사용자가(브라우저) 웹소켓 서버에 붙게되면 동작하는 메서
+    //사용자가(브라우저) 웹소켓 서버에 붙게되면 동작하는 메서드
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         logger.info("{} 연결되었습니다.", session.getId());
         super.afterConnectionEstablished(session);
         sessionMap.put(session.getId(), session);
 
+        Member member = (Member) session.getAttributes().get("member");
+
+        session.getAttributes().put("memberName", member.getName());
+        session.getAttributes().put("userimg", member.getKakao_img());
+
         // 현재 사용자 정보
         JSONObject newUserObj = new JSONObject();
         newUserObj.put("type", "open");
-        newUserObj.put("userName", "새로운 사용자"); // 현재 사용자의 이름
+        newUserObj.put("userimg", member.getKakao_img());// 현재 사용자의 이름
+        newUserObj.put("userName", member.getName());// 현재 사용자의 이름
         newUserObj.put("sessionId", session.getId());
 
         // 현재 사용자에게 이전 세션들의 정보 전송
@@ -70,8 +77,11 @@ public class TravelSocketHandler extends TextWebSocketHandler {
             // 이전 사용자 정보 전송
             if (!key.equals(session.getId())) {
                 JSONObject oldUserObj = new JSONObject();
+                String previousUserName = (String) wss.getAttributes().get("memberName");
+                String userimg = (String) wss.getAttributes().get("userimg");
                 oldUserObj.put("type", "open");
-                oldUserObj.put("userName", "이전 사용자"); // 이전 사용자의 이름
+                oldUserObj.put("userName", previousUserName); // 이전 사용자의 이름
+                oldUserObj.put("userimg", userimg); // 이전 사용자의 이름
                 oldUserObj.put("sessionId", wss.getId());
 
                 // 이전 사용자에게 현재 사용자 정보 전송
@@ -85,7 +95,8 @@ public class TravelSocketHandler extends TextWebSocketHandler {
         // 자신에게도 정보 전송 (자신 입장)
         JSONObject selfObj = new JSONObject();
         selfObj.put("type", "open");
-        selfObj.put("userName", "나"); // 자신의 이름
+        selfObj.put("userimg", member.getKakao_img()); // 자신의 이름
+        selfObj.put("userName", "나("+member.getName()+")"); // 자신의 이름
         selfObj.put("sessionId", session.getId());
         session.sendMessage(new TextMessage(selfObj.toJSONString()));
     }
@@ -96,6 +107,8 @@ public class TravelSocketHandler extends TextWebSocketHandler {
         super.afterConnectionClosed(session, status);
         sessionMap.remove(session.getId());
 
+        Member member = (Member) session.getAttributes().get("member");
+
         String userName = userMap.get(session.getId());
         for(String key : sessionMap.keySet()) {
             WebSocketSession wss = sessionMap.get(key);
@@ -103,7 +116,7 @@ public class TravelSocketHandler extends TextWebSocketHandler {
             if(wss == session) continue;
             JSONObject obj = new JSONObject();
             obj.put("type", "close");
-            obj.put("userName", userName);
+            obj.put("userName", member.getName());
 
             //클라이언트에게 메시지 전달
             wss.sendMessage(new TextMessage(obj.toJSONString()));

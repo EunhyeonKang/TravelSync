@@ -1,5 +1,6 @@
 package com.hanacard.transitpay.travel.model.dao;
 
+import com.hanacard.transitpay.travel.model.dto.Schedule;
 import com.hanacard.transitpay.travel.model.dto.ScheduleSet;
 import com.hanacard.transitpay.travel.model.dto.Travel;
 import com.hanacard.transitpay.travel.model.dto.TravelInfo;
@@ -14,7 +15,6 @@ public interface TravelRepository {
     TravelInfo getItemDetailsById(int itemId);
     List<TravelInfo> selectPlaceSearch(String searchText);
     void insertTravelAndGetId(Travel travel);
-    void insertScheduleSets(ScheduleSet scheduleSets);
     List<ScheduleSet> handleTrafficData(String title);
     List<TravelInfo> selectTop3Travel();
     List<TravelInfo> selectCostEffectiveTravel(@Param("startRow") int startRow,
@@ -22,4 +22,9 @@ public interface TravelRepository {
                                                @Param("categoryName") String categoryName);
     List<TravelInfo> selectAllTravel(@Param("startRow") int startRow,
                                      @Param("endRow") int endRow);
+
+    TravelInfo selectTravelInfoById(Long itemId);
+    void updateLikeCount(TravelInfo travelInfo);
+    void insertSchedule(Schedule schedule);
+    void insertScheduleTotalAmount(Schedule schedule);
 }

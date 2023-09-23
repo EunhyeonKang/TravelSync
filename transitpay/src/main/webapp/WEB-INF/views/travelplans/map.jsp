@@ -10,6 +10,9 @@
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=aa75059f83f9e745604b52cb811450f4&libraries=services"></script>
     <style>
+        #chatting::placeholder{
+            font-size: 11px;
+        }
         .mypriceText {
             position: relative;
             display: inline-block;
@@ -42,6 +45,9 @@
             visibility: visible;
         }
 
+        .mypriceText{
+            display: none;
+        }
         .foodModal {
             display: none;
             position: fixed;
@@ -50,7 +56,7 @@
             width: 100%;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
+            z-index: 1;
             overflow: auto;
         }
 
@@ -60,7 +66,7 @@
             margin: 10% auto;
             padding: 20px;
             border-radius: 5px;
-            max-width: 600px;
+            max-width: 500px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             position: relative;
         }
@@ -125,9 +131,75 @@
             color: #fff;
         }
 
-        element.style {
+
+        #chatting{
+            border: 1px solid #bbb;
+            border-radius: 10px;
+            padding: 15px 15px;
+        }
+        .chating{
+            background-color: #e3efffc2;
+            height: 400px;
+            overflow: auto;
+            border-radius: 10px;
+            padding: 10px;
+
+        }
+        .chating .me{
+            color: #008485;
+            text-align: right;
+        }
+        .chating .others{
+            color: #1d1d1d;
+            text-align: left;
+        }
+        .chating .start{
+            color: #AAAAAA;
+            text-align: center;
+        }
+        .chating .exit{
+            color: red;
+            text-align: center;
+            font-size: 11px;
+        }
+        .sendimg{
+            width: 34px;
+        }
+        #sendBtn{
+            background: 0;
+            border: 0;
+            margin: 5px;
+        }
+        #container{
+            margin: 100px 10px 10px 10px;
+            width: 300px;
+            padding: 15px;
+            height: 470px;
+            background: white;
+            border-radius: 10px;
+            z-index: 1;
         }
 
+        .sendth{
+            display: flex;
+            width: 100%;
+        }
+        .inputTable{
+            width: 100%;
+        }
+        #chating img{
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #3498db;
+            margin: 5px auto;
+            background-size: cover;
+        }
+        .start{
+            font-size: 10px;
+            margin: 0;
+            padding-right: 30px;
+        }
     </style>
 </head>
 <body>
@@ -197,7 +269,7 @@
                             <table id="foodTable">
                                 <thead>
                                 <tr>
-                                    <th>선택</th> <!-- Empty header for checkboxes -->
+                                    <th>선택</th> 
                                     <th>음식</th>
                                     <th>가격</th>
                                     <th>개수</th>
@@ -261,19 +333,11 @@
             </div>
             <div class="tvlbuttons">
                 <button class="tvlbtn2" onclick="tvlBtnFunc()">
-                    <div>교통보기</div>
-                </button>
-                <button class="tvlbtn2" onclick="tvlStorageFunc()">
-                    <div>임시저장</div>
+                    <div>저장하기</div>
                 </button>
             </div>
         </div>
-        <div class="scheduleShare">
-            <div class="sessionId" id="sessionId">
-                <div id="chating"></div>
-            </div>
-            <%@ include file="../socket.jsp" %>
-        </div>
+        <%@ include file="../socket.jsp" %>
     </div>
     <%@ include file="../include/footer.jsp" %>
 </div>
@@ -287,195 +351,10 @@
     let globalResponseData = null;
     let priceTextIdCounter = 0;
     var uniquePriceTextId;
-    $(document).ready(function() {
-        wsOpen();
-    })
-    var ws;
-
-    function wsOpen(){
-        //websocket을 지정한 URL로 연결
-        ws = new WebSocket("ws://" + location.host + "/websocket");
-        wsEvt();
-    }
-    // 웹 소켓 연결이 열렸을 때 실행
-    function wsEvt() {
-        ws.onopen = function (event) {
-            console.log("웹 소켓 연결이 열렸습니다.");
-        };
-
-        // 웹 소켓 서버로부터 메시지 수신 시 실행
-        ws.onmessage = function (event) {
-            //e 파라미터는 websocket이 보내준 데이터
-            var msg = event.data; // 전달 받은 데이터
-
-            if (msg != null && msg.trim() != '') {
-                var d = JSON.parse(msg);
-                //socket 연결시 sessionId 셋팅
-                if (d.type == "getId") {
-                    var si = d.sessionId != null ? d.sessionId : "";
-                    if (si != '') {
-                        $("#sessionId").val(si);
-                        var obj = {
-                            type: "open",
-                            sessionId: "${sessionScope.member.member_id}",
-                            userName: "${sessionScope.member.name}",
-                            memberImg : "${sessionScope.member.kakao_img}"
-                        }
-                        //서버에 데이터 전송
-                        ws.send(JSON.stringify(obj))
-                    }
-                }
-                //채팅 메시지를 전달받은 경우
-                else if (d.type == "message") {
-                    if (d.sessionId == $("#sessionId").val()) {
-                        $("#chating").append("<p class='me'>" + d.msg + "</p>");
-                    } else {
-                        $("#chating").append("<p class='others'>" + d.userName + " : " + d.msg + "</p>");
-                    }
-
-                }
-                else if(d.type=="displayPlaceMarker"){
-                    displayPlaces(d.data.places, d.data.details)
-
-                }
-                else if(d.type=="selectDateList"){
-                    addPlaced(d.data.dateList,d.data.selectedDate);
-                }
-                else if(d.type=='openModal'){
-                    openModal();
-                }
-                else if(d.type=='totalPriceForThisPlace'){
-                    totalPriceFunc(d.data);
-                }
-                else if(d.type=='selectedDates'){
-
-                }
-                //새로운 유저가 입장하였을 경우
-                else if (d.type == "open") {
-
-                    if (d.sessionId == $("#sessionId").val()) {
-                        $("#chating").append("<p class='start'>[채팅에 참가하였습니다.]</p>");
-                    } else {
-                        $("#chating").append("<img/>");
-                        $("#chating").append("<p class='start'>[" + d.userName + "]님이 입장하였습니다." + "</p>");
-                        // Create a container for the image with a unique class or ID
-                        var $userImageContainer = $("<div>").addClass("user-image-container");
-
-                        // Append the image to the container
-
-                        // Append the container to a specific location in your HTML (e.g., where you want the image to appear)
-                        $("#userImagesContainer").append($userImageContainer);
-                    }
-                }
-
-                //유저가 퇴장하였을 경우
-                else if (d.type == "close") {
-                    // $("#chating").append("<p class='exit'>[" + d.userName + "]님이 퇴장하였습니다." + "</p>");
-                    console.log("퇴장하셨음");
-                } else {
-                    console.warn("unknown type!")
-                }
-            }
-            // document.addEventListener("keypress", function (e) {
-            //     if (e.keyCode == 13) { //enter press
-            //         send();
-            //     }
-            // });
-
-        };
-        // 웹 소켓 연결이 닫혔을 때 실행
-        ws.onclose = function(event) {
-            if (event.wasClean) {
-                console.log("웹 소켓 연결이 정상적으로 닫혔습니다.");
-            } else {
-                console.error("웹 소켓 연결이 비정상적으로 닫혔습니다.");
-            }
-        };
-
-        // 웹 소켓 오류 발생 시 실행
-        ws.onerror = function(error) {
-            console.error("웹 소켓 오류 발생: " + error.message);
-        };
-
-    }
-
-    function send() {
-        var obj ={
-            type: "message",
-            sessionId : "${sessionScope.member.member_id}",
-            userName : "${sessionScope.member.name}",
-            msg : $("#chatting").val()
-        }
-        //서버에 데이터 전송
-        ws.send(JSON.stringify(obj))
-        $('#chatting').val("");
-    }
-
+    var dateTmp;
     window.onload = function() {
         getCurrentPosBtn();
     }
-    /*
-    function tvlStorageFunc(){
-        // 날짜 정보와 여행지 정보를 저장할 리스트
-        const travelInfoList = [];
-
-        // 모든 container2-box 요소를 선택
-        const container2Boxes = document.querySelectorAll('.container2-box');
-
-        // 각 container2-box 요소를 순회하며 정보 추출
-        container2Boxes.forEach((container2Box, index) => {
-            // 날짜 정보 추출
-            const day = container2Box.querySelector('.day').textContent.trim();
-
-            // container2 클래스의 내용 추출
-            const container2 = container2Box.querySelector('.container2');
-            const detailedDate = container2.querySelector('.days').textContent.trim();
-
-            // 해당 container2-box 내부의 여행지 정보 추출
-            const container3Elements = container2Box.querySelectorAll('.container3');
-            const placesInfo = [];
-
-            container3Elements.forEach((container3) => {
-                const myplace = container3.querySelector('.myplace').textContent.trim();
-                const myplaceinfo = container3.querySelector('.myplaceinfo').textContent.trim();
-                const mypriceText = container3.querySelector('.mypriceText').textContent.trim();
-
-                placesInfo.push({
-                    myplace,
-                    myplaceinfo,
-                    mypriceText,
-                });
-            });
-
-            // 추출한 정보를 객체로 저장
-            const travelInfo = {
-                day,
-                detailedDate,
-                placesInfo,
-            };
-
-            // 리스트에 추가
-            travelInfoList.push(travelInfo);
-        });
-
-        // 결과 확인
-        console.log(travelInfoList);
-        $.ajax({
-            url: "/saveTravelInfo", // 실제 서버 URL로 변경
-            method: "POST",
-            data: {
-                travelInfoList: travelInfoList
-            },
-            success: function(response) {
-
-            },
-            error: function(error) {
-                console.error("에러 발생:", error);
-            }
-        });
-
-    }
-    */
 
     function getDiscountValue(tags) {
         if (tags.includes('음식')) {
@@ -496,15 +375,160 @@
         } else {
             document.querySelector('.etc-value').textContent = value.toLocaleString() + "원";
         }
-    }
 
-    function updateAmountValue(value) {
-        const amountValue = document.querySelector('.amount-value');
-        const currentAmount = parseInt(amountValue.textContent.replace(/\D/g, ''));
-        amountValue.textContent = (currentAmount + value).toLocaleString() + "원";
+    }
+    function insertSchedule(tags, value){
+        var category;
+        if (tags.includes('음식')) {
+            category = '음식';
+        } else if (tags.includes('숙박')||tags.includes('캠핑장')) {
+            category = '숙박';
+        } else {
+            category = '기타';
+        }
+        var pnum = priceTextIdCounter;
+        var containerCur = document.querySelectorAll('.container3');
+        var cur = containerCur[priceTextIdCounter-1];
+        var myPlaceValue = cur.querySelector('.myplace').textContent;
+        var placeX = cur.querySelector('.placeX').textContent;
+        var placeY = cur.querySelector('.placeY').textContent;
+        var data = {
+            pnum: pnum,
+            schedule_date: dateTmp,
+            schedule_place : myPlaceValue,
+            placeX: placeX,
+            placeY: placeY,
+            travel_title : "${param.travelTitle}",
+            price : value,
+            category : category
+        };
+        //일정 추가할때마다 db에 저정하기
+        $.ajax({
+            url:'/insertSchedule',
+            method: "POST",
+            data: JSON.stringify(data),
+            contentType: "application/json",
+            success: function(response) {
+
+            },
+            error: function(error) {
+                console.error("Error occurred:", error);
+            }
+        });
     }
     function openModalFunc(){
         ws.send(JSON.stringify({ type: 'openModal'}));
+    }
+    //추가하기 버튼 눌렀을 때 실행
+    const addToCartButton = document.getElementById("addToCart");
+    const tbody = foodTable.querySelector("tbody");
+    addToCartButton.addEventListener("click", function () {
+        const selectedItems = [];
+        const rows = tbody.querySelectorAll("tr");
+        totalPriceForThisPlace = 0;
+        for (let i = 0; i < rows.length; i++) {
+            const checkbox = rows[i].querySelector("input[type='checkbox']");
+            if (checkbox.checked) {
+                const foodNameElement = rows[i].querySelector(".foodName");
+                const foodPriceElement = rows[i].querySelector(".foodPrice");
+
+                if (foodNameElement && foodPriceElement) {
+                    const foodName = foodNameElement.textContent;
+                    const foodPrice = parseFloat(foodPriceElement.textContent.replace(/[^0-9.]/g, ''));
+                    selectedItems.push({ foodName, foodPrice });
+                    totalPriceForThisPlace += foodPrice;
+                }
+            }
+        }
+
+        ws.send(JSON.stringify({ type: 'totalPriceForThisPlace', data: totalPriceForThisPlace }));
+        const foodCloseButton = document.querySelector(".food-close-btn");
+        foodCloseButton.addEventListener("click", () => {
+            modal.style.display = "none";
+        });
+
+        const currentDiscountValue = getDiscountValue(selectedDetails.tags);
+
+        const newDiscountValue = parseInt(currentDiscountValue.replace(/\D/g, '')) + totalPriceForThisPlace;
+
+        const discountValue = {
+            tags : selectedDetails.tags,
+            newDiscountValue : newDiscountValue
+        };
+
+        ws.send(JSON.stringify({ type: 'discountValue', data: discountValue }));
+        ws.send(JSON.stringify({ type: 'amountValue', data: totalPriceForThisPlace }));
+        insertSchedule(selectedDetails.tags,newDiscountValue);
+    });
+    function updateAmountValue(totalPriceForThisPlace){
+        const amountValue = document.querySelector('.amount-value');
+        const currentAmount = parseInt(amountValue.textContent.replace(/\D/g, ''));
+        amountValue.textContent = (currentAmount + totalPriceForThisPlace).toLocaleString() + "원";
+    }
+    function foodModal(){
+        const newPriceInfo = document.querySelector('.mypriceBox');
+        const modal = document.getElementById("foodModal");
+        modal.style.display = "block";
+        const foodTable = document.getElementById("foodTable");
+        const tbody = foodTable.querySelector("tbody");
+        let totalPrices = []; // 각 행의 가격을 추적하기 위한 배열
+
+
+        if (!globalResponseData || globalResponseData.length === 0 || globalResponseData=="") {
+            var foodInput = prompt("가격을 입력해주세요");
+            uniquePriceTextId = 'mypriceText-' + priceTextIdCounter;
+            var newPriceText = document.createElement('div');
+            newPriceText.className = 'mypriceText';
+            newPriceText.id = uniquePriceTextId;
+            newPriceText.textContent = foodInput;
+            newPriceInfo.appendChild(newPriceText);
+            modal.style.display = "none";
+        }else {
+            for (let i = 0; i < globalResponseData.length; i++) {
+                const row = document.createElement("tr");
+
+                const checkboxCell = document.createElement("td");
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkboxCell.appendChild(checkbox);
+
+                const foodNameCell = document.createElement("td");
+                foodNameCell.className = 'foodName';
+                foodNameCell.textContent = globalResponseData[i].foodName;
+
+                const foodPriceCell = document.createElement("td");
+                foodPriceCell.className = 'foodPrice';
+
+                const priceText = globalResponseData[i].foodPrice.replace("원", "").replace(",", "");
+                const price = parseFloat(priceText);
+
+                foodPriceCell.textContent = globalResponseData[i].foodPrice; // "원"을 제거하지 않고 그대로 표시
+                totalPrices.push(price); // 각 행의 초기 가격을 배열에 추가
+
+                const actionCell = document.createElement("td");
+                const addButton = document.createElement("button");
+                addButton.textContent = "+";
+                addButton.addEventListener("click", () => {
+                    // + 버튼 클릭 시 해당 행의 가격을 2배로 증가
+                    const rowIndex = i; // 현재 행의 인덱스
+                    totalPrices[rowIndex] += price; // 현재 행의 가격을 2배로 증가
+                    foodPriceCell.textContent = totalPrices[rowIndex].toLocaleString() + "원"; // 숫자를 통화 형식으로 표시
+                });
+                actionCell.appendChild(addButton);
+
+                row.appendChild(checkboxCell);
+                row.appendChild(foodNameCell);
+                row.appendChild(foodPriceCell);
+                row.appendChild(actionCell);
+
+                tbody.appendChild(row);
+            }
+            uniquePriceTextId = "mypriceText-" + priceTextIdCounter; // 고유한 ID 생성
+            var newPriceText = document.createElement('div');
+            newPriceText.className = 'mypriceText';
+            newPriceText.id = uniquePriceTextId; // ID를 요소에 할당
+            newPriceInfo.appendChild(newPriceText);
+        }
     }
     function openModal() {
         $.ajax({
@@ -615,7 +639,7 @@
 
         const departureButton = document.createElement("button");
         departureButton.className = "departure-button";
-        departureButton.textContent = "출발지 선택";
+        departureButton.textContent = "날짜 선택";
         departureButton.addEventListener("click", () => {
             const dateListInfo = {
                 dateList : dateList,
@@ -632,105 +656,11 @@
     }
     function totalPriceFunc(totalPriceForThisPlace){
         const modal = document.getElementById("foodModal");
-        document.getElementById(uniquePriceTextId).textContent = totalPriceForThisPlace + ' 원';
+        document.getElementById(uniquePriceTextId).textContent = totalPriceForThisPlace;
         modal.style.display = "none";
         totalPriceForThisPlace = 0;
     }
     function addPlaced(dateList,selectedDate) {
-        const modal = document.getElementById("foodModal");
-        modal.style.display = "block";
-        const foodTable = document.getElementById("foodTable");
-        const tbody = foodTable.querySelector("tbody");
-        let totalPrices = []; // 각 행의 가격을 추적하기 위한 배열
-
-        const addToCartButton = document.getElementById("addToCart");
-        addToCartButton.addEventListener("click", function () {
-
-            const selectedItems = [];
-
-            const rows = tbody.querySelectorAll("tr");
-            for (let i = 0; i < rows.length; i++) {
-                const checkbox = rows[i].querySelector("input[type='checkbox']");
-                if (checkbox.checked) {
-                    const foodNameElement = rows[i].querySelector(".foodName");
-                    const foodPriceElement = rows[i].querySelector(".foodPrice");
-
-                    if (foodNameElement && foodPriceElement) {
-                        const foodName = foodNameElement.textContent;
-                        const foodPrice = parseFloat(foodPriceElement.textContent.replace(/[^0-9.]/g, ''));
-                        selectedItems.push({ foodName, foodPrice });
-                        totalPriceForThisPlace += foodPrice;
-                    }
-                }
-            }
-            ws.send(JSON.stringify({ type: 'totalPriceForThisPlace', data: totalPriceForThisPlace }));
-
-        });
-        if (!globalResponseData || globalResponseData.length === 0) {
-            var foodInput = prompt("가격을 입력해주세요");
-            uniquePriceTextId = 'mypriceText-' + priceTextIdCounter;
-
-            var newPriceText = document.createElement('div');
-            newPriceText.className = 'mypriceText';
-            newPriceText.id = uniquePriceTextId;
-            newPriceText.textContent = foodInput + '을 원';
-            priceTextIdCounter++;
-            modal.style.display = "none";
-        }else {
-            for (let i = 0; i < globalResponseData.length; i++) {
-                const row = document.createElement("tr");
-
-                const checkboxCell = document.createElement("td");
-                const checkbox = document.createElement("input");
-                checkbox.type = "checkbox";
-                checkboxCell.appendChild(checkbox);
-
-                const foodNameCell = document.createElement("td");
-                foodNameCell.className = 'foodName';
-                foodNameCell.textContent = globalResponseData[i].foodName;
-
-                const foodPriceCell = document.createElement("td");
-                foodPriceCell.className = 'foodPrice';
-
-                const priceText = globalResponseData[i].foodPrice.replace("원", "").replace(",", "");
-                const price = parseFloat(priceText);
-
-                foodPriceCell.textContent = globalResponseData[i].foodPrice; // "원"을 제거하지 않고 그대로 표시
-                totalPrices.push(price); // 각 행의 초기 가격을 배열에 추가
-
-                const actionCell = document.createElement("td");
-                const addButton = document.createElement("button");
-                addButton.textContent = "+";
-                addButton.addEventListener("click", () => {
-                    // + 버튼 클릭 시 해당 행의 가격을 2배로 증가
-                    const rowIndex = i; // 현재 행의 인덱스
-                    totalPrices[rowIndex] += price; // 현재 행의 가격을 2배로 증가
-                    foodPriceCell.textContent = totalPrices[rowIndex].toLocaleString() + "원"; // 숫자를 통화 형식으로 표시
-                });
-                actionCell.appendChild(addButton);
-
-                row.appendChild(checkboxCell);
-                row.appendChild(foodNameCell);
-                row.appendChild(foodPriceCell);
-                row.appendChild(actionCell);
-
-                tbody.appendChild(row);
-            }
-            var newPriceText = document.createElement('div');
-            newPriceText.className = 'mypriceText';
-            uniquePriceTextId = "mypriceText-" + priceTextIdCounter; // 고유한 ID 생성
-            newPriceText.id = uniquePriceTextId; // ID를 요소에 할당
-            priceTextIdCounter++;
-
-        }
-
-
-        const foodCloseButton = document.querySelector(".food-close-btn");
-        foodCloseButton.addEventListener("click", () => {
-            modal.style.display = "none";
-        });
-
-
         const startModal = document.querySelector("#startModal");
         startModal.style.display = "none";
 
@@ -755,17 +685,13 @@
         newPlusButton.className = 'plus-button';
         newPlusButton.textContent = '+';
 
+        priceTextIdCounter++;
+
+
         // + 버튼 클릭 시
         newPlusButton.addEventListener('click', function () {
-            const mypriceText = document.getElementById(uniquePriceTextId).textContent;
-            const currentDiscountValue = getDiscountValue(selectedDetails.tags);
-            const priceValue = parseInt(mypriceText.replace(/\D/g, ''));
-            const newDiscountValue = parseInt(currentDiscountValue.replace(/\D/g, '')) + priceValue;
-            updateDiscountValue(selectedDetails.tags, newDiscountValue);
-            updateAmountValue(priceValue);
-
+            ws.send(JSON.stringify({ type: 'foodModal'}));
         });
-
 
         var newLikeStarBox = document.createElement('div');
         newLikeStarBox.className = 'likeStarBox';
@@ -791,7 +717,6 @@
         newLikeStarBox.appendChild(newStarImg);
         newLikeStarBox.appendChild(newStarSpan);
         newPriceInfo.appendChild(newLikeStarBox);
-        newPriceInfo.appendChild(newPriceText);
         newPriceInfo.appendChild(newPlusButton);
         var newPNums = document.createElement('div');
         newPNums.className = 'pnums';
@@ -853,9 +778,8 @@
 
         for (var i = 0; i < dateList.length; i++) {
             // selectedDate와 dateList[i].date 비교하여 추가
-            console.log(selectedDate);
             if (selectedDate.includes(dateList[i].date)) {
-                console.log(i+ " test");
+                dateTmp = dateList[i].date;
                 container2Box = document.querySelector('.dateListBox .container2-box:nth-child('+(i+1)+')');
                 if (container2Box) {
                     container2Box.appendChild(newContainer);
@@ -886,61 +810,23 @@
     }
 
 
-
-    //교통
-    /*
     function tvlBtnFunc() {
-        // 빈 배열을 선언하여 데이터를 저장할 준비를 합니다.
-        var dataList = [];
-        var title = "${param.travelTitle}";
-        var dateListBox = document.querySelector('.dateListBox');
-        var container2Boxes = dateListBox.querySelectorAll('.container2-box');
-
-
-        container2Boxes.forEach(function(container2Box) {
-            var container2 = container2Box.querySelector('.container2');
-            var dayValue = container2.querySelector('.day').textContent;
-
-            var container3Elements = container2Box.querySelectorAll('.container3');
-
-            container3Elements.forEach(function(container3) {
-                var myPlaceValue = container3.querySelector('.myplace').textContent;
-                var myPlaceInfoValue = container3.querySelector('.myplaceinfo').textContent;
-                var placeX = container3.querySelector('.placeX').textContent;
-                var placeY = container3.querySelector('.placeY').textContent;
-
-                // 추출한 데이터를 객체로 만듭니다.
-                var data = {
-                    scheduleDate: dayValue,
-                    travelTitle : myPlaceValue,
-                    placeX: placeX,
-                    placeY: placeY,
-                    title : title
-                };
-
-                // 데이터를 배열에 추가합니다.
-                dataList.push(data);
-            });
-        });
-        // dataList 배열을 JSON 형식으로 변환합니다.
-        var jsonData = JSON.stringify(dataList);
-
+        var data = {
+            travel_title: "${param.travelTitle}",
+            food_expenses: parseInt(document.querySelector('.discount-value').textContent.replace(/[^0-9.]/g, ''), 10),
+            accommodation_expenses: parseInt(document.querySelector('.rate-value').textContent.replace(/[^0-9.]/g, ''), 10),
+            etc_expenses: parseInt(document.querySelector('.etc-value').textContent.replace(/[^0-9.]/g, ''), 10)
+        };
         $.ajax({
-            url:'/travelplans/schedule',  // 수정된 부분
+            url:'/insertScheduleTotalAmount',  // 수정된 부분
             method: "POST",
-            data: jsonData,
+            data: JSON.stringify(data),
             contentType: "application/json",
             headers: {
                 'Content-Type': 'application/json'
             },
             success: function(response) {
-                if (response === "요청 처리 중에 오류가 발생") {
 
-                } else {
-                    var link = document.createElement("a");
-                    link.href = "/traffic?title="+"${param.travelTitle}";
-                    link.click();
-                }
             },
             error: function(error) {
                 console.error("Error occurred:", error);
@@ -948,7 +834,7 @@
         });
     }
 
-*/
+
 
     // 마커를 담을 배열입니다
     var markers = [];

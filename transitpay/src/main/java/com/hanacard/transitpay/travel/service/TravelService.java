@@ -12,9 +12,12 @@ public interface  TravelService {
     TravelInfo getItemDetailsById(int itemId);
     List<TravelInfo> selectPlaceSearch(String searchText);
     void insertTravelAndGetId(Travel travel);
-    void insertScheduleSets(List<Schedule> scheduleList);
     List<ScheduleSet>  handleTrafficData(String title);
     List<TravelInfo> selectTop3Travel();
     List<TravelInfo> selectCategoryTravel(int page, int itemsPerPage, String categoryName);
     List<TravelInfo> selectAllTravel(int page, int itemsPerPage);
+    boolean toggleLikeTraveling(Long itemId, boolean isLiked);
+    void insertSchedule(Schedule schedule);
+
+    void insertScheduleTotalAmount(Schedule schedule);
 }

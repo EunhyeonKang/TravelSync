@@ -56,7 +56,7 @@
 }
 .contents-1{
     padding: 35px 0 20px 20px;
-    width: 700px;
+    width: 900px;
     margin: 0 auto;
 }
 .date{
@@ -372,7 +372,7 @@ body{
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 700px;
+    width: 600px;
     border-radius: 5px;
 }
 
@@ -397,11 +397,9 @@ body{
 }
 .date-box{
     display: inline-grid;
-    float: left;
     margin: 5px 30px 20px;
 }
 .date-btn-box{
-    width: 550px;
     text-align: center;
     font-size: .75rem;
     margin: 0 auto;
@@ -446,8 +444,7 @@ body{
     padding: 10px;
     color: #008583;
     width: 50%;
-    margin-right: 10px;
-    margin-top: 50px;
+    margin: 0 auto;
 }
 .arrival-button{
     background: white;
@@ -651,15 +648,7 @@ body{
     font-size: 18px;
     color: #FFFFFF;
 }
-#chating img {
-   width: 40px;
-   height: 40px;
-   border-radius: 50%;
-   background-color: #3498db;
-   margin: 5px auto;
-   background-image: url(../../resources/images/testAcc.png);
-   background-size: cover;
-}
+
 .start {
      font-size: 10px;
      margin: 0;

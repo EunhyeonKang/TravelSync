@@ -76,41 +76,6 @@ public class TravelServiceImpl implements TravelService {
     }
 
     @Override
-    @Transactional
-    public void insertScheduleSets(List<Schedule> scheduleList) {
-        Collections.sort(scheduleList, Comparator.comparing(Schedule::getScheduleDate));
-        List<ScheduleSet> scheduleSets = new ArrayList<>();
-        Schedule prevSchedule = null;
-
-        for (Schedule item : scheduleList) {
-            if (prevSchedule == null) {
-                prevSchedule = item;
-            } else {
-                if (prevSchedule.getScheduleDate().equals(item.getScheduleDate())) {
-                    // 같은 날짜인 경우 세트 생성
-                    ScheduleSet scheduleSet = new ScheduleSet(
-                            item.getTitle(),
-                            item.getScheduleDate(),
-                            prevSchedule.getTravelTitle(),
-                            item.getTravelTitle(),
-                            prevSchedule.getPlaceX(),
-                            prevSchedule.getPlaceY(),
-                            item.getPlaceX(),
-                            item.getPlaceY()
-                    );
-                    scheduleSets.add(scheduleSet);
-                    prevSchedule = null;
-                } else {
-                    prevSchedule = item;
-                }
-            }
-        }
-        for (ScheduleSet set : scheduleSets) {
-            travelRepository.insertScheduleSets(set);
-        }
-    }
-
-    @Override
     public List<ScheduleSet> handleTrafficData(String title) {
         return travelRepository.handleTrafficData(title);
     }
@@ -132,5 +97,29 @@ public class TravelServiceImpl implements TravelService {
         int startRow = (page - 1) * itemsPerPage + 1;
         int endRow = startRow + itemsPerPage - 1;
         return travelRepository.selectAllTravel(startRow,endRow);
+    }
+
+    @Override
+    public boolean toggleLikeTraveling(Long itemId, boolean isLiked) {
+        TravelInfo travelInfo = travelRepository.selectTravelInfoById(itemId);
+        if (travelInfo != null) {
+            int currentLikeCount = travelInfo.getLikeCount();
+            travelInfo.setLikeCount(isLiked ? currentLikeCount-1 : currentLikeCount + 1);
+            travelRepository.updateLikeCount(travelInfo);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    @Transactional
+    public void insertSchedule(Schedule schedule) {
+        travelRepository.insertSchedule(schedule);
+    }
+
+    @Override
+    @Transactional
+    public void insertScheduleTotalAmount(Schedule schedule) {
+        travelRepository.insertScheduleTotalAmount(schedule);
     }
 }

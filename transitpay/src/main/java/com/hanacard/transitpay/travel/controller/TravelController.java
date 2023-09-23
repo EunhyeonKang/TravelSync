@@ -29,6 +29,7 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -103,11 +104,12 @@ public class TravelController {
         }
     }
 
-    @PostMapping("/travelplans/schedule")
-    public ResponseEntity<?> insertScheduleSets(@RequestBody List<Schedule> scheduleList) {
+    @PostMapping("/insertScheduleTotalAmount")
+    public ResponseEntity<?> insertScheduleTotalAmount(@RequestBody Schedule schedule) {
+        System.out.println(schedule);
         try {
-            travelService.insertScheduleSets(scheduleList);
-            return ResponseEntity.ok(scheduleList);
+            travelService.insertScheduleTotalAmount(schedule);
+            return ResponseEntity.ok("여행 총 금액 저장 완료");
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("요청 처리 중에 오류가 발생");
         }
@@ -200,6 +202,21 @@ public class TravelController {
             return ResponseEntity.ok(selectAllTravel);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+    @PostMapping("toggleLikeTraveling")
+    public ResponseEntity<?> toggleLikeTraveling(@RequestParam Long itemId, @RequestParam boolean isLiked) {
+        boolean updated = travelService.toggleLikeTraveling(itemId, isLiked);
+        return ResponseEntity.ok(Map.of("updated", updated));
+    }
+
+    @PostMapping("/insertSchedule")
+    public ResponseEntity<?> insertSchedule(@RequestBody Schedule schedule) {
+        try {
+            travelService.insertSchedule(schedule);
+            return ResponseEntity.ok("일정이 성공적으로 추가되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("일정 추가 중 오류가 발생했습니다.");
         }
     }
 }

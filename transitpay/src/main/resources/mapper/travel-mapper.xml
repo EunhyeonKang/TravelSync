@@ -82,11 +82,10 @@
         WHERE TRAVEL_TITLE = #{title}
     </select>
 
-    <select id="selectTop3Travel" resultType="com.hanacard.transitpay.travel.model.dto.TravelInfo">
+    <select id="selectTravelInfoById" resultType="com.hanacard.transitpay.travel.model.dto.TravelInfo">
         SELECT *
         FROM travelInfo
-        ORDER BY LIKECOUNT DESC
-            FETCH FIRST 3 ROWS ONLY
+        where t_num = #{itemId}
     </select>
     <select id="selectCostEffectiveTravel" resultType="com.hanacard.transitpay.travel.model.dto.TravelInfo">
         SELECT *
@@ -111,4 +110,17 @@
              )
         WHERE rnum &gt;= #{startRow}
     </select>
+    <update id="updateLikeCount">
+        UPDATE travelInfo
+        SET likecount = #{likeCount}
+        WHERE t_num = #{t_num}
+    </update>
+    <insert id="insertSchedule">
+        INSERT INTO SCHEDULE (SCHEDULE_ID,PNUM,SCHEDULE_DATE,SCHEDULE_PLACE,PRICE,PLACE_X,PLACE_Y,category,TRAVEL_TITLE)
+        VALUES (schedule_id_seq.nextval,#{pnum},#{schedule_date},#{schedule_place},#{price},#{placeX},#{placeY},#{category},#{travel_title})
+    </insert>
+    <insert id="insertScheduleTotalAmount">
+        INSERT INTO SCHEDULE_AMOUNT(SCHEDULE_AMOUNT,food_Expenses,accommodation_Expenses,etc_Expenses,TRAVEL_TITLE)
+        VALUES (schedule_amount_seq.nextval,#{food_expenses},#{accommodation_expenses},#{etc_expenses},#{travel_title})
+    </insert>
 </mapper>

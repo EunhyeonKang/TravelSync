@@ -408,15 +408,7 @@ input {
 .title-text{
     margin-top: 13px;
 }
-.scheduleShare{
-    display: flex;
-    flex-direction: column;
-    width: 80px;
-    border-radius: 0px;
-    padding: 10px;
-    float: left;
-    margin: 100px 20px 0 20px;
-}
+
 #chating img{
     width: 40px;
     height: 40px;

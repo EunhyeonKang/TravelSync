@@ -4,7 +4,6 @@
 <head>
     <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" href="../../../resources/css/taffic.css">
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <style>
 
@@ -40,6 +39,7 @@
             flex-wrap: wrap;
             margin: 20px;
             height: 100%;
+            justify-content: center;
         }
 
         .item {
@@ -47,7 +47,7 @@
             border: 1px solid #ddd;
             padding: 10px;
             margin: 10px;
-            width: 200px;
+            width: 300px;
             text-align: center;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
@@ -62,35 +62,50 @@
         .contents-1 {
             padding: 10px 0 20px 20px;
             border-radius: 50px;
-            width: 800px;
-            display: table;
+            display: inline-block;
+            width: 100%;
         }
         .item-img{
             width: 100%;
             height: 200px;
         }
+        .like-button, .bookmark-button{
+            border: 0;
+            background: 0;
+            margin: 5px;
+        }
+        .like-button img, .bookmark-button img{
+            width: 40px;
+        }
+        .contents{
+            margin: 30px auto;
+            text-align: center;
+            width: 66%;
+        }
+        .traveltitle{
+            color: #7a7d7d;
+            font-size: 25px;
+            width: 60%;
+            margin: 30px auto;
+            font-weight: 600;
+        }.main {
+             width: 100%;
+             height: 850px;
+         }
     </style>
 </head>
 <body>
 <div class="main">
     <%@ include file="../include/header.jsp" %>
     <div class="traveltitle">
-        <span>교통편 보기</span>
+        <span>여행지 보기</span>
         <hr/>
     </div>
     <div class="contents">
-        <div class="menu1">
-            <div class="menu1-1">여행 일정 추가</div>
-            <div class="menuhr"><hr/></div>
-            <a href="/travel">여행 장소 선택</a>
-            <a href="map">여행 일정 추가</a>
-            <a href="traffic">교통편 보기</a>
-            <a href="/">TOP 여행지</a>
-            <a href="/">여행 기록</a>
-        </div>
+
         <div class="contents-1">
             <div class="header">
-                <h1>여행키워드를 선택하슈</h1>
+                <h1>여행 키워드를 선택하세요🗺</h1>
             </div>
             <div class="category-list">
                 <button data-category="" onclick="filterItems('')">전체</button>
@@ -99,7 +114,7 @@
                 <button data-category="관광" onclick="filterItems('관광')">관광</button>
                 <button data-category="추천" onclick="filterItems('추천')">추천</button>
                 <button data-category="가성비" onclick="filterItems('가성비')">가성비</button>
-                <button data-category="슈하스코" onclick="filterItems('슈하스코')">슈하스코</button>
+                <button data-category="인기" onclick="filterItems('인기')">인기</button>
             </div>
             <div class="item-list">
 
@@ -115,16 +130,16 @@
     let isLoading = false; // 데이터 로딩 중 여부
     const selectedCategories = [];
     let selectedCategory = ''; // 선택한 카테고리
-
+    var isLiked = true;
     const items = document.querySelectorAll('.item');
     var itemContainer = document.querySelector('.item-list');
 
     function appendNewData(response) {
-        console.log(response)
+        // console.log(response)
         if (response.length > 0) {
                 // 새로운 데이터를 화면에 추가
                 response.forEach(function (data) {
-                    console.log(data);
+                    // console.log(data);
                     var itemDiv = document.createElement('div');
                     itemDiv.className = 'item';
                     var itemImage = document.createElement('img');
@@ -143,7 +158,7 @@
 
                     var itemParagraphs = [
                         "위치: " + data.location,
-                        "태그: " + data.tags,
+                        // "태그: " + data.tags,
                         "여행 유형: " + data.travel_type,
                         "좋아요 수: " + data.likeCount,
                         "별점: " + data.starCount
@@ -154,7 +169,25 @@
                         paragraph.textContent = text;
                         itemDiv.appendChild(paragraph);
                     });
+                    // 좋아요 버튼 추가
+                    var likeButton = document.createElement('button');
+                    likeButton.className = 'like-button';
+                    var likeimg = document.createElement('img');
+                    likeimg.src = '../../../resources/images/likeicon.png';
+                    likeButton.dataset.itemId = data.t_num; // 아이템 ID 저장
+                    likeButton.dataset.liked = isLiked;
 
+                    likeButton.append(likeimg);
+                    itemDiv.appendChild(likeButton);
+
+                    // 즐겨찾기 버튼 추가
+                    var bookmarkButton = document.createElement('button');
+                    bookmarkButton.className = 'bookmark-button';
+                    var bookmarkimg = document.createElement('img');
+                    bookmarkimg.src = '../../../resources/images/hart.png';
+                    bookmarkButton.dataset.itemId = data.t_num; // 아이템 ID 저장
+                    bookmarkButton.append(bookmarkimg);
+                    itemDiv.appendChild(bookmarkButton);
                     itemContainer.appendChild(itemDiv);
                 });
             page++; // 다음 페이지로 이동
@@ -163,10 +196,57 @@
         }
     }
 
+    $(document).on('click', '.like-button', function () {
+        var itemId = $(this).data("item-id");
+        var likeButton = $(this);
+
+        // 현재 좋아요 상태 확인
+        var isLiked = likeButton.data("liked");
+
+        // 서버로 좋아요 토글 이벤트 전달
+        $.ajax({
+            url: '/toggleLikeTraveling',
+            method: 'POST',
+            data: {
+                itemId: itemId,
+                isLiked: !isLiked,
+            },
+            success: function (response) {
+
+                if (response.updated) {
+                    // 클라이언트에서 좋아요 상태 업데이트
+                    likeButton.data("liked", !likeButton.data("liked"));
+
+                    // 좋아요 수 업데이트
+                    var likeCountElement = likeButton.siblings(".like-count");
+                    var likeCount = parseInt(likeCountElement.text());
+
+                    if (likeButton.data("liked")) {
+                        likeCount++; // 좋아요 추가
+                    } else {
+                        likeCount--; // 좋아요 제거
+                    }
+
+                    likeCountElement.text(likeCount);
+                }
+            },
+            error: function () {
+                // 에러 처리
+            },
+        });
+    });
+
+
+    // 즐겨찾기 버튼 클릭 처리
+    function handleBookmarkButtonClick(event) {
+        var itemId = event.target.dataset.itemId;
+        // 서버로 즐겨찾기 이벤트를 보내고 즐겨찾기 상태 업데이트 등의 작업 수행
+        // AJAX 요청 또는 다른 방식으로 처리 가능
+    }
 
     // 데이터 필터링 함수
     function filterItems(category) {
-        console.log(category)
+        // console.log(category)
         selectedCategory = category;
 
         // 모든 아이템 숨기기

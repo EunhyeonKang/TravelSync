@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @RestController
 public class MemberController {
@@ -83,5 +84,13 @@ public class MemberController {
         }
         return mav;
     }
-
+    @PostMapping("/selectAllGroupMembers")
+    public ResponseEntity<List<Member>> selectAllGroupMembers(@RequestParam int groupId) {
+        try {
+            List<Member> selectAllGroupMember = memberService.selectAllGroupMembers(groupId);
+            return ResponseEntity.ok(selectAllGroupMember);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null);
+        }
+    }
 }

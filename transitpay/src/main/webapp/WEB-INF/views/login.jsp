@@ -48,6 +48,14 @@
             kakao_img: "http://k.kakaocdn.net/dn/b8XagJ/btssTqJHXWP/y9huItKDndOduWJJEY7S3K/img_640x640.jpg",
             kakao_id: "3024819436"
         }
+        var member1 = {
+            name: "테스트2",
+            phone: "010-0909-0811",
+            email: "test2@test.com",
+            join_date: "2023-09-12T04:17:16Z",
+            kakao_img: "http://k.kakaocdn.net/dn/U9FRo/btst0zFhb4P/eh7HxK1ZBHtFqkGqC3CHRK/img_640x640.jpg",
+            kakao_id: "3025165876"
+        }
 
         var modal = $("#myModal");
 
@@ -55,7 +63,7 @@
         $.ajax({
             type: "POST",
             url: "/insertKakaoAndPhoneMember",
-            data: JSON.stringify(member),
+            data: JSON.stringify(member1),
             contentType: "application/json",
             success: function(response) {
                 alert(response);

@@ -18,6 +18,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 @Service
@@ -179,5 +180,10 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Member selectEmailOneMember(String email) {
         return memberRepository.selectEmailOneMember(email);
+    }
+
+    @Override
+    public List<Member> selectAllGroupMembers(int groupId) {
+        return memberRepository.selectAllGroupMembers(groupId);
     }
 }

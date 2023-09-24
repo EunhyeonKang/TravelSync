@@ -6,7 +6,7 @@
         <div class="first">
             <a href="">
                 <div class="img">
-                    <img src="../../resources/images/pay.png" style="" alt="">
+                    <img src="../../resources/images/1fa77.png" style="" alt="">
                 </div>
                 <div class="t_wrap">
                     <p class="name">모임통장</p>
@@ -16,7 +16,7 @@
         <div class="first">
             <a href="">
                 <div class="img">
-                    <img src="../../resources/images/pay.png" style="" alt="">
+                    <img src="../../resources/images/1f4c5.png" style="" alt="">
                 </div>
                 <div class="t_wrap">
                     <p class="name">모임통장</p>
@@ -26,7 +26,7 @@
         <div class="first">
             <a href="">
                 <div class="img">
-                    <img src="../../resources/images/img-hana-symbol.png" style="" alt="">
+                    <img src="../../resources/images/smile2.gif" style="" alt="">
                 </div>
                 <div class="t_wrap">
                     <p class="name">정산하기</p>

@@ -60,9 +60,13 @@ class RouteController {
     public String currencyhanam() throws Exception {
         return "/hana/currencyhanam";
     }
-    @GetMapping("/depositOrWithdrawal")
-    public String depositOrWithdrawal() throws Exception {
-        return "/hana/depositOrWithdrawal";
+    @GetMapping("/deposit")
+    public String deposit() throws Exception {
+        return "/hana/deposit";
+    }
+    @GetMapping("/transfer")
+    public String transfer() throws Exception{
+        return "/hana/accountTransfer";
     }
     @GetMapping("/account")
     public String account() throws Exception {

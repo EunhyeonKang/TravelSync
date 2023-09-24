@@ -1,9 +1,6 @@
 package com.hanacard.transitpay.member.model.dao;
 
-import com.hanacard.transitpay.member.model.dto.Account;
-import com.hanacard.transitpay.member.model.dto.GroupAccount;
-import com.hanacard.transitpay.member.model.dto.GroupAccountDetail;
-import com.hanacard.transitpay.member.model.dto.GroupMember;
+import com.hanacard.transitpay.member.model.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -48,4 +45,23 @@ public interface AccountRepository {
     Account JoinGroupAccountAndMemberAccount(int memberId);
     void deleteGroups(int groupId);
     void accountJoinForm(int memberId,String phone);
+    List<GroupAccountStatement> selectGroupAccountChart(int groupId);
+
+    void updatePwState(int memberId, String groupId);
+
+    List<GroupAccount> getTransactionsByAccount(String accountNum);
+    List<GroupAccount> getTransactionsByMember(int memberId, int groupId);
+
+    List<Account> selectMyAccountStatement(int memberId);
+
+    void insertAccountStatementTransfer(String accountNum, String groupAccount, String type, int balance, String accountContent);
+
+    void insertGroupAccountStatementTransfer(String accountNum, String groupAccount, String type, int balance, String accountContent);
+
+    void updateAccountBalanceTransfer(@Param("account_id") int account_id,
+                                      @Param("account_num") String account_num,
+                                      @Param("balance") int balance,
+                                      @Param("account_bank") String account_bank);
+
+    void updateGroupAccountBalanceTransfer(String groupAccount, int balance);
 }

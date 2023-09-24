@@ -1,10 +1,7 @@
 package com.hanacard.transitpay.member.service;
 
 import com.hanacard.transitpay.member.model.dao.AccountRepository;
-import com.hanacard.transitpay.member.model.dto.Account;
-import com.hanacard.transitpay.member.model.dto.GroupAccount;
-import com.hanacard.transitpay.member.model.dto.GroupAccountDetail;
-import com.hanacard.transitpay.member.model.dto.GroupMember;
+import com.hanacard.transitpay.member.model.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -121,16 +118,28 @@ public class AccountServiceImpl implements AccountService {
         String groupName = (String) depositData.get("groupName");
         String groupAccount = (String) depositData.get("groupAccount");
         String balance = (String) depositData.get("balance");
-        accountRepository.insertAccountStatement(accountNum,groupAccount,"OUT",Integer.parseInt(balance),"테스트용1");
-        System.out.println(1);
-        accountRepository.insertGroupAccountStatement(accountNum,groupAccount,"IN",Integer.parseInt(balance),"테스트용2");
-        System.out.println(2);
+        String transactionContent = (String)depositData.get("transaction_content");
+        accountRepository.insertAccountStatement(accountNum,groupAccount,"OUT",Integer.parseInt(balance),transactionContent);
+        accountRepository.insertGroupAccountStatement(accountNum,groupAccount,"IN",Integer.parseInt(balance),transactionContent);
         accountRepository.updateAccountBalance(memberId, accountNum, Integer.parseInt(balance), accountBank);
-        System.out.println(3);
         accountRepository.updateGroupAccountBalance(groupAccount,Integer.parseInt(balance));
-        System.out.println(4);
     }
-
+    @Override
+    @Transactional
+    public void updateAccountBalanceTransfer(int memberId, Map<String, String> depositData) {
+        //계좌
+        String accountBank = (String) depositData.get("accountBank");
+        String accountNum = (String) depositData.get("accountNum");
+        //모임통장
+        String groupName = (String) depositData.get("groupName");
+        String groupAccount = (String) depositData.get("groupAccount");
+        String balance = (String) depositData.get("balance");
+        String transactionContent = (String)depositData.get("transaction_content");
+        accountRepository.insertAccountStatementTransfer(accountNum,groupAccount,"IN",Integer.parseInt(balance),transactionContent);
+        accountRepository.insertGroupAccountStatementTransfer(accountNum,groupAccount,"OUT",Integer.parseInt(balance),transactionContent);
+        accountRepository.updateAccountBalanceTransfer(memberId, accountNum, Integer.parseInt(balance), accountBank);
+        accountRepository.updateGroupAccountBalanceTransfer(groupAccount,Integer.parseInt(balance));
+    }
     @Override
     public List<GroupAccount> selectGroupAccountStatement(String groupAccount) {
         return accountRepository.selectGroupAccountStatement(groupAccount);
@@ -150,6 +159,32 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void accountJoinForm(int memberId,String phone) {
         accountRepository.accountJoinForm(memberId,phone);
+    }
+
+    @Override
+    public List<GroupAccountStatement> selectGroupAccountChart(String groupId) {
+        return accountRepository.selectGroupAccountChart(Integer.parseInt(groupId));
+    }
+
+    @Override
+    @Transactional
+    public void updatePwState(int memberId, String groupId) {
+        accountRepository.updatePwState(memberId,groupId);
+    }
+
+    @Override
+    public List<GroupAccount> getTransactionsByAccount(String accountNum) {
+        return accountRepository.getTransactionsByAccount(accountNum);
+    }
+
+    @Override
+    public List<GroupAccount> getTransactionsByMember(int memberId, int groupId) {
+        return accountRepository.getTransactionsByMember(memberId,groupId);
+    }
+
+    @Override
+    public List<Account> selectMyAccountStatement(int memberId) {
+        return accountRepository.selectMyAccountStatement(memberId);
     }
 }
 

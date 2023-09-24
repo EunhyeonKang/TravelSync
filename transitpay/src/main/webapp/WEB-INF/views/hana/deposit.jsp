@@ -34,7 +34,7 @@
             <div class="exchange">
                 <div class="exchange-1">
                     <div class="container2">
-                        <div class="day">입출금할 내용을 입력해주세요</div>
+                        <div class="day">회비 입금할 내용을 입력해주세요</div>
                         <button class="addplace-1"><div class="addtext"> <span class="account-number">${groupAccount.group_account}</span></div></button>
                     </div>
                     <!-- 검색 화면 -->
@@ -61,10 +61,12 @@
                                 <input type="text" name="group_name" value="${sessionScope.groupAccountDetail.group_name}"/>
                                 <br/>
                                 <span class="idbox">입금 계좌</span>
-                                <input type="text" name="group_account" value="${sessionScope.groupAccountDetail.group_account}"/>
+                                <input type="text" name="group_account" value="${sessionScope.groupAccountDetail.group_account} (${sessionScope.groupAccountDetail.g_balance})"/>
                                 <br/>
                                 <span class="idbox">입금 금액</span>
                                 <input type="text" name="balance" value="" placeholder="입금 금액을 입력해주세요"/>
+                                <span class="idbox">거래내용</span>
+                                <input type="text" name="transaction_content" value="" placeholder="거래 내용을 입력해주세요"/>
                             </form>
                         </div>
                     </div>
@@ -101,16 +103,17 @@
         var selectedOption = selectType.options[selectType.selectedIndex];
         var accountBank = selectedOption.text;
         var groupName = document.querySelector('input[name="group_name"]').value;
-        var groupAccount = document.querySelector('input[name="group_account"]').value;
+        var groupAccount = "${groupAccount.group_account}";
         var balance = document.querySelector('input[name="balance"]').value;
         var groupId = ${sessionScope.groupAccountDetail.group_id};
-
+        var transaction_content = document.querySelector('input[name="transaction_content"]').value;
         var dataToSend = {
             accountBank: accountBank,
             accountNum: accountNum,
             groupName: groupName,
             groupAccount: groupAccount,
-            balance: balance
+            balance: balance,
+            transaction_content : transaction_content
         };
 
         $.ajax({
@@ -145,16 +148,17 @@
                     option.setAttribute('data-balance', item.balance); // 각 옵션에 balance를 저장
                     select.appendChild(option);
                     if (item.account_main === '1') {
-                        const bank = document.querySelector('.bank');
                         var main = document.createElement('div');
                         document.querySelector('input[name=accountId]').value = item.account_id;
                         main.style.color = '#E91E63';
                         main.style.marginLeft = '5px';
                         main.textContent = '(주계좌)';
+
+                        const bank = document.querySelector('.bank');
                         bank.textContent = item.account_bank;
                         bank.appendChild(main);
                         const accountNumber = document.querySelector('.account-number');
-                        accountNumber.textContent = item.account_num;
+                        accountNumber.textContent = "(주계좌) "+item.account_bank + " " +item.account_num;
                         option.selected = true;
                         inputAccountNum.val(item.account_num + "("+item.balance+")");
                     }

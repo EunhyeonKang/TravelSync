@@ -18,6 +18,7 @@
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 15px;
     margin-bottom: 20px;
+    float: left;
 }
 .account-button{
     width: 107px;
@@ -65,20 +66,19 @@
 .charge-type{
     font-weight: 700;
     font-size: 20px;
-    display: flex;
     color: #000000;
 }
 .auto-charge{
-    width: 363px;
-    height: 75px;
+    width: 230px;
+    height: 50px;
     background: #ECEBEB;
+    float: left;
     border-radius: 10px;
     margin: 5px 5px 12px 0px;
 }
 .charge-info{
     font-weight: 700;
     font-size: 20px;
-    align-items: center;
     color: #616161;
     float: left;
     margin-left: 27px;
@@ -92,12 +92,8 @@
     font-size: 20px;
     align-items: center;
     color: #616161;
-    float: right;
-    margin-right: 27px;
     text-align: center;
-    position: relative;
     top: 50%;
-    transform: translateY(-50%);
     border-radius: 15px;
     border: 2px solid #414141;
 }
@@ -125,14 +121,15 @@
 }
 .charge-save-button{
     box-sizing: border-box;
-    width: 261px;
-    height: 44px;
+    width: 60px;
+    height: 50px;
     background: #000000;
     border-radius: 10px;
     color: white;
     font-size: 15px;
     border: 0;
     font-weight: 600;
+    margin-right: 5px;
 }
 .auto-charge-1{
     width: 363px;
@@ -150,19 +147,17 @@
     margin: 20px 0px 20px 27px;
 }
 .chargebtn{
-    margin: 0 auto;
-    display: table;
+    display: grid;
+    margin-top: 5px;
 }
-.card-1{
+.card-1 {
     margin: 0 auto;
 }
-
 .tvl-card{
     font-weight: 700;
     font-size: 20px;
     color: #000000;
     text-align: center;
-    display: block;
     margin: 40px 0 27.5px 0;
 }
 /*index*/
@@ -268,11 +263,45 @@
 .acc-box{
     display: flex;
 }
-.card-1, .account, .notification{
-    margin: 0 auto;
+.card-1, .account, .travelbox{
     border: 1px solid #d8d8d8;
     padding: 30px;
     border-radius: 10px;
     margin: 5px;
-
+}
+.travelbox-1, .travelbox-2, .travelbox-3{
+    margin: 10px;
+    width: 30%;
+    display: inline-flex;
+    height: 300px;
+    position: relative;
+}
+.travelbox-1, .travelbox-2{
+    border-right: 1px solid #d8d8d8;
+    /* width: 244px; */
+    position: relative;
+    float: left;
+}
+.travelbox-1 button,
+.travelbox-2 button,
+.travelbox-3 button {
+    box-shadow: 5px 7px 11px 0px #e5e1e1;
+    position: absolute;
+    width: 100%;
+    height: 40px;
+    bottom: 10px;
+    right: 10px;
+    border-radius: 5px;
+    border: 0;
+    background: #f8f8f8;
+}
+.card-1{
+    height: 220px;
+}
+.auto-charge2{
+    display: flex;
+}
+.saveboxcnt a{
+    text-align: center;
+    margin: 0 auto;
 }

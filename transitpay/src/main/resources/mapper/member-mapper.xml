@@ -18,5 +18,9 @@
         insert into member(member_id,email,name,phone,join_date,kakao_img,kakao_id)
         values (member_id_seq.nextval,#{email},#{name},#{phone},#{join_date},#{kakao_img},#{kakao_id})
     </insert>
-
+    <select id="selectAllGroupMembers" parameterType="com.hanacard.transitpay.member.model.dto.Member">
+        select
+            m.*
+        from member m join group_member gm on gm.member_id = m.member_id
+    </select>
 </mapper>

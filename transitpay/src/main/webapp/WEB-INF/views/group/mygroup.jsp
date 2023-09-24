@@ -9,7 +9,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <style>
-
     .main {
         width: 100%;
         height: 850px;
@@ -110,7 +109,7 @@
         color: #000000;
     }
     .applyBox{
-        width: 300px;
+        width: 275px;
         height: 50px;
         background: rgba(0, 152, 153, 0.73);
         border: 1px solid #FFFFFF;
@@ -119,6 +118,18 @@
         margin: 10px;
     }
     .applyBtn{
+        font-weight: 700;
+        font-size: 18px;
+        text-align: center;
+        color: #FFFFFF;
+        background: #1e6c93;
+        border: 0;
+        text-align: center;
+        margin: 0 auto;
+        width: 100%;
+        padding: 15px 0;
+    }
+    .applyBtn1{
         font-weight: 700;
         font-size: 18px;
         text-align: center;
@@ -338,36 +349,7 @@
         display: flex;
         width: 70%;
     }
-    /* 추가된 CSS 스타일링 */
-    .fold-content {
-        display: none; /* 초기에는 숨김 */
-        padding: 10px;
-        border: 1px solid #ccc;
-        background-color: #f8f8f8;
-    }
 
-    .fold-open .fold-content {
-        display: block; /* .fold-open 클래스가 있는 경우 보이게 함 */
-    }
-
-    .fold-table {
-        width: 100%;
-    }
-
-    .fold-table th, .fold-table td {
-        padding: 8px;
-        border: 1px solid #ccc;
-        text-align: center;
-    }
-
-    .fold-table th {
-        background-color: #a1a1a1;
-        color: white;
-    }
-
-    .fold-table tr.view:hover {
-        background-color: #f5f5f5;
-    }
     .chartbox{
         display: block;
         box-sizing: border-box;
@@ -403,6 +385,27 @@
         margin: 40px;
         text-align: center;
     }
+    .group-member-img{
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        margin-right: 10px;
+    }
+    #accountSelect, #memberSelect{
+        border: 1px solid #a4a4a4;
+        padding: 10px;
+        width: 205px;
+    }
+    .accountBtn, .memberBtn{
+        padding: 10px;
+        border: 1px solid #5e83aafc;
+        background: #5e83aafc;
+        color: white;
+    }
+    .category-selectbox{
+        text-align: center;
+        margin-bottom: 20px;
+    }
 </style>
 <body>
 <div class="main">
@@ -423,20 +426,8 @@
                     <div class="accountNum"></div>
                 </div>
                 <div class="stepper">
-                    <div class="line"></div>
-                    <div class="step">
-                        <div class="circle active">1</div>
-                    </div>
-                    <div class="step">
-                        <div class="circle">2</div>
-                    </div>
-                    <div class="step">
-                        <div class="circle">3</div>
-                    </div>
                 </div>
             </div>
-
-
             <div class="section-3">
                 <div class="newAccount"></div>
                 <div class="chartbox">
@@ -454,9 +445,8 @@
                                 success: function(response) {
                                     document.querySelector('.accountName').textContent = response.group_name;
                                     document.querySelector('.accountNum').textContent = response.group_account;
-
                                     const hanaClass = document.querySelector('.hanaClass');
-                                    hanaClass.textContent = "총 "+response.g_balance+"원";
+                                    hanaClass.textContent = "총 "+response.g_balance.toLocaleString()+"원";
                                     const newAccount = document.querySelector('.newAccount');
                                     newAccount.textContent = response.g_month + " "+response.g_day+"일, "+response.g_dues+"만원씩";
                                 }
@@ -466,31 +456,38 @@
                 </div>
                 <div class="mygroup-box">
                     <div class="applyBox">
-                        <button class="applyBtn" onclick="depositOrWithdrawal()">입출금</button>
+                        <button class="applyBtn" onclick="deposit()">회비 입금</button>
                     </div>
                     <div class="applyBox">
-                        <button class="applyBtn" onclick="location.href='/travel'">여행하러가기</button>
+                        <button class="applyBtn" onclick="accountTransfer()">이체</button>
+                    </div>
+                    <div class="applyBox">
+                        <button class="applyBtn1" onclick="location.href='/travel'">여행하러가기</button>
                     </div>
                 </div>
 
-
-
-                <table class="fold-table">
+                <table id="example" class="display" style="width:100%">
+                    <div class="category-selectbox">
+                        <select id="accountSelect">
+                        </select>
+                        <button class="accountBtn" onclick="getTransactionsByAccount()">계좌별 조회</button>
+                        <select id="memberSelect">
+                        </select>
+                        <button class="memberBtn" onclick="getTransactionsByMember()">사용자별 조회</button>
+                    </div>
                     <thead>
-                        <tr>
-                            <th>보낸사람</th>
-                            <th>받는사람</th>
-                            <th>날짜</th>
-                            <th><span class="visible-small" title="Premiumns"></span><span class="visible-big">출금</span></th>
-                            <th><span class="visible-small" title="Strategy A"></span><span class="visible-big">입금</span></th>
-                            <th><span class="visible-small" title="Strategy B"></span><span class="visible-big">금액</span></th>
-                            <th><span class="visible-small" title="Strategy C"></span><span class="visible-big">거래내용</span></th>
-                        </tr>
+                    <tr>
+                        <th>번호</th>
+                        <th>모임계좌</th>
+                        <th>입금자</th>
+                        <th>거래유형</th>
+                        <th>잔액</th>
+                        <th>입금금액</th>
+                        <th>입금날짜</th>
+                        <th>입금내용</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr class="view">
-                            <!-- 첫 번째 행 내용 -->
-                        </tr>
 
                     </tbody>
                 </table>
@@ -562,34 +559,172 @@
 </div>
 </div>
 </body>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css"/>
 <script>
-        const data = {
-            labels: [
-            '은현',
-            '민영',
-            '태현'
-            ],
-            datasets: [{
-            label: 'My First Dataset',
-            data: [300, 50, 100],
-            backgroundColor: [
-            'rgb(255, 99, 132)',
-            'rgb(54, 162, 235)',
-            'rgb(255, 205, 86)'
-            ],
-            hoverOffset: 4
-        }]
-        };
-            const config = {
-            type: 'doughnut',
-            data: data,
-        };
+    function getTransactionsByAccount(){
+        //선택한 계좌
+        var selectedAccount = $("#accountSelect").val();
+        $.ajax({
+            url:'/getTransactionsByAccount',
+            method: "POST",
+            data : {accountNum : selectedAccount},
+            success: function(response) {
+                var table = $('#example').DataTable();
+                table.clear().draw();
+                table.rows.add(response).draw();
+            },
+            error: function(error) {
+                console.error("Error occurred:", error);
+            }
+        });
+    }
+    function getTransactionsByMember(){
+        var selectedMember = $("#memberSelect").val();
+        $.ajax({
+            url:'/getTransactionsByMember',
+            method: "POST",
+            data: { groupId: "${groupId}" , memberId: selectedMember},
+            success: function(response) {
+                var table = $('#example').DataTable();
+                table.clear().draw();
+                table.rows.add(response).draw();
+            },
+            error: function(error) {
+                console.error("Error occurred:", error);
+            }
+        });
+    }
+    $.ajax({
+        url:'/selectBackAccount',
+        method: "POST",
+        success: function(response) {
+           console.log(response)
+            var accountSelect = $('#accountSelect');
+            response.forEach(function(account) {
+                accountSelect.append($('<option>', {
+                    value: account.account_num,
+                    text: account.account_num // 계좌 번호 또는 다른 필요한 데이터로 대체할 수 있습니다.
+                }));
+            });
+        },
+        error: function(error) {
+            console.error("Error occurred:", error);
+        }
+    });
+    function groupAccountStatement() {
+        var table = $('#example').DataTable({
+            lengthChange: false,
+            buttons: [ 'copy', 'excel', 'pdf', 'colvis' ],
+            columns: [
+                { data: 'group_account_tid' },
+                { data: 'account_num' },
+                { data: 'name' },
+                { data: 'transaction_type' },
+                { data: 'amount' },
+                { data: 'balance' },
+                { data: 'transaction_date' },
+                { data: 'transaction_content' },
+            ]
+        });
+        $.ajax({
+            url: "/selectGroupAccountStatement",
+            type: "POST",
+            success: function (data) {
+                table.rows.add(data).draw();
 
+            },
+            error: function (request, status, error) {
+
+            }
+        });
+    }
+    $.ajax({
+        type: "POST",
+        url: "/selectAllGroupMembers",
+        data: { groupId: "${groupId}" },
+        success: function (response) {
+            console.log(response);
+            var groupmember = document.querySelector('.stepper');
+            response.forEach(function(member) {
+                var groupMemberImg = document.createElement('img');
+                groupMemberImg.className = 'group-member-img';
+                groupMemberImg.src = member.kakao_img;
+                groupmember.appendChild(groupMemberImg);
+            });
+        },
+        error: function (error) {
+            console.error(error);
+        },
+    });
+    $.ajax({
+        type: "POST",
+        url: "/selectGroupAccountChart",
+        data: { groupId: "${groupId}" },
+        success: function (response) {
+            console.log(response)
+            var memberSelect = $('#memberSelect');
+            memberSelect.empty();
+
+            response.forEach(function(member) {
+                memberSelect.append($('<option>', {
+                    value: member.member_id,
+                    text: member.name // 멤버 이름 또는 다른 필요한 데이터로 대체할 수 있습니다.
+                }));
+            });
+            // 고정된 색상 배열
+            const fixedColors = [
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+                'rgb(255, 205, 86)'
+            ];
+            // 데이터 가공
+            const data = response.map((item,index) => {
+                return {
+                    label: item.name,
+                    data: item.amount,
+                    backgroundColor: fixedColors[index % fixedColors.length],
+                    hoverOffset: 4
+                };
+            });
+
+            // 차트 설정
+            const chartData = {
+                labels: data.map(item => item.label),
+                datasets: [
+                    {
+                        data: data.map(item => item.data),
+                        backgroundColor: data.map(item => item.backgroundColor),
+                        hoverOffset: 4,
+                    },
+                ],
+            };
+
+            const chartConfig = {
+                type: 'doughnut',
+                data: chartData,
+            };
+
+            // 차트 생성
             const myChart = new Chart(
-            document.getElementById('myChart'),
-            config
+                document.getElementById('myChart'),
+                chartConfig
             );
+        },
+        error: function (error) {
+            console.error(error);
+        },
+    });
 
+    // 랜덤 색상 생성 함수
+    function getRandomColor() {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
     // 동의 모두선택 / 해제
     const agreeChkAll = document.querySelector('input[name=agree_all]');
     agreeChkAll.addEventListener('change', (e) => {
@@ -598,16 +733,19 @@
             agreeChk[i].checked = e.target.checked;
         }
     });
-    function depositOrWithdrawal(){
+    function deposit(){
         var groupAccount = "${sessionScope.groupAccountDetail}";
 
         if(groupAccount !=""){
-            //입출금
-            location.href='/depositOrWithdrawal';
+            //회비 입금
+            location.href='/deposit';
         }else{
             //계좌개설
             location.href='/account';
         }
+    }
+    function accountTransfer(){
+        location.href ='/transfer';
     }
     function submitForm(){
         var modal = document.getElementById('myModal');
@@ -627,7 +765,7 @@
                     alert('접속완료')
                     //groupaccount에 insert
                     //연결계좌 확인
-                    connectAccount();
+                    // connectAccount();
                     //총 그룹계좌 내역 조회
                     // totalGroupAccountStat();
                 }else{
@@ -673,13 +811,16 @@
             data: { groupId : groupId},
             success: function(response) {
                 if(response!=""){
-                    //모임원이면 비밀번호입력
-                    openModal();
+                    if(response.pw_state !=1){
+                        //모임원인데 비밀번호입력안한 모임원만 비밀번호입력
+                        openModal();
+                    }else {
+                        connectAccount();
+                    }
                 }else{
                     //모임원아니면 초대수락
                     groupInviteModal();
                 }
-                console.log(response+ " selectGroupMember");
             },
             error: function(error) {
             }
@@ -705,6 +846,7 @@
         })
 
     }
+    /*
     function groupAccountStatement(){
         //모임통장 거래내역
         $.ajax({
@@ -732,15 +874,15 @@
 
                         var tdcur1 = document.createElement("td");
                         tdcur1.className = 'cur';
-                        tdcur1.textContent = '-';
+                        tdcur1.textContent = item.transaction_type;
 
                         var tdper = document.createElement("td");
                         tdper.className = 'per';
-                        tdper.textContent = item.transaction_type;
+                        tdper.textContent = item.amount;
 
                         var tdper1 = document.createElement("td");
                         tdper1.className = 'per';
-                        tdper1.textContent = item.amount;
+                        tdper1.textContent = item.balance;
 
                         var tdper2 = document.createElement("td");
                         tdper2.className = 'per';
@@ -770,7 +912,7 @@
                 // 오류 처리
             }
         });
-    }
+    }*/
     function openModal() {
         var modal = document.getElementById('myModal');
         modal.style.display = 'block';

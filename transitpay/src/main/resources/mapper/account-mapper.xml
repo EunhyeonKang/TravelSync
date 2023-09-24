@@ -88,6 +88,20 @@
     <select id="selectGroupMember" resultType="com.hanacard.transitpay.member.model.dto.GroupMember">
         select * from group_member where member_id = #{param1} and group_id=#{param2}
     </select>
+
+    <!-- 회비 입금 거래내역 -->
+    <insert id="insertAccountStatement">
+       INSERT INTO ACCOUNT_STATEMENT (account_tid, account_num, target_account_num, transaction_type, amount, balance, transaction_date, transaction_content)
+        VALUES (account_tid_seq.NEXTVAL, #{param1}, #{param2}, #{param3},
+                (SELECT balance FROM ACCOUNT WHERE account_num = #{param1}) - #{param4},
+                #{param4}, SYSTIMESTAMP, #{param5})
+    </insert>
+    <insert id="insertGroupAccountStatement">
+        INSERT INTO GROUP_ACCOUNT_STATEMENT (group_account_tid, account_num, target_account_num, transaction_type, amount, balance, transaction_date, transaction_content)
+        VALUES (group_account_tid_seq.NEXTVAL,  #{param2}, #{param1}, #{param3},
+                (SELECT g_balance FROM group_account WHERE group_account = #{param2}) + #{param4},
+                #{param4}, SYSTIMESTAMP, #{param5})
+    </insert>
     <update id="updateAccountBalance">
         UPDATE account
         SET balance = balance - #{balance}
@@ -98,26 +112,41 @@
         SET ga.g_balance = ga.g_balance + #{param2}
         WHERE ga.group_account IN (SELECT g.group_account AS group_account FROM groups g WHERE g.group_account = #{param1})
     </update>
-    <insert id="insertAccountStatement">
-       INSERT INTO ACCOUNT_STATEMENT (account_tid, account_num, target_account_num, transaction_type, amount, balance, transaction_date, transaction_content)
+
+    <!-- 이체 거래내역 -->
+    <insert id="insertAccountStatementTransfer">
+        INSERT INTO ACCOUNT_STATEMENT (account_tid, account_num, target_account_num, transaction_type, amount, balance, transaction_date, transaction_content)
         VALUES (account_tid_seq.NEXTVAL, #{param1}, #{param2}, #{param3},
-            (
-            SELECT balance FROM ACCOUNT
-            WHERE account_num = #{param1}
-            ),
-            (SELECT balance FROM ACCOUNT WHERE account_num = #{param1}) - #{param4}, SYSTIMESTAMP, #{param5})
+                (SELECT balance FROM ACCOUNT WHERE account_num = #{param1}) + #{param4},
+                #{param4}, SYSTIMESTAMP, #{param5})
     </insert>
-    <insert id="insertGroupAccountStatement">
+    <insert id="insertGroupAccountStatementTransfer">
         INSERT INTO GROUP_ACCOUNT_STATEMENT (group_account_tid, account_num, target_account_num, transaction_type, amount, balance, transaction_date, transaction_content)
         VALUES (group_account_tid_seq.NEXTVAL,  #{param2}, #{param1}, #{param3},
-            (
-            SELECT g_balance FROM group_account
-            WHERE group_account =  #{param2}
-            ),
-            (SELECT g_balance FROM group_account WHERE group_account = #{param2}) - #{param4}, SYSTIMESTAMP, #{param5})
+                (SELECT g_balance FROM group_account WHERE group_account = #{param2}) - #{param4},
+                #{param4}, SYSTIMESTAMP, #{param5})
     </insert>
+    <update id="updateAccountBalanceTransfer">
+        UPDATE account
+        SET balance = balance + #{balance}
+        where account_id=#{account_id} and account_num=#{account_num} and account_bank=#{account_bank}
+    </update>
+    <update id="updateGroupAccountBalanceTransfer">
+        UPDATE group_account ga
+        SET ga.g_balance = ga.g_balance - #{param2}
+        WHERE ga.group_account IN (SELECT g.group_account AS group_account FROM groups g WHERE g.group_account = #{param1})
+    </update>
+
+
     <select id="selectGroupAccountStatement" resultType="com.hanacard.transitpay.member.model.dto.GroupAccount">
-        select * from GROUP_ACCOUNT_STATEMENT where account_num = #{groupAccount} or target_account_num=#{groupAccount}
+        SELECT gas.*,
+               gm.member_id AS member_id,
+               m.NAME AS name
+        FROM GROUP_ACCOUNT_STATEMENT gas
+                 LEFT JOIN ACCOUNT a ON gas.account_num = a.ACCOUNT_NUM OR gas.target_account_num = a.ACCOUNT_NUM
+                 LEFT JOIN GROUP_MEMBER gm ON a.ACCOUNT_ID = gm.MEMBER_ID
+                 LEFT JOIN MEMBER m ON gm.MEMBER_ID = m.MEMBER_ID
+        WHERE gas.account_num = #{groupAccount} OR gas.target_account_num = #{groupAccount}
     </select>
 
     <select id="JoinGroupAccountAndMemberAccount" resultType="com.hanacard.transitpay.member.model.dto.Account">
@@ -135,5 +164,48 @@
         VALUES
             (#{param1}, '1723133312312', 152000, '하나은행', 5454, 0, #{param2})
     </insert>
+    <select id="selectGroupAccountChart" resultType="com.hanacard.transitpay.member.model.dto.GroupAccountStatement">
+        SELECT
+            gm.MEMBER_ID AS member_id,
+            m.NAME AS name,
+            SUM(gas.BALANCE) AS amount
+        FROM GROUP_MEMBER gm
+                 JOIN MEMBER m ON gm.MEMBER_ID = m.MEMBER_ID
+                 JOIN ACCOUNT a ON gm.MEMBER_ID = a.ACCOUNT_ID
+                 LEFT JOIN GROUP_ACCOUNT_STATEMENT gas ON a.ACCOUNT_NUM = gas.TARGET_ACCOUNT_NUM
+        WHERE gm.GROUP_ID = #{param1}
+        GROUP BY gm.MEMBER_ID, m.NAME
+        ORDER BY gm.MEMBER_ID
+    </select>
+    <update id="updatePwState">
+        update group_member set pw_state=1 where member_id=#{param1} and group_id=#{param2}
+    </update>
+    <select id="getTransactionsByAccount" resultType="com.hanacard.transitpay.member.model.dto.GroupAccount">
+        SELECT gas.*,
+               m.NAME AS name
+        FROM GROUP_ACCOUNT_STATEMENT gas
+                 LEFT JOIN ACCOUNT a ON gas.account_num = a.ACCOUNT_NUM OR gas.target_account_num = a.ACCOUNT_NUM
+                 LEFT JOIN GROUP_MEMBER gm ON a.ACCOUNT_ID = gm.MEMBER_ID
+                 LEFT JOIN MEMBER m ON gm.MEMBER_ID = m.MEMBER_ID
+        WHERE gas.target_account_num = #{accountNum}
+    </select>
+    <select id="getTransactionsByMember" resultType="com.hanacard.transitpay.member.model.dto.GroupAccount">
+        SELECT gas.*,
+               m.NAME AS name
+        FROM GROUP_ACCOUNT_STATEMENT gas
+                 LEFT JOIN ACCOUNT a ON gas.account_num = a.ACCOUNT_NUM OR gas.target_account_num = a.ACCOUNT_NUM
+                 LEFT JOIN GROUP_MEMBER gm ON a.ACCOUNT_ID = gm.MEMBER_ID
+                 LEFT JOIN MEMBER m ON gm.MEMBER_ID = m.MEMBER_ID
+        WHERE gm.member_id = #{param1} and gm.group_id = #{param2}
+    </select>
+    <select id="selectMyAccountStatement">
+        SELECT acs.*,
+               m.NAME AS name
+        FROM ACCOUNT_STATEMENT acs
+                 LEFT JOIN ACCOUNT a ON acs.account_num = a.ACCOUNT_NUM OR acs.target_account_num = a.ACCOUNT_NUM
+                 LEFT JOIN MEMBER m ON a.account_ID = m.MEMBER_ID
+        WHERE m.member_id = #{memberId}
+
+    </select>
 </mapper>
 

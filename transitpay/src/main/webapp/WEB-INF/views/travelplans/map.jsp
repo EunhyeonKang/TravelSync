@@ -269,7 +269,7 @@
                             <table id="foodTable">
                                 <thead>
                                 <tr>
-                                    <th>선택</th> 
+                                    <th>선택</th>
                                     <th>음식</th>
                                     <th>가격</th>
                                     <th>개수</th>

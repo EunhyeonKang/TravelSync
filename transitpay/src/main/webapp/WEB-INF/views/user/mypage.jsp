@@ -4,99 +4,226 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" href="../../../resources/css/travel.css">
     <link rel="stylesheet" href="../../../resources/css/conacoount.css">
     <link rel="stylesheet" href="../../../resources/css/mypage.css">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script defer src="../../resources/js/mypage.js"></script>
 </head>
+<style>
+
+    .backgroundbox{
+        width: 100%;
+        height: 300px;
+        background: linear-gradient(156deg, #0c96a8 0%, rgb(165 225 234 / 87%) 52.08%, #159db0 100%);
+        position: relative;
+    }
+    .backgroundbox .topbox{
+        width: 1400px;
+        height: 700px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translateX(-50%);
+        margin-top: -50px;
+        background: white;
+    }
+    .mypage-user{
+        padding: 30px;
+        margin: 5px;
+        height: 950px;
+        border-right: 1px solid #d8d8d8;
+    }
+    .user-detail{
+        border: 1px solid #d8d8d8;
+        padding: 30px;
+        border-radius: 10px;
+        margin: 5px;
+        height: 300px;
+        width: 150px;
+    }
+    .accountbox{
+        margin-left: 30px;
+    }
+    h2{
+        margin:10px;
+    }
+    .account-box-1{
+        display: flex;
+    }
+    .chartbox{
+        width: 250px;
+    }
+    .auto-charge-box{
+        float: left;
+        padding-left: 30px;
+        border-left: 1px solid #d8d8d8;
+        margin-left: 30px;
+        height: 220px;
+    }
+    .travelbox{
+        padding-bottom: 0;
+        padding-right: 0;
+    }
+    .travelsavebox{
+        padding: 65px;
+        color: #50575d;
+        text-align: center;
+        font-size: 20px;
+        font-weight: 700;
+    }
+    .saveboxcnt{
+        margin-top: 15px;
+    }
+    .chargeboxbtn{
+        display: flex;
+    }
+    .auto-charge-box-1{
+        margin-top: 10px;
+    }
+</style>
 <body>
 <div class="main">
     <%@ include file="../include/header.jsp" %>
-    <div class="traveltitle">
-        마이페이지<hr/></div>
-    <div class="contents">
-        <div class="menu1">
-            <div class="menu1-1">계좌·모임 관리</div>
-            <div class="menuhr"><hr/></div>
-            <a href="mypage">계좌·모임 관리</a>
-            <a href="editMember">회원정보수정</a>
-            <a href="mytravel">여행 관리</a>
-            <!-- 추가 메뉴 항목들 -->
-        </div>
-        <div class="contents-1">
-            <div class="accountbox">
-                <div class="account">
-                    <div class="account-details">
-                        <a href="/accountDetail">
-                        <button class="account-button">연결계좌</button>
-                        </a>
-                        <div class="bank"></div>
-                        <div class="account-info">
-                            <span class="account-number" name="account_num"></span>
-                            <input type="hidden" name="accountId" value="">
-                            <button class="change-account" id="change-account">연결계좌 변경</button>
+<%--    <div class="traveltitle">--%>
+<%--        마이페이지<hr/></div>--%>
+    <div class="backgroundbox">
+        <div class="topbox">
+            <div class="contents">
+                <div class="contents-1">
+                    <div class="accountbox">
+                        <div class="mypage-user">
+                            <div class="user-detail">
+                                <div>
+                                    <img src="">
+                                    <p></p><div>님 환영합니다</div>
+                                </div>
+                                <div>로그아웃</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="notification">
-                    <span class="charge-type">알림관리</span>
-                    <div class="auto-charge">
-                        <span class="charge-info">모임통장 알림</span>
-                        <button class="charge-status">ON</button>
-                    </div>
+                    <div class="accountbox">
+                        <h2>내 여행</h2>
+                        <div class="travelbox">
+                            <div class="travelbox-1">
+                                <div>
+                                    <div>
+                                        <div class="travelsavebox">
+                                            <div>저장된 여행</div>
+                                            <div class="saveboxcnt"><a href="">2개</a></div>
+                                        </div>
+                                    </div>
+                                    <button>여행 찜🩷</button>
+                                </div>
+                            </div>
+                            <div class="travelbox-2">
+                                <div>
+                                    <div>
+                                        <div class="travelsavebox">
+                                            <div>정산할 여행</div>
+                                            <div class="saveboxcnt"><a href="">1개</a></div>
+                                        </div>
+                                    </div>
+                                    <button>정산알림🛎</button>
+                                </div>
+                            </div>
+                            <div class="travelbox-3">
+                                <div class="chartbox">
+                                    <canvas id="myChart"></canvas>
+                                </div>
+                                <div>
+                                    <button>자동이체💰</button>
+                                </div>
+                            </div>
 
-                    <div class="auto-charge-1">
-                        <div class="charge-info-1">회비 및 정산 알림</div>
-                        <div class="charge-condition">
-                            <div class="condition-title">회비 알림</div>
-                            <span class="condition-value">25일</span>
-                            <span class="condition-unit">18시</span>
                         </div>
-                        <div class="charge-amount">
-                            <div class="charge-title">정산 알림</div>
-                            <span class ="condition-value">3일마다</span>
-                            <span class="charge-unit">알림</span>
+                        <h2>나의 프로젝트</h2>
+                        <div class="account-box-1">
+                            <div class="account">
+                                <div class="account-details">
+                                    <a href="/accountDetail">
+                                        <button class="account-button">연결계좌</button>
+                                    </a>
+                                    <div class="bank"></div>
+                                    <div class="account-info">
+                                        <span class="account-number" name="account_num"></span>
+                                        <input type="hidden" name="accountId" value="">
+                                        <button class="change-account" id="change-account">연결계좌 변경</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="account">
+                                <div class="account2">
+                                    <div class="new-account-details">
+                                        <button class="account-button" onclick="location.href='/mygroup/${groupAccount.group_id}'">모임통장</button>
+                                        <div class="bank">${groupAccount.group_name}</div>
+                                        <div class="account-info">
+                                            <span class="account-number">${groupAccount.group_account}</span>
+                                            <input type="hidden" name="accountId" value="">
+                                            <button class="change-account" onclick="location.href='/groupAccountDetail'">모임통장 내역</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="chargebtn">
-                            <button class="charge-save-button">저장</button>
+                        <h2>내 모임</h2>
+                        <div class="card-1">
+                            <div class="account2">
+                                <div class="new-account-details">
+                                    <button class="account-button" onclick="location.href='/mygroup/${groupAccount.group_id}'">모임통장</button>
+                                    <div class="bank">${groupAccount.group_name}</div>
+                                    <div class="account-info">
+                                        <span class="account-number">${groupAccount.group_account}</span>
+                                        <input type="hidden" name="accountId" value="">
+                                        <button class="change-account" onclick="location.href='/groupAccountDetail'">모임통장 내역</button>
+                                    </div>
+                                </div>
+                                <div class="auto-charge-box">
+                                    <div class="auto-charge-box-1">
+                                        <div class="auto-charge">
+                                            <span class="charge-info">회비 및 정산 알림</span>
+                                        </div>
+                                        <div class="auto-charge2">
+                                            <div class="chargebtn">
+                                                <button class="charge-save-button">내역</button>
+                                            </div>
+                                            <div class="chargebtn">
+                                                <button class="charge-save-button">탈퇴</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="auto-charge-box-1">
+                                        <div class="auto-charge">
+                                            <span class="charge-info">회비 및 정산 알림</span>
+                                        </div>
+                                        <div class="auto-charge2">
+                                            <div class="chargebtn">
+                                                <button class="charge-save-button">내역</button>
+                                            </div>
+                                            <div class="chargebtn">
+                                                <button class="charge-save-button">탈퇴</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+<%--                                    <div class="auto-charge">--%>
+<%--                                        <span class="charge-info">모임통장 알림</span>--%>
+<%--                                        <button class="charge-status">ON</button>--%>
+<%--                                    </div>--%>
+
+                                </div>
+                            </div>
+                            <div class="notificationbox">
+                                <div class="notification">
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="card-1">
-                <div class="account2">
-                    <div class="new-account-details">
-                        <button class="account-button" onclick="location.href='/mygroup/${groupAccount.group_id}'">모임통장</button>
-                        <div class="bank">${groupAccount.group_name}</div>
-                        <div class="account-info">
-                            <span class="account-number">${groupAccount.group_account}</span>
-                            <input type="hidden" name="accountId" value="">
-                            <button class="change-account" onclick="location.href='/groupAccountDetail'">모임통장 내역</button>
-                        </div>
-                    </div>
-                    </a>
-                </div>
-                <span class="tvl-card">여행 모임통장 관리</span>
-                <div class="auto-charge">
-                    <span class="charge-info">자동이체 여부</span>
-                    <button class="charge-status">ON</button>
-                </div>
-                <div class="auto-charge">
-                    <span class="charge-info">내 회비 내역</span>
-                    <button class="charge-status">ON</button>
-                </div>
-                <div class="auto-charge">
-                    <span class="charge-info">내 여행 분석</span>
-                    <button class="charge-status">ON</button>
-                </div>
-                <div class="auto-charge">
-                    <span class="charge-info">모임통장 탈퇴</span>
-                    <button class="charge-status" id="deleteGroup">ON</button>
                 </div>
             </div>
         </div>
     </div>
+
     <div id="accountModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -136,9 +263,10 @@
 
         </div>
     </div>
-    <%@ include file="../include/footer.jsp" %>
+<%--    <%@ include file="../include/footer.jsp" %>--%>
 </div>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
     $('#deleteGroup').click( function() {
         var groupId = "${sessionScope.groupAccount.group_id}";
@@ -153,5 +281,62 @@
             }
         });
     } );
+    $.ajax({
+        type: "POST",
+        url: "/selectGroupAccountChart",
+        data: { groupId: "${groupId}" },
+        success: function (response) {
+            var memberSelect = $('#memberSelect');
+            memberSelect.empty();
+
+            response.forEach(function(member) {
+                memberSelect.append($('<option>', {
+                    value: member.member_id,
+                    text: member.name // 멤버 이름 또는 다른 필요한 데이터로 대체할 수 있습니다.
+                }));
+            });
+            // 고정된 색상 배열
+            const fixedColors = [
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+                'rgb(255, 205, 86)'
+            ];
+            // 데이터 가공
+            const data = response.map((item,index) => {
+                return {
+                    label: item.name,
+                    data: item.amount,
+                    backgroundColor: fixedColors[index % fixedColors.length],
+                    hoverOffset: 4
+                };
+            });
+
+            // 차트 설정
+            const chartData = {
+                labels: data.map(item => item.label),
+                datasets: [
+                    {
+                        data: data.map(item => item.data),
+                        backgroundColor: data.map(item => item.backgroundColor),
+                        hoverOffset: 4,
+                    },
+                ],
+            };
+
+            const chartConfig = {
+                type: 'doughnut',
+                data: chartData,
+            };
+
+            // 차트 생성
+            const myChart = new Chart(
+                document.getElementById('myChart'),
+                chartConfig
+            );
+        },
+        error: function (error) {
+            console.error(error);
+        },
+    });
 </script>
 </html>

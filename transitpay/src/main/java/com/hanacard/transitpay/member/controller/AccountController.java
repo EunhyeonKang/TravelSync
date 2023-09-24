@@ -131,7 +131,9 @@ public class AccountController {
     public ResponseEntity<String> inputCheckPassword(String groupId,HttpServletRequest request) {
         try {
             HttpSession session = request.getSession();
+            Member member = (Member) session.getAttribute("member");
             String grouppwd = accountService.inputCheckPassword(groupId);
+            accountService.updatePwState(member.getMember_id(),groupId);
             session.setAttribute("grouppwd",grouppwd);
             return ResponseEntity.ok(grouppwd);
         } catch (Exception e) {
@@ -170,8 +172,18 @@ public class AccountController {
         try {
             HttpSession session = request.getSession();
             Member member = (Member) session.getAttribute("member");
-            System.out.println(depositData);
             accountService.updateAccountBalance(member.getMember_id(),depositData);
+            return new ResponseEntity<>("Success", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @PostMapping("/insertGroupAccountTransfer")
+    public ResponseEntity<String> insertGroupAccountTransfer(@RequestBody Map<String, String> depositData, HttpServletRequest request) {
+        try {
+            HttpSession session = request.getSession();
+            Member member = (Member) session.getAttribute("member");
+            accountService.updateAccountBalanceTransfer(member.getMember_id(),depositData);
             return new ResponseEntity<>("Success", HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Error", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -183,7 +195,6 @@ public class AccountController {
         try {
             HttpSession session = request.getSession();
             GroupAccountDetail groupAccount = (GroupAccountDetail)session.getAttribute("groupAccountDetail");
-            System.out.println(groupAccount);
             List<GroupAccount> groupAccountList = accountService.selectGroupAccountStatement(groupAccount.getGroup_account());
             return ResponseEntity.ok(groupAccountList);
         } catch (Exception e) {
@@ -225,4 +236,43 @@ public class AccountController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("계좌개설 실패");
         }
     }
+    @PostMapping("/selectGroupAccountChart")
+    public ResponseEntity<List<GroupAccountStatement>> selectGroupAccountChart(String groupId){
+        try {
+            List<GroupAccountStatement> groupAccountStatement = accountService.selectGroupAccountChart(groupId);
+            return ResponseEntity.ok(groupAccountStatement);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+    @PostMapping("/getTransactionsByAccount")
+    public ResponseEntity<List<GroupAccount>> getTransactionsByAccount(String accountNum){
+        try {
+            List<GroupAccount> getTransactionsByAccount = accountService.getTransactionsByAccount(accountNum);
+            return ResponseEntity.ok(getTransactionsByAccount);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+    @PostMapping("/getTransactionsByMember")
+    public ResponseEntity<List<GroupAccount>> getTransactionsByMember(@RequestParam int groupId,@RequestParam int memberId){
+        try {
+            List<GroupAccount> getTransactionsByMember = accountService.getTransactionsByMember(memberId,groupId);
+            return ResponseEntity.ok(getTransactionsByMember);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+    @PostMapping("/selectMyAccountStatement")
+    public ResponseEntity<List<Account>> selectAccountStatement(HttpServletRequest request){
+        try {
+            HttpSession session = request.getSession(); // 세션 가져오기
+            Member member = (Member)session.getAttribute("member");
+            List<Account> selectMyAccountStatement = accountService.selectMyAccountStatement(member.getMember_id());
+            return ResponseEntity.ok(selectMyAccountStatement);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
 }

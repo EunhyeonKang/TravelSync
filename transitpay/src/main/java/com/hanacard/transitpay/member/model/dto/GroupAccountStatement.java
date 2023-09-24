@@ -10,12 +10,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 /**
- * 모임통장 멤버
+ * 모임통장 계좌 잔액
  */
-public class GroupMember {
-    private int group_member_id;
-    private String group_member_type;
+public class GroupAccountStatement {
     private int member_id;
-    private int group_id;
-    private int pw_state;
+    private String name;
+    private String phone;
+    private String account_num;
+    private int amount;
 }
+

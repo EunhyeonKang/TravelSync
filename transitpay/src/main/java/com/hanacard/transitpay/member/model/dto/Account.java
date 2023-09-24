@@ -22,5 +22,14 @@ public class Account {
     private String account_use;
     private List<Integer> accountIdList;
 
-
+    /**
+     * 내 계좌 거래내역
+     * */
+    private long account_tid;
+    private String target_account_num;
+    private String transaction_type;
+    private int amount;
+    private String transaction_date;
+    private String transaction_content;
+    private String name;
 }

@@ -15,7 +15,7 @@
     font-weight: 700;
     text-align: center;
     color: #979292;
-    padding: 10px;
+    padding-bottom: 30px;
 }
 .addplace-1{
     box-sizing: border-box;
@@ -46,7 +46,7 @@
     display: flex;
 }
 #searchForm input{
-    width: 60%;
+    width: 65%;
     border: 1px solid #bbb;
     padding: 15px 15px;
     border-radius: 10px;

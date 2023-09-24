@@ -328,7 +328,7 @@
                                                 success: function(response) {
                                                     const hanawon = document.querySelector('.hanawon');
                                                     if(response!="") {
-                                                        hanawon.textContent = response.g_balance + '원';
+                                                        hanawon.textContent = response.g_balance.toLocaleString() + '원';
                                                     }else{
                                                         hanawon.textContent = '모임통장 개설';
                                                     }

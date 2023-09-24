@@ -18,16 +18,16 @@
                 <c:choose>
                     <c:when test="${sessionScope.member != null}">
                         <li><a href="/categoryTravel">여행정보 보기</a></li>
-                        <li><a href="javascript:void(0);" onclick="updateGroupAccount();">내 모임통장</a></li>
+                        <li><a href="/group">모임통장 개설</a></li>
                         <li><a href="/travel">여행계획</a></li>
                         <li><a href="/travel">게시판</a></li>
                     </c:when>
                     <c:otherwise>
-                        <li><a href="/categoryTravel">여행정보 보기</a></li>
-                        <li><a href="/group">모임통장 개설</a></li>
-                        <li><a href="/travel">여행계획</a></li>
-                        <li><a href="/travel">게시판</a></li>
-                        <li><a href="/mypage">마이페이지</a></li>
+<%--                        <li><a href="/categoryTravel">여행정보 보기</a></li>--%>
+<%--                        <li><a href="/group">모임통장 개설</a></li>--%>
+<%--                        <li><a href="/travel">여행계획</a></li>--%>
+<%--                        <li><a href="/travel">게시판</a></li>--%>
+<%--                        <li><a href="/mypage">마이페이지</a></li>--%>
                     </c:otherwise>
                 </c:choose>
             </ul>

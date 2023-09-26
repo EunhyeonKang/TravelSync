@@ -67,11 +67,10 @@ body{
 }
 .traffic-modal-content {
     background-color: white;
-    padding: 60px;
     overflow: auto;
     border-radius: 5px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    height: 700px;
+    /*box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);*/
+    width: 100%;
 }
 .startEnd{
      font-weight: 700;

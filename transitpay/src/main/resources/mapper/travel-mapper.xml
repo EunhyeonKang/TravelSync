@@ -55,8 +55,8 @@
     </select>
 
     <insert id="insertTravelAndGetId">
-        INSERT INTO travel (travel_id, travel_title, travel_start, travel_end, travel_place, d_day, member_id)
-        VALUES (travel_id_seq.nextval, #{travelTitle}, #{travelStart}, #{travelEnd}, #{travelPlaceJson}, #{dDay}, #{memberId})
+        INSERT INTO travel (travel_id, travel_title, travel_start, travel_end, travel_place, d_day, group_id)
+        VALUES (travel_id_seq.nextval, #{travelTitle}, #{travelStart}, #{travelEnd}, #{travelPlaceJson}, #{dDay}, #{groupId})
     </insert>
 
     <insert id="insertScheduleSets">
@@ -116,11 +116,64 @@
         WHERE t_num = #{t_num}
     </update>
     <insert id="insertSchedule">
-        INSERT INTO SCHEDULE (SCHEDULE_ID,PNUM,SCHEDULE_DATE,SCHEDULE_PLACE,PRICE,PLACE_X,PLACE_Y,category,TRAVEL_TITLE)
-        VALUES (schedule_id_seq.nextval,#{pnum},#{schedule_date},#{schedule_place},#{price},#{placeX},#{placeY},#{category},#{travel_title})
+        INSERT INTO SCHEDULE (SCHEDULE_ID,PNUM,SCHEDULE_DATE,SCHEDULE_PLACE,PRICE,PLACE_X,PLACE_Y,category,TRAVEL_ID)
+        VALUES (schedule_id_seq.nextval,#{pnum},#{schedule_date},#{schedule_place},#{price},#{placeX},#{placeY},#{category},#{travelId})
     </insert>
     <insert id="insertScheduleTotalAmount">
-        INSERT INTO SCHEDULE_AMOUNT(SCHEDULE_AMOUNT,food_Expenses,accommodation_Expenses,etc_Expenses,TRAVEL_TITLE)
-        VALUES (schedule_amount_seq.nextval,#{food_expenses},#{accommodation_expenses},#{etc_expenses},#{travel_title})
+        INSERT INTO SCHEDULE_AMOUNT(SCHEDULE_AMOUNT,food_Expenses,accommodation_Expenses,etc_Expenses,TRAVEL_ID)
+        VALUES (schedule_amount_seq.nextval,#{food_expenses},#{accommodation_expenses},#{etc_expenses},#{travelId})
     </insert>
+    <select id="selectSchedule" resultType="int">
+        select travel_id from travel where group_id = #{param1} and travel_title =#{param2}
+    </select>
+    <select id="selectMygroupTravelList" resultType="com.hanacard.transitpay.travel.model.dto.MyGroupTravelInfo">
+        SELECT
+            t.travel_id AS travelId,
+            t.travel_title AS travelTitle,
+            t.travel_start AS travelStart,
+            t.travel_end AS travelEnd,
+            t.travel_place AS travelPlace,
+            t.d_day AS dDay,
+            g.group_id AS groupId,
+            g.group_name AS groupName,
+            g.group_type AS groupType,
+            g.group_account AS groupAccount,
+            g.group_use AS groupUse,
+            g.account_num AS accountNum,
+            g.group_leader AS groupLeader,
+            gm.group_member_type AS groupMemberType,
+            gm.pw_state AS pwState
+        FROM
+            travel t
+            RIGHT JOIN group_member gm ON t.group_id = gm.group_id
+            JOIN groups g ON gm.group_id = g.group_id
+        WHERE gm.member_id = #{memberId}
+    </select>
+    <select id="selectMygroupSchedule" resultType="com.hanacard.transitpay.travel.model.dto.Schedule">
+        SELECT
+            s.schedule_id AS schedule_id,
+            s.pnum AS pnum,
+            s.schedule_date AS schedule_date,
+            s.schedule_place AS schedule_place,
+            s.price AS price,
+            s.place_x AS placeX,
+            s.place_y AS placeY,
+            s.category AS category,
+            s.travel_id AS travelId,
+            sa.food_expenses AS food_expenses,
+            sa.accommodation_expenses AS accommodation_expenses,
+            sa.etc_expenses AS etc_expenses
+        FROM schedule s
+                 JOIN schedule_amount sa ON s.travel_id = sa.travel_id
+        WHERE s.travel_id = #{travelId}
+        ORDER BY schedule_date
+    </select>
+    <insert id="insertBookmarkTraveling">
+        insert into favorite_travel values(favorite_id_seq.nextval,#{param2},#{param1})
+    </insert>
+    <select id="selectBookmarkTravelList" resultType="com.hanacard.transitpay.travel.model.dto.TravelInfo">
+        select ti.* from travelinfo ti
+        join favorite_travel ft
+        on ti.t_num = ft.t_num where ft.member_id = #{memberId}
+    </select>
 </mapper>

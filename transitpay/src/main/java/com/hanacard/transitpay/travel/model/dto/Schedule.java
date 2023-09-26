@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 public class Schedule {
     private String title;
-
+    private int schedule_id;
     private String schedule_date;
     private String travel_title;
     private Double placeX;
@@ -23,9 +23,9 @@ public class Schedule {
     private int price;
     private String category;
     private List<Schedule> placeDataList;
-
+    private int groupId;
+    private int travelId;
     private int food_expenses;
     private int accommodation_expenses;
     private int etc_expenses;
-
 }

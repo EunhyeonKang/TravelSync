@@ -40,6 +40,7 @@
         margin: 5px;
         height: 300px;
         width: 150px;
+        background: #fcfcfc;
     }
     .accountbox{
         margin-left: 30px;
@@ -80,6 +81,17 @@
     .auto-charge-box-1{
         margin-top: 10px;
     }
+    .mypage-img{
+        width: 100px;
+        height: 110px;
+        border-radius: 50%;
+    }
+    .mypage-box{
+        text-align: center;
+    }
+    .mypage_logout{
+        float: right;
+    }
 </style>
 <body>
 <div class="main">
@@ -93,11 +105,11 @@
                     <div class="accountbox">
                         <div class="mypage-user">
                             <div class="user-detail">
-                                <div>
-                                    <img src="">
-                                    <p></p><div>님 환영합니다</div>
+                                <div class="mypage-box">
+                                    <img class="mypage-img" src="${sessionScope.member.kakao_img}">
+                                    <p>${sessionScope.member.name}님 환영합니다</p>
                                 </div>
-                                <div>로그아웃</div>
+                                <div class="mypage_logout">로그아웃</div>
                             </div>
                         </div>
                     </div>
@@ -109,7 +121,7 @@
                                     <div>
                                         <div class="travelsavebox">
                                             <div>저장된 여행</div>
-                                            <div class="saveboxcnt"><a href="">2개</a></div>
+                                            <div class="saveboxcnt"><a href="/saveTravel">2개</a></div>
                                         </div>
                                     </div>
                                     <button>여행 찜🩷</button>
@@ -284,17 +296,16 @@
     $.ajax({
         type: "POST",
         url: "/selectGroupAccountChart",
-        data: { groupId: "${groupId}" },
+        data: { groupId: 96 ,groupAccount : "${sessionScope.groupAccountDetail.group_account}"},
         success: function (response) {
             var memberSelect = $('#memberSelect');
             memberSelect.empty();
 
-            response.forEach(function(member) {
-                memberSelect.append($('<option>', {
-                    value: member.member_id,
-                    text: member.name // 멤버 이름 또는 다른 필요한 데이터로 대체할 수 있습니다.
-                }));
-            });
+            memberSelect.append($('<option>', {
+                value: response.member_id,
+                text: response.name // 멤버 이름 또는 다른 필요한 데이터로 대체할 수 있습니다.
+            }));
+
             // 고정된 색상 배열
             const fixedColors = [
                 'rgb(255, 99, 132)',

@@ -73,6 +73,7 @@
             border: 0;
             background: 0;
             margin: 5px;
+            cursor: pointer;
         }
         .like-button img, .bookmark-button img{
             width: 40px;
@@ -91,6 +92,11 @@
         }.main {
              width: 100%;
              height: 850px;
+         }
+         .like-count, .bookmark-count{
+             font-size: 13px;
+             color: #545454;
+             font-weight: 700;
          }
     </style>
 </head>
@@ -156,37 +162,40 @@
                     itemHeading.textContent = data.content;
                     itemDiv.appendChild(itemHeading);
 
-                    var itemParagraphs = [
-                        "위치: " + data.location,
-                        // "태그: " + data.tags,
-                        "여행 유형: " + data.travel_type,
-                        "좋아요 수: " + data.likeCount,
-                        "별점: " + data.starCount
-                    ];
+                    var paragraphlocation = document.createElement('p');
+                    paragraphlocation.textContent = '지역 : ' + data.location;
+                    // var paragraphtag = document.createElement('p');
+                    // paragraphtag.textContent = data.tags;
 
-                    itemParagraphs.forEach(function (text) {
-                        var paragraph = document.createElement('p');
-                        paragraph.textContent = text;
-                        itemDiv.appendChild(paragraph);
-                    });
+                    itemDiv.appendChild(paragraphlocation);
+                    // itemDiv.appendChild(paragraphtag);
+
                     // 좋아요 버튼 추가
                     var likeButton = document.createElement('button');
                     likeButton.className = 'like-button';
                     var likeimg = document.createElement('img');
-                    likeimg.src = '../../../resources/images/likeicon.png';
+                    likeimg.src = '../../../resources/images/1f44d.png';
                     likeButton.dataset.itemId = data.t_num; // 아이템 ID 저장
                     likeButton.dataset.liked = isLiked;
+                    var paragraphlike = document.createElement('span');
+                    paragraphlike.className='like-count';
+                    paragraphlike.textContent = data.likeCount;
 
                     likeButton.append(likeimg);
+                    itemDiv.appendChild(paragraphlike);
                     itemDiv.appendChild(likeButton);
 
                     // 즐겨찾기 버튼 추가
                     var bookmarkButton = document.createElement('button');
                     bookmarkButton.className = 'bookmark-button';
                     var bookmarkimg = document.createElement('img');
-                    bookmarkimg.src = '../../../resources/images/hart.png';
+                    bookmarkimg.src = '../../../resources/images/1fa77.png';
                     bookmarkButton.dataset.itemId = data.t_num; // 아이템 ID 저장
                     bookmarkButton.append(bookmarkimg);
+                    var paragraphbookmark = document.createElement('span');
+                    paragraphbookmark.className='bookmark-count';
+                    paragraphbookmark.textContent = data.starCount;
+                    bookmarkButton.appendChild(paragraphbookmark);
                     itemDiv.appendChild(bookmarkButton);
                     itemContainer.appendChild(itemDiv);
                 });
@@ -212,7 +221,7 @@
                 isLiked: !isLiked,
             },
             success: function (response) {
-
+                console.log(response)
                 if (response.updated) {
                     // 클라이언트에서 좋아요 상태 업데이트
                     likeButton.data("liked", !likeButton.data("liked"));
@@ -227,7 +236,8 @@
                         likeCount--; // 좋아요 제거
                     }
 
-                    likeCountElement.text(likeCount);
+                    likeCountElement.text(likeCount); // 좋아요 수 업데이트
+
                 }
             },
             error: function () {
@@ -238,11 +248,23 @@
 
 
     // 즐겨찾기 버튼 클릭 처리
-    function handleBookmarkButtonClick(event) {
-        var itemId = event.target.dataset.itemId;
-        // 서버로 즐겨찾기 이벤트를 보내고 즐겨찾기 상태 업데이트 등의 작업 수행
-        // AJAX 요청 또는 다른 방식으로 처리 가능
-    }
+    $(document).on('click', '.bookmark-button', function () {
+        var itemId = $(this).data("item-id");
+        // 서버로 좋아요 토글 이벤트 전달
+        $.ajax({
+            url: '/insertBookmarkTraveling',
+            method: 'POST',
+            data: {
+                itemId: itemId
+            },
+            success: function (response) {
+                alert(response);
+            },
+            error: function () {
+                // 에러 처리
+            },
+        });
+    })
 
     // 데이터 필터링 함수
     function filterItems(category) {

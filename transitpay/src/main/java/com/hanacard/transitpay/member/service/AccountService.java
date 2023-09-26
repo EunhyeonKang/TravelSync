@@ -10,7 +10,7 @@ public interface AccountService {
     void updateMainAccount(List<String> accountIdList);
     GroupAccountDetail selectAmountMember(String memberId);
     Map<String, String> insertGroupAccount(GroupAccount groupAccount,Map<String, String> groupData);
-    GroupAccountDetail selectGroupAccountInfo(String memberId);
+    GroupAccountDetail selectGroupAccountInfo(int memberId,int groupId);
     GroupAccount selectVirtureAccountNumber(String account_num, int memberId);
     GroupAccount selectUseTypeAccount(String memberId);
     String inputCheckPassword(String groupId);
@@ -19,10 +19,10 @@ public interface AccountService {
     void updateAccountBalance(int memberId,Map<String, String> depositData);
     void updateAccountBalanceTransfer(int memberId, Map<String, String> depositData);
     List<GroupAccount> selectGroupAccountStatement(String groupAccount);
-    Account JoinGroupAccountAndMemberAccount(int memberId);
+    List<Account> JoinGroupAccountAndMemberAccount(int memberId);
     void deleteGroups(String groupId);
     void accountJoinForm(int memberId,String phone);
-    List<GroupAccountStatement> selectGroupAccountChart(String groupId);
+    List<GroupAccountStatement> selectGroupAccountChart(int groupId,String groupAccount);
     void updatePwState(int memberId, String groupId);
     List<GroupAccount> getTransactionsByAccount(String accountNum);
     List<GroupAccount> getTransactionsByMember(int memberId, int groupId);

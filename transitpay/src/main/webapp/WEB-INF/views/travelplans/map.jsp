@@ -400,7 +400,8 @@
             placeY: placeY,
             travel_title : "${param.travelTitle}",
             price : value,
-            category : category
+            category : category,
+            groupId : ${param.groupId}
         };
         //일정 추가할때마다 db에 저정하기
         $.ajax({
@@ -446,10 +447,9 @@
         foodCloseButton.addEventListener("click", () => {
             modal.style.display = "none";
         });
-
         const currentDiscountValue = getDiscountValue(selectedDetails.tags);
-
         const newDiscountValue = parseInt(currentDiscountValue.replace(/\D/g, '')) + totalPriceForThisPlace;
+        const resultval = newDiscountValue - parseInt(currentDiscountValue.replace(/\D/g, ''));
 
         const discountValue = {
             tags : selectedDetails.tags,
@@ -458,7 +458,7 @@
 
         ws.send(JSON.stringify({ type: 'discountValue', data: discountValue }));
         ws.send(JSON.stringify({ type: 'amountValue', data: totalPriceForThisPlace }));
-        insertSchedule(selectedDetails.tags,newDiscountValue);
+        insertSchedule(selectedDetails.tags,resultval);
     });
     function updateAmountValue(totalPriceForThisPlace){
         const amountValue = document.querySelector('.amount-value');
@@ -815,7 +815,8 @@
             travel_title: "${param.travelTitle}",
             food_expenses: parseInt(document.querySelector('.discount-value').textContent.replace(/[^0-9.]/g, ''), 10),
             accommodation_expenses: parseInt(document.querySelector('.rate-value').textContent.replace(/[^0-9.]/g, ''), 10),
-            etc_expenses: parseInt(document.querySelector('.etc-value').textContent.replace(/[^0-9.]/g, ''), 10)
+            etc_expenses: parseInt(document.querySelector('.etc-value').textContent.replace(/[^0-9.]/g, ''), 10),
+            groupId : ${param.groupId}
         };
         $.ajax({
             url:'/insertScheduleTotalAmount',  // 수정된 부분
@@ -826,7 +827,7 @@
                 'Content-Type': 'application/json'
             },
             success: function(response) {
-
+                ws.send(JSON.stringify({ type: 'saveTravel'}));
             },
             error: function(error) {
                 console.error("Error occurred:", error);

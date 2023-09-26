@@ -320,22 +320,7 @@
                                 <button class="logout" onclick="performLogout();">로그아웃</button>
                                     <script>
                                         $(document).ready(function() {
-                                            var memberId = "${sessionScope.member.member_id}";
-                                            $.ajax({
-                                                url:'/selectGroupAccountInfo',
-                                                data: { memberId : memberId },
-                                                method: "POST",
-                                                success: function(response) {
-                                                    const hanawon = document.querySelector('.hanawon');
-                                                    if(response!="") {
-                                                        hanawon.textContent = response.g_balance.toLocaleString() + '원';
-                                                    }else{
-                                                        hanawon.textContent = '모임통장 개설';
-                                                    }
-                                                    // const newAccount = document.querySelector('.newAccount');
-                                                    // newAccount.textContent = response.g_month + " "+response.g_day+"일, "+response.g_dues+"만원씩";
-                                                }
-                                            })
+
                                         })
                                     </script>
                                 </c:when>
@@ -488,24 +473,53 @@
     }
 
 */
-    function selectGroupAccount(){
+    async function selectGroupAccount(groupIdList){
         var memberId = "${sessionScope.member.member_id}";
         if(memberId!="") {
-            $.ajax({
-                type: "POST",
-                url: "/selectUseTypeAccount",
-                data: {memberId: memberId},
-                success: function (response) {
-                    // if(response!=null){
-                    //     location.href='/mygroup/'+response.group_id;
-                    // }else{
-                    //     location.href='/mygroup';
-                    // }
-                },
-                error: function (error) {
-                    console.error("그룹 계정 업데이트 중 오류 발생: " + error);
+            //모임통장 여러개 ,,, 이건 나중에 수정...
+            groupIdList.forEach(function (val) {
+                var groupId = val.group_id;
+                $.ajax({
+                    type: "POST",
+                    url: "/selectUseTypeAccount",
+                    data: {memberId: memberId, groupId: groupId},
+                    success: function (response) {
+
+                        // if(response!=null){
+                        //     location.href='/mygroup/'+response.group_id;
+                        // }else{
+                        //     location.href='/mygroup';
+                        // }
+                    },
+                    error: function (error) {
+                        console.error("그룹 계정 업데이트 중 오류 발생: " + error);
+                    }
+                });
+            })
+            let result = 0;
+
+            for (let index = 0; index < groupIdList.length; index++) {
+                const groupId = groupIdList[index].group_id;
+
+                try {
+                    const response = await $.ajax({
+                        url: '/selectGroupAccountInfo',
+                        data: { memberId: memberId, groupId: groupId },
+                        method: "POST",
+                    });
+                    result += response.g_balance;
+                } catch (error) {
+                    console.error("그룹 계정 정보 가져오기 중 오류 발생: " + error);
                 }
-            });
+            }
+
+            const hanawon = document.querySelector('.hanawon');
+            if (result !== -1) {
+                hanawon.textContent = result.toLocaleString() + '원';
+            } else {
+                hanawon.textContent = '모임통장 개설';
+            }
+
         }
     }
     // 페이지가 로드되면 애니메이션 및 메뉴바 처리 시작
@@ -516,7 +530,7 @@
                 url: "/JoinGroupAccountAndMemberAccount",
                 success: function (response) {
                     if (response != "") {
-                        selectGroupAccount();
+                        selectGroupAccount(response);
                         //2. 모임통장이 있으면 모임통장 경로로 이동
                     } else {
                         //1. 모임통장 개설하러가기
@@ -528,6 +542,7 @@
                 }
             })
         }
+
         var groupId = "${groupId}";
         if("${sessionScope.groupAccount.group_id}"!="" && groupId !=""){
             $.ajax({

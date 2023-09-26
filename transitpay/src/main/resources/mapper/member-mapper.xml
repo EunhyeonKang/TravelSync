@@ -21,6 +21,6 @@
     <select id="selectAllGroupMembers" parameterType="com.hanacard.transitpay.member.model.dto.Member">
         select
             m.*
-        from member m join group_member gm on gm.member_id = m.member_id
+        from member m join group_member gm on gm.member_id = m.member_id where gm.group_id = #{groupId}
     </select>
 </mapper>

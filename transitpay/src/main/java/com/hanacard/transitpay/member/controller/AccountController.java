@@ -87,9 +87,9 @@ public class AccountController {
     }
 
     @PostMapping("/selectGroupAccountInfo")
-    public ResponseEntity<GroupAccountDetail> selectGroupAccountInfo(@RequestBody String memberId,HttpServletRequest request) {
+    public ResponseEntity<GroupAccountDetail> selectGroupAccountInfo(@RequestParam int memberId,@RequestParam int groupId,HttpServletRequest request) {
         try {
-            GroupAccountDetail groupAccountDetail = accountService.selectGroupAccountInfo(memberId);
+            GroupAccountDetail groupAccountDetail = accountService.selectGroupAccountInfo(memberId,groupId);
             HttpSession session = request.getSession();
             session.setAttribute("groupAccountDetail",groupAccountDetail);
             return ResponseEntity.ok(groupAccountDetail);
@@ -191,11 +191,9 @@ public class AccountController {
     }
 
     @PostMapping("/selectGroupAccountStatement")
-    public ResponseEntity<List<GroupAccount>> selectGroupAccountStatement(HttpServletRequest request){
+    public ResponseEntity<List<GroupAccount>> selectGroupAccountStatement(String groupAccount){
         try {
-            HttpSession session = request.getSession();
-            GroupAccountDetail groupAccount = (GroupAccountDetail)session.getAttribute("groupAccountDetail");
-            List<GroupAccount> groupAccountList = accountService.selectGroupAccountStatement(groupAccount.getGroup_account());
+            List<GroupAccount> groupAccountList = accountService.selectGroupAccountStatement(groupAccount);
             return ResponseEntity.ok(groupAccountList);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
@@ -203,11 +201,12 @@ public class AccountController {
     }
 
     @PostMapping("JoinGroupAccountAndMemberAccount")
-    public ResponseEntity<Account> JoinGroupAccountAndMemberAccount(HttpServletRequest request){
+    public ResponseEntity<List<Account>> JoinGroupAccountAndMemberAccount(HttpServletRequest request){
         try {
             HttpSession session = request.getSession();
             Member member = (Member)session.getAttribute("member");
-            Account groupAccountList = accountService.JoinGroupAccountAndMemberAccount(member.getMember_id());
+            List<Account> groupAccountList = accountService.JoinGroupAccountAndMemberAccount(member.getMember_id());
+            session.setAttribute("groupAccountList",groupAccountList);
             return ResponseEntity.ok(groupAccountList);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
@@ -237,9 +236,9 @@ public class AccountController {
         }
     }
     @PostMapping("/selectGroupAccountChart")
-    public ResponseEntity<List<GroupAccountStatement>> selectGroupAccountChart(String groupId){
+    public ResponseEntity<List<GroupAccountStatement>> selectGroupAccountChart(@RequestParam int groupId,@RequestParam String  groupAccount){
         try {
-            List<GroupAccountStatement> groupAccountStatement = accountService.selectGroupAccountChart(groupId);
+            List<GroupAccountStatement> groupAccountStatement = accountService.selectGroupAccountChart(groupId,groupAccount);
             return ResponseEntity.ok(groupAccountStatement);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);

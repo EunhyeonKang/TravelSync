@@ -438,11 +438,14 @@
                     <script>
                         $(document).ready(function() {
                             var memberId = "${sessionScope.member.member_id}";
+                            var groupId = "${groupId}";
                             $.ajax({
                                 url:'/selectGroupAccountInfo',
-                                data: { memberId : memberId },
+                                data: { memberId : memberId, groupId : groupId },
                                 method: "POST",
                                 success: function(response) {
+                                    console.log(response)
+
                                     document.querySelector('.accountName').textContent = response.group_name;
                                     document.querySelector('.accountNum').textContent = response.group_account;
                                     const hanaClass = document.querySelector('.hanaClass');
@@ -613,6 +616,7 @@
         }
     });
     function groupAccountStatement() {
+        var groupAccount = document.querySelector('.accountNum').textContent;
         var table = $('#example').DataTable({
             lengthChange: false,
             buttons: [ 'copy', 'excel', 'pdf', 'colvis' ],
@@ -630,9 +634,9 @@
         $.ajax({
             url: "/selectGroupAccountStatement",
             type: "POST",
+            data: { groupAccount: groupAccount},
             success: function (data) {
                 table.rows.add(data).draw();
-
             },
             error: function (request, status, error) {
 
@@ -660,7 +664,7 @@
     $.ajax({
         type: "POST",
         url: "/selectGroupAccountChart",
-        data: { groupId: "${groupId}" },
+        data: { groupId: "${groupId}",groupAccount : "${sessionScope.groupAccountDetail.group_account}"},
         success: function (response) {
             console.log(response)
             var memberSelect = $('#memberSelect');
@@ -715,7 +719,6 @@
             console.error(error);
         },
     });
-
     // 랜덤 색상 생성 함수
     function getRandomColor() {
         const letters = '0123456789ABCDEF';

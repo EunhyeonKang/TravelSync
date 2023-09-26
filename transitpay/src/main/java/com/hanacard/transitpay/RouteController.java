@@ -95,6 +95,14 @@ class RouteController {
     public String accountDetaul() throws Exception {
         return "/user/accountDetail";
     }
+    @GetMapping("/saveTravel")
+    public String saveTravel() throws Exception{
+        return "/user/saveTravel";
+    }
+    @GetMapping("/calculateTravel")
+    public String calculateTravel() throws Exception{
+        return "/user/calculateTravel";
+    }
     /***
      *  모임통장 기능
      */

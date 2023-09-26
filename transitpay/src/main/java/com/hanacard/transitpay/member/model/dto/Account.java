@@ -12,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class Account {
+    private int group_id;
     private int account_id;
     private String account_num;
     private Integer balance;

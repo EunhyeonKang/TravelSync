@@ -243,19 +243,20 @@
     function getDates() {
         return $('input[name="datetimes"]').val();
     }
-
     function sendSelectedData() {
-
         const travelTitle = $('input[name="title"]').val();
         const dateRangePicker = $('input[name="datetimes"]').data('daterangepicker');
         const goingDate = dateRangePicker.startDate.format('YYYY-MM-DD');
         const returningDate = dateRangePicker.endDate.format('YYYY-MM-DD');
         const travelPlaceList = selectedData;
+        const groupId = "${sessionScope.groupAccount.group_id}";
+
         var travelInfoData = {
             travelPlaceList: travelPlaceList,
             travelStart: goingDate,
             travelEnd: returningDate,
-            travelTitle: travelTitle
+            travelTitle: travelTitle,
+            groupId:groupId
         }
         $.ajax({
             url:'/travelplans/map',  // 수정된 부분

@@ -43,7 +43,7 @@
         FROM group_member gm
                  JOIN groups g ON gm.group_id = g.group_id
                  JOIN group_account ga ON g.group_account = ga.group_account
-        WHERE gm.member_id = #{memberId}
+        WHERE gm.member_id = #{param1} and gm.group_id=#{param2}
     </select>
 
     <select id="selectVirtureAccountNumber" resultType="com.hanacard.transitpay.member.model.dto.GroupAccount">
@@ -150,7 +150,7 @@
     </select>
 
     <select id="JoinGroupAccountAndMemberAccount" resultType="com.hanacard.transitpay.member.model.dto.Account">
-        SELECT a.*
+        SELECT a.*,gm.group_id as group_id
         FROM group_member gm
         JOIN member m ON gm.member_id = m.member_id
         JOIN account a ON m.member_id = a.account_id
@@ -169,13 +169,20 @@
             gm.MEMBER_ID AS member_id,
             m.NAME AS name,
             SUM(gas.BALANCE) AS amount
-        FROM GROUP_MEMBER gm
-                 JOIN MEMBER m ON gm.MEMBER_ID = m.MEMBER_ID
-                 JOIN ACCOUNT a ON gm.MEMBER_ID = a.ACCOUNT_ID
-                 LEFT JOIN GROUP_ACCOUNT_STATEMENT gas ON a.ACCOUNT_NUM = gas.TARGET_ACCOUNT_NUM
-        WHERE gm.GROUP_ID = #{param1}
-        GROUP BY gm.MEMBER_ID, m.NAME
-        ORDER BY gm.MEMBER_ID
+        FROM
+            GROUP_MEMBER gm
+                JOIN
+            MEMBER m ON gm.MEMBER_ID = m.MEMBER_ID
+                JOIN
+            ACCOUNT a ON gm.MEMBER_ID = a.ACCOUNT_id
+                LEFT JOIN
+            GROUP_ACCOUNT_STATEMENT gas ON a.ACCOUNT_NUM = gas.TARGET_ACCOUNT_NUM
+        WHERE
+            gm.GROUP_ID = #{param1} and gas.ACCOUNT_NUM=#{param2}
+        GROUP BY
+            gm.MEMBER_ID, m.NAME
+        ORDER BY
+            gm.MEMBER_ID
     </select>
     <update id="updatePwState">
         update group_member set pw_state=1 where member_id=#{param1} and group_id=#{param2}

@@ -1,10 +1,7 @@
 package com.hanacard.transitpay.travel.service;
 
 import com.hanacard.transitpay.travel.model.dao.TravelRepository;
-import com.hanacard.transitpay.travel.model.dto.Schedule;
-import com.hanacard.transitpay.travel.model.dto.ScheduleSet;
-import com.hanacard.transitpay.travel.model.dto.Travel;
-import com.hanacard.transitpay.travel.model.dto.TravelInfo;
+import com.hanacard.transitpay.travel.model.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -121,5 +118,30 @@ public class TravelServiceImpl implements TravelService {
     @Transactional
     public void insertScheduleTotalAmount(Schedule schedule) {
         travelRepository.insertScheduleTotalAmount(schedule);
+    }
+
+    @Override
+    public int selectSchedule(int groupId,String travelTitle) {
+        return travelRepository.selectSchedule(groupId,travelTitle);
+    }
+
+    @Override
+    public List<MyGroupTravelInfo> selectMygroupTravelList(int memberId) {
+        return travelRepository.selectMygroupTravelList(memberId);
+    }
+
+    @Override
+    public List<Schedule> selectMygroupSchedule(int travelId) {
+        return travelRepository.selectMygroupSchedule(travelId);
+    }
+
+    @Override
+    public void insertBookmarkTraveling(Long itemId, int memberId) {
+        travelRepository.insertBookmarkTraveling(itemId,memberId);
+    }
+
+    @Override
+    public List<TravelInfo> selectBookmarkTravelList(int memberId) {
+        return travelRepository.selectBookmarkTravelList(memberId);
     }
 }

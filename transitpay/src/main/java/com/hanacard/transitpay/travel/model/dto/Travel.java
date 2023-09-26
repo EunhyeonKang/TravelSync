@@ -19,7 +19,7 @@ public class Travel     {
     private String travelPlaceJson;
     private int daysLeft;
     private int dDay;
-    private int memberId;
+    private int groupId;
     private int startRow;
     private int endRow;
 }

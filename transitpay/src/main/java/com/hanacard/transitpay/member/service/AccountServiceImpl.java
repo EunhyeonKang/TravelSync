@@ -76,9 +76,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public GroupAccountDetail selectGroupAccountInfo(String memberId) {
-        String memberIdValue = memberId.replaceAll("\\D", "");
-        return accountRepository.selectGroupAccountInfo(Integer.parseInt(memberIdValue));
+    public GroupAccountDetail selectGroupAccountInfo(int memberId,int groupId) {
+        return accountRepository.selectGroupAccountInfo(memberId,groupId);
 
     }
 
@@ -146,7 +145,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public Account JoinGroupAccountAndMemberAccount(int memberId) {
+    public List<Account> JoinGroupAccountAndMemberAccount(int memberId) {
         return accountRepository.JoinGroupAccountAndMemberAccount(memberId);
     }
 
@@ -162,8 +161,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<GroupAccountStatement> selectGroupAccountChart(String groupId) {
-        return accountRepository.selectGroupAccountChart(Integer.parseInt(groupId));
+    public List<GroupAccountStatement> selectGroupAccountChart(int groupId,String groupAccount) {
+        return accountRepository.selectGroupAccountChart(groupId,groupAccount);
     }
 
     @Override

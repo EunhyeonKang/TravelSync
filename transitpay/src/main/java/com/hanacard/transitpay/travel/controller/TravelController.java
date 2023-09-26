@@ -3,11 +3,8 @@ package com.hanacard.transitpay.travel.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hanacard.transitpay.member.model.dto.GroupMember;
-import com.hanacard.transitpay.travel.model.dto.Schedule;
-import com.hanacard.transitpay.travel.model.dto.ScheduleSet;
-import com.hanacard.transitpay.travel.model.dto.Travel;
-import com.hanacard.transitpay.travel.model.dto.TravelInfo;
+import com.hanacard.transitpay.member.model.dto.Member;
+import com.hanacard.transitpay.travel.model.dto.*;
 import com.hanacard.transitpay.travel.service.TravelService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -68,46 +65,40 @@ public class TravelController {
     }
 
     @PostMapping("/travelplans/map")
-    public ResponseEntity<?> insertTravelPlans(@RequestBody Travel travelRequest, HttpServletRequest request) {
-        HttpSession session = request.getSession();
-        GroupMember groupMember = (GroupMember) session.getAttribute("groupMember");
-        if (groupMember == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("세션이 존재하지 않음");
-        }
-        else {
-            try {
-                LocalDate startDate = LocalDate.parse(travelRequest.getTravelStart());
-                LocalDate endDate = LocalDate.parse(travelRequest.getTravelEnd());
-                int dDay = (int) ChronoUnit.DAYS.between(LocalDate.now(), startDate);
-                int daysLeft = (int) ChronoUnit.DAYS.between(startDate, endDate);
+    public ResponseEntity<?> insertTravelPlans(@RequestBody Travel travelRequest) {
+        try {
+            LocalDate startDate = LocalDate.parse(travelRequest.getTravelStart());
+            LocalDate endDate = LocalDate.parse(travelRequest.getTravelEnd());
+            int dDay = (int) ChronoUnit.DAYS.between(LocalDate.now(), startDate);
+            int daysLeft = (int) ChronoUnit.DAYS.between(startDate, endDate);
 
-                ObjectMapper objectMapper = new ObjectMapper();
-                String travelPlaceJson = objectMapper.writeValueAsString(travelRequest.getTravelPlaceList());
-                Travel travel = new Travel(); // Travel 객체 생성
-                travel.setTravelTitle(travelRequest.getTravelTitle());
-                travel.setTravelStart(travelRequest.getTravelStart());
-                travel.setTravelEnd(travelRequest.getTravelEnd());
-                travel.setTravelPlaceJson(travelPlaceJson);
-                travel.setDaysLeft(daysLeft);
-                travel.setDDay(dDay);
-                travel.setMemberId(groupMember.getGroup_member_id());
+            ObjectMapper objectMapper = new ObjectMapper();
+            String travelPlaceJson = objectMapper.writeValueAsString(travelRequest.getTravelPlaceList());
+            Travel travel = new Travel(); // Travel 객체 생성
+            travel.setTravelTitle(travelRequest.getTravelTitle());
+            travel.setTravelStart(travelRequest.getTravelStart());
+            travel.setTravelEnd(travelRequest.getTravelEnd());
+            travel.setTravelPlaceJson(travelPlaceJson);
+            travel.setDaysLeft(daysLeft);
+            travel.setDDay(dDay);
+            travel.setGroupId(travelRequest.getGroupId());
 
-                // Travel 서비스 호출
-                travelService.insertTravelAndGetId(travel);
+            // Travel 서비스 호출
+            travelService.insertTravelAndGetId(travel);
 
-                return ResponseEntity.ok(travel);
-            } catch (JsonProcessingException e) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("여행 장소 데이터 처리 중 오류가 발생");
-            } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("요청 처리 중에 오류가 발생");
-            }
+            return ResponseEntity.ok(travel);
+        } catch (JsonProcessingException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("여행 장소 데이터 처리 중 오류가 발생");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("요청 처리 중에 오류가 발생");
         }
     }
 
     @PostMapping("/insertScheduleTotalAmount")
     public ResponseEntity<?> insertScheduleTotalAmount(@RequestBody Schedule schedule) {
-        System.out.println(schedule);
         try {
+            int travelId = travelService.selectSchedule(schedule.getGroupId(),schedule.getTravel_title());
+            schedule.setTravelId(travelId);
             travelService.insertScheduleTotalAmount(schedule);
             return ResponseEntity.ok("여행 총 금액 저장 완료");
         }catch (Exception e){
@@ -213,10 +204,55 @@ public class TravelController {
     @PostMapping("/insertSchedule")
     public ResponseEntity<?> insertSchedule(@RequestBody Schedule schedule) {
         try {
+            int travelId = travelService.selectSchedule(schedule.getGroupId(),schedule.getTravel_title());
+            schedule.setTravelId(travelId);
             travelService.insertSchedule(schedule);
             return ResponseEntity.ok("일정이 성공적으로 추가되었습니다.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("일정 추가 중 오류가 발생했습니다.");
+        }
+    }
+    @PostMapping("/selectMygroupTravelList")
+    public ResponseEntity<List<MyGroupTravelInfo>> selectMygroupTravelList(HttpServletRequest request) {
+        try {
+            HttpSession session = request.getSession();
+            Member member = (Member) session.getAttribute("member");
+            List<MyGroupTravelInfo> travelInfoList = travelService.selectMygroupTravelList(member.getMember_id());
+            session.setAttribute("travelInfoList",travelInfoList);
+            return ResponseEntity.ok(travelInfoList);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+    @PostMapping("/selectMygroupSchedule")
+    public ResponseEntity<List<Schedule>> selectMygroupSchedule(@RequestParam int travelId) {
+        try {
+            List<Schedule> schedule = travelService.selectMygroupSchedule(travelId);
+            return ResponseEntity.ok(schedule);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+    @PostMapping("/insertBookmarkTraveling")
+    public ResponseEntity<String> toggleBookmarkTraveling(@RequestParam Long itemId,HttpServletRequest request) {
+        try {
+            HttpSession session = request.getSession();
+            Member member = (Member)session.getAttribute("member");
+            travelService.insertBookmarkTraveling(itemId,member.getMember_id());
+            return ResponseEntity.ok("찜 등록 성공");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+    @GetMapping("/selectBookmarkTravelList")
+    public ResponseEntity<List<TravelInfo>> selectBookmarkTravelList(HttpServletRequest request) {
+        try {
+            HttpSession session = request.getSession();
+            Member member = (Member)session.getAttribute("member");
+            List<TravelInfo> favoriteTravels = travelService.selectBookmarkTravelList(member.getMember_id());
+            return ResponseEntity.ok(favoriteTravels);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 }

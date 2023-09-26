@@ -81,7 +81,8 @@
                                 "&travelEnd=" + encodeURIComponent(d.data.travelEnd) +
                                 "&travelPlaceJson=" + encodeURIComponent(d.data.travelPlaceJson) +
                                 "&daysLeft=" + encodeURIComponent(d.data.daysLeft) +
-                                "&dDay=" + encodeURIComponent(d.data.dday);
+                                "&dDay=" + encodeURIComponent(d.data.dday) +
+                                "&groupId=" + encodeURIComponent(d.data.groupId);;
                             link.click();
                         }
                     }
@@ -106,6 +107,9 @@
                         updateDiscountValue(d.data.tags, d.data.newDiscountValue);
                     }else if(d.type =='amountValue'){
                         updateAmountValue(d.data);
+                    }else if(d.type =='saveTravel'){
+                        alert("여행저장 완료!");
+                        location.href='/saveTravel';
                     }
 
                     //새로운 유저가 입장하였을 경우

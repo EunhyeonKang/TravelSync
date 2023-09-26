@@ -1,9 +1,6 @@
 package com.hanacard.transitpay.travel.model.dao;
 
-import com.hanacard.transitpay.travel.model.dto.Schedule;
-import com.hanacard.transitpay.travel.model.dto.ScheduleSet;
-import com.hanacard.transitpay.travel.model.dto.Travel;
-import com.hanacard.transitpay.travel.model.dto.TravelInfo;
+import com.hanacard.transitpay.travel.model.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -27,4 +24,9 @@ public interface TravelRepository {
     void updateLikeCount(TravelInfo travelInfo);
     void insertSchedule(Schedule schedule);
     void insertScheduleTotalAmount(Schedule schedule);
+    int selectSchedule(int groupId,String travelTitle);
+    List<MyGroupTravelInfo> selectMygroupTravelList(int memberId);
+    List<Schedule> selectMygroupSchedule(int travelId);
+    void insertBookmarkTraveling(Long itemId,int memberId);
+    List<TravelInfo> selectBookmarkTravelList(int memberId);
 }

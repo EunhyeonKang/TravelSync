@@ -18,4 +18,6 @@ public class GroupMember {
     private int member_id;
     private int group_id;
     private int pw_state;
+    private int amount;
+    private GroupMember[] groupMember;
 }

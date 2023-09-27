@@ -42,7 +42,7 @@
     </div>
     <div class="mtext">
         <div class="ctext2">회비 낼 때 알림으로 알려주고</div><br>
-        <div class="ctext2">회비가 밀려 알아서 관리할게요.</div>
+        <div class="ctext2">회비가 밀려도 알아서 관리할게요.</div>
     </div>
     <div class="bbutton">
         <button type="submit" class="tbutton" onclick="location.href = 'group'">

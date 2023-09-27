@@ -103,6 +103,11 @@ class RouteController {
     public String calculateTravel() throws Exception{
         return "/user/calculateTravel";
     }
+
+    @GetMapping("/groupList")
+    public String groupList() throws Exception{
+        return "/user/groupList";
+    }
     /***
      *  모임통장 기능
      */

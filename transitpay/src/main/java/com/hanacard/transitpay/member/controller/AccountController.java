@@ -273,5 +273,27 @@ public class AccountController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
-
+    @PostMapping("/calTravelGroupMemberNotification")
+    public ResponseEntity<?> calTravelGroupMemberNotification(@RequestBody GroupMember groupMembers){
+        try {
+            GroupMember[] groupMember = groupMembers.getGroupMember();
+            int amount = groupMembers.getAmount();
+            int groupId = groupMembers.getGroup_id();
+            accountService.insertGroupMemberNotification(groupMember,amount,groupId);
+            return ResponseEntity.ok("알림 요청 성공");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+    @PostMapping("/selectNotification")
+    public ResponseEntity<List<GroupMember>> selectNotification(HttpServletRequest request){
+        try {
+            HttpSession session = request.getSession();
+            Member member =(Member)session.getAttribute("member");
+            List<GroupMember> groupNotification = accountService.selectNotification(member.getMember_id());
+            return ResponseEntity.ok(groupNotification);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
 }

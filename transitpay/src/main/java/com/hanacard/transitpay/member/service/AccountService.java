@@ -27,4 +27,6 @@ public interface AccountService {
     List<GroupAccount> getTransactionsByAccount(String accountNum);
     List<GroupAccount> getTransactionsByMember(int memberId, int groupId);
     List<Account> selectMyAccountStatement(int memberId);
+    void insertGroupMemberNotification(GroupMember[] groupMembers,int amount,int groupId);
+    List<GroupMember>  selectNotification(int memberId);
 }

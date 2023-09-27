@@ -338,12 +338,45 @@
 </div>
 </body>
 <script>
+    <%--alert("${sessionScope.groupAccountDetail}")--%>
     function send() {
+        var groupId = "${sessionScope.groupAccountDetail.group_id}";
+        if(groupId!=""){
+            Kakao.Share.createDefaultButton({
+                container: '#kakaotalk-sharing-btn',
+                objectType: 'feed',
+                content: {
+                    title: '트랜지싱크 모임통장에 초대되었습니다.',
+                    description: '서태지와아이들 모임에 초대되었습니다. 회비는 얼마고 회비날짜는 2일입니다🐶',
+                    imageUrl: 'https://ibb.co/HD27qgB',
+                    link: {
+                        // [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
+                        mobileWebUrl: 'http://localhost:8080',
+                        webUrl: 'http://localhost:8080',
+                    },
+                },
+                buttons: [
+                    {
+                        title: '모임통장 참여하기',
+                        link: {
+                            mobileWebUrl: 'http://localhost:8080/mygroup/'+groupId,
+                            webUrl: 'http://localhost:8080/mygroup/'+groupId
+                        },
+                    }
+                ],
+                serverCallbackArgs: '{"key" : "value"}',
+            });
+        }else{
+            var modal = document.getElementById('myModal');
+            modal.style.display = 'block';
+        }
+        <%--
         $.ajax({
             url:'/selectVirtureAccountNumber',
             method: "POST",
             success: function(response) {
-                var groupId = response.group_id;
+                // var groupId = response.group_id;
+                var groupId = "${sessionScope.groupAccountDetail}";
                 if(groupId!=""){
                     Kakao.Share.createDefaultButton({
                         container: '#kakaotalk-sharing-btn',
@@ -374,7 +407,7 @@
                     modal.style.display = 'block';
                 }
             }
-        })
+        })--%>
     }
     Kakao.init('aa75059f83f9e745604b52cb811450f4'); // 사용하려는 앱의 JavaScript 키 입력
 </script>

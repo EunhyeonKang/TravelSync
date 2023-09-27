@@ -23,7 +23,6 @@ public interface AccountRepository {
                             @Param("group_leader") int groupLeader);
 
     void insertGroupDetail(Map<String, String> groupData);
-
     GroupAccountDetail selectGroupAccountInfo(int memberId,int groupId);
     GroupAccount selectVirtureAccountNumber(String account_num,int memberId);
     GroupAccount selectUseTypeAccount(int memberId);
@@ -36,32 +35,24 @@ public interface AccountRepository {
                               @Param("balance") int balance,
                               @Param("account_bank") String account_bank);
     void updateGroupAccountBalance(String groupAccount, int balance);
-
     void insertAccountStatement(String accountNum, String groupAccount, String type, int balance, String accountContent);
-
     void insertGroupAccountStatement(String accountNum, String groupAccount, String type, int balance, String accountContent);
-
     List<GroupAccount> selectGroupAccountStatement(String groupAccount);
     List<Account> JoinGroupAccountAndMemberAccount(int memberId);
     void deleteGroups(int groupId);
     void accountJoinForm(int memberId,String phone);
     List<GroupAccountStatement> selectGroupAccountChart(int groupId,String groupAccount);
-
     void updatePwState(int memberId, String groupId);
-
     List<GroupAccount> getTransactionsByAccount(String accountNum);
     List<GroupAccount> getTransactionsByMember(int memberId, int groupId);
-
     List<Account> selectMyAccountStatement(int memberId);
-
     void insertAccountStatementTransfer(String accountNum, String groupAccount, String type, int balance, String accountContent);
-
     void insertGroupAccountStatementTransfer(String accountNum, String groupAccount, String type, int balance, String accountContent);
-
     void updateAccountBalanceTransfer(@Param("account_id") int account_id,
                                       @Param("account_num") String account_num,
                                       @Param("balance") int balance,
                                       @Param("account_bank") String account_bank);
-
     void updateGroupAccountBalanceTransfer(String groupAccount, int balance);
+    void insertGroupMemberNotification(GroupMember member);
+    List<GroupMember> selectNotification(int memberId);
 }

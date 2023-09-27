@@ -226,6 +226,18 @@
         .selecloc-2{
             background: #d91717c4;
         }
+        #notificationDropdown {
+            display: none; /* 초기에는 드롭다운 숨김 */
+            position: absolute;
+            background-color: white;
+            border: 1px solid #ccc;
+            /* 기타 스타일 속성을 여기에 추가할 수 있습니다. */
+        }
+
+        .notification-item {
+            padding: 5px 10px;
+            /* 기타 스타일 속성을 여기에 추가할 수 있습니다. */
+        }
     </style>
 </head>
 <body>
@@ -294,7 +306,10 @@
                     <ul class="hanamenu">
                         <li><a href="mypage" class="hanamenu-a">마이페이지</a></li>
                         <li><a href="travel" class="hanamenu-a">여행계획</a></li>
-                        <li><a href="hanamoney" class="hanamenu-a">알림<span class="notification">1</span></a>
+                        <li><a href="hanamoney" class="hanamenu-a" id="noti">알림</a>
+                            <div id="notificationDropdown" class="dropdown-content">
+                                <!-- 알림 내용이 여기에 추가됩니다. -->
+                            </div>
                         </li>
                     </ul>
                     <hr>
@@ -318,11 +333,7 @@
                                     </div>
                                 </div>
                                 <button class="logout" onclick="performLogout();">로그아웃</button>
-                                    <script>
-                                        $(document).ready(function() {
 
-                                        })
-                                    </script>
                                 </c:when>
                                 <c:otherwise>
                                     <div class="hanamenu-1">
@@ -364,6 +375,45 @@
     <%@ include file="main2.jsp" %>
 </body>
 <script>
+    // 호버 이벤트 핸들러를 추가하여 드롭다운을 표시
+    $("#noti").hover(
+        function () {
+            // 호버 시 드롭다운 표시
+            $("#notificationDropdown").show();
+        },
+        function () {
+            // 호버 해제 시 드롭다운 숨김
+            $("#notificationDropdown").hide();
+        }
+    );
+    fetchNotifications();
+
+    function fetchNotifications() {
+        $.ajax({
+                type: "POST",
+                url: "/selectNotification",
+                success: function (response) {
+
+                var hananoti = document.getElementById('noti');
+                var noti = document.createElement('span');
+                noti.className='notification';
+                noti.textContent=response.length;
+                var notificationDropdown = document.getElementById('notificationDropdown');
+                hananoti.appendChild(noti);
+                response.forEach(function(val){
+                    console.log(val.amount + "알람")
+                    // 각 알림을 드롭다운에 추가
+                    var notificationItem = document.createElement('div');
+                    notificationItem.classList = "notification-item";
+                    notificationItem.textContent = (val.amount + "알람");
+                    notificationDropdown.appendChild(notificationItem);
+                })
+            },
+                error: function (error) {
+                console.error(error);
+            },
+        });
+    }
     // Get the modal and button elements
     const modal = document.getElementById('myModal');
     const openModalBtn = document.getElementById('openModalBtn');
@@ -542,7 +592,6 @@
                 }
             })
         }
-
         var groupId = "${groupId}";
         if("${sessionScope.groupAccount.group_id}"!="" && groupId !=""){
             $.ajax({

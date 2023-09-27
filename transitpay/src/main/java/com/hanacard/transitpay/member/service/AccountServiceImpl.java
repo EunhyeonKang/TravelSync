@@ -185,6 +185,24 @@ public class AccountServiceImpl implements AccountService {
     public List<Account> selectMyAccountStatement(int memberId) {
         return accountRepository.selectMyAccountStatement(memberId);
     }
+
+    @Override
+    @Transactional
+    public void insertGroupMemberNotification(GroupMember[] groupMembers,int amount,int groupId) {
+        double dividedAmount = (double) amount / groupMembers.length;
+        int roundedAmount = (int) Math.round(dividedAmount);
+        for(GroupMember member : groupMembers){
+            member.setAmount(roundedAmount);
+            member.setGroup_id(groupId);
+            accountRepository.insertGroupMemberNotification(member);
+        }
+
+    }
+
+    @Override
+    public List<GroupMember> selectNotification(int memberId) {
+        return accountRepository.selectNotification(memberId);
+    }
 }
 
 

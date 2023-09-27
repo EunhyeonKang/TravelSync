@@ -92,6 +92,100 @@
     .mypage_logout{
         float: right;
     }
+    .slider-2 {
+        height:400px;
+        position:relative;
+    }
+
+    .slider-2 .slides > div {
+        position:absolute;
+        top:0;
+        left:0;
+        width:100%;
+        height:200px;
+        background-position:center;
+        /* 이미지를 최대한 안짤리게 한다. */
+        background-size:cover;
+        /* 배경 반복 금지 */
+        background-repeat:no-repeat;
+        opacity:0;
+        transition: opacity 0.5s;
+    }
+
+    .slider-2 .slides > div.active {
+        opacity:1;
+        z-index: 1;
+    }
+
+    @media ( max-width:700px ) {
+        .slider-2 {
+            height:300px;
+        }
+    }
+
+    .slider-2 .page-nav {
+        position:absolute;
+        width:100%;
+        text-align:center;
+        bottom:0;
+        left:0;
+    }
+
+    .slider-2 .page-nav > div {
+        display:inline-block;
+        width:15px;
+        height:15px;
+        background-color:rgba(255,255,255,0.5);
+        border-radius:2px;
+        cursor:pointer;
+    }
+
+    .slider-2 .page-nav > div.active {
+        background-color:rgba(255,255,255,1);
+    }
+
+    .slider-2>.side-btns>div{
+        position: absolute;
+        top: 50px;
+        width: 30%;
+        height: 100px;
+        cursor: pointer;
+        z-index: 10;
+    }
+
+    .slider-2>.side-btns>div>span:active{
+        transform:translatey(-40%);
+    }
+    .slider-2>.side-btns>div:last-child{
+        left:auto;
+        right:0;
+    }
+
+    .slider-2>.side-btns>div>span{
+        position: absolute;
+        top: 50%;
+        transform: translatey(-50%);
+        left: inherit;
+        right: inherit;
+        width: 70px;
+        height: 70px;
+        background-color: rgb(255 255 255 / 12%);
+        border-radius: 100%;
+        margin: 0 10px;
+    }
+    .slider-2>.side-btns>div>span > i{
+        position:absolute;
+        top:50%;
+        left:50%;
+        font-size:3rem;
+        color:rgba(0,0,0,0.4);
+        transform:translateX(-70%) translateY(-50%);
+    }
+
+    .slider-2>.side-btns>div:last-child>span > i {
+        transform:translateX(-20%) translateY(-50%);
+    }
+
 </style>
 <body>
 <div class="main">
@@ -114,7 +208,7 @@
                         </div>
                     </div>
                     <div class="accountbox">
-                        <h2>내 여행</h2>
+                        <h2>여행 관리</h2>
                         <div class="travelbox">
                             <div class="travelbox-1">
                                 <div>
@@ -148,7 +242,7 @@
                             </div>
 
                         </div>
-                        <h2>나의 프로젝트</h2>
+                        <h2>계좌 관리</h2>
                         <div class="account-box-1">
                             <div class="account">
                                 <div class="account-details">
@@ -166,29 +260,41 @@
                             <div class="account">
                                 <div class="account2">
                                     <div class="new-account-details">
-                                        <button class="account-button" onclick="location.href='/mygroup/${groupAccount.group_id}'">모임통장</button>
-                                        <div class="bank">${groupAccount.group_name}</div>
-                                        <div class="account-info">
-                                            <span class="account-number">${groupAccount.group_account}</span>
-                                            <input type="hidden" name="accountId" value="">
-                                            <button class="change-account" onclick="location.href='/groupAccountDetail'">모임통장 내역</button>
+
+                                        <div class="slider-2">
+                                            <div class="side-btns">
+                                                <div><span><i class="fas fa-caret-left"></i></span></div>
+                                                <div><span><i class="fas fa-caret-right"></i></span></div>
+                                            </div>
+                                            <div class="slides">
+                                                <div class="slide2-1 active">
+                                                    <%--                                                <button class="account-button" onclick="location.href='/mygroup/${groupAccount.group_id}'">모임통장</button>--%>
+                                                    <%--                                                <div class="bank">${groupAccount.group_name}</div>--%>
+                                                    <%--                                                <div class="account-info">--%>
+                                                    <%--                                                    <span class="account-number">${groupAccount.group_account}</span>--%>
+                                                    <%--                                                    <input type="hidden" name="accountId" value="">--%>
+                                                    <%--                                                    <button class="change-account" onclick="location.href='/groupAccountDetail'">모임통장 내역</button>--%>
+                                                    <%--                                                </div>--%>
+                                                </div>
+                                                <div class="slide2-1"></div>
+                                                <div class="slide2-1"></div>
+                                            </div>
+
+                                            <div class="page-nav">
+                                                <div class="active"></div>
+                                                <div></div>
+                                                <div></div>
+                                            </div>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <h2>내 모임</h2>
+                        <h2>모임 관리</h2>
                         <div class="card-1">
                             <div class="account2">
-                                <div class="new-account-details">
-                                    <button class="account-button" onclick="location.href='/mygroup/${groupAccount.group_id}'">모임통장</button>
-                                    <div class="bank">${groupAccount.group_name}</div>
-                                    <div class="account-info">
-                                        <span class="account-number">${groupAccount.group_account}</span>
-                                        <input type="hidden" name="accountId" value="">
-                                        <button class="change-account" onclick="location.href='/groupAccountDetail'">모임통장 내역</button>
-                                    </div>
-                                </div>
+                                <div></div>
                                 <div class="auto-charge-box">
                                     <div class="auto-charge-box-1">
                                         <div class="auto-charge">
@@ -279,7 +385,87 @@
 </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
 <script>
+    <%--alert("${sessionScope.groupAccountDetail}")--%>
+    if ("${sessionScope.member}" !== "") {
+        var memberId = "${sessionScope.member.member_id}";
+        $.ajax({
+            type: "POST",
+            url: "/JoinGroupAccountAndMemberAccount",
+            success: function (response) {
+                if (response.length > 0) {
+                    for (let index = 0; index < response.length; index++) {
+                        const groupId = response[index].group_id;
+                        $.ajax({
+                            type: "POST",
+                            url: "/selectGroupAccountInfo",
+                            data: { memberId: memberId, groupId: groupId },
+                            success: function (groupResponse) {
+                                var slide2 = document.querySelector('.slides .slide2-1:nth-child('+(index+1)+')');
+                                var accountGroup = document.createElement('div');
+                                accountGroup.className='account-group';
+                                if (groupResponse !== null) {
+                                    var groupAccountButton = document.createElement("button");
+                                    groupAccountButton.classList.add("account-button");
+                                    groupAccountButton.textContent = "모임통장";
+                                    groupAccountButton.onclick = function() {
+                                        location.href = "/mygroup/" + groupResponse.group_id;
+                                    };
+
+                                    var groupAccountBankDiv = document.createElement("div");
+                                    groupAccountBankDiv.classList.add("bank");
+                                    groupAccountBankDiv.textContent = groupResponse.group_name;
+
+                                    var groupAccountInfoDiv = document.createElement("div");
+                                    groupAccountInfoDiv.classList.add("account-info");
+
+                                    var groupAccountInfoSpan = document.createElement("span");
+                                    groupAccountInfoSpan.classList.add("account-number");
+                                    groupAccountInfoSpan.textContent = groupResponse.group_account;
+
+                                    var groupAccountInfoInput = document.createElement("input");
+                                    groupAccountInfoInput.type = "hidden";
+                                    groupAccountInfoInput.name = "accountId";
+                                    groupAccountInfoInput.value = "";
+
+                                    var groupAccountInfoButton = document.createElement("button");
+                                    groupAccountInfoButton.classList.add("change-account");
+                                    groupAccountInfoButton.textContent = "모임통장 내역";
+                                    groupAccountInfoButton.onclick = function() {
+                                        location.href = "/groupAccountDetail";
+                                    };
+
+                                    // Append elements to the parent container (slide2)
+                                    groupAccountInfoDiv.appendChild(groupAccountInfoSpan);
+                                    groupAccountInfoDiv.appendChild(groupAccountInfoInput);
+                                    groupAccountInfoDiv.appendChild(groupAccountInfoButton);
+
+                                    accountGroup.appendChild(groupAccountButton);
+                                    accountGroup.appendChild(groupAccountBankDiv);
+                                    accountGroup.appendChild(groupAccountInfoDiv);
+                                    slide2.appendChild(accountGroup)
+                                } else {
+                                    // Handle the case when groupResponse is null or empty
+                                }
+                            },
+                            error: function (error) {
+                                // Handle errors for the inner AJAX call
+                            }
+                        });
+                    }
+                } else {
+                    // Handle the case when response is an empty array
+                }
+            },
+            error: function (error) {
+                // Handle errors for the outer AJAX call
+            },
+        });
+    }
+
+
     $('#deleteGroup').click( function() {
         var groupId = "${sessionScope.groupAccount.group_id}";
         $.ajax({
@@ -293,6 +479,7 @@
             }
         });
     } );
+
     $.ajax({
         type: "POST",
         url: "/selectGroupAccountChart",
@@ -349,5 +536,52 @@
             console.error(error);
         },
     });
+    $('.slider-2 .page-nav > div').click(function() {
+
+        var $this = $(this);
+        var $pagenav = $this.parent()
+        var $current = $pagenav.find('.active');
+
+        $current.removeClass('active');
+        $this.addClass('active');
+
+        var index = $this.index();
+        var $slider = $this.closest('.slider-2');
+
+        $slider.find('.slides > div.active').removeClass('active');
+        $slider.find('.slides > div').eq(index).addClass('active');
+
+
+    });
+
+    $('.slider-2 > .side-btns > div:first-child').click(function() {
+        var $this = $(this);
+        var $slider = $this.closest('.slider-2');
+
+        var $current = $slider.find('.page-nav > div.active');
+        var $post = $current.prev();
+
+        if ( $post.length == 0 ) {
+            $post = $slider.find('.page-nav > div:last-child');
+        }
+
+        $post.click();
+    });
+
+    $('.slider-2 > .side-btns > div:last-child').click(function() {
+        var $this = $(this);
+        var $slider = $this.closest('.slider-2');
+
+        var $current = $slider.find('.page-nav > div.active');
+        var $post = $current.next();
+
+        if ( $post.length == 0 ) {
+            $post = $slider.find('.page-nav > div:first-child');
+        }
+
+        $post.click();
+    });
+
+
 </script>
 </html>

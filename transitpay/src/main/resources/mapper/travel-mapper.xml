@@ -176,4 +176,5 @@
         join favorite_travel ft
         on ti.t_num = ft.t_num where ft.member_id = #{memberId}
     </select>
+
 </mapper>

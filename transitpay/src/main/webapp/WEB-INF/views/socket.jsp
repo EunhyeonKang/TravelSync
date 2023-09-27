@@ -110,6 +110,8 @@
                     }else if(d.type =='saveTravel'){
                         alert("여행저장 완료!");
                         location.href='/saveTravel';
+                    }else if(d.type=='calculate'){
+                        
                     }
 
                     //새로운 유저가 입장하였을 경우

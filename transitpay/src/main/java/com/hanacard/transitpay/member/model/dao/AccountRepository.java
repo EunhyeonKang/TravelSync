@@ -28,7 +28,7 @@ public interface AccountRepository {
     GroupAccount selectUseTypeAccount(int memberId);
     String inputCheckPassword(String groupId);
     void updateGroupAccount(String account_num);
-    void insertGroupMember(String memberType,int memberId,int groupId);
+    void insertGroupMember(String memberType,int memberId,int groupId,int pw_state);
     GroupMember selectGroupMember(int memberId, int groupId);
     void updateAccountBalance(@Param("account_id") int account_id,
                               @Param("account_num") String account_num,
@@ -55,4 +55,8 @@ public interface AccountRepository {
     void updateGroupAccountBalanceTransfer(String groupAccount, int balance);
     void insertGroupMemberNotification(GroupMember member);
     List<GroupMember> selectNotification(int memberId);
+    int selectGroupAccount(String groupAccount);
+    void calExecution(int groupId, int memberId);
+    List<Account> selectMyAccountMonthStatement(int memberId);
+    List<GroupAccountDetail> selectGroupInfo(String groupId);
 }

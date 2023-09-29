@@ -3,6 +3,7 @@ package com.hanacard.transitpay.travel.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hanacard.transitpay.member.model.dto.GroupMember;
 import com.hanacard.transitpay.member.model.dto.Member;
 import com.hanacard.transitpay.travel.model.dto.*;
 import com.hanacard.transitpay.travel.service.TravelService;
@@ -251,6 +252,27 @@ public class TravelController {
             Member member = (Member)session.getAttribute("member");
             List<TravelInfo> favoriteTravels = travelService.selectBookmarkTravelList(member.getMember_id());
             return ResponseEntity.ok(favoriteTravels);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+    @PostMapping("/selectTravelNoti")
+    public ResponseEntity<?> selectTravelNoti(HttpServletRequest request) {
+        try {
+            HttpSession session = request.getSession();
+            Member member = (Member)session.getAttribute("member");
+            List<MyGroupTravelInfo> travelNoti =travelService.selectTravelNoti(member.getMember_id());
+            session.setAttribute("travelNoti",travelNoti);
+            return ResponseEntity.ok("여행 알림 조회 성공");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+    @GetMapping("/selectNoti")
+    public ResponseEntity<?> selectNoti(String groupId) {
+        try {
+            List<GroupMember> groupNoti =travelService.selectNoti(groupId);
+            return ResponseEntity.ok(groupNoti);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }

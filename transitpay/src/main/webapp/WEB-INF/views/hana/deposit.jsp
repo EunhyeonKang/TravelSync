@@ -103,7 +103,7 @@
         var selectedOption = selectType.options[selectType.selectedIndex];
         var accountBank = selectedOption.text;
         var groupName = document.querySelector('input[name="group_name"]').value;
-        var groupAccount = "${groupAccount.group_account}";
+        var groupAccount = "${sessionScope.groupAccountDetail.group_account}";
         var balance = document.querySelector('input[name="balance"]').value;
         var groupId = ${sessionScope.groupAccountDetail.group_id};
         var transaction_content = document.querySelector('input[name="transaction_content"]').value;

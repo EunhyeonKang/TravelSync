@@ -79,6 +79,14 @@
         }
         .travel-date-text {
             text-align: left;
+            display: flex;
+            align-items: center;
+            height: 50px;
+        }
+        .travel-date-text span img {
+            max-height: 100%;
+            margin-right: 10px;
+            width: 30px;
         }
         .travel-date-text-1 {
             text-align: right;
@@ -93,6 +101,8 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             background-color: #fff;
             transition: transform 0.3s ease-in-out;
+            flex: 1;
+            text-align: left;
         }
 
         .schedule-card:hover {
@@ -102,11 +112,13 @@
         .schedule-card h3 {
             font-size: 18px;
             margin-bottom: 10px;
+            flex: 1;
         }
 
         .schedule-card p {
             margin: 0;
             font-size: 14px;
+            flex: 1;
         }
 
         .schedule-card p:first-child {
@@ -263,7 +275,15 @@
         .travel-btn:hover + p.travel-date-text-1::before {
             opacity: 1; /* 툴팁을 표시 */
         }
-
+        .calBtn{
+            padding: 6px;
+            border: 0;
+            background: #000000;
+            border-radius: 5px;
+            color: white;
+            font-weight: 700;
+            margin-left: 5px;
+        }
     </style>
 </head>
 <body>
@@ -274,7 +294,7 @@
         <div class="topbox">
         <div class="contents">
             <div class="contents-1">
-                <h2>여행 총 금액</h2>
+                <h2>최근 저장한 여행</h2>
                 <div class="trafficContainerBox">
                     <span>${param.title}</span>
                     <div class="traffic-modal-content">
@@ -283,8 +303,8 @@
                                 <input type="checkbox" id="faq-${travelInfo.travelId}">
                                 <c:if test="${not empty travelInfo.travelStart}">
                                 <h1>
-                                    <img src="../../../resources/images/testAcc.png">
-                                    <label for="faq-${travelInfo.travelId}">${travelInfo.travelTitle} (${fn:substring(travelInfo.travelStart, 0, 10)} ~ ${fn:substring(travelInfo.travelEnd, 0, 10)})
+                                    <label for="faq-${travelInfo.travelId}">${travelInfo.travelTitle} [${fn:substring(travelInfo.travelStart, 0, 10)} ~ ${fn:substring(travelInfo.travelEnd, 0, 10)}]
+<%--                                        <img src="../../../resources/images/testAcc.png">--%>
                                         <p class="travel-date-text-1">${travelInfo.groupName} ${travelInfo.groupAccount}</p>
                                     </label>
                                 </h1>
@@ -299,11 +319,11 @@
                                     </h1>
                                 </c:if>
                                     <div class="p">
-
                                         <c:if test="${sessionScope.member.member_id == travelInfo.groupLeader}">
                                             <p class="travel-date-text">
-                                                <span>모임장</span>
-                                                <button class="calBtn" onclick="calculate()">모임원들에게 정산메시지 보내기</button>
+                                                <span><img src="../../../resources/images/free-icon-crown-4315531.png"></span>
+                                                <button class="calBtn" onclick="calculate()">모임원들에게 회비요청</button>
+                                                <div>연결 계좌번호 : ${travelInfo.accountNum}</div>
                                             </p>
                                         </c:if>
                                         <c:choose>
@@ -315,7 +335,7 @@
                                                     ${itemWithoutQuotes}
                                                 </c:forEach>)  ${travelInfo.groupType}
                                                 </p>
-                                                <div class="travel-content" id="scheduleList-${travelInfo.travelId}">연결 계좌번호 : ${travelInfo.accountNum}
+                                                <div class="travel-content" id="scheduleList-${travelInfo.travelId}">
                                                 </div>
                                             </c:when>
                                             <c:otherwise>
@@ -326,98 +346,100 @@
                                     </div>
                             </div>
                             <script>
-                                $.ajax({
-                                    type: "POST",
-                                    url: "/selectMygroupSchedule",
-                                    data: {travelId: ${travelInfo.travelId}},
-                                    success: function (response) {
-                                        var scheduleList = document.getElementById("scheduleList-${travelInfo.travelId}");
-                                        if (response.length > 0) {
-                                            for (var i = 0; i < response.length; i++) {
-                                                var schedule = response[i];
-                                                var scheduleCard = document.createElement("div");
-                                                scheduleCard.classList.add("schedule-card");
+                                window.onload = function() {
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/selectMygroupSchedule",
+                                        data: {travelId: ${travelInfo.travelId}},
+                                        success: function (response) {
+                                            var scheduleList = document.getElementById("scheduleList-${travelInfo.travelId}");
+                                            if (response.length > 0) {
+                                                for (var i = 0; i < response.length; i++) {
+                                                    var schedule = response[i];
+                                                    var scheduleCard = document.createElement("div");
+                                                    scheduleCard.classList.add("schedule-card");
 
-                                                // Schedule Date
-                                                var scheduleDate = document.createElement("h3");
-                                                scheduleDate.textContent = schedule.schedule_date;
-                                                scheduleCard.appendChild(scheduleDate);
+                                                    // Schedule Date
+                                                    var scheduleDate = document.createElement("h3");
+                                                    scheduleDate.textContent = schedule.schedule_date;
+                                                    scheduleCard.appendChild(scheduleDate);
 
-                                                // Schedule Place
-                                                var schedulePlace = document.createElement("p");
-                                                schedulePlace.textContent = "장소: " + schedule.schedule_place;
-                                                scheduleCard.appendChild(schedulePlace);
+                                                    // Schedule Place
+                                                    var schedulePlace = document.createElement("p");
+                                                    schedulePlace.textContent = "장소: " + schedule.schedule_place;
+                                                    scheduleCard.appendChild(schedulePlace);
 
-                                                // People Number원
-                                                var peopleNumber = document.createElement("p");
-                                                peopleNumber.textContent = "인원: " + schedule.pnum;
-                                                scheduleCard.appendChild(peopleNumber);
+                                                    // // People Number원
+                                                    // var peopleNumber = document.createElement("p");
+                                                    // peopleNumber.textContent = "인원: " + schedule.pnum;
+                                                    // scheduleCard.appendChild(peopleNumber);
 
-                                                // Price
-                                                var price = document.createElement("p");
-                                                price.textContent = "가격: " + schedule.price + "원";
-                                                scheduleCard.appendChild(price);
+                                                    // Price
+                                                    var price = document.createElement("p");
+                                                    price.textContent = "가격: " + schedule.price + "원";
+                                                    scheduleCard.appendChild(price);
 
-                                                // Category
-                                                var category = document.createElement("p");
-                                                category.textContent = "카테고리: " + schedule.category;
-                                                scheduleCard.appendChild(category);
+                                                    // Category
+                                                    var category = document.createElement("p");
+                                                    category.textContent = "카테고리: " + schedule.category;
+                                                    scheduleCard.appendChild(category);
 
-                                                scheduleList.appendChild(scheduleCard);
+                                                    scheduleList.appendChild(scheduleCard);
+                                                }
+                                                var food = response[0].food_expenses;
+                                                var etc = response[0].etc_expenses;
+                                                var accommodation = response[0].accommodation_expenses;
+                                                var totalval = document.createElement('div');
+                                                totalval.className='totalTravel';
+                                                var totaltext1 = document.createElement('span');
+                                                totaltext1.textContent="총 ";
+                                                var totaltext2 = document.createElement('span');
+                                                totaltext2.className='totaltext2';
+                                                totaltext2.textContent=(food + etc + accommodation);
+                                                var totaltext3 = document.createElement('span');
+                                                totaltext3.textContent=" 원";
+                                                totalval.appendChild(totaltext1);
+                                                totalval.appendChild(totaltext2);
+                                                totalval.appendChild(totaltext3);
+
+                                                scheduleList.appendChild(totalval);
+                                                // 차트를 그릴 데이터 준비
+                                                var chartData = {
+                                                    labels: ["음식", "기타", "숙박", "교통"], // 카테고리 레이블
+                                                    datasets: [{
+                                                        data: [food, etc, accommodation,25000], // 카테고리별 비용 데이터
+                                                        backgroundColor: [
+                                                            'rgb(240, 229, 222)', // 음식
+                                                            'rgb(171, 208, 206)', // 기타
+                                                            'rgb(124, 120, 119)', // 숙박
+                                                            'rgb(217, 212, 207)'  // 교통
+                                                        ],
+                                                        borderColor: [
+                                                            'rgb(240, 229, 222)', // 음식
+                                                            'rgb(171, 208, 206)', // 기타
+                                                            'rgb(124, 120, 119)', // 숙박
+                                                            'rgb(217, 212, 207)'  // 교통
+                                                        ],
+                                                        borderWidth: 1
+                                                    }]
+                                                };
+
+                                                // 차트 생성
+                                                var ctx = document.getElementById('myChart').getContext('2d')
+                                                var myChart = new Chart(ctx, {
+                                                    type: 'pie', // 파이 차트 형식
+                                                    data: chartData
+                                                });
+                                            } else {
+                                                // response가 비어있는 경우에 대한 처리
                                             }
-                                            var food = response[0].food_expenses;
-                                            var etc = response[0].etc_expenses;
-                                            var accommodation = response[0].accommodation_expenses;
-                                            var totalval = document.createElement('div');
-                                            totalval.className='totalTravel';
-                                            var totaltext1 = document.createElement('span');
-                                            totaltext1.textContent="총 ";
-                                            var totaltext2 = document.createElement('span');
-                                            totaltext2.className='totaltext2';
-                                            totaltext2.textContent=(food + etc + accommodation);
-                                            var totaltext3 = document.createElement('span');
-                                            totaltext3.textContent=" 원";
-                                            totalval.appendChild(totaltext1);
-                                            totalval.appendChild(totaltext2);
-                                            totalval.appendChild(totaltext3);
 
-                                            scheduleList.appendChild(totalval);
-                                            // 차트를 그릴 데이터 준비
-                                            var chartData = {
-                                                labels: ["음식", "기타", "숙박", "교통"], // 카테고리 레이블
-                                                datasets: [{
-                                                    data: [food, etc, accommodation,25000], // 카테고리별 비용 데이터
-                                                    backgroundColor: [
-                                                        'rgb(240, 229, 222)', // 음식
-                                                        'rgb(171, 208, 206)', // 기타
-                                                        'rgb(124, 120, 119)', // 숙박
-                                                        'rgb(217, 212, 207)'  // 교통
-                                                    ],
-                                                    borderColor: [
-                                                        'rgb(240, 229, 222)', // 음식
-                                                        'rgb(171, 208, 206)', // 기타
-                                                        'rgb(124, 120, 119)', // 숙박
-                                                        'rgb(217, 212, 207)'  // 교통
-                                                    ],
-                                                    borderWidth: 1
-                                                }]
-                                            };
-
-                                            // 차트 생성
-                                            var ctx = document.getElementById('myChart').getContext('2d')
-                                            var myChart = new Chart(ctx, {
-                                                type: 'pie', // 파이 차트 형식
-                                                data: chartData
-                                            });
-                                        } else {
-                                            // response가 비어있는 경우에 대한 처리
-                                        }
-
-                                    },
-                                    error: function (error) {
-                                        console.error(error);
-                                    },
-                                });
+                                        },
+                                        error: function (error) {
+                                            console.error(error);
+                                        },
+                                    });
+                                }
                             </script>
                         </c:forEach>
                     </div>
@@ -436,7 +458,12 @@
 </body>
 <script>
     function calculate(){
-        var cinput =  document.getElementById('faq-239').parentElement;
+        var calBtn = document.querySelector(".calBtn");
+        var ancestorElement = calBtn.parentElement.parentElement.parentElement;
+        var inputElement = ancestorElement.querySelector("input");
+        var inputValue = inputElement.id;
+
+        var cinput =  document.getElementById(inputValue).parentElement;
         var total = cinput.querySelector('.totaltext2').textContent;
         //모임원 인원 수대로
         $.ajax({
@@ -475,7 +502,6 @@
         type: "POST",
         url: "/selectMygroupTravelList",
         success: function (response) {
-
         },
         error: function (error) {
             console.error(error);
@@ -521,7 +547,7 @@
 
             }
         },
-        error: function (error) {``
+        error: function (error) {
             console.error(error);
         },
     });

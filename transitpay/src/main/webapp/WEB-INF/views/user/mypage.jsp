@@ -8,185 +8,99 @@
     <link rel="stylesheet" href="../../../resources/css/mypage.css">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script defer src="../../resources/js/mypage.js"></script>
-</head>
-<style>
-
-    .backgroundbox{
-        width: 100%;
-        height: 300px;
-        background: linear-gradient(156deg, #0c96a8 0%, rgb(165 225 234 / 87%) 52.08%, #159db0 100%);
-        position: relative;
-    }
-    .backgroundbox .topbox{
-        width: 1400px;
-        height: 700px;
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        transform: translateX(-50%);
-        margin-top: -50px;
-        background: white;
-    }
-    .mypage-user{
-        padding: 30px;
-        margin: 5px;
-        height: 950px;
-        border-right: 1px solid #d8d8d8;
-    }
-    .user-detail{
-        border: 1px solid #d8d8d8;
-        padding: 30px;
-        border-radius: 10px;
-        margin: 5px;
-        height: 300px;
-        width: 150px;
-        background: #fcfcfc;
-    }
-    .accountbox{
-        margin-left: 30px;
-    }
-    h2{
-        margin:10px;
-    }
-    .account-box-1{
-        display: flex;
-    }
-    .chartbox{
-        width: 250px;
-    }
-    .auto-charge-box{
-        float: left;
-        padding-left: 30px;
-        border-left: 1px solid #d8d8d8;
-        margin-left: 30px;
-        height: 220px;
-    }
-    .travelbox{
-        padding-bottom: 0;
-        padding-right: 0;
-    }
-    .travelsavebox{
-        padding: 65px;
-        color: #50575d;
-        text-align: center;
-        font-size: 20px;
-        font-weight: 700;
-    }
-    .saveboxcnt{
-        margin-top: 15px;
-    }
-    .chargeboxbtn{
-        display: flex;
-    }
-    .auto-charge-box-1{
-        margin-top: 10px;
-    }
-    .mypage-img{
-        width: 100px;
-        height: 110px;
-        border-radius: 50%;
-    }
-    .mypage-box{
-        text-align: center;
-    }
-    .mypage_logout{
-        float: right;
-    }
-    .slider-2 {
-        height:400px;
-        position:relative;
-    }
-
-    .slider-2 .slides > div {
-        position:absolute;
-        top:0;
-        left:0;
-        width:100%;
-        height:200px;
-        background-position:center;
-        /* 이미지를 최대한 안짤리게 한다. */
-        background-size:cover;
-        /* 배경 반복 금지 */
-        background-repeat:no-repeat;
-        opacity:0;
-        transition: opacity 0.5s;
-    }
-
-    .slider-2 .slides > div.active {
-        opacity:1;
-        z-index: 1;
-    }
-
-    @media ( max-width:700px ) {
-        .slider-2 {
-            height:300px;
+    <style>
+        /* 모달 스타일 */
+        .custom-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
         }
-    }
 
-    .slider-2 .page-nav {
-        position:absolute;
-        width:100%;
-        text-align:center;
-        bottom:0;
-        left:0;
-    }
+        .custom-modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            position: relative;
+        }
 
-    .slider-2 .page-nav > div {
-        display:inline-block;
-        width:15px;
-        height:15px;
-        background-color:rgba(255,255,255,0.5);
-        border-radius:2px;
-        cursor:pointer;
-    }
+        .custom-close {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 10px;
+            cursor: pointer;
+        }
+        /* 테이블 스타일 */
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
 
-    .slider-2 .page-nav > div.active {
-        background-color:rgba(255,255,255,1);
-    }
+        /* 테이블 헤더 스타일 */
+        .custom-table th {
+            background-color: #f2f2f2;
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
 
-    .slider-2>.side-btns>div{
-        position: absolute;
-        top: 50px;
-        width: 30%;
-        height: 100px;
-        cursor: pointer;
-        z-index: 10;
-    }
+        /* 테이블 바디 스타일 */
+        .custom-table td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
 
-    .slider-2>.side-btns>div>span:active{
-        transform:translatey(-40%);
-    }
-    .slider-2>.side-btns>div:last-child{
-        left:auto;
-        right:0;
-    }
+        /* 테이블 줄 번갈아가며 색상 변경 */
+        .custom-table tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        /* 모달 스타일 */
+        .update-modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+        }
 
-    .slider-2>.side-btns>div>span{
-        position: absolute;
-        top: 50%;
-        transform: translatey(-50%);
-        left: inherit;
-        right: inherit;
-        width: 70px;
-        height: 70px;
-        background-color: rgb(255 255 255 / 12%);
-        border-radius: 100%;
-        margin: 0 10px;
-    }
-    .slider-2>.side-btns>div>span > i{
-        position:absolute;
-        top:50%;
-        left:50%;
-        font-size:3rem;
-        color:rgba(0,0,0,0.4);
-        transform:translateX(-70%) translateY(-50%);
-    }
+        /* 모달 내용 스타일 */
+        .update-modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
 
-    .slider-2>.side-btns>div:last-child>span > i {
-        transform:translateX(-20%) translateY(-50%);
-    }
+        /* 모달 닫기 버튼 스타일 */
+        .update-close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
 
-</style>
+        .update-close:hover,
+        .update-close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
 <body>
 <div class="main">
     <%@ include file="../include/header.jsp" %>
@@ -214,22 +128,22 @@
                                 <div>
                                     <div>
                                         <div class="travelsavebox">
-                                            <div>저장된 여행</div>
-                                            <div class="saveboxcnt"><a href="/saveTravel">2개</a></div>
+                                            <div>저장된 여행🩷</div>
+                                            <div class="saveboxcnt"><a href="/saveTravel" id="travleLength"></a></div>
                                         </div>
                                     </div>
-                                    <button>여행 찜🩷</button>
+                                    <button>여행 찜</button>
                                 </div>
                             </div>
                             <div class="travelbox-2">
                                 <div>
                                     <div>
                                         <div class="travelsavebox">
-                                            <div>정산할 여행</div>
-                                            <div class="saveboxcnt"><a href="">1개</a></div>
+                                            <div>정산할 여행💰</div>
+                                            <div class="saveboxcnt"><a href="/calTravel">1개</a></div>
                                         </div>
                                     </div>
-                                    <button>정산알림🛎</button>
+                                    <button>정산알림</button>
                                 </div>
                             </div>
                             <div class="travelbox-3">
@@ -237,30 +151,47 @@
                                     <canvas id="myChart"></canvas>
                                 </div>
                                 <div>
-                                    <button>자동이체💰</button>
+                                    <button>자동이체</button>
                                 </div>
                             </div>
-
                         </div>
                         <h2>계좌 관리</h2>
                         <div class="account-box-1">
-                            <div class="account">
-                                <div class="account-details">
-                                    <a href="/accountDetail">
-                                        <button class="account-button">연결계좌</button>
-                                    </a>
-                                    <div class="bank"></div>
-                                    <div class="account-info">
-                                        <span class="account-number" name="account_num"></span>
-                                        <input type="hidden" name="accountId" value="">
-                                        <button class="change-account" id="change-account">연결계좌 변경</button>
+                            <div class="account-details">
+                                <a href="/accountDetail">
+                                    <button class="account-button">연결계좌</button>
+                                </a>
+                                <div class="bank"></div>
+                                <div class="account-info">
+                                    <span class="account-number" name="account_num"></span>
+                                    <input type="hidden" name="accountId" value="">
+                                    <button class="change-account" id="change-account">연결계좌 변경</button>
+                                </div>
+                            </div>
+                            <div class="account-box">
+                                <div class="account-box-2">
+                                    <img src="../../resources/images/new_2204_my_login_ico001.png" alt="">
+                                    <button class="account-month" id="custom-account-month">이번달 이용내역 > </button>
+                                    <div class="account-cnt">
+                                        <div class="cnt-1-1" id="month-cnt"></div><span class="cnt-1">건</span>
+                                        <div class="cnt-1-1" id="month-balance"></div><span class="cnt-1">원</span>
+                                    </div>
+                                </div>
+                                <div class="account-box-2">
+                                    <img src="../../resources/images/new_2204_my_login_ico004.png" alt="">
+                                    <div class="account-month">미납 회비 현황 >  </div>
+                                    <div class="account-cnt">
+                                        <div class="cnt-1-2" id="payment-cnt"></div><span class="cnt-1">건</span>
+                                        <div class="cnt-1-2" id="payment-balance"></div><span class="cnt-1">원</span>
                                     </div>
                                 </div>
                             </div>
-                            <div class="account">
-                                <div class="account2">
+                        </div>
+                        <h2>모임 관리</h2>
+                        <div class="card-1">
+                            <div class="account2">
+                                <div class="auto-charge-box">
                                     <div class="new-account-details">
-
                                         <div class="slider-2">
                                             <div class="side-btns">
                                                 <div><span><i class="fas fa-caret-left"></i></span></div>
@@ -289,20 +220,42 @@
 
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <h2>모임 관리</h2>
-                        <div class="card-1">
-                            <div class="account2">
-                                <div></div>
-                                <div class="auto-charge-box">
+                                <div class="auto-charge-box-2">
                                     <div class="auto-charge-box-1">
                                         <div class="auto-charge">
                                             <span class="charge-info">회비 및 정산 알림</span>
                                         </div>
                                         <div class="auto-charge2">
                                             <div class="chargebtn">
-                                                <button class="charge-save-button">내역</button>
+                                                <button class="charge-save-button">회비</button>
+                                            </div>
+                                            <div class="chargebtn">
+                                                <button class="charge-save-button">정산</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="auto-charge-box-1">
+                                        <div class="auto-charge">
+                                            <span class="charge-info">자동이체</span>
+                                        </div>
+                                        <div class="auto-charge2">
+                                            <div class="chargebtn">
+                                                <button class="charge-save-button">신청</button>
+                                            </div>
+                                            <div class="chargebtn">
+                                                <button class="charge-save-button">해지</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="auto-charge-box-1">
+                                        <div class="auto-charge">
+                                            <span class="charge-info">모임수정 및 탈퇴</span>
+                                        </div>
+                                        <div class="auto-charge2">
+                                            <div class="chargebtn">
+                                                    <button class="charge-save-button" id="updateGroup">수정</button>
                                             </div>
                                             <div class="chargebtn">
                                                 <button class="charge-save-button">탈퇴</button>
@@ -310,25 +263,6 @@
 
                                         </div>
                                     </div>
-                                    <div class="auto-charge-box-1">
-                                        <div class="auto-charge">
-                                            <span class="charge-info">회비 및 정산 알림</span>
-                                        </div>
-                                        <div class="auto-charge2">
-                                            <div class="chargebtn">
-                                                <button class="charge-save-button">내역</button>
-                                            </div>
-                                            <div class="chargebtn">
-                                                <button class="charge-save-button">탈퇴</button>
-                                            </div>
-
-                                        </div>
-                                    </div>
-<%--                                    <div class="auto-charge">--%>
-<%--                                        <span class="charge-info">모임통장 알림</span>--%>
-<%--                                        <button class="charge-status">ON</button>--%>
-<%--                                    </div>--%>
-
                                 </div>
                             </div>
                             <div class="notificationbox">
@@ -341,7 +275,54 @@
             </div>
         </div>
     </div>
+    <div id="customModal" class="custom-modal">
+        <div class="custom-modal-content">
+            <span class="custom-close">&times;</span>
+            <h2>이번달 이용내역</h2>
+        </div>
+    </div>
 
+    <div id="updateModal" class="update-modal">
+        <div class="update-modal-content">
+            <span class="update-close">&times;</span>
+            <h2>모임수정</h2>
+            <table>
+                <tr>
+                    <td>그룹 ID:</td>
+                    <td id="groupID">105</td>
+                </tr>
+                <tr>
+                    <td>그룹 이름:</td>
+                    <td id="groupName">서태지와아이들</td>
+                </tr>
+                <tr>
+                    <td>그룹 계좌:</td>
+                    <td id="groupAccount">089-528471-69133</td>
+                </tr>
+                <tr>
+                    <td>그룹 잔액:</td>
+                    <td><input type="text" id="groupBalance" value="530000"></td>
+                </tr>
+                <tr>
+                    <td>월 납부일:</td>
+                    <td><input type="text" id="groupDay" value="11"></td>
+                </tr>
+                <tr>
+                    <td>월 회비:</td>
+                    <td><input type="text" id="groupDues" value="30000"></td>
+                </tr>
+                <tr>
+                    <td>자동 납부:</td>
+                    <td><input type="text" id="groupAutopay" value="N"></td>
+                </tr>
+                <tr>
+                    <td>비밀번호:</td>
+                    <td><input type="text" id="groupPassword" value="1111"></td>
+                </tr>
+            </table>
+            <button id="updateButton">저장</button>
+        </div>
+    </div>
     <div id="accountModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -378,7 +359,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 <%--    <%@ include file="../include/footer.jsp" %>--%>
@@ -388,7 +368,138 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
 <script>
-    <%--alert("${sessionScope.groupAccountDetail}")--%>
+    // 모달 요소와 버튼 요소 가져오기
+    var updateModal = document.getElementById("updateModal");
+    var updateBtn = document.getElementById("updateGroup");
+    var updateCloseBtn = document.getElementsByClassName("update-close")[0];
+
+    // 버튼을 클릭하면 모달을 보이게 함
+    updateBtn.addEventListener("click", function() {
+        updateModal.style.display = "block";
+    });
+
+    // 모달 바깥 영역이나 닫기 버튼을 클릭하면 모달을 숨김
+    window.addEventListener("click", function(event) {
+        if (event.target == updateModal || event.target == updateCloseBtn) {
+            updateModal.style.display = "none";
+        }
+    });
+
+    $.ajax({
+        type: "POST",
+        url: "/selectGroupInfo",
+        data: { groupId : "${sessionScope.groupAccountDetail.group_id}" },
+        success: function (response) {
+
+            console.log(response);
+        }
+    });
+
+    $.ajax({
+        type: "POST",
+        url: "/selectNotification",
+        success: function (response) {
+            var total=0;
+            var paymentCnt = document.querySelector('#payment-cnt');
+            var paymentBalance = document.querySelector('#payment-balance');
+            if(response.length==0){
+                paymentCnt.textContent=0;
+                paymentBalance.textContent=0;
+            }else{
+                paymentCnt.textContent=response.length;
+                response.forEach(function(val){
+                    total += val.amount;
+                })
+                paymentBalance.textContent=amount;
+            }
+        }
+    });
+    // 모달 요소와 버튼 요소 가져오기
+    var customModal = document.getElementById("customModal");
+    var customBtn = document.querySelector("#custom-account-month");
+    var customCloseBtn = document.querySelector(".custom-close");
+
+    // 버튼을 클릭하면 모달을 보이게 함
+    customBtn.addEventListener("click", function() {
+        customModal.style.display = "block";
+    });
+
+    // 모달 바깥 영역이나 닫기 버튼을 클릭하면 모달을 숨김
+    window.addEventListener("click", function(event) {
+        if (event.target == customModal || event.target == customCloseBtn) {
+            customModal.style.display = "none";
+        }
+    });
+
+    $.ajax({
+        type: "POST",
+        url: "/selectMyAccountMonthStatement",
+        success: function (response) {
+            var total = 0;
+            var monthCnt = document.querySelector('#month-cnt');
+            var monthBalance = document.querySelector('#month-balance');
+
+            // 모달 내용을 추가할 부분
+            var modalContent = document.querySelector('.custom-modal-content');
+            var table = document.createElement('table');
+            table.className = 'custom-table';
+
+            // 테이블 헤더 생성
+            var thead = document.createElement('thead');
+            var headerRow = document.createElement('tr');
+            var headers = ['날짜', '내용', '금액'];
+
+            headers.forEach(function (headerText) {
+                var th = document.createElement('th');
+                th.textContent = headerText;
+                headerRow.appendChild(th);
+            });
+
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+
+            // 테이블 바디 생성
+            var tbody = document.createElement('tbody');
+            response.forEach(function (transaction) {
+                var row = document.createElement('tr');
+                var cell1 = document.createElement('td');
+                var cell2 = document.createElement('td');
+                var cell3 = document.createElement('td');
+
+                cell1.textContent = transaction.transaction_date;
+                cell2.textContent = transaction.transaction_content;
+                cell3.textContent = transaction.balance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+                row.appendChild(cell1);
+                row.appendChild(cell2);
+                row.appendChild(cell3);
+                tbody.appendChild(row);
+
+                total += transaction.balance;
+            });
+
+            table.appendChild(tbody);
+            modalContent.appendChild(table);
+
+            monthCnt.textContent = response.length;
+            monthBalance.textContent = total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        },
+        error: function (error) {
+            console.error(error);
+        },
+    });
+
+
+    $.ajax({
+        type: "POST",
+        url: "/selectMygroupTravelList",
+        success: function (response) {
+            $("#travleLength").text(response.length + "개");
+        },
+        error: function (error) {
+            console.error(error);
+        },
+    });
     if ("${sessionScope.member}" !== "") {
         var memberId = "${sessionScope.member.member_id}";
         $.ajax({
@@ -483,7 +594,7 @@
     $.ajax({
         type: "POST",
         url: "/selectGroupAccountChart",
-        data: { groupId: 96 ,groupAccount : "${sessionScope.groupAccountDetail.group_account}"},
+        data: { groupId: 105 ,groupAccount : "${sessionScope.groupAccountDetail.group_account}"},
         success: function (response) {
             var memberSelect = $('#memberSelect');
             memberSelect.empty();

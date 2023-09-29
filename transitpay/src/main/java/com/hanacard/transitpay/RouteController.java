@@ -77,7 +77,10 @@ class RouteController {
     public String accountJoinForm() throws Exception {
         return "/hana/accountJoinForm";
     }
-
+    @GetMapping("/calTravel")
+    public String calTravel() throws Exception{
+        return "/hana/calTravel";
+    }
     /***
      *  마이페이지 기능
      */

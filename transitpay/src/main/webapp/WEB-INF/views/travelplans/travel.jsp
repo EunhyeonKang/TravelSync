@@ -249,7 +249,7 @@
         const goingDate = dateRangePicker.startDate.format('YYYY-MM-DD');
         const returningDate = dateRangePicker.endDate.format('YYYY-MM-DD');
         const travelPlaceList = selectedData;
-        const groupId = "${sessionScope.groupAccount.group_id}";
+        const groupId = "${sessionScope.groupAccountDetail.group_id}";
 
         var travelInfoData = {
             travelPlaceList: travelPlaceList,

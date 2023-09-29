@@ -20,4 +20,6 @@ public class GroupMember {
     private int pw_state;
     private int amount;
     private GroupMember[] groupMember;
+    private String kakao_img;
+    private String name;
 }

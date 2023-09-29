@@ -79,6 +79,8 @@ public class AccountController {
 
             logger.info("Received formData: {}", groupData);
             Map<String, String> groupAccountDetail = accountService.insertGroupAccount(groupAccount,groupData);
+            int groupId = accountService.selectGroupAccount(groupAccountDetail.get("group_account"));
+            session.setAttribute("groupId", groupId);
             session.setAttribute("groupAccountDetail", groupAccountDetail);
             return ResponseEntity.ok("모임통장 개설 성공");
         } catch (Exception e) {
@@ -106,7 +108,6 @@ public class AccountController {
             Member member = (Member) session.getAttribute("member");
             GroupAccount groupAccountInfo = accountService.selectVirtureAccountNumber(groupAccount.getAccount_num(),member.getMember_id());
             session.setAttribute("groupAccountInfo",groupAccountInfo);
-            session.setAttribute("groupId",groupAccountInfo.getGroup_id());
             accountService.insertGroupMember("L",groupAccount.getGroup_leader(), groupAccountInfo.getGroup_id());
             return ResponseEntity.ok(groupAccountInfo);
         } catch (Exception e) {
@@ -273,6 +274,18 @@ public class AccountController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+    @PostMapping("/selectMyAccountMonthStatement")
+    public ResponseEntity<List<Account>> selectMyAccountMonthStatement(HttpServletRequest request){
+        try {
+            HttpSession session = request.getSession(); // 세션 가져오기
+            Member member = (Member)session.getAttribute("member");
+            List<Account> selectMyAccountStatement = accountService.selectMyAccountMonthStatement(member.getMember_id());
+            return ResponseEntity.ok(selectMyAccountStatement);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
     @PostMapping("/calTravelGroupMemberNotification")
     public ResponseEntity<?> calTravelGroupMemberNotification(@RequestBody GroupMember groupMembers){
         try {
@@ -292,6 +305,27 @@ public class AccountController {
             Member member =(Member)session.getAttribute("member");
             List<GroupMember> groupNotification = accountService.selectNotification(member.getMember_id());
             return ResponseEntity.ok(groupNotification);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+    @PostMapping("/calExecution")
+    public ResponseEntity<?> calExecution(@RequestBody Map<String, String> calData, HttpServletRequest request){
+        try {
+            HttpSession session = request.getSession();
+            Member member =(Member)session.getAttribute("member");
+            accountService.calExecution(calData, member.getMember_id());
+            return ResponseEntity.ok("정산 완료");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @PostMapping("/selectGroupInfo")
+    public ResponseEntity<List<GroupAccountDetail>> selectGroupInfo(String groupId){
+        try {
+            List<GroupAccountDetail> groupAccountDetail =accountService.selectGroupInfo(groupId);
+            return ResponseEntity.ok(groupAccountDetail);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }

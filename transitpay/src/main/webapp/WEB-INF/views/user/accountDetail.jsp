@@ -232,7 +232,6 @@
 
     function getTransactionsByMyAccount(){
         var selectedAccount = $("#accountSelect").val();
-        console.log(selectedAccount)
         /*
         $.ajax({
             url: "/getByMemberAccount", // 변경 필요한 URL로 수정

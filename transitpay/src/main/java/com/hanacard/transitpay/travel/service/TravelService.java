@@ -1,5 +1,6 @@
 package com.hanacard.transitpay.travel.service;
 
+import com.hanacard.transitpay.member.model.dto.GroupMember;
 import com.hanacard.transitpay.travel.model.dto.*;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public interface  TravelService {
     List<MyGroupTravelInfo> selectMygroupTravelList(int memberId);
     List<Schedule> selectMygroupSchedule(int travelId);
     void insertBookmarkTraveling(Long itemId,int memberId);
-
     List<TravelInfo> selectBookmarkTravelList(int memberId);
+    List<MyGroupTravelInfo> selectTravelNoti(int memberId);
+    List<GroupMember> selectNoti(String groupId);
 }

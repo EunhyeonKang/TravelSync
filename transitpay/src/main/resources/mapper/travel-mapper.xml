@@ -176,5 +176,29 @@
         join favorite_travel ft
         on ti.t_num = ft.t_num where ft.member_id = #{memberId}
     </select>
-
+    <select id="selectTravelNoti" resultType="com.hanacard.transitpay.travel.model.dto.MyGroupTravelInfo">
+        SELECT
+            t.travel_id AS travelId,
+            t.travel_title AS travelTitle,
+            t.travel_start AS travelStart,
+            t.travel_end AS travelEnd,
+            t.d_day AS dDay,
+            t.group_id AS groupId,
+            s.food_expenses AS food_expenses,
+            s.accommodation_expenses AS accommodation_expenses,
+            s.etc_expenses AS etc_expenses,
+            n.amount AS amount
+        FROM travel t
+                 JOIN schedule_amount s ON t.travel_id = s.travel_id
+                 JOIN notification n ON t.group_id = n.group_id
+        WHERE n.member_id=#{memberId}
+    </select>
+    <select id="selectNoti">
+        select
+            m.kakao_img,
+            m.name,
+            n.amount
+        from member m join notification n on m.member_id = n.member_id
+        where group_id = #{groupId}
+    </select>
 </mapper>

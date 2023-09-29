@@ -81,8 +81,8 @@
             USING DUAL
             ON (gm.member_id = #{param2} AND gm.group_id = #{param3})
             WHEN NOT MATCHED THEN
-                INSERT (group_member_id, group_member_type, member_id, group_id)
-                    VALUES (group_member_id_seq.nextval, #{param1}, #{param2}, #{param3})
+                INSERT (group_member_id, group_member_type, member_id, group_id,pw_state)
+                    VALUES (group_member_id_seq.nextval, #{param1}, #{param2}, #{param3},#{param4})
     </insert>
 
     <select id="selectGroupMember" resultType="com.hanacard.transitpay.member.model.dto.GroupMember">
@@ -220,6 +220,40 @@
     </insert>
     <select id="selectNotification" resultType="com.hanacard.transitpay.member.model.dto.GroupMember">
         select * from notification where member_id=#{memberId}
+    </select>
+    <select id="selectGroupAccount" resultType="int">
+        select group_id from groups where group_account=#{groupAccount}
+    </select>
+    <delete id="calExecution" parameterType="hashMap">
+        delete from notification where group_id = #{param1} and member_id = #{param2}
+    </delete>
+
+    <select id="selectMyAccountMonthStatement">
+        SELECT acs.*,
+               m.NAME AS name
+        FROM ACCOUNT_STATEMENT acs
+                 LEFT JOIN ACCOUNT a ON acs.account_num = a.ACCOUNT_NUM OR acs.target_account_num = a.ACCOUNT_NUM
+                 LEFT JOIN MEMBER m ON a.account_ID = m.MEMBER_ID
+        WHERE m.member_id = #{memberId}
+          AND TO_CHAR(acs.transaction_date, 'YYYY-MM') = TO_CHAR(SYSDATE, 'YYYY-MM')
+    </select>
+
+    <select id="selectGroupInfo">
+        select
+            g.group_id AS group_id,
+            g.group_name AS group_name,
+            g.group_account AS group_account,
+            ga.g_balance AS g_balance,
+            ga.g_month AS g_month,
+            ga.g_day AS g_day,
+            ga.g_dues AS g_dues,
+            ga.g_autopay AS g_autopay,
+            ga.group_pw AS group_pw,
+            ga.g_date AS g_date
+        from groups g
+                 join group_account ga
+                      on g.group_account = ga.group_account
+        where group_id = #{groupId}
     </select>
 </mapper>
 

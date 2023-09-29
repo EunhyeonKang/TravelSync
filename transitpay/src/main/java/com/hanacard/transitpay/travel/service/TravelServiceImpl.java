@@ -1,5 +1,6 @@
 package com.hanacard.transitpay.travel.service;
 
+import com.hanacard.transitpay.member.model.dto.GroupMember;
 import com.hanacard.transitpay.travel.model.dao.TravelRepository;
 import com.hanacard.transitpay.travel.model.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -143,5 +144,15 @@ public class TravelServiceImpl implements TravelService {
     @Override
     public List<TravelInfo> selectBookmarkTravelList(int memberId) {
         return travelRepository.selectBookmarkTravelList(memberId);
+    }
+
+    @Override
+    public List<MyGroupTravelInfo> selectTravelNoti(int memberId) {
+        return travelRepository.selectTravelNoti(memberId);
+    }
+
+    @Override
+    public List<GroupMember> selectNoti(String groupId) {
+        return travelRepository.selectNoti(groupId);
     }
 }

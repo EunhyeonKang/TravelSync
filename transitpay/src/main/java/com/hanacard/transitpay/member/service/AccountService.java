@@ -29,4 +29,8 @@ public interface AccountService {
     List<Account> selectMyAccountStatement(int memberId);
     void insertGroupMemberNotification(GroupMember[] groupMembers,int amount,int groupId);
     List<GroupMember>  selectNotification(int memberId);
+    int selectGroupAccount(String groupAccount);
+    void calExecution(Map<String, String> calData, int memberId);
+    List<Account> selectMyAccountMonthStatement(int memberId);
+    List<GroupAccountDetail> selectGroupInfo(String groupId);
 }

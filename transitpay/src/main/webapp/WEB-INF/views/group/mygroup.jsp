@@ -451,7 +451,7 @@
                                     const hanaClass = document.querySelector('.hanaClass');
                                     hanaClass.textContent = "총 "+response.g_balance.toLocaleString()+"원";
                                     const newAccount = document.querySelector('.newAccount');
-                                    newAccount.textContent = response.g_month + " "+response.g_day+"일, "+response.g_dues+"만원씩";
+                                    newAccount.textContent = response.g_month + " "+response.g_day+"일, "+response.g_dues+"원씩";
                                 }
                             })
                         })

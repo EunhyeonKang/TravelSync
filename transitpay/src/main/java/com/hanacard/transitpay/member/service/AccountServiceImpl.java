@@ -98,7 +98,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void insertGroupMember(String memberType,int memberId, int groupId) {
-        accountRepository.insertGroupMember(memberType,memberId,groupId);
+        accountRepository.insertGroupMember(memberType,memberId,groupId,1);
 
     }
 
@@ -203,6 +203,40 @@ public class AccountServiceImpl implements AccountService {
     public List<GroupMember> selectNotification(int memberId) {
         return accountRepository.selectNotification(memberId);
     }
+
+    @Override
+    public int selectGroupAccount(String groupAccount) {
+        return accountRepository.selectGroupAccount(groupAccount);
+    }
+
+    @Override
+    @Transactional
+    public void calExecution(Map<String, String> calData, int memberId) {
+        //계좌
+        String accountBank = (String) calData.get("accountBank");
+        String accountNum = (String) calData.get("accountNum");
+        //모임통장
+        String groupName = (String) calData.get("groupName");
+        String groupAccount = (String) calData.get("groupAccount");
+        String balance = (String) calData.get("amount");
+        String groupId = (String)calData.get("groupId");
+        accountRepository.insertAccountStatement(accountNum,groupAccount,"OUT",Integer.parseInt(balance),"여행 경비-회비 정산");
+        accountRepository.insertGroupAccountStatement(accountNum,groupAccount,"IN",Integer.parseInt(balance),"여행 경비-회비 정산");
+        accountRepository.updateAccountBalance(memberId, accountNum, Integer.parseInt(balance), accountBank);
+        accountRepository.updateGroupAccountBalance(groupAccount,Integer.parseInt(balance));
+        accountRepository.calExecution(Integer.parseInt(groupId),memberId);
+    }
+
+    @Override
+    public List<Account> selectMyAccountMonthStatement(int memberId) {
+        return accountRepository.selectMyAccountMonthStatement(memberId);
+    }
+
+    @Override
+    public List<GroupAccountDetail> selectGroupInfo(String groupId) {
+        return accountRepository.selectGroupInfo(groupId);
+    }
+
 }
 
 

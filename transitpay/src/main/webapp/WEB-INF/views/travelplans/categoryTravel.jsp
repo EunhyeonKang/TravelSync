@@ -194,7 +194,7 @@
                     bookmarkButton.append(bookmarkimg);
                     var paragraphbookmark = document.createElement('span');
                     paragraphbookmark.className='bookmark-count';
-                    paragraphbookmark.textContent = data.starCount;
+                    // paragraphbookmark.textContent = data.starCount;
                     bookmarkButton.appendChild(paragraphbookmark);
                     itemDiv.appendChild(bookmarkButton);
                     itemContainer.appendChild(itemDiv);

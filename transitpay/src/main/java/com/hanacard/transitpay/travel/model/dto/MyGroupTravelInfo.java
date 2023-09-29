@@ -28,6 +28,10 @@ public class MyGroupTravelInfo {
     private int groupLeader;
     private String groupMemberType;
     private int pwState;
+    private int food_expenses;
+    private int accommodation_expenses;
+    private int etc_expenses;
+    private int amount;
     /**
      * 내 모임여행 상세 정보
      * */

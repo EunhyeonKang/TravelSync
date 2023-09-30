@@ -237,6 +237,26 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.selectGroupInfo(groupId);
     }
 
+    @Override
+    public void updateGroupInfo(String groupAccount, String groupDay, String groupDues, String groupAutopay, String groupPassword) {
+        accountRepository.updateGroupInfo(groupAccount,Integer.parseInt(groupDay),Integer.parseInt(groupDues),groupAutopay,Integer.parseInt(groupPassword));
+    }
+
+    @Override
+    public String selectGroupAutopay(String groupId) {
+        return accountRepository.selectGroupAutopay(groupId);
+    }
+
+    @Override
+    public void updateGroupAutopay(String groupId) {
+        accountRepository.updateGroupAutopay(groupId);
+    }
+
+    @Override
+    public void deleteGroupAutopay(String groupId) {
+        accountRepository.deleteGroupAutopay(groupId);
+    }
+
 }
 
 

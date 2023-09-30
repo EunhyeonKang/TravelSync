@@ -33,4 +33,10 @@ public interface AccountService {
     void calExecution(Map<String, String> calData, int memberId);
     List<Account> selectMyAccountMonthStatement(int memberId);
     List<GroupAccountDetail> selectGroupInfo(String groupId);
+    void updateGroupInfo(String groupAccount, String groupDay, String groupDues, String groupAutopay, String groupPassword);
+    String selectGroupAutopay(String groupId);
+
+    void updateGroupAutopay(String groupId);
+
+    void deleteGroupAutopay(String groupId);
 }

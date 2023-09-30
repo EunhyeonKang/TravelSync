@@ -9,6 +9,7 @@
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=aa75059f83f9e745604b52cb811450f4&libraries=services"></script>
+    <script src="../../../resources/js/socket.js"></script>
     <style>
         #chatting::placeholder{
             font-size: 11px;
@@ -146,12 +147,32 @@
 
         }
         .chating .me{
-            color: #008485;
+            padding: 10px;
+            background: #1286f3;
+            border-radius: 10px;
+            float: right;
+            color: white;
+            font-weight: 700;
             text-align: right;
+            margin-bottom: 5px;
         }
         .chating .others{
-            color: #1d1d1d;
-            text-align: left;
+            display: grid;
+            float: left;
+            margin: 0;
+        }
+        .user-name{
+            font-weight: 700;
+            color: #363636;
+            padding: 4px;
+        }
+        .other-msg{
+            background: white;
+            padding: 10px;
+            float: left;
+            font-weight: 700;
+            color: #676767;
+            border-radius: 10px;
         }
         .chating .start{
             color: #AAAAAA;
@@ -169,12 +190,14 @@
             background: 0;
             border: 0;
             margin: 5px;
+            position: absolute;
+            right: 0;
         }
         #container{
             margin: 100px 10px 10px 10px;
-            width: 300px;
+            width: 400px;
             padding: 15px;
-            height: 470px;
+            height: 540px;
             background: white;
             border-radius: 10px;
             z-index: 1;
@@ -183,6 +206,7 @@
         .sendth{
             display: flex;
             width: 100%;
+            position: relative;
         }
         .inputTable{
             width: 100%;
@@ -198,7 +222,12 @@
         .start{
             font-size: 10px;
             margin: 0;
-            padding-right: 30px;
+            color: #000000;
+            font-weight: 700;
+            background: #ececec;
+            border-radius: 10px;
+            padding: 5px;
+            line-height: 6px;
         }
     </style>
 </head>
@@ -211,13 +240,11 @@
     </div>
     <div class="contents">
         <div class="menu1">
-            <div class="menu1-1">여행 일정 추가</div>
+            <div class="menu1-1">여행 장소 선택</div>
             <div class="menuhr"><hr/></div>
             <a href="/travel">여행 장소 선택</a>
             <a href="map">여행 일정 추가</a>
-            <a href="traffic">교통편 보기</a>
-            <a href="/">TOP 여행지</a>
-            <a href="/">여행 기록</a>
+            <a href="/categoryTravel">TOP 여행지</a>
         </div>
         <div class="contents-1">
             <div class="container">
@@ -343,6 +370,20 @@
 </div>
 
 <script>
+    // 페이지 로드 시 실행
+    window.onload = function () {
+        // 세션 스토리지에서 WebSocket 연결 상태 확인
+        var socketOpen = sessionStorage.getItem('socketOpen');
+
+        if (socketOpen === 'true') {
+            // WebSocket 연결을 다시 열기
+            wsOpen();
+        }
+
+        // 세션 스토리지에서 저장된 상태 삭제 (선택사항)
+        sessionStorage.removeItem('socketOpen');
+    };
+
     var selectedDetails;
     var selectedDate = [];
     var placeDataList = [];

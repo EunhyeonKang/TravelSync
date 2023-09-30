@@ -9,22 +9,16 @@
             z-index: 1;
             text-align: right;
         }
+        #chatting{
+            border-radius: 50px;
+        }
     </style>
     <script>
-        $(document).ready(function() {
-            wsOpen();
-        })
-        var ws;
 
-        function wsOpen(){
-            //websocket을 지정한 URL로 연결
-            ws = new WebSocket("ws://" + location.host + "/websocket");
-            wsEvt();
-        }
-        // 웹 소켓 연결이 열렸을 때 실행
         function wsEvt() {
             ws.onopen = function (event) {
                 console.log("웹 소켓 연결이 열렸습니다.");
+                sessionStorage.setItem('socketOpen', 'true');
             };
 
             // 웹 소켓 서버로부터 메시지 수신 시 실행
@@ -53,7 +47,8 @@
                         if (d.sessionId == "${sessionScope.member.member_id}") {
                             $("#chating").append("<p class='me'>" + d.msg + "</p>");
                         } else {
-                            $("#chating").append("<p class='others'>" + d.userName  + " : " + d.msg + "</p>");
+                            $("#chating").append("<p class='others'><span class='user-name'>" + message.userName + " 님</span><span class='other-msg'>" + message.msg + "</span></p>");
+
                         }
 
                     }
@@ -111,7 +106,7 @@
                         alert("여행저장 완료!");
                         location.href='/saveTravel';
                     }else if(d.type=='calculate'){
-                        
+
                     }
 
                     //새로운 유저가 입장하였을 경우
@@ -120,8 +115,8 @@
                         if (d.sessionId == $("#sessionId").val()) {
                             $("#chating").append("<p class='start'>[채팅에 참가하였습니다.]</p>");
                         } else {
-                            $("#chating").append("<img src='"+ d.userimg +"'/>");
-                            $("#chating").append("<p class='start'>[" + d.userName + "]님이 입장하였습니다." + "</p>");
+                            $("#member-img").append("<img src='"+ d.userimg +"'/>");
+                            $("#member-name").append("<p class='start'>" + d.userName + "" + "</p>");
 
                             var $userImageContainer = $("<div>").addClass("user-image-container");
 
@@ -171,6 +166,7 @@
                 $("#yourMsg").show();
             }
         }
+
         function send() {
             var obj ={
                 type: "message",
@@ -178,14 +174,55 @@
                 userName : "${sessionScope.member.name}",
                 msg : $("#chatting").val()
             }
-            //서버에 데이터 전송
+
+            $.ajax({
+                type: "POST",
+                url: "/saveChat",
+                contentType: "application/json",
+                data: JSON.stringify(obj),
+                success: function (response) {
+
+                    $('#chatting').val("");
+
+                },
+                error: function (error) {
+                    console.error("Error:", error);
+                }
+            });
+
             ws.send(JSON.stringify(obj))
             $('#chatting').val("");
+        }
+        // 채팅 내용을 불러와서 채팅창에 표시하는 함수
+        function loadChatHistory() {
+            $.ajax({
+                type: "GET",
+                url: "/loadChat",
+                success: function (chatHistory) {
+                    if (chatHistory && chatHistory.length > 0) {
+                        var chatingDiv = $("#chating");
+                        chatHistory.forEach(function (message) {
+                            if (message.sessionId === "${sessionScope.member.member_id}") {
+                                $("#chating").append("<p class='me'>" + message.msg + "</p>");
+                            } else {
+                                $("#chating").append("<p class='others'><span class='user-name'>" + message.userName + " 님</span><span class='other-msg'>" + message.msg + "</span></p>");
+                            }
+                        });
+                    }
+                },
+                error: function (error) {
+                    console.error("Error:", error);
+                }
+            });
         }
     </script>
 </head>
 <body>
 <div id="container" class="container">
+    <div id="member">
+        <span id="member-img"></span>
+        <span id="member-name"></span>
+    </div>
     <input type="hidden" id="sessionId" value="">
 
     <div id="chating" class="chating">
@@ -196,13 +233,12 @@
             <tr>
                 <th class="sendth">
                     <input id="chatting" placeholder="보내실 메시지를 입력하세요.">
-                        <button onclick="send()" id="sendBtn">
-                            <div class="sendbtnbox">
-                                <img class="sendimg" src="../../../resources/images/sendicon.png">
-                            </div>
-                        </button>
+                    <button onclick="send()" id="sendBtn">
+                        <div class="sendbtnbox">
+                            <img class="sendimg" src="../../../resources/images/send1.webp">
+                        </div>
+                    </button>
                 </th>
-
             </tr>
         </table>
     </div>

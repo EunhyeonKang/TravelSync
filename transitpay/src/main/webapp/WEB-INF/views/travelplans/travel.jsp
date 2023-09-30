@@ -10,6 +10,8 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script src="../../../resources/js/socket.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
     <style>
@@ -25,12 +27,32 @@
 
         }
         .chating .me{
-            color: #008485;
+            padding: 10px;
+            background: #1286f3;
+            border-radius: 10px;
+            float: right;
+            color: white;
+            font-weight: 700;
             text-align: right;
+            margin-bottom: 5px;
         }
         .chating .others{
-            color: #1d1d1d;
-            text-align: left;
+            display: grid;
+            float: left;
+            margin: 0;
+        }
+        .user-name{
+            font-weight: 700;
+            color: #363636;
+            padding: 4px;
+        }
+        .other-msg{
+            background: white;
+            padding: 10px;
+            float: left;
+            font-weight: 700;
+            color: #676767;
+            border-radius: 10px;
         }
         .chating .start{
             color: #AAAAAA;
@@ -48,12 +70,14 @@
             background: 0;
             border: 0;
             margin: 5px;
+            position: absolute;
+            right: 0;
         }
         #container{
             margin: 100px 10px 10px 10px;
-            width: 300px;
+            width: 400px;
             padding: 15px;
-            height: 470px;
+            height: 540px;
             background: white;
             border-radius: 10px;
             z-index: 1;
@@ -61,9 +85,20 @@
         .sendth{
             display: flex;
             width: 100%;
+            position: relative;
         }
         .inputTable{
             width: 100%;
+        }
+        .start{
+            font-size: 10px;
+            margin: 0;
+            color: #000000;
+            font-weight: 700;
+            background: #ececec;
+            border-radius: 10px;
+            padding: 5px;
+            line-height: 6px;
         }
     </style>
 </head>
@@ -79,9 +114,7 @@
             <div class="menuhr"><hr/></div>
             <a href="/travel">여행 장소 선택</a>
             <a href="map">여행 일정 추가</a>
-            <a href="traffic">교통편 보기</a>
-            <a href="/">TOP 여행지</a>
-            <a href="/">여행 기록</a>
+            <a href="/categoryTravel">TOP 여행지</a>
         </div>
 <%--        <form id="travelForm">--%>
             <div class="contents-1">
@@ -132,20 +165,23 @@
                 </button>
             </div>
         <%@ include file="../socket.jsp" %>
-
     </div>
     <%@ include file="../include/footer.jsp" %>
 </div>
 </body>
 <script>
+
     const titleInput = document.querySelector('.title-text');
     titleInput.addEventListener('keypress', function(event) {
+        if (event.key === 'Tab') {
+            const travelTitle = titleInput.value;
+            ws.send(JSON.stringify({ type: 'travelTitle', data: travelTitle }));
+        }
         if (event.key === 'Enter') {
             // 엔터 키가 눌렸을 때 입력 내용을 출력
             const travelTitle = titleInput.value;
             ws.send(JSON.stringify({ type: 'travelTitle', data: travelTitle }));
         }
-
     })
     $('input[name="datetimes"]').daterangepicker({
         "locale":{

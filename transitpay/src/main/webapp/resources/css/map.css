@@ -649,8 +649,30 @@ body{
     color: #FFFFFF;
 }
 
-.start {
-     font-size: 10px;
-     margin: 0;
-     padding-right: 30px;
- }
+#member img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-bottom: 5px;
+}
+
+
+#member {
+     display: flex;
+     flex-direction: column;
+}
+
+#member-img img {
+    margin-bottom: 10px; /* 이미지 아래 간격 조정 */
+}
+
+#member-name p {
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+#member-name, #member-img{
+    display: inline-flex;
+    width: 105px;
+    justify-content: space-evenly;
+}

@@ -255,5 +255,38 @@
                       on g.group_account = ga.group_account
         where group_id = #{groupId}
     </select>
+    <update id="updateGroupInfo">
+        update group_account set
+             g_day=#{param2},
+             g_dues=#{param3},
+             g_autopay=#{param4},
+             group_pw=#{param5}
+        where group_account=#{param1}
+    </update>
+    <select id="selectGroupAutopay" resultType="String">
+        select ga.g_autopay AS g_autopay from group_account ga
+              join groups g on g.group_account = ga.group_account
+        where g.group_id = #{groupId}
+    </select>
+    <update id="updateGroupAutopay">
+        UPDATE group_account ga
+        SET ga.g_autopay = 'Y'
+        WHERE EXISTS (
+            SELECT 1
+            FROM groups g
+            WHERE g.group_account = ga.group_account
+              AND g.group_id = #{groupId}
+        )
+    </update>
+    <update id="deleteGroupAutopay">
+        UPDATE group_account ga
+        SET ga.g_autopay = 'N'
+        WHERE EXISTS (
+            SELECT 1
+            FROM groups g
+            WHERE g.group_account = ga.group_account
+              AND g.group_id = #{groupId}
+        )
+    </update>
 </mapper>
 

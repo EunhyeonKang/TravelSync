@@ -277,6 +277,30 @@ public class TravelController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+    private static List<ChatMessage> chatHistory = new ArrayList<>();
+
+    // 채팅 메시지 저장
+    @PostMapping("/saveChat")
+    public ResponseEntity<String> saveChat(@RequestBody ChatMessage chatMessage) {
+        try {
+            // 채팅 내용 저장
+            chatHistory.add(chatMessage);
+
+            return ResponseEntity.ok("채팅 내용 저장 완료");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("채팅 내용 저장 실패");
+        }
+    }
+
+    // 채팅 내용 불러오기
+    @GetMapping("/loadChat")
+    public ResponseEntity<List<ChatMessage>> loadChat() {
+        try {
+            return ResponseEntity.ok(chatHistory);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
 }
 
 

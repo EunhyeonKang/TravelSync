@@ -99,6 +99,95 @@
             text-decoration: none;
             cursor: pointer;
         }
+
+        .update-modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+        }
+
+        /* 모달 내용 스타일 */
+        .update-modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            text-align: center;
+        }
+
+        /* 모달 닫기 버튼 스타일 */
+        .update-close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .update-close:hover,
+        .update-close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* 테이블 스타일 */
+        table {
+            width: 100%;
+        }
+
+        table, th, td {
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        /* 입력 필드 스타일 */
+        input[type="text"] {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        /* 저장 버튼 스타일 */
+        #updateButton {
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 2px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        #updateButton:hover {
+            background-color: #005f79;
+        }
+        #enroll, #updateGroup{
+            background: #009688;
+        }
+        #cancel, #deleteGroup{
+            background: #b5b5b5;
+        }
+
     </style>
 </head>
 <body>
@@ -199,13 +288,13 @@
                                             </div>
                                             <div class="slides">
                                                 <div class="slide2-1 active">
-                                                    <%--                                                <button class="account-button" onclick="location.href='/mygroup/${groupAccount.group_id}'">모임통장</button>--%>
-                                                    <%--                                                <div class="bank">${groupAccount.group_name}</div>--%>
-                                                    <%--                                                <div class="account-info">--%>
-                                                    <%--                                                    <span class="account-number">${groupAccount.group_account}</span>--%>
-                                                    <%--                                                    <input type="hidden" name="accountId" value="">--%>
-                                                    <%--                                                    <button class="change-account" onclick="location.href='/groupAccountDetail'">모임통장 내역</button>--%>
-                                                    <%--                                                </div>--%>
+<%--                                                <button class="account-button" onclick="location.href='/mygroup/${groupAccount.group_id}'">모임통장</button>--%>
+<%--                                                <div class="bank">${groupAccount.group_name}</div>--%>
+<%--                                                <div class="account-info">--%>
+<%--                                                    <span class="account-number">${groupAccount.group_account}</span>--%>
+<%--                                                    <input type="hidden" name="accountId" value="">--%>
+<%--                                                    <button class="change-account" onclick="location.href='/groupAccountDetail'">모임통장 내역</button>--%>
+<%--                                                </div>--%>
                                                 </div>
                                                 <div class="slide2-1"></div>
                                                 <div class="slide2-1"></div>
@@ -223,28 +312,14 @@
                                 <div class="auto-charge-box-2">
                                     <div class="auto-charge-box-1">
                                         <div class="auto-charge">
-                                            <span class="charge-info">회비 및 정산 알림</span>
-                                        </div>
-                                        <div class="auto-charge2">
-                                            <div class="chargebtn">
-                                                <button class="charge-save-button">회비</button>
-                                            </div>
-                                            <div class="chargebtn">
-                                                <button class="charge-save-button">정산</button>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                    <div class="auto-charge-box-1">
-                                        <div class="auto-charge">
                                             <span class="charge-info">자동이체</span>
                                         </div>
                                         <div class="auto-charge2">
                                             <div class="chargebtn">
-                                                <button class="charge-save-button">신청</button>
+                                                <button class="charge-save-button" id="enroll">신청</button>
                                             </div>
                                             <div class="chargebtn">
-                                                <button class="charge-save-button">해지</button>
+                                                <button class="charge-save-button" id="cancel">해지</button>
                                             </div>
 
                                         </div>
@@ -258,7 +333,7 @@
                                                     <button class="charge-save-button" id="updateGroup">수정</button>
                                             </div>
                                             <div class="chargebtn">
-                                                <button class="charge-save-button">탈퇴</button>
+                                                <button class="charge-save-button" id="deleteGroup">탈퇴</button>
                                             </div>
 
                                         </div>
@@ -289,35 +364,41 @@
             <table>
                 <tr>
                     <td>그룹 ID:</td>
-                    <td id="groupID">105</td>
+                    <td id="groupID"></td>
                 </tr>
                 <tr>
                     <td>그룹 이름:</td>
-                    <td id="groupName">서태지와아이들</td>
+                    <td id="groupName"></td>
                 </tr>
                 <tr>
                     <td>그룹 계좌:</td>
-                    <td id="groupAccount">089-528471-69133</td>
+                    <td id="groupAccount"></td>
                 </tr>
                 <tr>
                     <td>그룹 잔액:</td>
-                    <td><input type="text" id="groupBalance" value="530000"></td>
+                    <td id="groupBalance"></td>
                 </tr>
                 <tr>
-                    <td>월 납부일:</td>
-                    <td><input type="text" id="groupDay" value="11"></td>
+                    <td>(매달)월 납부일:</td>
+                    <td><input type="text" id="groupDay"></td>
                 </tr>
                 <tr>
                     <td>월 회비:</td>
-                    <td><input type="text" id="groupDues" value="30000"></td>
+                    <td><input type="text" id="groupDues"></td>
                 </tr>
                 <tr>
                     <td>자동 납부:</td>
-                    <td><input type="text" id="groupAutopay" value="N"></td>
+                    <td>
+                        <select name="g_autopay" class="rec6" id="groupAutopay">
+                            <option value="" selected>선택</option>
+                            <option value="N">N</option>
+                            <option value="Y">Y</option>
+                        </select>
+                    </td>
                 </tr>
                 <tr>
                     <td>비밀번호:</td>
-                    <td><input type="text" id="groupPassword" value="1111"></td>
+                    <td><input type="password" id="groupPassword"></td>
                 </tr>
             </table>
             <button id="updateButton">저장</button>
@@ -384,13 +465,81 @@
             updateModal.style.display = "none";
         }
     });
+    $("#enroll").click(function(){
+        var groupId = "${sessionScope.groupAccountDetail.group_id}";
+        $.ajax({
+            type: "POST",
+            url: "/selectGroupAutopay",
+            data: { groupId : groupId},
+            success: function (response) {
+               if(response==="Y"){
+                   alert("자동이체 신청이 되었습니다.")
+               }else{
+
+               }
+            }
+        });
+    })
+    $("#cancel").click(function(){
+        var groupId = "${sessionScope.groupAccountDetail.group_id}";
+        $.ajax({
+            type: "POST",
+            url: "/deleteGroupAutopay",
+            data: { groupId : groupId},
+            success: function (response) {
+                alert(response)
+            }
+        });
+    })
+    $('#updateButton').click(function(){
+        var groupAccount = document.getElementById("groupAccount").textContent;
+        var groupDay = document.getElementById("groupDay").value;
+        var groupDues = document.getElementById("groupDues").value;
+        var groupAutopay = document.getElementById("groupAutopay").value;
+        var groupPassword = document.getElementById("groupPassword").value;
+
+        var dataToSend = {
+            groupAccount: groupAccount,
+            groupDay: groupDay,
+            groupDues: groupDues,
+            groupAutopay: groupAutopay,
+            groupPassword: groupPassword
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/updateGroupInfo",
+            contentType: "application/json",
+            data: JSON.stringify(dataToSend),
+            success: function (response) {
+                alert(response)
+            }
+        });
+    })
 
     $.ajax({
         type: "POST",
         url: "/selectGroupInfo",
         data: { groupId : "${sessionScope.groupAccountDetail.group_id}" },
         success: function (response) {
+            document.getElementById("groupName").textContent = response[0].group_name;
+            document.getElementById("groupAccount").textContent = response[0].group_account;
+            document.getElementById("groupBalance").textContent = response[0].g_balance;
+            document.getElementById("groupDay").value = response[0].g_day;
+            document.getElementById("groupDues").value = response[0].g_dues;
+            document.getElementById("groupAutopay").value = response[0].g_autopay;
+            var autopayValue = response[0].g_autopay;
+            var groupAutopaySelect = document.getElementById("groupAutopay");
 
+            var options = groupAutopaySelect.options;
+
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].value === autopayValue) {
+                    options[i].selected = i;
+                    break;
+                }
+            }
+            document.getElementById("groupPassword").value = response[0].group_pw;
             console.log(response);
         }
     });

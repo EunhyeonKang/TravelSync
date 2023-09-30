@@ -330,4 +330,43 @@ public class AccountController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
+    @PostMapping("/updateGroupInfo")
+    public ResponseEntity<?> updateGroupInfo(@RequestBody Map<String, String> data){
+        try {
+            String groupAccount = data.get("groupAccount");
+            String groupDay = data.get("groupDay");
+            String groupDues = data.get("groupDues");
+            String groupAutopay = data.get("groupAutopay");
+            String groupPassword = data.get("groupPassword");
+
+            accountService.updateGroupInfo(groupAccount, groupDay, groupDues, groupAutopay, groupPassword);
+            return ResponseEntity.ok("그룹 수정 성공");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @PostMapping("/selectGroupAutopay")
+    public ResponseEntity<String> selectGroupAutopay(String groupId){
+        try {
+            String autoPay = accountService.selectGroupAutopay(groupId);
+            autoPay = autoPay.trim();
+            if(autoPay.equals("N")){
+                accountService.updateGroupAutopay(groupId);
+            }
+            return ResponseEntity.ok(autoPay);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+    @PostMapping("/deleteGroupAutopay")
+    public ResponseEntity<String> deleteGroupAutopay(String groupId){
+        try {
+            accountService.deleteGroupAutopay(groupId);
+            return ResponseEntity.ok("자동이체 해지가 되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
 }

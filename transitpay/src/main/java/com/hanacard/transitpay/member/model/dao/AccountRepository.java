@@ -59,4 +59,10 @@ public interface AccountRepository {
     void calExecution(int groupId, int memberId);
     List<Account> selectMyAccountMonthStatement(int memberId);
     List<GroupAccountDetail> selectGroupInfo(String groupId);
+    void updateGroupInfo(String groupAccount, int groupDay, int groupDues, String groupAutopay, int groupPassword);
+    String selectGroupAutopay(String groupId);
+
+    void updateGroupAutopay(String groupId);
+
+    void deleteGroupAutopay(String groupId);
 }

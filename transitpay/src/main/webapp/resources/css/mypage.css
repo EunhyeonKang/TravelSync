@@ -69,7 +69,7 @@
 }
 .auto-charge{
     width: 230px;
-    height: 50px;
+    height: 80px;
     background: #f6f6f6;
     float: left;
     border-radius: 10px;
@@ -120,12 +120,12 @@
 }
 .charge-save-button{
     box-sizing: border-box;
-    width: 60px;
-    height: 50px;
+    width: 80px;
+    height: 80px;
     background: #000000;
     border-radius: 10px;
     color: white;
-    font-size: 15px;
+    font-size: 17px;
     border: 0;
     font-weight: 600;
     margin-right: 5px;

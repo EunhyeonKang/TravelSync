@@ -187,7 +187,13 @@
         #cancel, #deleteGroup{
             background: #b5b5b5;
         }
-
+        #myChart{
+            display: block;
+            box-sizing: border-box;
+            height: 250px;
+            width: 250px;
+            padding: 10px;
+        }
     </style>
 </head>
 <body>
@@ -221,18 +227,18 @@
                                             <div class="saveboxcnt"><a href="/saveTravel" id="travleLength"></a></div>
                                         </div>
                                     </div>
-                                    <button>여행 찜</button>
+                                    <button>여행/찜</button>
                                 </div>
                             </div>
                             <div class="travelbox-2">
                                 <div>
                                     <div>
                                         <div class="travelsavebox">
-                                            <div>정산할 여행💰</div>
-                                            <div class="saveboxcnt"><a href="/calTravel">1개</a></div>
+                                            <div>정산된 여행💰</div>
+                                            <div class="saveboxcnt"><a href="/afterTravel">1개</a></div>
                                         </div>
                                     </div>
-                                    <button>정산알림</button>
+                                    <button>정산/자동이체</button>
                                 </div>
                             </div>
                             <div class="travelbox-3">
@@ -240,7 +246,7 @@
                                     <canvas id="myChart"></canvas>
                                 </div>
                                 <div>
-                                    <button>자동이체</button>
+                                    <button>정산된 여행경비</button>
                                 </div>
                             </div>
                         </div>
@@ -449,6 +455,75 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
 <script>
+    $.ajax({
+        type: "GET",
+        url: "/selectMemberNotificationHistory",
+        success: function (response) {
+           console.log(response)
+            var food = 0;
+            var etc =0;
+            var accommodation =0;
+            response.forEach(function(item){
+                food +=item.food_expenses;
+                etc += item.etc_expenses;
+                accommodation +=item.accommodation_expenses;
+            })
+
+
+            // 고정된 색상 배열
+            const fixedColors = [
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+                'rgb(255, 205, 86)'
+            ];
+            // 데이터 가공
+            const data = [
+                {
+                    label: '음식',
+                    data: food,
+                    backgroundColor: fixedColors[0]
+                },
+                {
+                    label: '기타',
+                    data: etc,
+                    backgroundColor: fixedColors[1]
+                },
+                {
+                    label: '숙박',
+                    data: accommodation,
+                    backgroundColor: fixedColors[2]
+                }
+            ];
+
+
+            // 차트 설정
+            const chartData = {
+                labels: data.map(item => item.label),
+                datasets: [
+                    {
+                        data: data.map(item => item.data),
+                        backgroundColor: data.map(item => item.backgroundColor),
+                        hoverOffset: 4,
+                    },
+                ],
+            };
+
+            const chartConfig = {
+                type: 'doughnut',
+                data: chartData,
+            };
+
+            // 차트 생성
+            const myChart = new Chart(
+                document.getElementById('myChart'),
+                chartConfig
+            );
+
+        },
+        error: function (error) {
+            console.error(error);
+        },
+    });
     // 모달 요소와 버튼 요소 가져오기
     var updateModal = document.getElementById("updateModal");
     var updateBtn = document.getElementById("updateGroup");
@@ -559,7 +634,7 @@
                 response.forEach(function(val){
                     total += val.amount;
                 })
-                paymentBalance.textContent=amount;
+                paymentBalance.textContent=total;
             }
         }
     });
@@ -740,62 +815,7 @@
         });
     } );
 
-    $.ajax({
-        type: "POST",
-        url: "/selectGroupAccountChart",
-        data: { groupId: 105 ,groupAccount : "${sessionScope.groupAccountDetail.group_account}"},
-        success: function (response) {
-            var memberSelect = $('#memberSelect');
-            memberSelect.empty();
 
-            memberSelect.append($('<option>', {
-                value: response.member_id,
-                text: response.name // 멤버 이름 또는 다른 필요한 데이터로 대체할 수 있습니다.
-            }));
-
-            // 고정된 색상 배열
-            const fixedColors = [
-                'rgb(255, 99, 132)',
-                'rgb(54, 162, 235)',
-                'rgb(255, 205, 86)'
-            ];
-            // 데이터 가공
-            const data = response.map((item,index) => {
-                return {
-                    label: item.name,
-                    data: item.amount,
-                    backgroundColor: fixedColors[index % fixedColors.length],
-                    hoverOffset: 4
-                };
-            });
-
-            // 차트 설정
-            const chartData = {
-                labels: data.map(item => item.label),
-                datasets: [
-                    {
-                        data: data.map(item => item.data),
-                        backgroundColor: data.map(item => item.backgroundColor),
-                        hoverOffset: 4,
-                    },
-                ],
-            };
-
-            const chartConfig = {
-                type: 'doughnut',
-                data: chartData,
-            };
-
-            // 차트 생성
-            const myChart = new Chart(
-                document.getElementById('myChart'),
-                chartConfig
-            );
-        },
-        error: function (error) {
-            console.error(error);
-        },
-    });
     $('.slider-2 .page-nav > div').click(function() {
 
         var $this = $(this);

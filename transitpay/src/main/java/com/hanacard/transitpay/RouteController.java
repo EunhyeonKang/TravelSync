@@ -28,8 +28,10 @@ class RouteController {
     /***
      *  여행계획 기능
      */
-    @GetMapping("/travel")
-    public String travel() throws Exception {
+    @GetMapping("/travel/{groupId}")
+    public String travel(@PathVariable int groupId,HttpServletRequest request) throws Exception {
+        HttpSession session = request.getSession();
+        session.setAttribute("groupId",groupId);
         return "/travelplans/travel";
     }
 
@@ -81,6 +83,7 @@ class RouteController {
     public String calTravel() throws Exception{
         return "/hana/calTravel";
     }
+
     /***
      *  마이페이지 기능
      */
@@ -111,6 +114,12 @@ class RouteController {
     public String groupList() throws Exception{
         return "/user/groupList";
     }
+
+    @GetMapping("/afterTravel")
+    public String afterTravel() throws Exception{
+        return "/user/afterTravel";
+    }
+
     /***
      *  모임통장 기능
      */

@@ -123,6 +123,16 @@ public class AccountServiceImpl implements AccountService {
         accountRepository.updateAccountBalance(memberId, accountNum, Integer.parseInt(balance), accountBank);
         accountRepository.updateGroupAccountBalance(groupAccount,Integer.parseInt(balance));
     }
+
+    @Override
+    @Transactional
+    public void executeAutoPayment(GroupAccount ga) {
+//        System.out.println(ga);
+        accountRepository.insertAccountStatement(ga.getAccount_num(),ga.getGroup_account(),"OUT",ga.getG_dues(),"(주계좌)자동이체");
+        accountRepository.insertGroupAccountStatement(ga.getAccount_num(),ga.getGroup_account(),"IN",ga.getG_dues(),"(주계좌)자동이체");
+        accountRepository.updateAccountBalance(ga.getMember_id(), ga.getAccount_num(), ga.getG_dues(), ga.getAccount_bank());
+        accountRepository.updateGroupAccountBalance(ga.getGroup_account(),ga.getG_dues());
+    }
     @Override
     @Transactional
     public void updateAccountBalanceTransfer(int memberId, Map<String, String> depositData) {
@@ -188,12 +198,13 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional
-    public void insertGroupMemberNotification(GroupMember[] groupMembers,int amount,int groupId) {
+    public void insertGroupMemberNotification(GroupMember[] groupMembers,int amount,int groupId,int travelId) {
         double dividedAmount = (double) amount / groupMembers.length;
         int roundedAmount = (int) Math.round(dividedAmount);
         for(GroupMember member : groupMembers){
             member.setAmount(roundedAmount);
             member.setGroup_id(groupId);
+            member.setTravel_id(travelId);
             accountRepository.insertGroupMemberNotification(member);
         }
 
@@ -220,11 +231,13 @@ public class AccountServiceImpl implements AccountService {
         String groupAccount = (String) calData.get("groupAccount");
         String balance = (String) calData.get("amount");
         String groupId = (String)calData.get("groupId");
+        String travelId = (String)calData.get("travelId");
         accountRepository.insertAccountStatement(accountNum,groupAccount,"OUT",Integer.parseInt(balance),"여행 경비-회비 정산");
         accountRepository.insertGroupAccountStatement(accountNum,groupAccount,"IN",Integer.parseInt(balance),"여행 경비-회비 정산");
         accountRepository.updateAccountBalance(memberId, accountNum, Integer.parseInt(balance), accountBank);
         accountRepository.updateGroupAccountBalance(groupAccount,Integer.parseInt(balance));
-        accountRepository.calExecution(Integer.parseInt(groupId),memberId);
+        accountRepository.calExecution(Integer.parseInt(groupId),memberId,Integer.parseInt(travelId));
+        accountRepository.calExecutionHistory(Integer.parseInt(groupId),memberId,Integer.parseInt(travelId),Integer.parseInt(balance));
     }
 
     @Override
@@ -255,6 +268,11 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public void deleteGroupAutopay(String groupId) {
         accountRepository.deleteGroupAutopay(groupId);
+    }
+
+    @Override
+    public  List<GroupAccount> getAutoPhoneOfPaymentDayOfMonth() {
+        return accountRepository.getAutoPhoneOfPaymentDayOfMonth();
     }
 
 }

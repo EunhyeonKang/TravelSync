@@ -23,6 +23,15 @@ public class GroupAccount {
     private int group_pw;
     private String accountContent;
 
+    /**
+     * 자동이체
+     * */
+    private String phone;
+    private int member_id;
+    private String name;
+    private int g_day;
+    private int g_dues;
+    private String account_bank;
 
     /**
      * 모임통장 계좌 거래내역
@@ -34,5 +43,4 @@ public class GroupAccount {
     private int balance;
     private String transaction_date;
     private String transaction_content;
-    private String name;
 }

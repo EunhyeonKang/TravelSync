@@ -1,0 +1,309 @@
+div.c {
+    position: relative;
+    margin: 2em 0 0 0;
+}
+input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    opacity: 0;
+
+}
+h1 {
+    padding: 23px 15px 10px 15px;
+    position: relative;
+    color: #414141;
+    box-shadow: 9px -4px 15px 0px #ffffff;
+    border-radius: 10px;
+    margin: 0;
+    background: #eeeeee;
+}
+label::before {
+    content: "";
+    border: 15px solid transparent;
+    font-size: 20px;
+}
+label {
+    cursor: pointer;
+    position: relative;
+    align-items: center;
+    font-size: 20px;
+}
+div.p {
+    max-height: 0;
+    overflow: auto;
+    transition: max-height 0.5s ease;
+    background-color: white;
+    box-shadow: 3px 3px 20px 0 rgba(0, 0, 0, 0.2);
+    text-align: center;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+/* 스크롤바 스타일링 */
+div.p::-webkit-scrollbar {
+    width: 10px;  /* 스크롤바의 너비 */
+}
+div.p::-webkit-scrollbar-thumb {
+    height: 30%; /* 스크롤바의 길이 */
+    background: #848484; /* 스크롤바의 색상 */
+    border-radius: 10px;
+}
+div.p::-webkit-scrollbar-track {
+    background: #84848447;  /* 스크롤바 뒷 배경 색상 */
+}
+
+div.p p {
+    padding: 10px 0 0 20px;
+}
+
+input:checked ~ h1 ~ div.p {
+    max-height: 600px;
+}
+.faq-235 {
+    font-size: 20px;
+}
+.travel-date-text {
+    text-align: left;
+    display: flex;
+    align-items: center;
+    height: 50px;
+}
+.travel-date-text span img {
+    max-height: 100%;
+    margin-right: 10px;
+    width: 30px;
+}
+.travel-date-text-1 {
+    text-align: right;
+}
+
+.schedule-card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 10px;
+    display: flex;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    transition: transform 0.3s ease-in-out;
+    flex: 1;
+    text-align: left;
+}
+
+.schedule-card:hover {
+    transform: translateY(-5px);
+}
+
+.schedule-card h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    flex: 1;
+}
+
+.schedule-card p {
+    margin: 0;
+    font-size: 14px;
+    flex: 1;
+}
+
+.schedule-card p:first-child {
+    font-weight: bold;
+}
+
+/* 여행 일정 카드 내부의 각 항목 스타일링 */
+.schedule-card .category {
+    color: #007BFF;
+}
+.item-img{
+    width: 200px;
+    height: 200px;
+    border-radius: 100px;
+}
+
+#myChart {
+
+    /*display: block;*/
+    margin: 10px auto;
+    box-sizing: border-box;
+}
+.totalTravel{
+    font-size: 25px;
+    font-weight: 700;
+    color: #252525;
+    margin-top: 20px;
+}
+
+.slider{
+    height: 400px;
+    margin: 0 auto;
+    position: relative;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+}
+
+.item-list{
+    display:flex;
+    width: calc(300px * 12);
+    animation: scroll 40s linear infinite;
+}
+
+.item-list:hover{
+    animation-play-state:paused;
+}
+
+@keyframes scroll{
+    0% {
+        transform: translateX(0);
+    }
+    100%{
+        transform: translateX(calc(-300px * 6));
+    }
+}
+
+.item{
+    height: 250px;
+    width: 300px;
+    display: flex;
+    align-items:center;
+    padding: 15px;
+    perspective:100px;
+}
+
+.item-card{
+    width:100%;
+    transition:transform 1s;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.item-card:hover{
+    transform:translateZ(18px);
+}
+
+/* 슬라이더 그라데이션 그림자 */
+
+.slider::before,
+.slider::after {
+    /*background:linear-gradient(to right, #f6f4f2 0%,*/
+    /*rgba(255,255,255,0) 100%);*/
+    content:'';
+    height:100%;
+    position:absolute;
+    width:15%;
+    z-index:2;
+}
+
+.slider::before{
+    left:0;
+    top:0;
+}
+
+.slider::after{
+    right:0;
+    top:0;
+    transform: rotateZ(180deg);
+}
+.travel-btn{
+    padding: 13px;
+    border-radius: 10px;
+    border: 0;
+    font-size: 18px;
+    color: #ffffff;
+    font-weight: 600;
+    border: 1px solid;
+    background: #2196F3;
+}
+.backgroundbox{
+    width: 100%;
+    height: 300px;
+    background: linear-gradient(156deg, #0c96a8 0%, rgb(165 225 234 / 87%) 52.08%, #159db0 100%);
+    position: relative;
+}
+.backgroundbox .topbox{
+    width: 1400px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%);
+    margin-top: -50px;
+    background: white;
+}
+
+/* 버튼에 호버할 때 툴팁 스타일 */
+/* 버튼을 포함하는 부모 요소에 상대적인 위치 설정 */
+.label-wrapper {
+    position: relative;
+}
+
+/* 버튼에 호버할 때 툴팁 스타일 */
+.travel-btn:hover + p.travel-date-text-1::before {
+  content: "여행일정이 없습니다"; /* 툴팁 내용 설정 */
+  position: absolute;
+  background-color: #333; /* 배경색 설정 */
+  color: #fff; /* 글자색 설정 */
+  padding: 10px 10px; /* 내부 여백 설정 */
+  border-radius: 5px; /* 테두리 둥글기 설정 */
+  font-size: 14px; /* 글자 크기 설정 */
+  white-space: nowrap; /* 텍스트가 한 줄로 유지되도록 설정 */
+  z-index: 1; /* 다른 요소 위에 표시하기 위한 z-index 설정 */
+  top: -50px; /* 버튼 위에 위치하도록 설정 */
+  left: 8.2%; /* 가운데 정렬을 위한 왼쪽 위치 설정 */
+  transform: translateX(-50%); /* 가운데 정렬 */
+  opacity: 0; /* 처음에는 툴팁 숨김 */
+  transition: opacity 0.3s ease-in-out; /* 부드러운 페이드 효과 설정 */
+}
+
+/* 버튼 위에 호버할 때 툴팁 표시 */
+.travel-btn:hover + p.travel-date-text-1::before {
+    opacity: 1; /* 툴팁을 표시 */
+}
+.calBtn{
+    padding: 6px;
+    border: 0;
+    background: #000000;
+    border-radius: 5px;
+    color: white;
+    font-weight: 700;
+    margin-left: 5px;
+}   /* 테이블 스타일 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table th,
+table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+table thead {
+    background-color: #f2f2f2;
+}
+
+/* 총합 스타일 */
+.totalTravel {
+    text-align: right;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.totalTravel span {
+    margin-left: 10px;
+}
+
+#map{
+    width: 90% !important;
+    height: 400px;
+    position: relative;
+    overflow: hidden;
+    margin: 20px auto;
+    background: url(http://t1.daumcdn.net/mapjsapi/images/bg_tile.png);
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}

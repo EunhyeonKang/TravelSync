@@ -27,7 +27,7 @@ public interface AccountService {
     List<GroupAccount> getTransactionsByAccount(String accountNum);
     List<GroupAccount> getTransactionsByMember(int memberId, int groupId);
     List<Account> selectMyAccountStatement(int memberId);
-    void insertGroupMemberNotification(GroupMember[] groupMembers,int amount,int groupId);
+    void insertGroupMemberNotification(GroupMember[] groupMembers,int amount,int groupId,int travelId);
     List<GroupMember>  selectNotification(int memberId);
     int selectGroupAccount(String groupAccount);
     void calExecution(Map<String, String> calData, int memberId);
@@ -39,4 +39,8 @@ public interface AccountService {
     void updateGroupAutopay(String groupId);
 
     void deleteGroupAutopay(String groupId);
+
+    List<GroupAccount> getAutoPhoneOfPaymentDayOfMonth();
+
+    void executeAutoPayment(GroupAccount ga);
 }

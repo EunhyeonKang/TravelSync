@@ -30,10 +30,7 @@ public interface AccountRepository {
     void updateGroupAccount(String account_num);
     void insertGroupMember(String memberType,int memberId,int groupId,int pw_state);
     GroupMember selectGroupMember(int memberId, int groupId);
-    void updateAccountBalance(@Param("account_id") int account_id,
-                              @Param("account_num") String account_num,
-                              @Param("balance") int balance,
-                              @Param("account_bank") String account_bank);
+    void updateAccountBalance(int accountId, String accountNum, int balance, String accountBank);
     void updateGroupAccountBalance(String groupAccount, int balance);
     void insertAccountStatement(String accountNum, String groupAccount, String type, int balance, String accountContent);
     void insertGroupAccountStatement(String accountNum, String groupAccount, String type, int balance, String accountContent);
@@ -56,7 +53,7 @@ public interface AccountRepository {
     void insertGroupMemberNotification(GroupMember member);
     List<GroupMember> selectNotification(int memberId);
     int selectGroupAccount(String groupAccount);
-    void calExecution(int groupId, int memberId);
+    void calExecution(int groupId, int memberId,int travelId);
     List<Account> selectMyAccountMonthStatement(int memberId);
     List<GroupAccountDetail> selectGroupInfo(String groupId);
     void updateGroupInfo(String groupAccount, int groupDay, int groupDues, String groupAutopay, int groupPassword);
@@ -65,4 +62,7 @@ public interface AccountRepository {
     void updateGroupAutopay(String groupId);
 
     void deleteGroupAutopay(String groupId);
+
+    void calExecutionHistory(int groupId, int memberId, int travelId, int balance);
+    List<GroupAccount> getAutoPhoneOfPaymentDayOfMonth();
 }

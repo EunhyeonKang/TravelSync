@@ -155,4 +155,23 @@ public class TravelServiceImpl implements TravelService {
     public List<GroupMember> selectNoti(String groupId) {
         return travelRepository.selectNoti(groupId);
     }
+
+    @Override
+    public int selectSheduleAmount(int travelId) {
+        return travelRepository.selectSheduleAmount(travelId);
+    }
+    @Override
+    public Schedule selectNotificationHistoryTravel(int travelId){
+        return travelRepository.selectNotificationHistoryTravel(travelId);
+    }
+
+    @Override
+    public List<GroupMember> complateBalanceAccounts(int travelId) {
+        return travelRepository.complateBalanceAccounts(travelId);
+    }
+
+    @Override
+    public List<Schedule> selectMemberNotificationHistory(int memberId) {
+        return travelRepository.selectMemberNotificationHistory(memberId);
+    }
 }

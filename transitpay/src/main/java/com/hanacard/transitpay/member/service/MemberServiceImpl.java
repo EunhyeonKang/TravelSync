@@ -48,16 +48,17 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public String  sendAuthenticationCode(String phone) {
+    public String  sendAuthenticationCode(String phone,String name,int day,int amount) {
         Message coolsms = new Message(apiKey, api_secret);
         String authenticationCode=createAuthenticationCode();
         HashMap<String , String> params= new HashMap<String,String>();
         params.put("to", phone);//누구에게
-        params.put("from","01093660469");//누가 보낼것인지
+        params.put("from","+82 1577-0000");//누가 보낼것인지
         params.put("type", "SMS");
-        params.put("text", "트래블로그 가입 인증번호 "+authenticationCode+" 입니다");
+        params.put("text", "[Web발신] (트래블싱크 모임통장 자동이체) "+name+ "님 모임통장에 매월 "+day+"일, "+amount+"원이 이체되었습니다.");
+//        params.put("text", "트래블로그 가입 인증번호 "+authenticationCode+" 입니다");
         params.put("app_version", "jcmarket app 1.1");
-
+        System.out.println(params);
         try {
             coolsms.send(params);
         } catch (CoolsmsException e) {
@@ -134,7 +135,7 @@ public class MemberServiceImpl implements MemberService {
             conn.setRequestMethod("POST");
             conn.setDoOutput(true);
             conn.setRequestProperty("Authorization", "Bearer "+access_token);
-            System.out.println(access_token);
+
             String line = "", result = "";
             line = ""; result = "";
 

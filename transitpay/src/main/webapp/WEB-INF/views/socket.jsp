@@ -47,7 +47,7 @@
                         if (d.sessionId == "${sessionScope.member.member_id}") {
                             $("#chating").append("<p class='me'>" + d.msg + "</p>");
                         } else {
-                            $("#chating").append("<p class='others'><span class='user-name'>" + message.userName + " 님</span><span class='other-msg'>" + message.msg + "</span></p>");
+                            $("#chating").append("<p class='others'><span class='user-name'>" + d.userName + " 님</span><span class='other-msg'>" + d.msg + "</span></p>");
 
                         }
 

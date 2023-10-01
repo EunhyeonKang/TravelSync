@@ -37,7 +37,6 @@
             margin-bottom: 5px;
         }
         .chating .others{
-            display: grid;
             float: left;
             margin: 0;
         }
@@ -45,6 +44,8 @@
             font-weight: 700;
             color: #363636;
             padding: 4px;
+            float: left;
+            width: 100%;
         }
         .other-msg{
             background: white;
@@ -77,7 +78,7 @@
             margin: 100px 10px 10px 10px;
             width: 400px;
             padding: 15px;
-            height: 540px;
+            height: 550px;
             background: white;
             border-radius: 10px;
             z-index: 1;
@@ -356,7 +357,7 @@
     }
 
     $.ajax({
-        url: "placeSearch", // 실제 서버 URL로 변경
+        url: "/placeSearch", // 실제 서버 URL로 변경
         method: "GET",
         data: { searchText: searchValue },
         success: function(response) {

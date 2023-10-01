@@ -475,7 +475,7 @@
                                                         💰${sessionScope.member.name} 님이 정산할 금액은 <span class="amount">${travelNoti.amount}</span>원입니다.
                                                     </label>
                                                 </div>
-
+                                                <input type="hidden" value="${travelNoti.travelId}" id="notiTravelId">
                                                 <button class="travel-btn">정산하기</button>
                                             </div>
                                         </div>
@@ -583,13 +583,16 @@
         var groupName = document.querySelector('input[name="group_name"]').value;
         var groupAccount = "${sessionScope.groupAccountDetail.group_account}";
         var amount = document.querySelector('.amount').textContent;
+        var travelId = document.querySelector('#notiTravelId').value;
+
         var dataToSend = {
             accountBank: accountBank,
             accountNum: accountNum,
             groupName: groupName,
             groupAccount: groupAccount,
             amount : amount,
-            groupId : ${sessionScope.groupAccountDetail.group_id}
+            groupId : ${sessionScope.groupAccountDetail.group_id},
+            travelId : travelId
         };
 
         $.ajax({
@@ -598,14 +601,14 @@
             data: JSON.stringify(dataToSend),
             contentType: "application/json; charset=UTF-8",
             success: function (response) {
+                console.log(response)
                 var confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
                 confirmationModal.hide();
+                confirmationModal._element.style.display = 'none';
 
-                const calBtn = document.querySelector('.travel-btn');
-                calBtn.addEventListener('click', () => {
-                    const step3Button = document.querySelectorAll('.step-button')[2];
-                    step3Button.click();
-                });
+                // 다음 단계 버튼을 클릭합니다.
+                const step3Button = document.querySelectorAll('.step-button')[2];
+                step3Button.click();
             },
             error: function (error) {
                 console.error("Error occurred:", error);

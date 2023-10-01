@@ -21,11 +21,12 @@ public class MemberController {
         this.memberService = memberService;
     }
 
+    /*
     @GetMapping("checkPhoneLogin")
     public String sendVerificationPhone(String phoneNumber) {
         String authenticationCode=memberService.sendAuthenticationCode(phoneNumber);
         return authenticationCode;
-    }
+    }*/
 
     @ResponseBody
     @PostMapping("/insertKakaoAndPhoneMember")

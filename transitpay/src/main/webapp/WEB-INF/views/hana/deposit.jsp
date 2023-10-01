@@ -61,7 +61,7 @@
                                 <input type="text" name="group_name" value="${sessionScope.groupAccountDetail.group_name}"/>
                                 <br/>
                                 <span class="idbox">입금 계좌</span>
-                                <input type="text" name="group_account" value="${sessionScope.groupAccountDetail.group_account} (${sessionScope.groupAccountDetail.g_balance})"/>
+                                <input type="text" name="group_account" value="${sessionScope.groupAccountDetail.group_account} (잔액 : ${sessionScope.groupAccountDetail.g_balance})"/>
                                 <br/>
                                 <span class="idbox">입금 금액</span>
                                 <input type="text" name="balance" value="" placeholder="입금 금액을 입력해주세요"/>
@@ -160,7 +160,7 @@
                         const accountNumber = document.querySelector('.account-number');
                         accountNumber.textContent = "(주계좌) "+item.account_bank + " " +item.account_num;
                         option.selected = true;
-                        inputAccountNum.val(item.account_num + "("+item.balance+")");
+                        inputAccountNum.val(item.account_num + " (잔액 : "+item.balance+")");
                     }
                 });
                 // select 요소의 변경 이벤트 리스너 추가
@@ -170,7 +170,7 @@
                     const accountBalance = selectedOption.getAttribute('data-balance'); // 선택한 옵션의 balance 가져오기
                     bank.textContent = selectedOption.text;
                     const accountNum = selectedOption.getAttribute('data-account-num'); // 선택한 옵션의 account_num 가져오기
-                    inputAccountNum.val(accountNum + ' (' + accountBalance + ')'); // input에 account_num과 잔액 설정
+                    inputAccountNum.val(accountNum + ' (잔액 : ' + accountBalance + ')'); // input에 account_num과 잔액 설정
                 });
             },
             error: function(error) {

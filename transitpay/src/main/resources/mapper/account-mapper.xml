@@ -104,8 +104,8 @@
     </insert>
     <update id="updateAccountBalance">
         UPDATE account
-        SET balance = balance - #{balance}
-        where account_id=#{account_id} and account_num=#{account_num} and account_bank=#{account_bank}
+        SET balance = balance - #{param3}
+        where account_id=#{param1} and account_num=#{param2} and account_bank=#{param4}
     </update>
     <update id="updateGroupAccountBalance">
         UPDATE group_account ga
@@ -139,7 +139,7 @@
 
 
     <select id="selectGroupAccountStatement" resultType="com.hanacard.transitpay.member.model.dto.GroupAccount">
-        SELECT gas.*,
+        SELECT DISTINCT gas.*,
                gm.member_id AS member_id,
                m.NAME AS name
         FROM GROUP_ACCOUNT_STATEMENT gas
@@ -215,8 +215,8 @@
 
     </select>
     <insert id="insertGroupMemberNotification">
-        INSERT INTO notification (notification_id, member_id, group_id, amount)
-        VALUES (notification_id_seq.nextval, #{member_id}, #{group_id}, #{amount})
+        INSERT INTO notification (notification_id, member_id, group_id, amount,travel_id)
+        VALUES (notification_id_seq.nextval, #{member_id}, #{group_id}, #{amount},#{travel_id})
     </insert>
     <select id="selectNotification" resultType="com.hanacard.transitpay.member.model.dto.GroupMember">
         select * from notification where member_id=#{memberId}
@@ -224,10 +224,13 @@
     <select id="selectGroupAccount" resultType="int">
         select group_id from groups where group_account=#{groupAccount}
     </select>
-    <delete id="calExecution" parameterType="hashMap">
-        delete from notification where group_id = #{param1} and member_id = #{param2}
+    <delete id="calExecution">
+        delete from notification where group_id = #{param1} and member_id = #{param2} and travel_id = #{param3}
     </delete>
-
+    <insert id="calExecutionHistory">
+        insert into notification_history(noti_hid,member_id,group_id,travel_id,amount)
+        values(notification_hid_seq.nextval,#{param2},#{param1},#{param3},#{param4})
+    </insert>
     <select id="selectMyAccountMonthStatement">
         SELECT acs.*,
                m.NAME AS name
@@ -288,5 +291,28 @@
               AND g.group_id = #{groupId}
         )
     </update>
+    <select id="getAutoPhoneOfPaymentDayOfMonth" resultType="com.hanacard.transitpay.member.model.dto.GroupAccount">
+        SELECT
+            m.phone,
+            ga.g_day,
+            ga.g_dues,
+            m.name,
+            gm.member_id,
+            ga.group_account,
+            a.account_num,
+            a.account_bank
+        FROM
+            groups g
+                INNER JOIN
+            group_account ga ON g.group_account = ga.group_account
+                INNER JOIN
+            group_member gm ON g.group_id = gm.group_id
+                INNER JOIN
+            member m ON gm.member_id = m.member_id
+                LEFT JOIN
+            account a ON m.member_id = a.account_id
+        WHERE
+            ga.g_autopay = 'Y' and a.account_main=1
+    </select>
 </mapper>
 

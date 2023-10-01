@@ -201,4 +201,37 @@
         from member m join notification n on m.member_id = n.member_id
         where group_id = #{groupId}
     </select>
+    <select id="selectSheduleAmount" resultType="_int">
+        select (food_expenses+accommodation_expenses+etc_expenses) AS total
+        from schedule_amount
+        where travel_id=#{travelId}
+    </select>
+    <select id="selectNotificationHistoryTravel" resultType="com.hanacard.transitpay.travel.model.dto.Schedule">
+        SELECT
+            group_id AS groupId,
+            travel_id AS travelId,
+            SUM(amount) AS price
+        FROM notification_history
+        WHERE travel_id = #{travelId}
+        GROUP BY group_id, travel_id
+    </select>
+    <select id="complateBalanceAccounts">
+        SELECT distinct m.name AS name,
+                        gm.group_id AS group_id,
+                        nh.travel_id AS travel_id,
+                        nh.amount AS amount
+        FROM member m
+                 JOIN group_member gm ON m.member_id = gm.member_id
+                 JOIN notification_history nh ON gm.group_id = nh.group_id
+        WHERE nh.travel_id = #{travelId}
+    </select>
+    <select id="selectMemberNotificationHistory">
+        select
+            food_expenses,
+            accommodation_expenses,
+            etc_expenses,
+            nh.travel_id AS travelId,
+            nh.group_id AS groupId
+        from schedule_amount sa join notification_history nh on sa.travel_id = nh.travel_id where nh.member_id=#{memberId}
+    </select>
 </mapper>

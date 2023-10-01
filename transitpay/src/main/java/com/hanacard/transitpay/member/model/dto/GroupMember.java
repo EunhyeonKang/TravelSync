@@ -22,4 +22,5 @@ public class GroupMember {
     private GroupMember[] groupMember;
     private String kakao_img;
     private String name;
+    private int travel_id;
 }

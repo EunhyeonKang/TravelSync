@@ -292,7 +292,8 @@ public class AccountController {
             GroupMember[] groupMember = groupMembers.getGroupMember();
             int amount = groupMembers.getAmount();
             int groupId = groupMembers.getGroup_id();
-            accountService.insertGroupMemberNotification(groupMember,amount,groupId);
+            int travel_id = groupMembers.getTravel_id();
+            accountService.insertGroupMemberNotification(groupMember,amount,groupId,travel_id);
             return ResponseEntity.ok("알림 요청 성공");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);

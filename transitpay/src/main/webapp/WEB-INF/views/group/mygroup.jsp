@@ -406,6 +406,34 @@
         text-align: center;
         margin-bottom: 20px;
     }
+
+    #example_filter{
+        display: none;
+    }
+    .odd{
+        background: #f1f1f1;
+    }
+    .sorting_1{
+        background: aliceblue;
+    }
+    #example_wrapper table.dataTable.no-footer{
+        border: 0;
+        background: #5e83aafc;
+        color: white;
+    }
+    #example table.dataTable thead th,table.dataTable thead td {
+        padding: 10px 18px;
+        border-bottom: 1px solid #FFFBFB;
+    }
+    #example_wrapper table.dataTable.no-footer tbody{
+
+         color: black;
+     }
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
+        color: #333 !important;
+        border: 0 !important;
+        background: 0 !important;
+    }
 </style>
 <body>
 <div class="main">
@@ -465,7 +493,7 @@
                         <button class="applyBtn" onclick="accountTransfer()">이체</button>
                     </div>
                     <div class="applyBox">
-                        <button class="applyBtn1" onclick="location.href='/travel'">여행하러가기</button>
+                        <button class="applyBtn1" onclick="location.href='/travel/${groupId}'">여행계획 짜러가기</button>
                     </div>
                 </div>
 
@@ -565,6 +593,7 @@
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css"/>
 <script>
+
     function getTransactionsByAccount(){
         //선택한 계좌
         var selectedAccount = $("#accountSelect").val();
@@ -636,6 +665,7 @@
             type: "POST",
             data: { groupAccount: groupAccount},
             success: function (data) {
+                console.log(data)
                 table.rows.add(data).draw();
             },
             error: function (request, status, error) {

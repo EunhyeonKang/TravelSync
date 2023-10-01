@@ -173,7 +173,7 @@ tvlcost2
 .contents-1{
     padding: 35px 0 20px 20px;
     border-radius: 50px;
-    width: 800px;
+    width: 100%;
     display: table;
 }
 .contents{
@@ -546,15 +546,15 @@ body{
 }
 
 .plus-button{
-    background: white;
-    border: 1px solid #817e7e;
-    color: #817e7e;
-    width: 25px;
+    background: #ececec;
     border: 0;
     border-radius: 5px;
     color: #3e3e3e;
+    width: 100px;
     font-weight: 700;
-    font-size: 20px;
+    font-size: 15px;
+    margin: 10px;
+    padding-top: 3px;
 }
 
 .cancel{

@@ -81,12 +81,12 @@
         .contents{
             margin: 30px auto;
             text-align: center;
-            width: 66%;
+            width: 80%;
         }
         .traveltitle{
             color: #7a7d7d;
             font-size: 25px;
-            width: 60%;
+            width: 80%;
             margin: 30px auto;
             font-weight: 600;
         }.main {

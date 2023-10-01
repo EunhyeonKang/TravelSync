@@ -24,4 +24,12 @@ public interface  TravelService {
     List<TravelInfo> selectBookmarkTravelList(int memberId);
     List<MyGroupTravelInfo> selectTravelNoti(int memberId);
     List<GroupMember> selectNoti(String groupId);
+
+    int selectSheduleAmount(int travelId);
+
+    Schedule selectNotificationHistoryTravel(int travelId);
+
+    List<GroupMember> complateBalanceAccounts(int travelId);
+
+    List<Schedule> selectMemberNotificationHistory(int memberId);
 }

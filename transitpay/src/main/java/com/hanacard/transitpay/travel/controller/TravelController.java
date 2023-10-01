@@ -15,10 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -285,7 +282,6 @@ public class TravelController {
         try {
             // 채팅 내용 저장
             chatHistory.add(chatMessage);
-
             return ResponseEntity.ok("채팅 내용 저장 완료");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("채팅 내용 저장 실패");
@@ -301,6 +297,38 @@ public class TravelController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
+    @GetMapping("/selectNotificationTravel")
+    public ResponseEntity<?> selectNotificationTravel(int travelId,HttpServletRequest request) {
+        try {
+            HttpSession session = request.getSession();
+            Member member = (Member)session.getAttribute("member");
+            // 정산해야할 금액
+            int sheduleAmount = travelService.selectSheduleAmount(travelId);
+            // 정산한 데이터 조회
+            Schedule notifHistoryAmount = travelService.selectNotificationHistoryTravel(travelId);
+            //정산완료
+            if(sheduleAmount == notifHistoryAmount.getPrice()){
+                List<GroupMember> complateBalanceAccounts = travelService.complateBalanceAccounts(notifHistoryAmount.getTravelId());
+                return ResponseEntity.ok(complateBalanceAccounts);
+            }
+            return ResponseEntity.ok("fail");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+    @GetMapping("/selectMemberNotificationHistory")
+    public ResponseEntity<?> selectMemberNotificationHistory(HttpServletRequest request) {
+        try {
+            HttpSession session = request.getSession();
+            Member member = (Member)session.getAttribute("member");
+            List<Schedule> selectMemberNotificationHistory = travelService.selectMemberNotificationHistory(member.getMember_id());
+            return ResponseEntity.ok(selectMemberNotificationHistory);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
 }
 
 

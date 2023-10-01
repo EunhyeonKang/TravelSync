@@ -157,7 +157,6 @@
             margin-bottom: 5px;
         }
         .chating .others{
-            display: grid;
             float: left;
             margin: 0;
         }
@@ -165,6 +164,8 @@
             font-weight: 700;
             color: #363636;
             padding: 4px;
+            float: left;
+            width: 100%;
         }
         .other-msg{
             background: white;
@@ -197,7 +198,7 @@
             margin: 100px 10px 10px 10px;
             width: 400px;
             padding: 15px;
-            height: 540px;
+            height: 550px;
             background: white;
             border-radius: 10px;
             z-index: 1;
@@ -228,6 +229,14 @@
             border-radius: 10px;
             padding: 5px;
             line-height: 6px;
+        }
+        .food-add{
+            border: 0;
+            background: #bdbdbd;
+            border-radius: 10px;
+            line-height: 20px;
+            font-weight: 700;
+            color: #424242;
         }
     </style>
 </head>
@@ -548,7 +557,8 @@
 
                 const actionCell = document.createElement("td");
                 const addButton = document.createElement("button");
-                addButton.textContent = "+";
+                addButton.textContent = "추가";
+                addButton.className='food-add'
                 addButton.addEventListener("click", () => {
                     // + 버튼 클릭 시 해당 행의 가격을 2배로 증가
                     const rowIndex = i; // 현재 행의 인덱스
@@ -724,7 +734,7 @@
 
         var newPlusButton = document.createElement('button');
         newPlusButton.className = 'plus-button';
-        newPlusButton.textContent = '+';
+        newPlusButton.textContent = '비용추가';
 
         priceTextIdCounter++;
 

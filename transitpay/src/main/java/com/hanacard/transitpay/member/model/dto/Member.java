@@ -18,5 +18,5 @@ public class Member {
         private String kakao_img;
         private long kakao_id;
         private int groupId;
-
+        private String groupName;
 }

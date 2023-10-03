@@ -238,6 +238,18 @@
             font-weight: 700;
             color: #424242;
         }
+        .distance-overlay {
+            background-color: rgba(0, 0, 0, 0.7); /* 배경색 */
+            color: #fff; /* 텍스트 색상 */
+            font-size: 14px; /* 폰트 크기 */
+            padding: 8px 16px; /* 패딩 */
+            border-radius: 4px; /* 둥근 테두리 */
+        }
+
+        /* 선의 색상을 빨간색에서 파란색으로 변경 */
+        .kakao-maps-draw-path {
+            strokeColor: '#0000FF'; /* 선의 색상을 파란색(#0000FF)으로 변경 */
+        }
     </style>
 </head>
 <body>
@@ -522,7 +534,6 @@
         const foodTable = document.getElementById("foodTable");
         const tbody = foodTable.querySelector("tbody");
         let totalPrices = []; // 각 행의 가격을 추적하기 위한 배열
-
 
         if (!globalResponseData || globalResponseData.length === 0 || globalResponseData=="") {
             var foodInput = prompt("가격을 입력해주세요");
@@ -964,8 +975,8 @@
 
     // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
     function addMarker(position, idx, title) {
-        var imageSrc = '../../../resources/images/marker2.png',
-            imageSize = new kakao.maps.Size(36, 36),  // 마커 이미지의 크기
+        var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png",
+        imageSize = new kakao.maps.Size(24, 35),  // 마커 이미지의 크기
             markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize),
             marker = new kakao.maps.Marker({
                 position: position, // 마커의 위치
@@ -973,10 +984,61 @@
             });
 
         marker.setMap(map); // 지도 위에 마커를 표출합니다
+
         markers.push(marker);  // 배열에 생성된 마커를 추가합니다
 
         return marker;
     }
+    // 선을 그리는 함수
+    function drawLineBetweenMarkers(marker1, marker2) {
+
+        var path = [marker1.getPosition(), marker2.getPosition()];
+        var polyline = new kakao.maps.Polyline({
+            path: path, // 선을 그릴 좌표 배열
+            strokeWeight: 3, // 선의 두께
+            strokeColor: '#0000FF', // 선의 색상
+            strokeOpacity: 1, // 선의 투명도
+        });
+
+        polyline.setMap(map); // 지도에 선을 표시
+
+        var latlng1 = marker1.getPosition();
+        var latlng2 = marker2.getPosition();
+        var distance = getDistance(latlng1, latlng2);
+
+        // 거리 정보를 표시할 커스텀 오버레이 생성
+        var overlayContent = '<div class="distance-overlay">거리: ' + distance.toFixed(2) + ' 미터</div>';
+        var overlay = new kakao.maps.CustomOverlay({
+            content: overlayContent,
+            position: path[1], // 선의 끝점 위치에 표시
+            xAnchor: 0,
+            yAnchor: 0,
+        });
+        overlay.setMap(map);
+    }
+    // 두 지점 간의 거리를 계산하는 함수
+    function getDistance(latlng1, latlng2) {
+        var lat1 = latlng1.getLat();
+        var lng1 = latlng1.getLng();
+        var lat2 = latlng2.getLat();
+        var lng2 = latlng2.getLng();
+
+        var deg2rad = Math.PI / 180;
+        var radius = 6371; // 지구 반경 (단위: km)
+
+        var dLat = (lat2 - lat1) * deg2rad;
+        var dLng = (lng2 - lng1) * deg2rad;
+
+        var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * deg2rad) * Math.cos(lat2 * deg2rad) *
+            Math.sin(dLng / 2) * Math.sin(dLng / 2);
+
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        var distance = radius * c;
+
+        return distance * 1000; // km를 미터로 변환
+    }
+
     // 배열에 추가된 마커들을 지도에 표시하거나 삭제하는 함수입니다
     function setMarkers(map) {
         for (var i = 0; i < markers.length; i++) {
@@ -1199,6 +1261,8 @@
             break;
         }
 
+        drawLinesBetweenMarkers(markers);
+
         // 검색결과 항목들을 검색결과 목록 Element에 추가합니다
         listEl.appendChild(fragment);
         menuEl.scrollTop = 0;
@@ -1206,7 +1270,16 @@
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
         // map.setBounds(bounds);
     }
-
+    function drawLinesBetweenMarkers(markers) {
+        // for (var i = 0; i < markers.length - 1; i++) {
+        //     for (var j = i + 1; j < markers.length; j++) {
+        //         drawLineBetweenMarkers(markers[i], markers[j]);
+        //     }
+        // }
+        for (var i = 0; i < markers.length - 1; i++) {
+            drawLineBetweenMarkers(markers[i], markers[i + 1]);
+        }
+    }
     // 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
     // 인포윈도우에 장소명을 표시합니다
     function displayInfowindow(marker, title, details) {

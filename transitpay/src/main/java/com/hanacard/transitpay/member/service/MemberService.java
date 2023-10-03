@@ -8,6 +8,7 @@ import java.util.List;
 public interface MemberService {
     Member selectOneMember(String phone);
     String sendAuthenticationCode(String phoneNumber,String name,int day, int amount);
+    String sendAuthenticationCode(String phone,String groupname);
     String getKakaoToken(String code);
     Member getKakaoUserInfo(String code);
     void insertKakaoAndPhoneMember(Member member);

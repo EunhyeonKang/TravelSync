@@ -140,8 +140,9 @@
 
         .hana-1 img{
             width: 40px;
+            height: 40px;
             margin-right: 5px;
-            border-radius: 50px;
+            border-radius: 50%;
         }
         .seemore > .seemore-1{
             color: #0ec1b1;

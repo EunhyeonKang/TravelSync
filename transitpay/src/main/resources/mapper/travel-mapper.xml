@@ -210,7 +210,7 @@
         SELECT
             group_id AS groupId,
             travel_id AS travelId,
-            SUM(amount) AS price
+            ROUND(SUM(amount),-3) AS price
         FROM notification_history
         WHERE travel_id = #{travelId}
         GROUP BY group_id, travel_id

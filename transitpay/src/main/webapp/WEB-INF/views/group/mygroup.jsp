@@ -472,8 +472,64 @@
                                 data: { memberId : memberId, groupId : groupId },
                                 method: "POST",
                                 success: function(response) {
-                                    console.log(response)
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/selectGroupAccountChart",
+                                        data: { groupId: response.group_id,groupAccount : response.group_account},
+                                        success: function (response) {
+                                            console.log(response)
+                                            var memberSelect = $('#memberSelect');
+                                            memberSelect.empty();
 
+                                            response.forEach(function(member) {
+                                                memberSelect.append($('<option>', {
+                                                    value: member.member_id,
+                                                    text: member.name // 멤버 이름 또는 다른 필요한 데이터로 대체할 수 있습니다.
+                                                }));
+                                            });
+                                            // 고정된 색상 배열
+                                            const fixedColors = [
+                                                'rgb(255, 99, 132)',
+                                                'rgb(54, 162, 235)',
+                                                'rgb(255, 205, 86)'
+                                            ];
+                                            // 데이터 가공
+                                            const data = response.map((item,index) => {
+                                                return {
+                                                    label: item.name,
+                                                    data: item.amount,
+                                                    backgroundColor: fixedColors[index % fixedColors.length],
+                                                    hoverOffset: 4
+                                                };
+                                            });
+
+                                            // 차트 설정
+                                            const chartData = {
+                                                labels: data.map(item => item.label),
+                                                datasets: [
+                                                    {
+                                                        data: data.map(item => item.data),
+                                                        backgroundColor: data.map(item => item.backgroundColor),
+                                                        hoverOffset: 4,
+                                                    },
+                                                ],
+                                            };
+
+                                            const chartConfig = {
+                                                type: 'doughnut',
+                                                data: chartData,
+                                            };
+
+                                            // 차트 생성
+                                            const myChart = new Chart(
+                                                document.getElementById('myChart'),
+                                                chartConfig
+                                            );
+                                        },
+                                        error: function (error) {
+                                            console.error(error);
+                                        },
+                                    });
                                     document.querySelector('.accountName').textContent = response.group_name;
                                     document.querySelector('.accountNum').textContent = response.group_account;
                                     const hanaClass = document.querySelector('.hanaClass');
@@ -577,7 +633,7 @@
                             <img class="invite-img" src="../../../resources/images/invite.png">
                         </div>
                         <div class="group71">
-                            <button class="selecloc-1" onclick="location.href='/'">초대수락</button>
+                            <button class="selecloc-1" onclick="location.href='/mygroup/${groupId}'">초대수락</button>
                             <button class="selecloc-2" onclick="location.href='/'">초대거절</button>
                         </div>
                     </div>
@@ -691,64 +747,7 @@
             console.error(error);
         },
     });
-    $.ajax({
-        type: "POST",
-        url: "/selectGroupAccountChart",
-        data: { groupId: "${groupId}",groupAccount : "${sessionScope.groupAccountDetail.group_account}"},
-        success: function (response) {
-            console.log(response)
-            var memberSelect = $('#memberSelect');
-            memberSelect.empty();
 
-            response.forEach(function(member) {
-                memberSelect.append($('<option>', {
-                    value: member.member_id,
-                    text: member.name // 멤버 이름 또는 다른 필요한 데이터로 대체할 수 있습니다.
-                }));
-            });
-            // 고정된 색상 배열
-            const fixedColors = [
-                'rgb(255, 99, 132)',
-                'rgb(54, 162, 235)',
-                'rgb(255, 205, 86)'
-            ];
-            // 데이터 가공
-            const data = response.map((item,index) => {
-                return {
-                    label: item.name,
-                    data: item.amount,
-                    backgroundColor: fixedColors[index % fixedColors.length],
-                    hoverOffset: 4
-                };
-            });
-
-            // 차트 설정
-            const chartData = {
-                labels: data.map(item => item.label),
-                datasets: [
-                    {
-                        data: data.map(item => item.data),
-                        backgroundColor: data.map(item => item.backgroundColor),
-                        hoverOffset: 4,
-                    },
-                ],
-            };
-
-            const chartConfig = {
-                type: 'doughnut',
-                data: chartData,
-            };
-
-            // 차트 생성
-            const myChart = new Chart(
-                document.getElementById('myChart'),
-                chartConfig
-            );
-        },
-        error: function (error) {
-            console.error(error);
-        },
-    });
     // 랜덤 색상 생성 함수
     function getRandomColor() {
         const letters = '0123456789ABCDEF';
@@ -818,7 +817,7 @@
             url: "/totalGroupAccountStat",
             data: { groupId : groupId },
             success: function(response) {
-                // console.log(response+ " totalGroupAccountStat");
+                console.log(response+ " totalGroupAccountStat");
             },
             error: function(error) {
             }

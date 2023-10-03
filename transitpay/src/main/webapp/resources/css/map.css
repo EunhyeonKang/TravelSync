@@ -39,12 +39,16 @@
 #pagination a {display:inline-block;margin-right:10px;}
 #pagination .on {font-weight: bold; cursor: default;color:#777;}
 #map {
-    width: 100%;
+    width: 700px;
     height: 500px;
-    border-radius: 10px;
+    border-radius: 5px;
     overflow: hidden;
     transition: height 0.3s, width 0.3s;
     box-shadow: 0px 0px 15px 1px rgba(0, 0, 0, 0.25);
+    z-index: 0;
+}
+#chatting{
+    width: 100%;
 }
 
 .contents1{
@@ -184,7 +188,7 @@ tvlcost2
 .menu1 {
     display: flex;
     flex-direction: column;
-    width: 200px;
+    width: 250px;
     border-radius: 0px;
     padding: 10px;
     float: left;
@@ -223,7 +227,7 @@ tvlcost2
 .traveltitle{
     color: #7a7d7d;
     font-size: 25px;
-    width: 1155px;
+    width: 1200px;
     margin: 30px auto;
     font-weight: 600;
 }
@@ -369,11 +373,12 @@ body{
 
 .modal-content {
     background-color: white;
-    margin: 15% auto;
+    /*margin: 15% auto;*/
     padding: 20px;
     border: 1px solid #888;
     width: 600px;
     border-radius: 5px;
+    margin: 300px;
 }
 
 .close {
@@ -443,7 +448,7 @@ body{
     border-radius: 5px;
     padding: 10px;
     color: #008583;
-    width: 50%;
+    width: 70%;
     margin: 0 auto;
 }
 .arrival-button{
@@ -532,9 +537,7 @@ body{
     float: left;
     margin: 20px 10px 0 20px;
 }
-.traveltitle > span{
-    margin-left: 10px;
-}
+
 .scheduleShare{
     display: flex;
     flex-direction: column;

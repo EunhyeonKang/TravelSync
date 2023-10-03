@@ -97,8 +97,8 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void insertGroupMember(String memberType,int memberId, int groupId) {
-        accountRepository.insertGroupMember(memberType,memberId,groupId,1);
+    public void insertGroupMember(String memberType,int memberId, int groupId,int pw_state) {
+        accountRepository.insertGroupMember(memberType,memberId,groupId,pw_state);
 
     }
 

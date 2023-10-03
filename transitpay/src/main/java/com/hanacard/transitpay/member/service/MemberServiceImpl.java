@@ -52,13 +52,33 @@ public class MemberServiceImpl implements MemberService {
         Message coolsms = new Message(apiKey, api_secret);
         String authenticationCode=createAuthenticationCode();
         HashMap<String , String> params= new HashMap<String,String>();
-        params.put("to", phone);//누구에게
-        params.put("from","+82 1577-0000");//누가 보낼것인지
+        params.put("to", "+82 1577-0000");
+        params.put("from", phone);
         params.put("type", "SMS");
-        params.put("text", "[Web발신] (트래블싱크 모임통장 자동이체) "+name+ "님 모임통장에 매월 "+day+"일, "+amount+"원이 이체되었습니다.");
+        params.put("text", "[트래블싱크 모임통장 자동이체] "+name+ "님 모임통장에 매월 "+day+"일, "+amount+"원이 이체되었습니다.");
 //        params.put("text", "트래블로그 가입 인증번호 "+authenticationCode+" 입니다");
         params.put("app_version", "jcmarket app 1.1");
         System.out.println(params);
+        try {
+            coolsms.send(params);
+        } catch (CoolsmsException e) {
+            e.printStackTrace();
+        }
+
+        return authenticationCode;
+    }
+
+    @Override
+    public String sendAuthenticationCode(String phone,String groupName) {
+        Message coolsms = new Message(apiKey, api_secret);
+        String authenticationCode = createAuthenticationCode();
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("to", "+82 1577-0000");
+        params.put("from", phone);
+        params.put("type", "SMS");
+        params.put("text", "[트래블싱크 모임통장 개설인증] " + groupName + "모임 인증 번호는 "+authenticationCode+"입니다.");
+//        params.put("text", "트래블로그 가입 인증번호 "+authenticationCode+" 입니다");
+        params.put("app_version", "jcmarket app 1.1");
         try {
             coolsms.send(params);
         } catch (CoolsmsException e) {

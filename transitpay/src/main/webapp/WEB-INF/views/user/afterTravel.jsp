@@ -64,6 +64,10 @@
             color: #939596;
             font-weight: 700;
         }
+        .chart-div{
+            width: 500px;
+            margin: 0 auto;
+        }
     </style>
 </head>
 <body>
@@ -197,7 +201,9 @@
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            <canvas id="myChart" style="width: 300px; height: 200px;"></canvas>
+                                            <div class="chart-div">
+                                                <canvas id="myChart" style="width: 300px; height: 200px;"></canvas>
+                                            </div>
                                             <button class="detail-button" data-travelId="${travelInfo.travelId}">자세히 보기</button>
                                             <div id="myModalDetail-${travelInfo.travelId}" class="modal-detail">
                                                 <div class="modal-content-detail">
@@ -289,8 +295,9 @@
                 nameCell.textContent = item.name;
                 amountCell.textContent = item.amount + "원";
                 calCell.textContent='정산완료';
-                selectMygroupSchedule(item.travel_id);
+
             })
+            selectMygroupSchedule(document.querySelector('#travelId').value);
         },
         error: function (error) {
             console.error(error);
@@ -309,16 +316,16 @@
             },
         });
     }
-    $.ajax({
-        type: "POST",
-        url: "/selectMygroupTravelList",
-        success: function (response) {
-            console.log(response)
-        },
-        error: function (error) {
-            console.error(error);
-        },
-    });
+    // $.ajax({
+    //     type: "POST",
+    //     url: "/selectMygroupTravelList",
+    //     success: function (response) {
+    //         console.log(response)
+    //     },
+    //     error: function (error) {
+    //         console.error(error);
+    //     },
+    // });
 
 </script>
 </html>

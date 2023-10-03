@@ -120,6 +120,11 @@ class RouteController {
         return "/user/afterTravel";
     }
 
+    @GetMapping("/certification")
+    public String certification() throws Exception{
+        return "/user/certification";
+    }
+
     /***
      *  모임통장 기능
      */

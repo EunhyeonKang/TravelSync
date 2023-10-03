@@ -75,8 +75,8 @@
             right: 0;
         }
         #container{
-            margin: 100px 10px 10px 10px;
-            width: 400px;
+            margin: 20px 10px 10px 10px;
+            width: 500px;
             padding: 15px;
             height: 550px;
             background: white;

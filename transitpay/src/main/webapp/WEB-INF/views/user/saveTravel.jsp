@@ -35,91 +35,110 @@
                                     </label>
                                 </h1>
                                     <script>
-                                        $.ajax({
-                                            type: "POST",
-                                            url: "/selectMygroupSchedule",
-                                            data: {travelId: ${travelInfo.travelId}},
-                                            success: function (response) {
-                                                var tbody = document.getElementById("scheduleList-${travelInfo.travelId}");
-                                                tbody.innerHTML = ""; // 기존 내용 초기화
+                                        $(document).ready(function() {
+                                            $.ajax({
+                                                type: "POST",
+                                                url: "/selectMygroupSchedule",
+                                                data: {travelId: ${travelInfo.travelId}},
+                                                success: function (response) {
+                                                    var mapContainerId = "map-${travelInfo.travelId}"; // travelId를 사용하여 고유한 ID 생성
+                                                    var mapContainer = document.getElementById(mapContainerId);
 
-                                                if (response.length > 0) {
-                                                    for (var i = 0; i < response.length; i++) {
-                                                        var schedule = response[i];
-                                                        var row = document.createElement("tr");
+                                                    if (mapContainer) {
+                                                        var options = {
+                                                            center: new kakao.maps.LatLng(37.52829468089088, 126.64407499265728),
+                                                            level: 9
+                                                        };
+                                                        var map = new kakao.maps.Map(mapContainer, options);
 
-                                                        var markerPosition = new kakao.maps.LatLng(schedule.placeY, schedule.placeX); // 마커의 위치
-                                                        var marker = new kakao.maps.Marker({
-                                                            position: markerPosition
-                                                        });
-                                                        marker.setMap(map);
-                                                        // // People Number원
-                                                        // var peopleNumber = document.createElement("p");
-                                                        // peopleNumber.textContent = "인원: " + schedule.pnum;
-                                                        // scheduleCard.appendChild(peopleNumber);
-                                                        // 일자
-                                                        var dateCell = document.createElement("td");
-                                                        dateCell.textContent = schedule.schedule_date;
-                                                        row.appendChild(dateCell);
 
-                                                        // 장소
-                                                        var placeCell = document.createElement("td");
-                                                        placeCell.textContent = schedule.schedule_place;
-                                                        row.appendChild(placeCell);
-
-                                                        // 가격
-                                                        var priceCell = document.createElement("td");
-                                                        priceCell.textContent = schedule.price + "원";
-                                                        row.appendChild(priceCell);
-
-                                                        // 카테고리
-                                                        var categoryCell = document.createElement("td");
-                                                        categoryCell.textContent = schedule.category;
-                                                        row.appendChild(categoryCell);
-
-                                                        tbody.appendChild(row);
+                                                    } else {
+                                                        console.error("Map container not found:", mapContainerId);
                                                     }
-                                                    var food = response[0].food_expenses;
-                                                    var etc = response[0].etc_expenses;
-                                                    var accommodation = response[0].accommodation_expenses;
-                                                    var totalText2 = document.querySelector(".totaltext2");
-                                                    totalText2.textContent = food + etc + accommodation;
-                                                    // 차트를 그릴 데이터 준비
-                                                    var chartData = {
-                                                        labels: ["음식", "기타", "숙박", "교통"], // 카테고리 레이블
-                                                        datasets: [{
-                                                            data: [food, etc, accommodation,25000], // 카테고리별 비용 데이터
-                                                            backgroundColor: [
-                                                                'rgb(240, 229, 222)', // 음식
-                                                                'rgb(171, 208, 206)', // 기타
-                                                                'rgb(124, 120, 119)', // 숙박
-                                                                'rgb(217, 212, 207)'  // 교통
-                                                            ],
-                                                            borderColor: [
-                                                                'rgb(240, 229, 222)', // 음식
-                                                                'rgb(171, 208, 206)', // 기타
-                                                                'rgb(124, 120, 119)', // 숙박
-                                                                'rgb(217, 212, 207)'  // 교통
-                                                            ],
-                                                            borderWidth: 1
-                                                        }]
-                                                    };
 
-                                                    // 차트 생성
-                                                    // var ctx = document.getElementById('myChart').getContext('2d')
-                                                    // var myChart = new Chart(ctx, {
-                                                    //     type: 'pie', // 파이 차트 형식
-                                                    //     data: chartData
-                                                    // });
+                                                    var tbody = document.getElementById("scheduleList-${travelInfo.travelId}");
+                                                    tbody.innerHTML = ""; // 기존 내용 초기화
 
-                                                } else {
-                                                    // response가 비어있는 경우에 대한 처리
-                                                }
+                                                    if (response.length > 0) {
+                                                        for (var i = 0; i < response.length; i++) {
+                                                            var schedule = response[i];
+                                                            var row = document.createElement("tr");
 
-                                            },
-                                            error: function (error) {
-                                                console.error(error);
-                                            },
+                                                            var markerPosition = new kakao.maps.LatLng(schedule.placeY, schedule.placeX); // 마커의 위치
+                                                            var marker = new kakao.maps.Marker({
+                                                                position: markerPosition
+                                                            });
+                                                            marker.setMap(map);
+
+
+                                                            // // People Number원
+                                                            // var peopleNumber = document.createElement("p");
+                                                            // peopleNumber.textContent = "인원: " + schedule.pnum;
+                                                            // scheduleCard.appendChild(peopleNumber);
+                                                            // 일자
+                                                            var dateCell = document.createElement("td");
+                                                            dateCell.textContent = schedule.schedule_date;
+                                                            row.appendChild(dateCell);
+
+                                                            // 장소
+                                                            var placeCell = document.createElement("td");
+                                                            placeCell.textContent = schedule.schedule_place;
+                                                            row.appendChild(placeCell);
+
+                                                            // 가격
+                                                            var priceCell = document.createElement("td");
+                                                            priceCell.textContent = schedule.price + "원";
+                                                            row.appendChild(priceCell);
+
+                                                            // 카테고리
+                                                            var categoryCell = document.createElement("td");
+                                                            categoryCell.textContent = schedule.category;
+                                                            row.appendChild(categoryCell);
+
+                                                            tbody.appendChild(row);
+                                                        }
+                                                        var food = response[0].food_expenses;
+                                                        var etc = response[0].etc_expenses;
+                                                        var accommodation = response[0].accommodation_expenses;
+                                                        var totalText2 = document.querySelector(".totaltext2-${travelInfo.travelId}");
+                                                        totalText2.textContent = food + etc + accommodation;
+                                                        // 차트를 그릴 데이터 준비
+                                                        var chartData = {
+                                                            labels: ["음식", "기타", "숙박", "교통"], // 카테고리 레이블
+                                                            datasets: [{
+                                                                data: [food, etc, accommodation,25000], // 카테고리별 비용 데이터
+                                                                backgroundColor: [
+                                                                    'rgb(240, 229, 222)', // 음식
+                                                                    'rgb(171, 208, 206)', // 기타
+                                                                    'rgb(124, 120, 119)', // 숙박
+                                                                    'rgb(217, 212, 207)'  // 교통
+                                                                ],
+                                                                borderColor: [
+                                                                    'rgb(240, 229, 222)', // 음식
+                                                                    'rgb(171, 208, 206)', // 기타
+                                                                    'rgb(124, 120, 119)', // 숙박
+                                                                    'rgb(217, 212, 207)'  // 교통
+                                                                ],
+                                                                borderWidth: 1
+                                                            }]
+                                                        };
+
+                                                        // 차트 생성
+                                                        // var ctx = document.getElementById('myChart').getContext('2d')
+                                                        // var myChart = new Chart(ctx, {
+                                                        //     type: 'pie', // 파이 차트 형식
+                                                        //     data: chartData
+                                                        // });
+
+                                                    } else {
+                                                        // response가 비어있는 경우에 대한 처리
+                                                    }
+
+                                                },
+                                                error: function (error) {
+                                                    console.error(error);
+                                                },
+                                            });
                                         });
                                     </script>
                                 </c:if>
@@ -134,7 +153,7 @@
                                     <div class="p">
                                         <c:choose>
                                             <c:when test="${not empty travelInfo.travelStart}">
-                                                <div id="map" style="width: 100%; height: 400px;"></div>
+                                                <div id="map-${travelInfo.travelId}" style="width: 100%; height: 400px;"></div>
                                                 <p class="travel-date-text">
                                                     <strong>${fn:substring(travelInfo.travelStart, 0, 10)} ~ ${fn:substring(travelInfo.travelEnd, 0, 10)}</strong>
                                                     (<c:forEach items="${fn:split(fn:replace(fn:replace(travelInfo.travelPlace, '[', ''), ']', ''), ',')}" var="item">
@@ -156,7 +175,7 @@
                                                 </table>
                                                 <div class="totalTravel">
                                                     <span>총</span>
-                                                    <span class="totaltext2"></span>
+                                                    <span class="totaltext2-${travelInfo.travelId}"></span>
                                                     <span>원</span>
                                                 </div>
                                                 <c:if test="${sessionScope.member.member_id == travelInfo.groupLeader}">
@@ -190,13 +209,6 @@
 </div>
 </body>
 <script>
-    var mapContainer = document.getElementById('map');
-    var options = {
-        center: new kakao.maps.LatLng(37.52829468089088, 126.64407499265728), // 지도의 중심 좌표
-        level: 9 // 지도 확대 레벨
-    };
-    var map = new kakao.maps.Map(mapContainer, options);
-
 
     function calculate(travelId){
         var calBtn = document.querySelector(".calBtn");
@@ -205,7 +217,7 @@
         var inputValue = inputElement.id;
 
         var cinput =  document.getElementById(inputValue).parentElement;
-        var total = cinput.querySelector('.totaltext2').textContent;
+        var total = cinput.querySelector('.totaltext2-'+travelId).textContent;
         //모임원 인원 수대로
         $.ajax({
             type: "POST",

@@ -570,11 +570,12 @@
 </div>
 </body>
 <script>
+    var confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
     function calExecution() {
-        var confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
         confirmationModal.show();
     }
     function executeCal() {
+
         var selectedOption = $('#selecttype option:selected');
         var selectType = document.getElementById("selecttype");
         var accountNum = selectedOption.attr('data-account-num');
@@ -601,12 +602,8 @@
             data: JSON.stringify(dataToSend),
             contentType: "application/json; charset=UTF-8",
             success: function (response) {
-                console.log(response)
-                var confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+                // 모달 숨기기
                 confirmationModal.hide();
-                confirmationModal._element.style.display = 'none';
-
-                // 다음 단계 버튼을 클릭합니다.
                 const step3Button = document.querySelectorAll('.step-button')[2];
                 step3Button.click();
             },
@@ -615,7 +612,6 @@
             }
         });
     }
-
 
     $.ajax({
         url: '/selectBackAccount',
@@ -684,5 +680,6 @@
         const step2Button = document.querySelectorAll('.step-button')[1];
         step2Button.click();
     });
+
 </script>
 </html>

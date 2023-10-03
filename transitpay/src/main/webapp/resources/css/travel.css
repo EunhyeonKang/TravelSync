@@ -284,13 +284,13 @@ input {
 .contents-1{
     padding: 35px 0 20px 20px;
     border-radius: 50px;
-    width: 800px;
+    width: 700px;
     display: table;
 }
 .menu1 {
     display: flex;
     flex-direction: column;
-    width: 200px;
+    width: 250px;
     border-radius: 0px;
     padding: 10px;
     float: left;
@@ -323,16 +323,17 @@ input {
 }
 
 .traveltitle{
-    text-align: left;
-    left: 10px;
     color: #7a7d7d;
-    font-size: 29px;
-    width: 1155px;
+    font-size: 25px;
+    width: 1200px;
     margin: 30px auto;
     font-weight: 600;
 }
 .traveltitle hr{
     border: 1px solid #929292;
+}
+.traveltitle > span{
+    margin-left: 10px;
 }
 .cancel-box{
     width: 40%;
@@ -443,6 +444,5 @@ input {
 
 #member-name, #member-img{
     display: inline-flex;
-    width: 105px;
     justify-content: space-evenly;
 }

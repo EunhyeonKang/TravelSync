@@ -21,12 +21,16 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    /*
-    @GetMapping("checkPhoneLogin")
-    public String sendVerificationPhone(String phoneNumber) {
-        String authenticationCode=memberService.sendAuthenticationCode(phoneNumber);
+
+    @PostMapping("/checkPhone")
+    @ResponseBody
+    public String checkPhone(@RequestBody Member member) {
+        // Member 객체에 요청 데이터가 매핑됩니다.
+        String phone = member.getPhone();
+        String groupName = member.getGroupName();
+        String authenticationCode=memberService.sendAuthenticationCode(phone,groupName);
         return authenticationCode;
-    }*/
+    }
 
     @ResponseBody
     @PostMapping("/insertKakaoAndPhoneMember")

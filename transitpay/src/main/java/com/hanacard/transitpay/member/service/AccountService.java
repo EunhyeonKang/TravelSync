@@ -14,7 +14,7 @@ public interface AccountService {
     GroupAccount selectVirtureAccountNumber(String account_num, int memberId);
     GroupAccount selectUseTypeAccount(String memberId);
     String inputCheckPassword(String groupId);
-    void insertGroupMember(String memberType,int memberId,int groupId);
+    void insertGroupMember(String memberType,int memberId,int groupId,int pw_state);
     GroupMember selectGroupMember(int memberId, int groupId);
     void updateAccountBalance(int memberId,Map<String, String> depositData);
     void updateAccountBalanceTransfer(int memberId, Map<String, String> depositData);

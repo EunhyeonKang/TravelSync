@@ -83,7 +83,6 @@ class RouteController {
     public String calTravel() throws Exception{
         return "/hana/calTravel";
     }
-
     /***
      *  마이페이지 기능
      */
@@ -163,5 +162,20 @@ class RouteController {
     public String socket() throws Exception {
         return "socket";
     }
+    /***
+     *  관리자 기능
+     */
+    @GetMapping("/adminLogin")
+    public String adminLogin() throws Exception {
+        return "/admin/adminAuth/login";
+    }
+    @GetMapping("/admin/template/list")
+    public String templateList() throws Exception {
+        return "/admin/adminAuth/adminList";
+    }
 
+    @GetMapping("/admin/user/list")
+    public String adminUser() throws Exception {
+        return "/admin/adminAuth/adminUser";
+    }
 }

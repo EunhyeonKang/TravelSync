@@ -379,25 +379,34 @@
                 type: "POST",
                 url: "/selectNotification",
                 success: function (response) {
-                if(response.length==0){
-                    return;
-                }
-                var hananoti = document.getElementById('noti');
-                var noti = document.createElement('span');
-                noti.className='notification';
-                noti.textContent=response.length;
-                hananoti.appendChild(noti);
-                $.ajax({
-                    url: '/selectTravelNoti',
-                    method: "POST",
-                    success: function (response) {
-                        console.log(response);
-                    },
-                    error: function (error) {
-                        console.error("Error occurred:", error);
+                    if(response.length==0){
+                        return;
+                    }else {
+                        response.forEach(function(item){
+                            var hananoti = document.getElementById('noti');
+                            var noti = document.createElement('span');
+                            noti.className = 'notification';
+                            noti.textContent = response.length;
+                            hananoti.appendChild(noti);
+                            var dataToSend = {
+                                groupId : item.group_id,
+                                travelId : item.travel_id
+                            };
+                            $.ajax({
+                                url: '/selectTravelNoti',
+                                method: "POST",
+                                data: JSON.stringify(dataToSend),
+                                contentType: "application/json; charset=UTF-8",
+                                success: function (response) {
+                                    console.log(response);
+                                },
+                                error: function (error) {
+                                    console.error("Error occurred:", error);
+                                }
+                            });
+                        })
                     }
-                });
-            },
+                },
                 error: function (error) {
                 console.error(error);
             },

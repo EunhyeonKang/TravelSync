@@ -378,7 +378,7 @@ h2{
 }
 
 .travelsavebox{
-    padding: 65px;
+    padding: 50px 65px 30px 65px;
     color: #50575d;
     text-align: center;
     font-size: 20px;
@@ -483,19 +483,18 @@ h2{
     transform: translatey(-50%);
     left: inherit;
     right: inherit;
-    width: 70px;
+    width: 15px;
     height: 70px;
-    background-color: rgb(255 255 255 / 12%);
     border-radius: 100%;
     margin: 0 10px;
 }
 .slider-2>.side-btns>div>span > i{
-    position:absolute;
-    top:50%;
-    left:50%;
-    font-size:3rem;
-    color:rgba(0,0,0,0.4);
-    transform:translateX(-70%) translateY(-50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 3rem;
+    color: rgb(255 255 255 / 31%);
+    transform: translateX(-70%) translateY(-50%);
 }
 
 .slider-2>.side-btns>div:last-child>span > i {

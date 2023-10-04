@@ -194,6 +194,39 @@
             width: 250px;
             padding: 10px;
         }
+        .saveImg{
+            width: 70px;
+            margin: 10px;
+        }.menu1-1{
+             text-align: center;
+             padding-top: 30px;
+             color: #008485;
+             font-weight: 700;
+             font-size: 20px;
+         }
+        menu1 a:hover {
+            background-color: #008485;
+            color: white;
+        }
+        .menu1 a {
+            text-decoration: none;
+            color: #333;
+            padding: 8px 10px;
+            text-align: center;
+            margin: 0 auto;
+            border-radius: 5px;
+            transition: background-color 0.2s;
+        }.menu1 {
+             display: flex;
+             flex-direction: column;
+             width: 200px;
+             border-radius: 0px;
+             padding: 10px;
+             float: left;
+         }
+        .menuhr hr{
+            border: 2px solid #00968829;
+        }
     </style>
 </head>
 <body>
@@ -214,6 +247,19 @@
                                 </div>
                                 <div class="mypage_logout">로그아웃</div>
                             </div>
+                            <div class="menu1">
+                                <div class="menu1-1">마이페이지</div>
+                                <div class="menuhr"><hr/></div>
+                                <a href="group">내정보수정</a>
+                                <div class="menu1-1">여행관리</div>
+                                <div class="menuhr"><hr/></div>
+                                <a href="/saveTravel">저장된여행</a>
+                                <a href="/afterTravel">정산된여행</a>
+                                <div class="menu1-1">모임/계좌 관리</div>
+                                <div class="menuhr"><hr/></div>
+                                <a href="group">모임내역</a>
+                                <a href="group">계좌내역</a>
+                            </div>
                         </div>
                     </div>
                     <div class="accountbox">
@@ -223,22 +269,24 @@
                                 <div>
                                     <div>
                                         <div class="travelsavebox">
-                                            <div>저장된 여행🩷</div>
+                                            <img class="saveImg" src="../../../resources/images/save-time.svg" style="width: 70px;">
+                                            <div>저장된 여행</div>
                                             <div class="saveboxcnt"><a href="/saveTravel" id="travleLength"></a></div>
                                         </div>
                                     </div>
-                                    <button>여행/찜</button>
+                                    <button>여행/찜🩷</button>
                                 </div>
                             </div>
                             <div class="travelbox-2">
                                 <div>
                                     <div>
                                         <div class="travelsavebox">
-                                            <div>정산된 여행💰</div>
-                                            <div class="saveboxcnt"><a href="/afterTravel">1개</a></div>
+                                            <img class="saveImg" src="../../../resources/images/save-hassle.svg" style="width: 70px;">
+                                            <div>정산된 여행</div>
+                                            <div class="saveboxcnt"><a href="/afterTravel" id="completeTravelLength"></a></div>
                                         </div>
                                     </div>
-                                    <button>정산/자동이체</button>
+                                    <button>정산/자동이체💰</button>
                                 </div>
                             </div>
                             <div class="travelbox-3">
@@ -455,6 +503,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
 <script>
+    $.ajax({
+        type: "GET",
+        url: "/completeCalculateTravel",
+        success: function (response) {
+            document.querySelector('#completeTravelLength').textContent=response+"개";
+        },
+        error: function (error) {
+            console.error(error);
+        },
+    });
     $.ajax({
         type: "GET",
         url: "/selectMemberNotificationHistory",
@@ -749,6 +807,11 @@
                                         location.href = "/mygroup/" + groupResponse.group_id;
                                     };
 
+                                    var cardButton = document.createElement("button");
+                                    cardButton.classList.add("account-button");
+                                    cardButton.textContent = "카드내역";
+
+
                                     var groupAccountBankDiv = document.createElement("div");
                                     groupAccountBankDiv.classList.add("bank");
                                     groupAccountBankDiv.textContent = groupResponse.group_name;
@@ -778,6 +841,7 @@
                                     groupAccountInfoDiv.appendChild(groupAccountInfoButton);
 
                                     accountGroup.appendChild(groupAccountButton);
+                                    accountGroup.appendChild(cardButton);
                                     accountGroup.appendChild(groupAccountBankDiv);
                                     accountGroup.appendChild(groupAccountInfoDiv);
                                     slide2.appendChild(accountGroup)

@@ -1,0 +1,142 @@
+@charset "UTF-8";
+/* list '관리' 버튼 popup */
+.modal-admin-mode .item-input-box {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+}
+
+.modal-admin-mode .item-radio {
+  display: table-cell;
+  text-align: center;
+}
+
+.modal-admin-mode .modal-alert {
+  margin: 34px 0 10px;
+}
+
+.modal-admin-mode .modal-alert-box {
+  text-align: center;
+  display: none;
+}
+
+.modal-admin-mode .modal-alert-box.is-selected {
+  display: block;
+}
+
+.modal-admin-mode .modal-alert-text {
+  position: relative;
+  color: #4373B9;
+  font-size: 20px;
+  font-weight: bold;
+  text-indent: 22px;
+}
+
+.modal-admin-mode .modal-alert-text:before {
+  content: '';
+  width: 20px;
+  height: 20px;
+  display: block;
+  background: url(../images/ico-modal-confirm.png);
+  position: absolute;
+  top: -1px;
+  left: 40px;
+}
+
+/* 모달창 확인(승인/만료/반려) 버튼 */
+.js-admin-btn {
+  display: none;
+  margin-left: 0 !important;
+}
+
+/* 승인버튼 모달 */
+.alert-icon {
+  content: '';
+  width: 20px;
+  height: 20px;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 52px;
+}
+
+.alert-icon-confirm {
+  background: url(../images/ico-modal-confirm.png);
+}
+
+.alert-icon-delete {
+  background: url(../images/ico-modal-delete.png);
+}
+
+.alert-icon-apply {
+  background: url(../images/ico-modal-apply.png);
+}
+
+.alert-icon-search {
+  width: 14px;
+  height: 14px;
+  background: url(../images/ico-search.png);
+  top: 14px;
+  left: 14px;
+}
+
+.alert-text {
+  position: relative;
+  color: #4373B9;
+  font-size: 20px;
+  line-height: 20px;
+  font-weight: bold;
+  text-indent: 40px;
+}
+
+/* 데이터검색 모달창 */
+.modal-data-search .data-tit {
+  margin: 20px 0 10px;
+  color: #575757;
+  text-align: left;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.modal-data-search .ui-layer__head {
+  padding: 0;
+}
+
+.modal-data-search .ui-layer__body-inner-1 {
+  height: 200px;
+}
+
+.modal-data-search .data-write thead {
+  color: #fff;
+  background-color: #000;
+}
+
+.modal-data-search .table-list tr > * {
+  padding: 0;
+}
+
+.modal-data-search .table-list {
+  padding: 15px 18px;
+}
+
+.modal-data-search .tab-wrap {
+  width: 100%;
+  display: table;
+  table-layout: fixed;
+}
+
+.modal-data-search .tab-list {
+  display: table-cell;
+}
+
+.modal-data-datepicker {
+  margin-bottom: 30px;
+}
+
+.admin .data-write thead {
+  background-color: #184067;
+}
+
+.admin .layer-container {
+  background-color: #184067;
+}

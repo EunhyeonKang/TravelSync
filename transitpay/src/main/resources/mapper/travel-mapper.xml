@@ -178,6 +178,8 @@
     </select>
     <select id="selectTravelNoti" resultType="com.hanacard.transitpay.travel.model.dto.MyGroupTravelInfo">
         SELECT
+            g.group_name AS groupName,
+            g.group_account AS groupAccount,
             t.travel_id AS travelId,
             t.travel_title AS travelTitle,
             t.travel_start AS travelStart,
@@ -191,7 +193,8 @@
         FROM travel t
                  JOIN schedule_amount s ON t.travel_id = s.travel_id
                  JOIN notification n ON t.group_id = n.group_id
-        WHERE n.member_id=#{memberId}
+                 JOIN groups g ON t.group_id = g.group_id
+        WHERE n.member_id=#{param1} and n.group_id =#{param3} and t.travel_id=#{param2}
     </select>
     <select id="selectNoti">
         select
@@ -210,7 +213,7 @@
         SELECT
             group_id AS groupId,
             travel_id AS travelId,
-            ROUND(SUM(amount),-3) AS price
+            SUM(amount) AS price
         FROM notification_history
         WHERE travel_id = #{travelId}
         GROUP BY group_id, travel_id
@@ -233,5 +236,10 @@
             nh.travel_id AS travelId,
             nh.group_id AS groupId
         from schedule_amount sa join notification_history nh on sa.travel_id = nh.travel_id where nh.member_id=#{memberId}
+    </select>
+    <select id="completeCalculateTravel" resultType="_int">
+        SELECT COUNT(DISTINCT travel_id) AS group_count
+        FROM notification_history
+        where member_id =#{memberId}
     </select>
 </mapper>

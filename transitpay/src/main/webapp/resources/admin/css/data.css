@@ -1,0 +1,74 @@
+@charset "UTF-8";
+/* 상단 아이콘, id 정렬 */
+.data-user-id {
+  width: 300px;
+  margin: 0 0 26px;
+  line-height: 40px;
+  border: none;
+}
+
+.data-user-id input {
+  width: 260px;
+}
+
+.data-btns-box {
+  margin-bottom: 26px;
+}
+
+.search-data-btn {
+  position: relative;
+  padding-left: 42px;
+}
+
+/* total size */
+.total-size { 
+  text-align: right; 
+  margin-top: 26px;
+  font-size: 20px; 
+  line-height: 20px; 
+  font-family: inherit
+}
+
+div.w100p.total-size
+{ 
+  text-align: right; 
+  margin-top: 26px;
+  line-height: 40px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.total-size-detail {
+  padding: 24px 0 20px 60px;
+  text-align: left;
+  line-height: 40px;
+  font-size: 20px;
+  font-weight: 600;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.total-size-text {
+  margin-right: 10px;
+  display: inline-block;
+}
+
+/* admin/dataset/originlist.html */
+.origin-total-size {
+  margin: -26px 0 32px;
+}
+
+.deleted-column {
+  color: #808080;
+  background-color: #f5f5f5;
+}
+
+.deleted-column td:last-child {
+  color: #e83e30;
+}
+
+.searchDataList {min-height:50px; max-height:250px; overflow-y:auto;}
+
+div.data-cal {}
+div.data-cal input {background:#e5e9ff !important; height:22px; text-align:center; display:inline-block; text-align:center; width:93%; border:none; padding:0; color:#121212 !important;}
+.ui.popup {position: static;}

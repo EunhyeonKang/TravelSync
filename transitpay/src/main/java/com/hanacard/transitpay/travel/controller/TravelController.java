@@ -254,11 +254,13 @@ public class TravelController {
         }
     }
     @PostMapping("/selectTravelNoti")
-    public ResponseEntity<?> selectTravelNoti(HttpServletRequest request) {
+    public ResponseEntity<?> selectTravelNoti(HttpServletRequest request,@RequestBody Map<String, String> jsonData) {
         try {
             HttpSession session = request.getSession();
             Member member = (Member)session.getAttribute("member");
-            List<MyGroupTravelInfo> travelNoti =travelService.selectTravelNoti(member.getMember_id());
+            String travelId = (String)jsonData.get("travelId");
+            String groupId = (String)jsonData.get("groupId");
+            List<MyGroupTravelInfo> travelNoti =travelService.selectTravelNoti(member.getMember_id(),Integer.parseInt(travelId),Integer.parseInt(groupId));
             session.setAttribute("travelNoti",travelNoti);
             return ResponseEntity.ok("여행 알림 조회 성공");
         } catch (Exception e) {
@@ -328,7 +330,17 @@ public class TravelController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
-
+    @GetMapping("/completeCalculateTravel")
+    public ResponseEntity<?> completeCalculateTravel(HttpServletRequest request) {
+        try {
+            HttpSession session = request.getSession();
+            Member member = (Member)session.getAttribute("member");
+            int groupCount = travelService.completeCalculateTravel(member.getMember_id());
+            return ResponseEntity.ok(groupCount);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
 }
 
 

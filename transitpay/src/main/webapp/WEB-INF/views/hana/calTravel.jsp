@@ -10,39 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
-<script>
 
-
-    $.ajax({
-        url: '/selectNoti',
-        method: "GET",
-        data: {
-            groupId: ${sessionScope.groupAccountDetail.group_id}
-        },
-        success: function (response) {
-            var container1 = document.querySelector('.grid-container-1');
-            var calMember = document.querySelector('.cal-member');
-            calMember.textContent = response.length + "명";
-            response.forEach(function (val) {
-                var item = document.createElement('div');
-                item.className = 'grid-item';
-                var itemImg = document.createElement('img');
-                itemImg.className = 'grid-img';
-                itemImg.src = val.kakao_img;
-                var itemP = document.createElement('p');
-                itemP.className = 'item-p';
-                itemP.textContent = val.amount + "원";
-                item.appendChild(itemImg);
-                item.appendChild(itemP);
-                container1.appendChild(item);
-            });
-        },
-        error: function (error) {
-            console.error("Error occurred:", error);
-        }
-    });
-
-</script>
 <style>
     .bank{
         display: none;
@@ -397,6 +365,36 @@
             <div class="contents">
                 <div class="contents-1">
                     <c:forEach items="${sessionScope.travelNoti}" var="travelNoti">
+                        <script>
+                            $.ajax({
+                                url: '/selectNoti',
+                                method: "GET",
+                                data: {
+                                    groupId: ${travelNoti.groupId}
+                                },
+                                success: function (response) {
+                                    var container1 = document.querySelector('.grid-container-1');
+                                    var calMember = document.querySelector('.cal-member');
+                                    calMember.textContent = response.length + "명";
+                                    response.forEach(function (val) {
+                                        var item = document.createElement('div');
+                                        item.className = 'grid-item';
+                                        var itemImg = document.createElement('img');
+                                        itemImg.className = 'grid-img';
+                                        itemImg.src = val.kakao_img;
+                                        var itemP = document.createElement('p');
+                                        itemP.className = 'item-p';
+                                        itemP.textContent = val.amount + "원";
+                                        item.appendChild(itemImg);
+                                        item.appendChild(itemP);
+                                        container1.appendChild(item);
+                                    });
+                                },
+                                error: function (error) {
+                                    console.error("Error occurred:", error);
+                                }
+                            });
+                        </script>
                     <div class="container">
                         <div class="accordion" id="accordionExample">
                             <div class="steps">
@@ -440,7 +438,7 @@
                                             <div class="left-box">
                                                 <div>
                                                     <div>정산하기(N/1)</div>
-                                                    <div>${sessionScope.groupAccountDetail.group_name} 모임</div>
+                                                    <div>${travelNoti.groupName} 모임</div>
                                                     <img src="../../../resources/images/new_2204_my_r_img002.png">
                                                 </div>
                                                 <button class="calImg" onclick="location.href='/saveTravel'"><img src="../../../resources/images/search.png">여행 자세히 보기</button>
@@ -490,8 +488,10 @@
                                         <div class="card-row">
                                             <div class="container2">
                                                 <div class="day">정산할 내용을 입력해주세요</div>
-                                                <button class="addplace-1"><div class="addtext"> <span class="account-number">${groupAccount.group_account}</span></div></button>
+                                                <button class="addplace-1"><div class="addtext"> <span class="account-number">${travelNoti.groupAccount}</span></div></button>
                                             </div>
+                                            <input type="hidden" value="${travelNoti.groupAccount}" name="group_account">
+                                            <input type="hidden" value="${travelNoti.groupId}" name="group_id">
                                             <span class="bank">${groupAccount.group_name}</span>
                                             <div class="row">
                                                 <div class="col-lg-12">
@@ -537,7 +537,11 @@
                                 <div id="collapseThree" class="collapse" aria-labelledby="headingThree"
                                      data-bs-parent="#accordionExample">
                                     <div class="card-body">
-                                        <div class="calComplate">정산완료!!</div>
+                                        <div class="tvlbuttons">
+                                            <button class="tvlbtn2" onclick="location.href='/mypage'">
+                                                <div>정산완료</div>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -575,16 +579,16 @@
         confirmationModal.show();
     }
     function executeCal() {
-
         var selectedOption = $('#selecttype option:selected');
         var selectType = document.getElementById("selecttype");
         var accountNum = selectedOption.attr('data-account-num');
         var selectedOption = selectType.options[selectType.selectedIndex];
         var accountBank = selectedOption.text;
         var groupName = document.querySelector('input[name="group_name"]').value;
-        var groupAccount = "${sessionScope.groupAccountDetail.group_account}";
+        var groupAccount = document.querySelector('input[name="group_account"]').value;
         var amount = document.querySelector('.amount').textContent;
         var travelId = document.querySelector('#notiTravelId').value;
+        var groupId =document.querySelector('input[name="group_id"]').value;
 
         var dataToSend = {
             accountBank: accountBank,
@@ -592,7 +596,7 @@
             groupName: groupName,
             groupAccount: groupAccount,
             amount : amount,
-            groupId : ${sessionScope.groupAccountDetail.group_id},
+            groupId : groupId,
             travelId : travelId
         };
 

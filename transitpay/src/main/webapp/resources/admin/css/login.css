@@ -1,0 +1,134 @@
+/* user login */
+.bg-navy-area {
+  position: fixed;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(45deg, #39457f 0%, #2b304b 100%);
+}
+
+.bg-img-area {
+  width: 50%;
+  height: 100vh;
+  background: url(../images/bg-login.png) no-repeat;
+  background-position: 50%;
+}
+
+.slogan {
+  width: 392px;
+  height: 140px;
+  position: absolute;
+  top: 50%;
+  left: 136px;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
+.browser-notice p {
+  width: 231px;
+  position: absolute;
+  left: 56px;
+  bottom: 76px;
+  line-height: 16px;
+  margin-top: -2px;
+  font-size: 12px;
+  color: #9f9f9f;
+}
+
+.login-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.login-logo-user {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.login-contents-user {
+  display: inline-block;
+  width: 520px;
+  height: 550px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  padding: 17px 110px;
+  text-align: left;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  background-color: #fff;
+  border-radius: 30px;
+}
+
+.login-contents-user .login-text-user {
+  color: #121212;
+}
+
+.login-copy {
+  position: absolute;
+  left: 50%;
+  bottom: 20px;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
+  color: #9F9F9F;
+  font-size: 11px;
+}
+
+.login-form-input .item-input::before {
+  width: 16px;
+  height: 16px;
+  display: block;
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  z-index: 10;
+}
+
+.login-form-input .item-input::after {
+  content: '';
+  width: 1px;
+  height: 17px;
+  display: block;
+  position: absolute;
+  top: 12px;
+  left: 40px;
+  background-color: #C3C6CF;
+}
+
+.login-icon-id::before {
+  content: url(../images/ico-login-id.png);
+}
+
+.login-icon-pw::before {
+  content: url(../images/ico-login-pw.png);
+}
+
+/* admin */
+.login-copy-admin {
+  position: absolute;
+  bottom: -32px;
+  color: #9F9F9F;
+  font-size: 11px;
+}
+
+.login-form-user{height: 100%;position: relative;}
+.login-form-user > form{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* login sign button */
+.login_btn_group{
+    display: flex;
+    gap: 10px;
+    margin-top: 28px;
+}
+.login_btn_group > button{
+    display: inline-block;
+    width: 50%;
+    float: left;
+    margin: 0;
+}

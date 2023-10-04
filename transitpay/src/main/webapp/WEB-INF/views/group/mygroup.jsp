@@ -12,13 +12,15 @@
     .main {
         width: 100%;
         height: 850px;
-    }.menu1-1{
+    }
+    .menu1-1{
          text-align: center;
          padding-top: 10px;
          color: #008485;
          font-weight: 700;
          font-size: 20px;
-     }.traveltitle{
+     }
+    .traveltitle{
           text-align: left;
           left: 10px;
           color: #7a7d7d;
@@ -240,7 +242,7 @@
         background-color: #fff;
         margin: 150px auto;
         padding: 30px;
-        width: 600px;
+        width: 700px;
         border-radius: 5px;
     }
 
@@ -434,6 +436,159 @@
         border: 0 !important;
         background: 0 !important;
     }
+    #example_info{
+        display: none;
+    }
+    .card{
+        font-weight: 700;
+        font-size: 18px;
+        text-align: center;
+        color: #FFFFFF;
+        background: rgb(211 50 105);
+        border: 0;
+        margin: 0 auto;
+        padding: 15px 0;
+        width: 100px;
+        border-radius: 50px;
+    }
+    .cardBtn{
+        border: 0;
+        background: 0;
+        margin-bottom: 30px;
+    }
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* 반투명한 배경색 */
+        z-index: 1;
+    }
+
+    /* 모달 내용을 감싸는 컨테이너 */
+    .modal-content {
+        position: absolute;
+        top: 30%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* 모달 닫기 버튼 */
+    .close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    /* 모달 내용 스크롤바 스타일 (필요시) */
+    .modal-content {
+        max-height: 80vh; /* 모달 내용의 최대 높이 조정 */
+        overflow-y: auto; /* 세로 스크롤바 추가 */
+    }
+    .card-details{
+        background: #009688;
+        height: 150px;
+        padding: 30px;
+        border-radius: 10px;
+    }
+    .card-label{
+        color: #ded7d7;
+        text-align: center;
+        margin: 10px;
+        font-weight: 700;
+    }
+    .card-box{
+        text-align: center;
+        font-weight: 700;
+        font-size: 34px;
+    }
+    .card-buttons{
+        text-align: center;
+        margin: 25px;
+    }
+    .card-button, .card-cashback-button{
+        width: 170px;
+        padding: 15px;
+        border: 0;
+        border-radius: 10px;
+        background: #bbb9b69c;
+        margin-right: 5px;
+    }
+    .card-cashback-button > .one{
+        font-weight: 700;
+    }
+    .card-history{
+        text-align: center;
+    }
+    .card-history {
+        border-top: 1px solid #ddd;
+        margin-top: 20px;
+        padding-top: 20px;
+    }
+
+    .card-history-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
+    .transaction-date,
+    .transaction-description,
+    .transaction-amount {
+        flex-basis: 30%;
+        text-align: center;
+    }
+
+    /* 반응형 스타일링 */
+    @media screen and (max-width: 600px) {
+        .modal-content {
+            width: 90%;
+        }
+    }
+    #cardHistoryTable_length, #cardHistoryTable_filter, #cardHistoryTable_info{
+        display: none;
+    }
+
+    .date-search{
+        text-align: center;
+    }
+    .date-search{
+        padding: 10px;
+        border: 0;
+        border-radius: 10px;
+        margin: 5px;
+        font-weight: 700;
+    }
+    #selectedMonth{
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #939292;
+        color: #333131;
+        font-weight: 700;
+    }
+    table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd{
+        background-color: #ffffff !important;
+    }
+    table.dataTable.display tbody tr.odd>.sorting_1, table.dataTable.order-column.stripe tbody tr.odd>.sorting_1{
+        background-color: #ffffff !important;
+    }
+    table.dataTable tbody tr{
+        background-color: #ffffff !important;
+    }
+    table.dataTable.display tbody tr.even>.sorting_1, table.dataTable.order-column.stripe tbody tr.even>.sorting_1{
+        background-color: #ffffff !important;
+    }
+    .cardAndTransfer{
+       text-align: center;
+    }
 </style>
 <body>
 <div class="main">
@@ -477,14 +632,12 @@
                                         url: "/selectGroupAccountChart",
                                         data: { groupId: response.group_id,groupAccount : response.group_account},
                                         success: function (response) {
-                                            console.log(response)
                                             var memberSelect = $('#memberSelect');
                                             memberSelect.empty();
-
                                             response.forEach(function(member) {
                                                 memberSelect.append($('<option>', {
                                                     value: member.member_id,
-                                                    text: member.name // 멤버 이름 또는 다른 필요한 데이터로 대체할 수 있습니다.
+                                                    text: member.name
                                                 }));
                                             });
                                             // 고정된 색상 배열
@@ -525,6 +678,15 @@
                                                 document.getElementById('myChart'),
                                                 chartConfig
                                             );
+                                            // 데이터가 비어있는지 확인하고 메시지 표시
+                                            if (chartData.labels.length === 0) {
+                                                const canvas = document.getElementById('myChart');
+                                                const ctx = canvas.getContext('2d');
+                                                ctx.font = '20px Arial';
+                                                ctx.fillStyle = 'rgb(0, 0, 0)';
+                                                ctx.textAlign = 'center';
+                                                ctx.fillText('사용 이력이 없습니다.', canvas.width / 2, canvas.height / 2);
+                                            }
                                         },
                                         error: function (error) {
                                             console.error(error);
@@ -545,14 +707,97 @@
                     <div class="applyBox">
                         <button class="applyBtn" onclick="deposit()">회비 입금</button>
                     </div>
-                    <div class="applyBox">
-                        <button class="applyBtn" onclick="accountTransfer()">이체</button>
-                    </div>
+
                     <div class="applyBox">
                         <button class="applyBtn1" onclick="location.href='/travel/${groupId}'">여행계획 짜러가기</button>
                     </div>
                 </div>
-
+                <div class="cardAndTransfer">
+                    <button class="cardBtn" onclick="accountTransfer()">
+                        <div class="card">이체</div>
+                    </button>
+                    <button class="cardBtn" onclick="openCardModal()">
+                        <div class="card">카드</div>
+                    </button>
+                </div>
+                <div id="cardModal" class="modal">
+                    <div class="modal-content card-modal-content">
+                        <span class="close" onclick="closeCardModal()">&times;</span>
+                        <h2 class="card-title">프렌즈 체크카드(1394)</h2>
+                        <div class="date-search">
+                            <label for="selectedMonth">날짜 선택:</label>
+                            <select id="selectedMonth">
+                                <option value="2023-01">2023년 1월</option>
+                                <option value="2023-02">2023년 2월</option>
+                                <!-- 다른 월도 추가 -->
+                            </select>
+                            <button class="date-search" onclick="searchByMonth()">검색</button>
+                        </div>
+                        <div class="card-details">
+                            <div class="card-label">10월 사용금액</div>
+                            <div class="card-usage">
+                                <div class="card-box">
+                                    <div class="card-value">415,000원</div>
+                                </div>
+                                <div class="card-buttons">
+                                    <button class="card-button">이번달 카드실적</button>
+                                    <button class="card-button card-cashback-button">
+                                        <span>받은 캐시백</span>
+                                        <span class="one">0원</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-history">
+                            <table id="cardHistoryTable" class="display" style="width:100%">
+                                <thead>
+                                <tr>
+                                    <th>거래일자</th>
+                                    <th>거래내용</th>
+                                    <th>거래금액</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>2023-11-04</td>
+                                    <td>도톰카츠 청라점</td>
+                                    <td>-253,000원</td>
+                                </tr>
+                                <tr>
+                                    <td>2023-11-04</td>
+                                    <td>베스트웨스턴 하버파크호텔</td>
+                                    <td>-32,000원</td>
+                                </tr>
+                                <tr>
+                                    <td>2023-11-05</td>
+                                    <td>파라다이스 씨티 씨메르(인천)</td>
+                                    <td>-60,000원</td>
+                                </tr>
+                                <tr>
+                                    <td>2023-11-05</td>
+                                    <td>손커피연구소 영종하늘도시점</td>
+                                    <td>-10,000원</td>
+                                </tr>
+                                <tr>
+                                    <td>2023-11-05</td>
+                                    <td>탕후루</td>
+                                    <td>-12,000원</td>
+                                </tr>
+                                <tr>
+                                    <td>2023-11-06</td>
+                                    <td>청라왕아구</td>
+                                    <td>-28,000원</td>
+                                </tr>
+                                <tr>
+                                    <td>2023-11-06</td>
+                                    <td>하나로마트</td>
+                                    <td>-20,000원</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
                 <table id="example" class="display" style="width:100%">
                     <div class="category-selectbox">
                         <select id="accountSelect">
@@ -648,7 +893,55 @@
 </body>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css"/>
+
 <script>
+    function searchByMonth() {
+        // 선택한 월 가져오기
+        var selectedMonth = document.getElementById("selectedMonth").value;
+
+        // 데이터 필터링 또는 계산
+        // 여기에서는 선택한 월을 사용하여 해당 월의 사용 금액을 계산하는 예시를 제공합니다.
+        // 실제 데이터와 데이터 구조에 따라 코드를 수정해야 할 수 있습니다.
+
+        // 예시: 데이터를 가져와서 선택한 월에 해당하는 데이터 필터링 및 계산
+        var filteredData = yourData.filter(function(item) {
+            var transactionDate = new Date(item.transactionDate); // 데이터에서 날짜 필드에 따라 수정
+            var transactionMonth = transactionDate.getFullYear() + "-" + (transactionDate.getMonth() + 1).toString().padStart(2, '0'); // "YYYY-MM" 형식으로 변환
+            return transactionMonth === selectedMonth;
+        });
+
+        // 선택한 월의 사용 금액 계산
+        var totalAmount = 0;
+        filteredData.forEach(function(item) {
+            // 실제 데이터에서 금액 필드에 따라 수정
+            totalAmount += item.amount;
+        });
+
+        // 검색 결과를 화면에 업데이트
+        updateMonthUsage(selectedMonth, totalAmount);
+    }
+
+    function updateMonthUsage(selectedMonth, totalAmount) {
+        // 선택한 월과 해당 월의 사용 금액을 화면에 업데이트하는 코드를 여기에 추가
+        // 예를 들어, 선택한 월과 사용 금액을 출력하는 등의 방식으로 업데이트할 수 있습니다.
+        document.querySelector(".card-value").textContent = selectedMonth + " 사용금액: " + totalAmount.toLocaleString() + "원";
+    }
+
+    $(document).ready(function() {
+        // DataTables 초기화 및 페이징 설정
+        $('#cardHistoryTable').DataTable();
+    });
+    // 모달 열기
+    function openCardModal() {
+        var modal = document.getElementById("cardModal");
+        modal.style.display = "block";
+    }
+
+    // 모달 닫기
+    function closeCardModal() {
+        var modal = document.getElementById("cardModal");
+        modal.style.display = "none";
+    }
 
     function getTransactionsByAccount(){
         //선택한 계좌

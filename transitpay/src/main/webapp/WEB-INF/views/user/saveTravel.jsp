@@ -56,6 +56,10 @@
                                                         console.error("Map container not found:", mapContainerId);
                                                     }
 
+                                                    // 이전 마커와 현재 마커 사이에 선 그리기를 위한 변수 추가
+                                                    var prevMarker = null;
+
+
                                                     var tbody = document.getElementById("scheduleList-${travelInfo.travelId}");
                                                     tbody.innerHTML = ""; // 기존 내용 초기화
 
@@ -69,8 +73,34 @@
                                                                 position: markerPosition
                                                             });
                                                             marker.setMap(map);
+                                                            // 이전 마커와 현재 마커 사이에 선 그리기
+                                                            if (prevMarker) {
+                                                                var linePath = [prevMarker.getPosition(), markerPosition];
 
+                                                                var line = new kakao.maps.Polyline({
+                                                                    path: linePath,
+                                                                    strokeWeight: 3,
+                                                                    strokeColor: '#0000FF', // 선 색상 설정
+                                                                    strokeOpacity: 1,
+                                                                    strokeStyle: 'solid'
+                                                                });
+                                                                line.setMap(map);
 
+                                                                var latlng1 = prevMarker.getPosition();
+                                                                var latlng2 = markerPosition;
+                                                                var distance = getDistance(latlng1, latlng2);
+
+                                                                // 거리 정보를 표시할 커스텀 오버레이 생성
+                                                                var overlayContent = '<div class="distance-overlay">거리: ' + distance.toFixed(2) + ' 미터</div>';
+                                                                var overlay = new kakao.maps.CustomOverlay({
+                                                                    content: overlayContent,
+                                                                    position: linePath[1], // 선의 끝점 위치에 표시
+                                                                    xAnchor: 0,
+                                                                    yAnchor: 0,
+                                                                });
+                                                                overlay.setMap(map);
+                                                            }
+                                                            prevMarker = marker;
                                                             // // People Number원
                                                             // var peopleNumber = document.createElement("p");
                                                             // peopleNumber.textContent = "인원: " + schedule.pnum;
@@ -140,6 +170,29 @@
                                                 },
                                             });
                                         });
+                                        // 두 지점 간의 거리를 계산하는 함수
+                                        function getDistance(latlng1, latlng2) {
+                                            var lat1 = latlng1.getLat();
+                                            var lng1 = latlng1.getLng();
+                                            var lat2 = latlng2.getLat();
+                                            var lng2 = latlng2.getLng();
+
+                                            var deg2rad = Math.PI / 180;
+                                            var radius = 6371; // 지구 반경 (단위: km)
+
+                                            var dLat = (lat2 - lat1) * deg2rad;
+                                            var dLng = (lng2 - lng1) * deg2rad;
+
+                                            var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                                                Math.cos(lat1 * deg2rad) * Math.cos(lat2 * deg2rad) *
+                                                Math.sin(dLng / 2) * Math.sin(dLng / 2);
+
+                                            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                                            var distance = radius * c;
+
+                                            return distance * 1000; // km를 미터로 변환
+                                        }
+
                                     </script>
                                 </c:if>
                                 <c:if test="${empty travelInfo.travelStart}">

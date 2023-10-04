@@ -132,13 +132,12 @@
                                                     var etc = response[0].etc_expenses;
                                                     var accommodation = response[0].accommodation_expenses;
 
-                                                    var totalText2 = document.querySelector(".totaltext2");
+                                                    var totalText2 = document.querySelector(".totaltext2-"+${travelInfo.travelId});
                                                     totalText2.textContent = food + etc + accommodation;
 
 
-
                                                     // 차트 생성
-                                                    const ctx = document.getElementById('myChart');
+                                                    const ctx = document.getElementById('myChart-${travelInfo.travelId}');
 
                                                     new Chart(ctx, {
                                                         type: 'bar',
@@ -168,6 +167,30 @@
                                                 console.error(error);
                                             },
                                         });
+                                        $.ajax({
+                                            type: "GET",
+                                            url: "/selectNotificationTravel",
+                                            data : {travelId : ${travelInfo.travelId}},
+                                            success: function (response) {
+                                                var tableBody = document.querySelector("#calculationTable-${travelInfo.travelId} tbody");
+                                                var calMember = document.querySelector('.cal-member-${travelInfo.travelId}');
+                                                calMember.textContent = response.length + "명";
+
+                                                response.forEach(function(item){
+                                                    var row = tableBody.insertRow();
+                                                    var nameCell = row.insertCell(0);
+                                                    var amountCell = row.insertCell(1);
+                                                    var calCell = row.insertCell(2);
+                                                    nameCell.textContent = item.name;
+                                                    amountCell.textContent = item.amount + "원";
+                                                    calCell.textContent='정산완료';
+                                                })
+                                                selectMygroupSchedule(${travelInfo.travelId});
+                                            },
+                                            error: function (error) {
+                                                console.error(error);
+                                            },
+                                        });
                                     </script>
                                 </c:if>
                                 <div class="p">
@@ -180,15 +203,15 @@
                                             <span class="">
                                                 <div class="totalTravel">
                                                     <span>정산인원 :
-                                                        <span class="cal-member"></span>
+                                                        <span class="cal-member-${travelInfo.travelId}"></span>
                                                     </span>
                                                 <span>총</span>
-                                                <span class="totaltext2"></span>
+                                                <span class="totaltext2-${travelInfo.travelId}"></span>
                                                 <span>원</span>
                                                 </div>
                                             </span>
                                             <div id="tableContainer">
-                                                <table id="calculationTable" border="1">
+                                                <table id="calculationTable-${travelInfo.travelId}" border="1">
                                                     <thead>
                                                     <tr>
                                                         <th>이름</th>
@@ -202,7 +225,7 @@
                                                 </table>
                                             </div>
                                             <div class="chart-div">
-                                                <canvas id="myChart" style="width: 300px; height: 200px;"></canvas>
+                                                <canvas id="myChart-${travelInfo.travelId}" style="width: 300px; height: 200px;"></canvas>
                                             </div>
                                             <button class="detail-button" data-travelId="${travelInfo.travelId}">자세히 보기</button>
                                             <div id="myModalDetail-${travelInfo.travelId}" class="modal-detail">
@@ -280,29 +303,7 @@
         }
     });
 
-    $.ajax({
-        type: "GET",
-        url: "/selectNotificationTravel",
-        data : {travelId : document.querySelector('#travelId').value},
-        success: function (response) {
-            var tableBody = document.querySelector("#calculationTable tbody");
-            document.querySelector('.cal-member').textContent = response.length + "명";
-            response.forEach(function(item){
-                var row = tableBody.insertRow();
-                var nameCell = row.insertCell(0);
-                var amountCell = row.insertCell(1);
-                var calCell = row.insertCell(2);
-                nameCell.textContent = item.name;
-                amountCell.textContent = item.amount + "원";
-                calCell.textContent='정산완료';
 
-            })
-            selectMygroupSchedule(document.querySelector('#travelId').value);
-        },
-        error: function (error) {
-            console.error(error);
-        },
-    });
     function selectMygroupSchedule(travelId){
         $.ajax({
             type: "POST",

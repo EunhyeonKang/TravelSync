@@ -147,8 +147,8 @@ public class TravelServiceImpl implements TravelService {
     }
 
     @Override
-    public List<MyGroupTravelInfo> selectTravelNoti(int memberId) {
-        return travelRepository.selectTravelNoti(memberId);
+    public List<MyGroupTravelInfo> selectTravelNoti(int memberId,int travelId,int groupId) {
+        return travelRepository.selectTravelNoti(memberId,travelId,groupId);
     }
 
     @Override
@@ -173,5 +173,10 @@ public class TravelServiceImpl implements TravelService {
     @Override
     public List<Schedule> selectMemberNotificationHistory(int memberId) {
         return travelRepository.selectMemberNotificationHistory(memberId);
+    }
+
+    @Override
+    public int completeCalculateTravel(int memberId) {
+        return travelRepository.completeCalculateTravel(memberId);
     }
 }

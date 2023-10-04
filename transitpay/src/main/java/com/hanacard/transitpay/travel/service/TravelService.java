@@ -22,7 +22,7 @@ public interface  TravelService {
     List<Schedule> selectMygroupSchedule(int travelId);
     void insertBookmarkTraveling(Long itemId,int memberId);
     List<TravelInfo> selectBookmarkTravelList(int memberId);
-    List<MyGroupTravelInfo> selectTravelNoti(int memberId);
+    List<MyGroupTravelInfo> selectTravelNoti(int memberId,int travelId, int groupId);
     List<GroupMember> selectNoti(String groupId);
 
     int selectSheduleAmount(int travelId);
@@ -32,4 +32,6 @@ public interface  TravelService {
     List<GroupMember> complateBalanceAccounts(int travelId);
 
     List<Schedule> selectMemberNotificationHistory(int memberId);
+
+    int completeCalculateTravel(int memberId);
 }

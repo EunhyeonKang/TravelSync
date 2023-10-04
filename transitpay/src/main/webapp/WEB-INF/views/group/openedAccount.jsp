@@ -569,7 +569,8 @@
                         <input type="password" name="group_pw" class="rec6" placeholder="비밀번호를 입력해주세요"/>
                     </div>
                 </form>
-                <button id="calculate" onclick="phoneAuth()"/>
+<%--                <button id="calculate" onclick="phoneAuth()"/>--%>
+                <button id="calculate" onclick="submitForm()"/>
                     <span>개설하기</span>
                 </button>
 

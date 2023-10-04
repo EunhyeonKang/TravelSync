@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 82.413 76.263">
+  <defs>
+    <style>
+      .cls-1, .cls-3 {
+        fill: none;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 2px;
+      }
+
+      .cls-1 {
+        stroke: #000;
+      }
+
+      .cls-2 {
+        fill: #fff;
+      }
+
+      .cls-3 {
+        stroke: #17b;
+      }
+    </style>
+  </defs>
+  <g id="instalment" transform="translate(0.774)">
+    <g id="Group_511" data-name="Group 511" transform="translate(25.657 1)">
+      <path id="Path_627" data-name="Path 627" class="cls-1" d="M67.906,11.1H13.1V50.8H64.568a3.524,3.524,0,0,0,3.513-3.513V11.1Z" transform="translate(-13.1 6.642)"/>
+      <path id="Path_628" data-name="Path 628" class="cls-1" d="M67.906,16.472H13.1V7.513A3.524,3.524,0,0,1,16.613,4H64.568a3.524,3.524,0,0,1,3.513,3.513v8.959Z" transform="translate(-13.1 1.27)"/>
+      <g id="Group_507" data-name="Group 507" transform="translate(14.755)">
+        <line id="Line_78" data-name="Line 78" class="cls-1" y1="8.783"/>
+        <line id="Line_79" data-name="Line 79" class="cls-1" y1="8.783" transform="translate(25.295)"/>
+      </g>
+      <g id="Group_510" data-name="Group 510" transform="translate(13.35 30.389)">
+        <g id="Group_508" data-name="Group 508" transform="translate(0 10.54)">
+          <line id="Line_80" data-name="Line 80" class="cls-1" x2="3.513" transform="translate(12.296)"/>
+          <line id="Line_81" data-name="Line 81" class="cls-1" x2="3.513"/>
+          <line id="Line_82" data-name="Line 82" class="cls-1" x2="3.513" transform="translate(24.592)"/>
+        </g>
+        <g id="Group_509" data-name="Group 509">
+          <line id="Line_83" data-name="Line 83" class="cls-1" x2="3.513" transform="translate(12.296)"/>
+          <line id="Line_84" data-name="Line 84" class="cls-1" x2="3.513"/>
+          <line id="Line_85" data-name="Line 85" class="cls-1" x2="3.513" transform="translate(24.592)"/>
+        </g>
+      </g>
+    </g>
+    <g id="Group_513" data-name="Group 513" transform="translate(0.639 24.705)">
+      <circle id="Ellipse_37" data-name="Ellipse 37" class="cls-2" cx="23.011" cy="23.011" r="23.011" transform="translate(1.884 47.868) rotate(-89.543)"/>
+      <circle id="Ellipse_38" data-name="Ellipse 38" class="cls-3" cx="17.742" cy="17.742" r="17.742" transform="matrix(0.68, -0.733, 0.733, 0.68, 0, 26.02)"/>
+      <g id="Group_512" data-name="Group 512" transform="translate(20.978 14.765)">
+        <path id="Path_629" data-name="Path 629" class="cls-3" d="M10.8,35.642a4.04,4.04,0,1,0,8.08,0c0-4.04-7.2-4.04-7.2-7.9A3.129,3.129,0,0,1,15.016,24.4a3.227,3.227,0,0,1,3.338,3.338" transform="translate(-10.8 -21.765)"/>
+        <line id="Line_86" data-name="Line 86" class="cls-3" y1="2.635" transform="translate(4.04 17.917)"/>
+        <line id="Line_87" data-name="Line 87" class="cls-3" y1="2.635" transform="translate(4.04)"/>
+      </g>
+    </g>
+  </g>
+</svg>

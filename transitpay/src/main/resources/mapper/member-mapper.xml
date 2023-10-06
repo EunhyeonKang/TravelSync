@@ -15,12 +15,19 @@
         where email = #{email}
     </select>
     <insert id="insertKakaoAndPhoneMember" parameterType="com.hanacard.transitpay.member.model.dto.Member">
-        insert into member(member_id,email,name,phone,join_date,kakao_img,kakao_id)
-        values (member_id_seq.nextval,#{email},#{name},#{phone},#{join_date},#{kakao_img},#{kakao_id})
+        insert into member(member_id,email,name,phone,join_date,kakao_img,kakao_id,code)
+        values (member_id_seq.nextval,#{email},#{name},#{phone},#{join_date},#{kakao_img},#{kakao_id},#{code})
     </insert>
     <select id="selectAllGroupMembers" parameterType="com.hanacard.transitpay.member.model.dto.Member">
         select
             m.*
         from member m join group_member gm on gm.member_id = m.member_id where gm.group_id = #{groupId}
     </select>
+    <insert id="joinMember">
+        insert into member(member_id,email,name,phone,join_date,kakao_img,kakao_id,birth,pw,code)
+        values (member_id_seq.nextval,#{email},#{name},#{phone},#{join_date},#{kakao_img},#{kakao_id},#{birth},#{pw},#{code})
+    </insert>
+    <update id="updateRecommendCode">
+        update member set recode = #{param1} where email=#{param2}
+    </update>
 </mapper>

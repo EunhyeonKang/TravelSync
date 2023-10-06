@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hanacard.transitpay.member.model.dao.AdminRepository">
+
+    <select id="selectMember" resultType="com.hanacard.transitpay.member.model.dto.Member">
+        select
+            member_id AS member_id,
+            email AS email,
+            name AS name,
+            phone AS phone,
+            join_date AS join_date
+        from member
+    </select>
+    <!--    검색 횟수가 높은 상위 10개 검색어를 날짜 흐름대로 추출하는 것-->
+    <select id="searchLocation" resultType="com.hanacard.transitpay.member.model.dto.Search">
+        <![CDATA[
+        SELECT search_keyword, search_count
+        FROM (
+                 SELECT search_keyword, COUNT(search_keyword) AS search_count
+                 FROM search_location_history
+                 GROUP BY search_keyword
+                 ORDER BY MAX(search_date) DESC
+             )
+        WHERE ROWNUM <= 10
+        ORDER BY search_count DESC
+        ]]>
+    </select>
+    <select id="optionLocation" >
+        SELECT
+            search_keyword
+        FROM
+            search_location_history
+        GROUP BY
+            search_keyword
+        ORDER BY search_keyword
+    </select>
+    <select id="searchLocationByDate">
+        SELECT
+            TO_CHAR(search_date, 'yy/mm/dd') AS search_date,
+            COUNT(*) AS search_count
+        FROM
+            search_location_history
+        WHERE
+            search_keyword = #{option}
+        GROUP BY
+            TO_CHAR(search_date, 'yy/mm/dd')
+    </select>
+    <select id="searchCount">
+        select count(*) from search_location_history
+    </select>
+</mapper>

@@ -50,4 +50,11 @@
     <select id="searchCount">
         select count(*) from search_location_history
     </select>
+    <select id="recommendOfMember">
+        select name, email,count(*) AS count
+        from member
+        where recode is not null
+        group by recode, name, email
+        having count(*)>10
+    </select>
 </mapper>

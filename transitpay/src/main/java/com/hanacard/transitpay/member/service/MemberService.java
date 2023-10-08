@@ -17,4 +17,5 @@ public interface MemberService {
     List<Member> selectAllGroupMembers(int groupId);
     void joinMember(Member member, MultipartFile[] files, String realPath) throws Exception;
     Member loginMember(String email, String pw) throws Exception;
+    void updateInviteAccept(String code, int memberId);
 }

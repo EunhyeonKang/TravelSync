@@ -140,4 +140,16 @@ public class MemberController {
             return new ResponseEntity<>(null);
         }
     }
+
+    @PostMapping(value = "/updateInviteAccept")
+    public ResponseEntity<String> updateInviteAccept(@RequestParam String code,HttpServletRequest request) throws Exception {
+        try {
+            HttpSession session = request.getSession();
+            Member member = (Member)session.getAttribute("member");
+            memberService.updateInviteAccept(code,member.getMember_id());
+            return ResponseEntity.ok("추천인코드 업데이트 성공");
+        } catch (Exception e) {
+            return new ResponseEntity<>(null);
+        }
+    }
 }

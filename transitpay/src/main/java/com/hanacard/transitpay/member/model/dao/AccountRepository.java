@@ -66,5 +66,5 @@ public interface AccountRepository {
     void calExecutionHistory(int groupId, int memberId, int travelId, int balance);
     List<GroupAccount> getAutoPhoneOfPaymentDayOfMonth();
 
-    void insertHanaAccount(int memberId, String accountNumber, String bank, int balance, String phone);
+    void insertHanaAccount(int memberId, String accountNumber, String bank, int balance, String phone,int pw);
 }

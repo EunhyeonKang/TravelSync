@@ -160,7 +160,7 @@ public class AccountController {
         try {
             HttpSession session = request.getSession();
             Member member = (Member) session.getAttribute("member");
-            accountService.insertGroupMember("M",member.getMember_id(), Integer.parseInt(groupId),1);
+            accountService.insertGroupMember("M",member.getMember_id(), Integer.parseInt(groupId),0);
             return ResponseEntity.ok("모임원추가 성공");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
@@ -374,7 +374,6 @@ public class AccountController {
 
     @PostMapping("/insertHanaAccount")
     public ResponseEntity<String> insertHanaAccount(HttpServletRequest request) {
-        System.out.println("1");
         try {
             HttpSession session = request.getSession();
             Member member = (Member)session.getAttribute("member");

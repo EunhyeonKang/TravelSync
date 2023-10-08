@@ -492,7 +492,7 @@
                                 <div class="menu1-1">여행관리</div>
                                 <div class="menuhr"><hr/></div>
                                 <a href="/saveTravel">저장된여행</a>
-                                <a href="/afterTravel">정산된여행</a>
+                                <a href="/afterTravel">모여라여행</a>
                                 <div class="menu1-1">모임/계좌 관리</div>
                                 <div class="menuhr"><hr/></div>
                                 <a href="group">모임내역</a>
@@ -508,7 +508,7 @@
                                     <div>
                                         <div class="travelsavebox">
                                             <img class="saveImg" src="../../../resources/images/save-time.svg" style="width: 70px;">
-                                            <div>저장된 여행</div>
+                                            <div>모여라 여행</div>
                                             <div class="saveboxcnt"><strong><a href="/saveTravel" id="travleLength"></a></strong></div>
                                         </div>
                                     </div>
@@ -520,11 +520,11 @@
                                     <div>
                                         <div class="travelsavebox">
                                             <img class="saveImg" src="../../../resources/images/save-hassle.svg" style="width: 70px;">
-                                            <div>정산된 여행</div>
+                                            <div>모여라 여행</div>
                                             <div class="saveboxcnt"><strong><a href="/afterTravel" id="completeTravelLength"></a></strong></div>
                                         </div>
                                     </div>
-                                    <button>1/N정산 | 자동이체💰</button>
+                                    <button>모여라회비 | 자동이체💰</button>
                                 </div>
                             </div>
                             <div class="travelbox-3">
@@ -533,7 +533,7 @@
                                 </div>
                                 </p>
                                 <div>
-                                    <button>정산된 여행경비</button>
+                                    <button>내 여행 리포트📈</button>
                                 </div>
                             </div>
                             <p id="travelreport">

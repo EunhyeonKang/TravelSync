@@ -279,8 +279,12 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Member loginMember(String email, String pw) throws Exception {
         String inputPwHash = enc.encData(pw);
-        System.out.println(inputPwHash+"dd");
         return memberRepository.loginMember(email,inputPwHash);
+    }
+
+    @Override
+    public void updateInviteAccept(String code, int memberId) {
+        memberRepository.updateInviteAccept(code,memberId);
     }
 
 

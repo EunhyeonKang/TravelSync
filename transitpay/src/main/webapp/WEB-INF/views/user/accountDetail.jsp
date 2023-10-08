@@ -11,7 +11,7 @@
     .prev{
         font-size: 100px;
         position: absolute;
-        bottom: 50%;
+        bottom: 63%;
         left: 100px;
         color: #949494;
         cursor: pointer;
@@ -19,7 +19,7 @@
     .next-1{
         position: absolute;
         font-size: 100px;
-        bottom: 50%;
+        bottom: 63%;
         right: 0px;
         color: #949494;
         cursor: pointer;
@@ -61,6 +61,26 @@
     }
     .accountbox1{
         margin: 20px;
+    }
+    #accountSelect, #memberSelect{
+        border: 1px solid #a4a4a4;
+        padding: 10px;
+        width: 205px;
+    }
+    .accountBtn, .memberBtn{
+        padding: 10px;
+        border: 1px solid #5e83aafc;
+        background: #5e83aafc;
+        color: white;
+    }
+    #example_filter{
+        display: none;
+    }
+    #example_length{
+        display: none;
+    }
+    #example_info{
+        display: none;
     }
 </style>
 <body>
@@ -118,7 +138,7 @@
                         <option value="${account.account_num}">${account.account_bank} (${account.account_num})</option>
                     </c:forEach>
                 </select>
-                <button onclick="getTransactionsByMyAccount()">계좌별 조회</button>
+                <button class="accountBtn" onclick="getTransactionsByMyAccount()">계좌별 조회</button>
                 <thead>
                 <tr>
                     <th>번호</th>
@@ -204,7 +224,23 @@
     showIteration(currentIteration);
     $(document).ready(function() {
         var table = $('#example').DataTable({
-            lengthChange: false,
+            autoWidth: false,
+            language: { //언어 설정
+                paginate: {
+                    previous: "이전",
+                    next: "다음"
+                },
+                zeroRecords: "검색 결과가 없습니다.",
+                info: "전체 거래내역 _TOTAL_개 중에서 _START_ 번부터 _END_ 번까지의 결과",
+                lengthMenu: "_MENU_ 행까지 조회"
+            }
+            , columnDefs: [
+                {
+                    targets: -1,
+                    className: 'dt-body-center'
+                },
+
+            ],
             buttons: [ 'copy', 'excel', 'pdf', 'colvis' ],
             columns: [
                 { data: 'account_tid' },
@@ -232,11 +268,10 @@
 
     function getTransactionsByMyAccount(){
         var selectedAccount = $("#accountSelect").val();
-        /*
         $.ajax({
-            url: "/getByMemberAccount", // 변경 필요한 URL로 수정
+            url:'/getTransactionsByAccount',
             method: "POST",
-            data: { accountNum: selectedAccount },
+            data : {accountNum : selectedAccount},
             success: function(response) {
                 var table = $('#example').DataTable();
                 table.clear().draw();
@@ -245,7 +280,7 @@
             error: function(error) {
                 console.error("Error occurred:", error);
             }
-        });*/
+        });
     }
 </script>
 </html>

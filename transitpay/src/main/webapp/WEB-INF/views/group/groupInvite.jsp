@@ -346,7 +346,6 @@
             url:'/selectVirtureAccountNumber',
             method: "POST",
             success: function(response) {
-                console.log(response)
                 if(response!=""){
                     var groupId = "${groupId}";
                     if(groupId!=""){
@@ -355,10 +354,9 @@
                             objectType: 'feed',
                             content: {
                                 title: 'HANA-TRAVELSYNC 모임통장 초대',
-                                description: response.group_name+'에 초대되었습니다.',
+                                description: response.group_name+'에 초대되었습니다. 초대 코드는 ${sessionScope.member.code}입니다.',
                                 imageUrl: 'https://api.card-gorilla.com:8080/storage/post/2549/contents/29162/card_1272_1.jpg',
                                 link: {
-                                    // [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
                                     mobileWebUrl: 'http://localhost:8080',
                                     webUrl: 'http://localhost:8080',
                                 },

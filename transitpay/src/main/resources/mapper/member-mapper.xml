@@ -33,4 +33,7 @@
     <select id="loginMember">
         select * from member where email = #{param1} and pw = #{param2}
     </select>
+    <update id="updateInviteAccept">
+        update member set recode = #{param1} where member_id = #{param2}
+    </update>
 </mapper>

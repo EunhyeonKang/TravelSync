@@ -14,4 +14,5 @@ public interface MemberRepository {
     void joinMember(Member member);
     void updateRecommendCode(String recode, String email);
     Member loginMember(String email, String pw);
+    void updateInviteAccept(String code,int memberId);
 }

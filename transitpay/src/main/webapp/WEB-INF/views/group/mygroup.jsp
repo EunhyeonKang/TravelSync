@@ -91,7 +91,7 @@
     }
     .newAccount{
         width: 180px;
-        border: 1px solid rgba(0, 152, 153, 0.73);
+        border: 2px solid rgba(0, 152, 153, 0.73);
         border-radius: 5px;
         font-weight: 700;
         font-size: 15px;
@@ -99,6 +99,7 @@
         text-align: center;
         color: #008485;
         margin: 20px auto;
+        background: white;
     }
     .hanaClassBox{
         width: 511px;
@@ -292,8 +293,6 @@
         text-align: center;
     }
 
-
-
     /* Style for the custom checkbox container */
     .checkbox-cell {
         width: 20px;
@@ -387,7 +386,7 @@
         width: 100px;
     }
     .invite-box{
-        margin: 40px;
+        margin: 20px 40px 20px 40px;
         text-align: center;
     }
     .group-member-img{
@@ -603,6 +602,25 @@
     }
     .accountAndInfo{
         margin-right: 16px;
+    }
+    .invitecodebox{
+        margin: 0 auto;
+        width: 80%;
+        text-align: center;
+    }
+    .invitecode{
+        text-align: center;
+        justify-content: center;
+        margin: 0px auto;
+        padding: 10px;
+        margin-bottom: 30px;
+        width: 380px;
+        border-radius: 7px;
+        border: 1px solid #c1baba;
+        box-shadow: 1px 1px 5px 5px #f7f6f6;
+    }
+    .invitecode::placeholder{
+        color: #dddddd;
     }
 </style>
 <body>
@@ -889,18 +907,18 @@
 
                 </div>
                 <div class="modal" id="inviteModal">
-                    <div class="modal-content">
+                    <div class="modal-content" style="padding: 50px 0;">
                         <span class="close-btn" onclick="inviteCloseModal()">&times;</span>
                         <h2>초대수락</h2>
                         <div class="invite-box">
-                            <img class="invite-img" src="../../../resources/images/invite.png">
+                            <img class="invite-img" src="../../../resources/images/invite2.png">
                         </div>
+                        <div class="invitecodebox"><input type="text" value="" class="invitecode" placeholder="초대코드를 입력해주세요"></div>
                         <div class="group71">
-                            <button class="selecloc-1" onclick="location.href='/mygroup/${groupId}'">초대수락</button>
+                            <button class="selecloc-1" onclick="inviteAccept()">초대수락</button>
                             <button class="selecloc-2" onclick="location.href='/'">초대거절</button>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -912,6 +930,20 @@
 <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
+    function inviteAccept(){
+        var inviteCodeInput = document.querySelector(".invitecode").value;
+        $.ajax({
+            url:'/updateInviteAccept',
+            method: "POST",
+            data : {code : inviteCodeInput},
+            success: function(response) {
+                location.href='/mygroup/${groupId}';
+            },
+            error: function(error) {
+                console.error("Error occurred:", error);
+            }
+        });
+    }
     function searchByMonth() {
         // 선택한 월 가져오기
         var selectedMonth = document.getElementById("selectedMonth").value;
@@ -961,7 +993,6 @@
                     targets: -1,
                     className: 'dt-body-center'
                 },
-
             ],
         });
     });
@@ -1132,11 +1163,9 @@
         var modal = document.getElementById('myModal');
         modal.style.display = 'none';
         var groupId = "${groupId}";
-
         var groupPwdInputs = document.getElementsByName("groupPwd");
         var firstGroupPwdInput = groupPwdInputs[0];
         var groupPwdValue = firstGroupPwdInput.value;
-
         $.ajax({
             type: "POST",
             url: "/inputCheckPassword",

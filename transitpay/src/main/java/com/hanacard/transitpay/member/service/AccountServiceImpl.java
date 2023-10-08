@@ -143,7 +143,14 @@ public class AccountServiceImpl implements AccountService {
         String accountNumber = generateRandomAccountNumber();
         int balance = generateRandomBalance();
         String bank = generateRandomBank();
-        accountRepository.insertHanaAccount(memberId,accountNumber,bank,balance,phone);
+        String password = generateRandomPassword(); // 4자리 랜덤 숫자로 비밀번호 생성
+
+        accountRepository.insertHanaAccount(memberId,accountNumber,bank,balance,phone,Integer.parseInt(password));
+    }
+    private String generateRandomPassword() {
+        Random random = new Random();
+        int password = random.nextInt(10000); // 0부터 9999까지의 난수 생성
+        return String.format("%04d", password); // 4자리로 포맷팅
     }
     // 12자리의 랜덤 계좌번호 생성
     private static String generateRandomAccountNumber() {

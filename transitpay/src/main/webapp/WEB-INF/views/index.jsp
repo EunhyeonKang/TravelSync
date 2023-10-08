@@ -490,6 +490,7 @@
                     var seemore =  document.querySelector('.seemore-1');
                     seemore.textContent = '계좌연동';
                     seemore.href='/account'
+
                     $.ajax({
                         type: "POST",
                         url: "/insertHanaAccount",

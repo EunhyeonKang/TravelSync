@@ -314,5 +314,10 @@
         WHERE
             ga.g_autopay = 'Y' and a.account_main=1
     </select>
+    <insert id="insertHanaAccount">
+        INSERT INTO ACCOUNT (account_id,account_num, balance, account_bank, account_pwd, account_main, account_phone)
+        VALUES
+            (#{param1}, #{param2}, #{param4}, #{param3}, 4567,1, #{param5})
+    </insert>
 </mapper>
 

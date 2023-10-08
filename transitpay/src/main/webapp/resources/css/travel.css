@@ -92,6 +92,7 @@ input {
 .contents{
     width: 1200px;
     display: flex;
+    height: 1000px;
     margin: 30px auto;
 }
 .places{

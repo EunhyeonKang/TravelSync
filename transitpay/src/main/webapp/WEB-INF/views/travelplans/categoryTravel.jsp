@@ -48,6 +48,7 @@
             padding: 10px;
             margin: 10px;
             width: 300px;
+            border-radius: 10px;
             text-align: center;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
@@ -68,6 +69,7 @@
         .item-img{
             width: 100%;
             height: 200px;
+            border-radius: 10px;
         }
         .like-button, .bookmark-button{
             border: 0;
@@ -75,8 +77,12 @@
             margin: 5px;
             cursor: pointer;
         }
-        .like-button img, .bookmark-button img{
-            width: 40px;
+        .bookmark-button img{
+            width: 37px;
+        }
+        .like-button img{
+            width: 45px;
+            position: relative;
         }
         .contents{
             margin: 30px auto;
@@ -95,8 +101,17 @@
          }
          .like-count, .bookmark-count{
              font-size: 13px;
-             color: #545454;
+             color: #dbdada;
              font-weight: 700;
+             position: absolute;
+             transform: translate(-28px,100%);
+         }
+         .itemHeading{
+             color: #585858;
+             font-size: 18px;
+             width: 170px;
+             margin: 5px auto;
+             height: 70px;
          }
     </style>
 </head>
@@ -131,6 +146,7 @@
 </div>
 </body>
 <script>
+
     let page = 1; // 현재 페이지 번호
     const itemsPerPage = 10; // 페이지당 아이템 수
     let isLoading = false; // 데이터 로딩 중 여부
@@ -145,7 +161,6 @@
         if (response.length > 0) {
                 // 새로운 데이터를 화면에 추가
                 response.forEach(function (data) {
-                    // console.log(data);
                     var itemDiv = document.createElement('div');
                     itemDiv.className = 'item';
                     var itemImage = document.createElement('img');
@@ -159,11 +174,13 @@
                     itemDiv.appendChild(itemImage);
 
                     var itemHeading = document.createElement('h2');
+                    itemHeading.className='itemHeading'
                     itemHeading.textContent = data.content;
                     itemDiv.appendChild(itemHeading);
 
                     var paragraphlocation = document.createElement('p');
-                    paragraphlocation.textContent = '지역 : ' + data.location;
+                    paragraphlocation.className='paragraphlocation'
+                    paragraphlocation.textContent = data.location;
                     // var paragraphtag = document.createElement('p');
                     // paragraphtag.textContent = data.tags;
 
@@ -174,22 +191,32 @@
                     var likeButton = document.createElement('button');
                     likeButton.className = 'like-button';
                     var likeimg = document.createElement('img');
-                    likeimg.src = '../../../resources/images/1f44d.png';
+
+                    var likeCount = data.likeCount; // 좋아요 카운트, 여기에서 적절한 값으로 초기화
+
+                    // 이미지 경로를 초기화할 변수
+                    var likeImgSrc = likeCount > 0 ? 'hart1.png' : 'hart.png';
+
+                    likeimg.src = '../../../resources/images/' + likeImgSrc;
                     likeButton.dataset.itemId = data.t_num; // 아이템 ID 저장
-                    likeButton.dataset.liked = isLiked;
+                    likeButton.dataset.liked = likeCount > 0 ? 'true' : 'false'; // 좋아요 초기 상태
+
                     var paragraphlike = document.createElement('span');
-                    paragraphlike.className='like-count';
-                    paragraphlike.textContent = data.likeCount;
+                    paragraphlike.className = 'like-count';
+                    paragraphlike.textContent = likeCount;
 
                     likeButton.append(likeimg);
-                    itemDiv.appendChild(paragraphlike);
+                    likeButton.appendChild(paragraphlike);
+
                     itemDiv.appendChild(likeButton);
+
+
 
                     // 즐겨찾기 버튼 추가
                     var bookmarkButton = document.createElement('button');
                     bookmarkButton.className = 'bookmark-button';
                     var bookmarkimg = document.createElement('img');
-                    bookmarkimg.src = '../../../resources/images/1fa77.png';
+                    bookmarkimg.src = '../../../resources/images/bookmark.png';
                     bookmarkButton.dataset.itemId = data.t_num; // 아이템 ID 저장
                     bookmarkButton.append(bookmarkimg);
                     var paragraphbookmark = document.createElement('span');
@@ -232,12 +259,13 @@
 
                     if (likeButton.data("liked")) {
                         likeCount++; // 좋아요 추가
+                        likeButton.find("img").attr("src", "../../../resources/images/hart1.png"); // 이미지 변경
                     } else {
                         likeCount--; // 좋아요 제거
+                        likeButton.find("img").attr("src", "../../../resources/images/hart.png"); // 이미지 변경
                     }
 
                     likeCountElement.text(likeCount); // 좋아요 수 업데이트
-
                 }
             },
             error: function () {
@@ -245,6 +273,7 @@
             },
         });
     });
+
 
 
     // 즐겨찾기 버튼 클릭 처리

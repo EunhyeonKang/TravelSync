@@ -2,6 +2,7 @@ package com.hanacard.transitpay.member.service;
 
 
 import com.hanacard.transitpay.member.model.dto.Member;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -14,4 +15,6 @@ public interface MemberService {
     void insertKakaoAndPhoneMember(Member member);
     Member selectEmailOneMember(String email);
     List<Member> selectAllGroupMembers(int groupId);
+    void joinMember(Member member, MultipartFile[] files, String realPath) throws Exception;
+    Member loginMember(String email, String pw) throws Exception;
 }

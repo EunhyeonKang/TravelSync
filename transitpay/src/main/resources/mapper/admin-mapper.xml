@@ -5,13 +5,15 @@
 <mapper namespace="com.hanacard.transitpay.member.model.dao.AdminRepository">
 
     <select id="selectMember" resultType="com.hanacard.transitpay.member.model.dto.Member">
-        select
+        SELECT
             member_id AS member_id,
             email AS email,
             name AS name,
             phone AS phone,
-            join_date AS join_date
-        from member
+            TO_CHAR(join_date, 'YY/DD/MM') AS join_date,
+            code AS code,
+            recode AS recode
+        FROM member
     </select>
     <!--    검색 횟수가 높은 상위 10개 검색어를 날짜 흐름대로 추출하는 것-->
     <select id="searchLocation" resultType="com.hanacard.transitpay.member.model.dto.Search">
@@ -46,6 +48,7 @@
             search_keyword = #{option}
         GROUP BY
             TO_CHAR(search_date, 'yy/mm/dd')
+        ORDER BY SEARCH_DATE
     </select>
     <select id="searchCount">
         select count(*) from search_location_history

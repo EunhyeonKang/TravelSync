@@ -11,6 +11,16 @@
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=aa75059f83f9e745604b52cb811450f4&libraries=services"></script>
+    <style>
+        .saveTravelTitle{
+            color: #009688;
+            margin-right: 10px;
+            color: #899090;
+        }
+        .saveDate{
+            color: #a6a6a6;
+        }
+    </style>
 </head>
 <body>
 <div class="main">
@@ -29,8 +39,8 @@
                                 <input type="checkbox" id="faq-${travelInfo.travelId}">
                                 <c:if test="${not empty travelInfo.travelStart}">
                                 <h1>
-                                    <label for="faq-${travelInfo.travelId}">${travelInfo.travelTitle} [${fn:substring(travelInfo.travelStart, 0, 10)} ~ ${fn:substring(travelInfo.travelEnd, 0, 10)}]
-<%--                                        <img src="../../../resources/images/testAcc.png">--%>
+                                    <label for="faq-${travelInfo.travelId}"><div class="saveTravelTitle">${travelInfo.travelTitle}</div><div class="saveDate">[${fn:substring(travelInfo.travelStart, 0, 10)} ~ ${fn:substring(travelInfo.travelEnd, 0, 10)}]</div>
+                                    <%--                                        <img src="../../../resources/images/testAcc.png">--%>
                                         <p class="travel-date-text-1">${travelInfo.groupName} ${travelInfo.groupAccount}</p>
                                     </label>
                                 </h1>
@@ -79,10 +89,11 @@
 
                                                                 var line = new kakao.maps.Polyline({
                                                                     path: linePath,
-                                                                    strokeWeight: 3,
-                                                                    strokeColor: '#0000FF', // 선 색상 설정
+                                                                    strokeWeight: 5, // 선의 두께 (두껍게 설정)
+                                                                    strokeColor: 'rgb(64,64,64)',
                                                                     strokeOpacity: 1,
-                                                                    strokeStyle: 'solid'
+                                                                    strokeStyle: 'dashed', // 점선 스타일 설정
+                                                                    strokeDashArray: [10, 5], // 점선의 간격과 공백 설정 (10px 선, 5px 공백)
                                                                 });
                                                                 line.setMap(map);
 

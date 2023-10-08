@@ -366,6 +366,7 @@
                 <div class="contents-1">
                     <c:forEach items="${sessionScope.travelNoti}" var="travelNoti">
                         <script>
+                            var httpPattern = /^(http|):\/\//;
                             $.ajax({
                                 url: '/selectNoti',
                                 method: "GET",
@@ -381,7 +382,11 @@
                                         item.className = 'grid-item';
                                         var itemImg = document.createElement('img');
                                         itemImg.className = 'grid-img';
-                                        itemImg.src = val.kakao_img;
+                                        if (httpPattern.test(val.kakao_img)) {
+                                            itemImg.src = val.kakao_img;
+                                        } else {
+                                            itemImg.src = '../../../resources/upload/profile/'+val.kakao_img;
+                                        }
                                         var itemP = document.createElement('p');
                                         itemP.className = 'item-p';
                                         itemP.textContent = val.amount + "원";

@@ -370,4 +370,18 @@ public class AccountController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
+
+    @PostMapping("/insertHanaAccount")
+    public ResponseEntity<String> insertHanaAccount(HttpServletRequest request) {
+        System.out.println("1");
+        try {
+            HttpSession session = request.getSession();
+            Member member = (Member)session.getAttribute("member");
+            accountService.insertHanaAccount(member.getMember_id(),member.getPhone());
+            return ResponseEntity.ok("계좌등록 완료");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
 }

@@ -19,4 +19,9 @@ public class Member {
         private long kakao_id;
         private int groupId;
         private String groupName;
+        private String birth;
+        private String pw;
+        private String code;
+        private String recode;
+        private int count;
 }

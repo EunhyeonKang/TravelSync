@@ -24,7 +24,7 @@
         </div>
         <div class="login-form">
             <h2 class="login-form-title">Admin Login</h2>
-            <form action="/admin/login" method="POST">
+<%--            <form action="/admin/login" method="POST">--%>
                 <dl class="login-form-input">
                     <dt class="login-text-user">Admin ID</dt>
                     <dd>
@@ -47,7 +47,7 @@
                 </div> -->
                 <div style="color: red; position: absolute; margin-top: 3px;" id="login_result"></div> 
                 <button type="submit" id="login_btn" class="login-form-button">Login</button>
-            </form>
+<%--            </form>--%>
         </div>
         <!-- <p class="login-copy-admin">Copyright &copy; KT. all rights reserved.</p> -->
     </div>

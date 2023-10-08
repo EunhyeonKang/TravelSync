@@ -9621,10 +9621,11 @@ a.text-success:hover, a.text-success:focus {
 
 a.text-info:hover, a.text-info:focus {
   color: #258391 !important;
+
 }
 
 .text-warning {
-  color: #f6c23e !important;
+  color: #36b9cc !important;
 }
 
 a.text-warning:hover, a.text-warning:focus {
@@ -10073,7 +10074,8 @@ a:focus {
 }
 
 .border-left-warning {
-  border-left: 0.25rem solid #f6c23e !important;
+  border-left: 0.25rem solid #36b9cc !important;
+  width: 230px;
 }
 
 .border-bottom-warning {
@@ -11278,4 +11280,21 @@ footer.sticky-footer .copyright {
 
 body.sidebar-toggled footer.sticky-footer {
   width: 100%;
+}
+
+.sendEmail{
+  padding: 7px;
+  border-radius: 5px;
+  border: 0;
+  background: #f5f5f5;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+#searchCountbox{
+  height: 100px;
+  width: 300px;
+}
+.countbox{
+  display: flex;
 }

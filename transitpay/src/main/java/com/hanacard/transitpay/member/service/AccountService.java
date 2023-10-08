@@ -43,4 +43,5 @@ public interface AccountService {
     List<GroupAccount> getAutoPhoneOfPaymentDayOfMonth();
 
     void executeAutoPayment(GroupAccount ga);
+    void insertHanaAccount(int memberId, String phone);
 }

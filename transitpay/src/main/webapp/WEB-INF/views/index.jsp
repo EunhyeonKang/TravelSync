@@ -234,7 +234,12 @@
             border: 1px solid #ccc;
             /* 기타 스타일 속성을 여기에 추가할 수 있습니다. */
         }
-
+        .signup,.login{
+            cursor: pointer;
+        }
+        .signup:hover,.login:hover{
+            color: #008485;
+        }
     </style>
 </head>
 <body>
@@ -301,9 +306,9 @@
             </div>
             <div class="main-2">
                     <ul class="hanamenu">
-                        <li><a href="mypage" class="hanamenu-a">마이페이지</a></li>
+                        <li><a class="hanamenu-a" id="mypage">마이페이지</a></li>
                         <li><a href="travel" class="hanamenu-a">여행계획</a></li>
-                        <li><a href="calTravel" class="hanamenu-a" id="noti">알림</a>
+                        <li><a class="hanamenu-a" id="noti">알림</a>
                             <div id="notificationDropdown" class="dropdown-content">
                                 <!-- 알림 내용이 여기에 추가됩니다. -->
                             </div>
@@ -317,8 +322,16 @@
                                 <div class="loginafter">
                                     <div class="hanabox">
                                         <div class="hana-1">
-                                            <img src="${sessionScope.member.kakao_img}">
-                                            ${sessionScope.member.name}님 모임통장
+                                            <c:choose>
+                                                <c:when test="${sessionScope.member.kakao_id == 0}">
+                                                    <!-- 조건이 true일 때 출력할 내용 -->
+                                                    <img src="../../resources/upload/profile/${sessionScope.member.kakao_img}">
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <img src="${sessionScope.member.kakao_img}">
+                                                </c:otherwise>
+                                            </c:choose>
+                                                ${sessionScope.member.name}님 모임통장
                                         </div>
                                         <div class="hanamoney-1">
                                             <div class="hanawon"></div>
@@ -330,8 +343,7 @@
                                     </div>
                                 </div>
                                 <button class="logout" onclick="performLogout();">로그아웃</button>
-
-                                </c:when>
+                             </c:when>
                                 <c:otherwise>
                                     <div class="hanamenu-1">
                                         <div class="phonebox">
@@ -342,7 +354,7 @@
                                             <span class="login-button">간편 로그인</span>
                                         </button>
                                     </div>
-                                    <p>회원가입</p>
+                                    <p><span class="signup">회원가입</span> | <span class="login">로그인</span></p>
                                 </c:otherwise>
                             </c:choose>
                         </div>
@@ -372,6 +384,32 @@
     <%@ include file="main2.jsp" %>
 </body>
 <script>
+    $('#noti').click(function(){
+        if(${sessionScope.member==null}) {
+            alert("로그인하세요");
+        }else{
+            location.href='/calTravel';
+        }
+    })
+    $('#mypage').click(function(){
+        if(${sessionScope.member==null}) {
+            alert("로그인하세요");
+        }else{
+            location.href='/mypage';
+        }
+    })
+
+    if(${sessionScope.member==null}) {
+        var signup = document.querySelector('.signup');
+        signup.addEventListener('click', (e) => {
+            location.href = '/join';
+        })
+        var login = document.querySelector('.login');
+        login.addEventListener('click', (e) => {
+            location.href = '/login';
+        })
+    }
+
     fetchNotifications();
 
     function fetchNotifications() {
@@ -445,15 +483,23 @@
             url:'/selectBackAccount',
             method: "POST",
             success: function(response) {
-                console.log(response)
                 if(response!=""){
                     //계좌가 있음, 모임통장 접속
                 }else{
                     //계좌가 없음
                     var seemore =  document.querySelector('.seemore-1');
-                    seemore.textContent = '계좌개설';
+                    seemore.textContent = '계좌연동';
                     seemore.href='/account'
-                    alert("계좌를 개설하세요!");
+                    $.ajax({
+                        type: "POST",
+                        url: "/insertHanaAccount",
+                        success: function (response) {
+
+                        },
+                        error: function (error) {
+                            console.error(error);
+                        },
+                    });
                     // location.href='/account';
                     // openModal();
                 }

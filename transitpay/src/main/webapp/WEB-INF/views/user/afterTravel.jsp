@@ -142,10 +142,10 @@
                                                     new Chart(ctx, {
                                                         type: 'bar',
                                                         data: {
-                                                            labels: ["음식", "기타", "숙박", "교통"],
+                                                            labels: ["음식", "기타", "숙박"],
                                                             datasets: [{
                                                                 label: '여행경비',
-                                                                data: [food, etc, accommodation,25000],
+                                                                data: [food, etc, accommodation],
                                                                 borderWidth: 1
                                                             }]
                                                         },

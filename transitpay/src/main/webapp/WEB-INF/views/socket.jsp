@@ -115,7 +115,15 @@
                         if (d.sessionId == $("#sessionId").val()) {
                             $("#chating").append("<p class='start'>[채팅에 참가하였습니다.]</p>");
                         } else {
-                            $("#member-img").append("<img src='"+ d.userimg +"'/>");
+                            console.log(d.userimg+"zzz")
+                            var httpPattern = /^(http|):\/\//;
+
+                            if (httpPattern.test(d.userimg)) {
+                                $("#member-img").append("<img src='"+ d.userimg +"'/>");
+                            } else {
+                                $("#member-img").append("<img src='../../../resources/upload/profile/"+ d.userimg +"'/>");
+                            }
+
                             $("#member-name").append("<p class='start'>" + d.userName + "" + "</p>");
 
                             var $userImageContainer = $("<div>").addClass("user-image-container");

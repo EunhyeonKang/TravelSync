@@ -1,37 +1,50 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<div class="main2box">
+    <div class="main2-2">
+        <div class="parent">
+            <div class="first">
+                <a href="">
+                    <div class="img">
+                        <img src="../../resources/images/groupicon.png" style="" alt="">
+                    </div>
+                    <div class="t_wrap">
+                        <p class="titlename">HANA모임통장</p>
+                        <p class="name">둘이, 셋이, 여럿이 함께쓰고<br>같이 보는 모임통장을 사용해보세요</p>
+                    </div>
+                </a>
+            </div>
+            <div class="first">
+                <a href="">
+                    <div class="img">
+                        <img src="../../resources/images/travelSchedule.png" style="" alt="">
+                    </div>
+                    <div class="t_wrap">
+                        <p class="titlename">실시간 여행계획</p>
+                        <p class="name">모임원들과 실시간 일정계획으로<br>효율적인 여행경비를 계산하세요</p>
+                    </div>
+                </a>
+            </div>
+            <div class="first">
+                <a href="">
+                    <div class="img">
+                        <img src="../../resources/images/main2.jpeg" style="" alt="">
+                    </div>
+                    <div class="t_wrap">
+                        <p class="titlename">여행경비 리포트</p>
+                        <p class="name">여행예산을 1/N정산하고<br>정산통계로 현명한 여행소비를 하세요</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="populbox">
+        <p class="populsearch">인기검색어</p>
+        <div class="popul-2">
 
-<div class="main2-2">
-    <div class="parent">
-        <div class="first">
-            <a href="">
-                <div class="img">
-                    <img src="../../resources/images/card1.png" style="" alt="">
-                </div>
-                <div class="t_wrap">
-                    <p class="name">모임통장</p>
-                </div>
-            </a>
         </div>
-        <div class="first">
-            <a href="">
-                <div class="img">
-                    <img src="../../resources/images/card2.png" style="" alt="">
-                </div>
-                <div class="t_wrap">
-                    <p class="name">모임통장</p>
-                </div>
-            </a>
-        </div>
-        <div class="first">
-            <a href="">
-                <div class="img">
-                    <img src="../../resources/images/card2.png" style="" alt="">
-                </div>
-                <div class="t_wrap">
-                    <p class="name">정산하기</p>
-                </div>
-            </a>
+        <div class="popul-1">
+            <img class="populimg" src="../../resources/images/invite.png">
         </div>
     </div>
 </div>
@@ -148,4 +161,107 @@
     function onMessage(event){
         alert(event.data);
     }*/
+    function searchLocation(){
+        $.ajax({
+            type: "POST",
+            url: "/searchLocation",
+            success: function (searchData, state, xhr) {
+                var h2 = document.createElement('h2');
+                h2.textContent = "인기검색어";
+                h2.className='popul'
+                var $searchList = $("<table class='table'></table>"); // 결과를 표시할 테이블
+                var maxRows = 5; // 최대 행 수
+                var maxColumns = 2; // 최대 열 수
+                var itemCounter = 0; // 아이템 카운터
+
+                for (var i = 0; i < maxRows; i++) {
+                    var $currentRow = $("<tr></tr>");
+
+                    for (var j = 0; j < maxColumns; j++) {
+                        if (itemCounter >= searchData.length) {
+                            break; // 검색 결과가 10개 미만인 경우에 대한 처리
+                        }
+
+                        var searchItem = searchData[itemCounter];
+                        var $column = $("<td></td>");
+                        var $item = $("<button class='dropdown-item'></button>");
+                        var $countBadge = $("<span class='count-badge'></span>");
+                        var $itemText = $("<span class='item-text'></span>");
+
+                        // 카운팅 숫자 스타일 적용
+                        $countBadge.text(itemCounter + 1);
+
+                        // 아이템 텍스트 설정
+                        $itemText.text(searchItem.search_keyword);
+
+                        $item.append($countBadge);
+                        $item.append($itemText);
+
+                        // 클로저를 사용하여 searchItem 값을 전달
+                        $item.on('click', (function (selectedItem) {
+                            return function () {
+                                var selectedValue = selectedItem.search_keyword;
+                                // 선택한 아이템 조회하기
+                                // 받아온 장소의 세부 정보를 사용하여 UI 업데이트
+                                // ...
+
+                                searchInput.value = selectedValue;
+                                searchDropdown.innerHTML = ''; // 드롭다운 닫기
+                            };
+                        })(searchItem));
+
+                        $column.append($item);
+                        $currentRow.append($column);
+                        itemCounter++;
+                    }
+
+                    $searchList.append($currentRow);
+                }
+                searchDropdown.appendChild(h2);
+                searchDropdown.appendChild($searchList.get(0));
+            },
+            error: function (xhr, data) {
+                // 오류 처리 로직 추가
+            }
+        });
+    }
+    $.ajax({
+        type: "POST",
+        url: "/searchLocation",
+        success: function (searchData, state, xhr) {
+            console.log(searchData);
+            var h2 = document.createElement('h2');
+            h2.textContent = "인기검색어";
+            h2.className = 'popul';
+
+            var $searchList = $("<table class='table'></table>"); // 결과를 표시할 테이블
+
+            var itemCounter = 0; // 아이템 카운터
+
+            // 테이블 헤더 추가
+            var $thead = $("<thead><tr></tr></thead>");
+            $searchList.append($thead);
+
+            for (var i = 0; i < 10; i++) {
+                var $currentRow = $("<tr class='popcountbox'></tr>");
+                var searchResult = searchData[itemCounter];
+                $currentRow.append("<td class='popcount'>" + (i + 1) + "</td>"); // 순위 추가
+                $currentRow.append("<td class='popkeyword'>" + searchResult.search_keyword + "</td>");
+                itemCounter++;
+                $searchList.append($currentRow);
+            }
+
+            // 결과를 원하는 요소에 추가
+            $("#resultContainer").append(h2);
+            $("#resultContainer").append($searchList);
+
+            // 검색 결과를 추가할 요소에도 추가
+            $(".popul-2").html($searchList);
+        },
+        error: function (xhr, data) {
+            // 오류 처리 로직 추가
+        }
+    });
+
+
 </script>

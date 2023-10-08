@@ -101,6 +101,41 @@
             padding: 5px;
             line-height: 6px;
         }
+
+        /* 숫자 스타일 */
+        .count-badge {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-color: #242b33;
+            color: #fff; /* 글자 색상 */
+            text-align: center;
+            float: left;
+            border-radius: 50%; /* 원 모양 */
+            font-size: 16px; /* 글자 크기 */
+            line-height: 30px; /* 세로 중앙 정렬 */
+            margin-right: 5px; /* 숫자와 텍스트 사이 여백 */
+        }
+
+        /* 텍스트 스타일 */
+        .item-text {
+            font-size: 16px; /* 텍스트 글자 크기 */
+            text-align: left;
+            line-height: 30px; /* 세로 중앙 정렬 */
+        }
+        .table td{
+            width: 300px;
+            text-align: left;
+            float: left;
+        }
+        .table{
+
+            margin: 0 auto;
+        }
+        .popul{
+            margin-left: 50px;
+            color: #5F5F5F;
+        }
     </style>
 </head>
 <body>
@@ -132,7 +167,7 @@
 
                 <div class="search">
                     <input id="searchInput" type="text" placeholder="여행, 어디로 떠나시나요?">
-                    <img class="searchimg" src="../../resources/images/search.png" onclick="searchBtn()" >
+                    <img class="searchimg" src="../../resources/images/search.png"  style="width: 50px;" onclick="searchBtn()" >
                     <div id="searchDropdown" class="dropdown-content"></div>
                 </div>
                 <div class="placebox">
@@ -245,6 +280,7 @@
 
         const img = document.createElement('img');
         img.className = 'ximg';
+        img.style.width=  '10px';
         img.src = '../../resources/images/x.png';
 
         img.addEventListener('click', function() {
@@ -348,10 +384,14 @@
 
     var searchInput = document.getElementById('searchInput');
     var searchDropdown = document.getElementById('searchDropdown');
+    searchInput.addEventListener('click', function() {
+        searchLocation();
+    });
     searchInput.addEventListener('input', function() {
     var searchValue = searchInput.value;
 
     if (searchValue.trim() === '') {
+        searchLocation();
         searchDropdown.innerHTML = '';
         return;
     }
@@ -434,12 +474,73 @@
     });
 
     } else {
-        var dropdownItem = document.createElement('div');
-        dropdownItem.textContent = "검색 결과 없음";
-        dropdownItem.classList.add('dropdown-item');
-        searchDropdown.appendChild(dropdownItem);
+            searchLocation();
+        }
     }
-    }
+
+    $.ajax({
+        type: "POST",
+        url: "/searchLocation",
+        success: function (searchData, state, xhr) {
+            var h2 = document.createElement('h2');
+            h2.textContent = "인기검색어";
+            h2.className='popul'
+            var $searchList = $("<table class='table'></table>"); // 결과를 표시할 테이블
+            var maxRows = 5; // 최대 행 수
+            var maxColumns = 2; // 최대 열 수
+            var itemCounter = 0; // 아이템 카운터
+
+            for (var i = 0; i < maxRows; i++) {
+                var $currentRow = $("<tr></tr>");
+
+                for (var j = 0; j < maxColumns; j++) {
+                    if (itemCounter >= searchData.length) {
+                        break; // 검색 결과가 10개 미만인 경우에 대한 처리
+                    }
+
+                    var searchItem = searchData[itemCounter];
+                    var $column = $("<td></td>");
+                    var $item = $("<button class='dropdown-item'></button>");
+                    var $countBadge = $("<span class='count-badge'></span>");
+                    var $itemText = $("<span class='item-text'></span>");
+
+                    // 카운팅 숫자 스타일 적용
+                    $countBadge.text(itemCounter + 1);
+
+                    // 아이템 텍스트 설정
+                    $itemText.text(searchItem.search_keyword);
+
+                    $item.append($countBadge);
+                    $item.append($itemText);
+
+                    // 클로저를 사용하여 searchItem 값을 전달
+                    $item.on('click', (function (selectedItem) {
+                        return function () {
+                            var selectedValue = selectedItem.search_keyword;
+                            // 선택한 아이템 조회하기
+                            // 받아온 장소의 세부 정보를 사용하여 UI 업데이트
+                            // ...
+
+                            searchInput.value = selectedValue;
+                            searchDropdown.innerHTML = ''; // 드롭다운 닫기
+                        };
+                    })(searchItem));
+
+                    $column.append($item);
+                    $currentRow.append($column);
+                    itemCounter++;
+                }
+
+                $searchList.append($currentRow);
+            }
+            searchDropdown.appendChild(h2);
+            searchDropdown.appendChild($searchList.get(0));
+        },
+        error: function (xhr, data) {
+            // 오류 처리 로직 추가
+        }
+    });
+
 </script>
 <!-- /travel 페이지 HTML 코드 -->
 </html>

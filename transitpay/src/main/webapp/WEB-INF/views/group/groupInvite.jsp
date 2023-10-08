@@ -34,10 +34,12 @@
       }
     .traveltitle hr{
         border: 1px solid #929292;
-    }.contents{
-         width: 1200px;
-         display: flex;
-         margin: 30px auto;
+    }
+    .contents{
+        width: 1200px;
+        display: flex;
+        height: 100%;
+        margin: 30px auto;
      }.menu1 a:hover {
           background-color: #008485;
           color: white;
@@ -344,6 +346,7 @@
             url:'/selectVirtureAccountNumber',
             method: "POST",
             success: function(response) {
+                console.log(response)
                 if(response!=""){
                     var groupId = "${groupId}";
                     if(groupId!=""){
@@ -351,9 +354,9 @@
                             container: '#kakaotalk-sharing-btn',
                             objectType: 'feed',
                             content: {
-                                title: '트랜지싱크 모임통장에 초대되었습니다.',
-                                description: '서태지와아이들 모임에 초대되었습니다. 회비는 얼마고 회비날짜는 2일입니다🐶',
-                                imageUrl: 'https://ibb.co/HD27qgB',
+                                title: 'HANA-TRAVELSYNC 모임통장 초대',
+                                description: response.group_name+'에 초대되었습니다.',
+                                imageUrl: 'https://api.card-gorilla.com:8080/storage/post/2549/contents/29162/card_1272_1.jpg',
                                 link: {
                                     // [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
                                     mobileWebUrl: 'http://localhost:8080',

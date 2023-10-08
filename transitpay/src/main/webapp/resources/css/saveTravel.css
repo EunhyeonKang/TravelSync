@@ -11,13 +11,13 @@ input {
 
 }
 h1 {
-    padding: 23px 15px 10px 15px;
+    padding: 30px 30px 30px 5px;
     position: relative;
     color: #414141;
-    box-shadow: 9px -4px 15px 0px #ffffff;
+    box-shadow: 0px 0px 20px 0px #d2d2d287;
     border-radius: 10px;
     margin: 0;
-    background: #eeeeee;
+    background: #ffffff;
 }
 label::before {
     content: "";
@@ -25,6 +25,7 @@ label::before {
     font-size: 20px;
 }
 label {
+    display: flex;
     cursor: pointer;
     position: relative;
     align-items: center;
@@ -77,6 +78,7 @@ input:checked ~ h1 ~ div.p {
 }
 .travel-date-text-1 {
     text-align: right;
+    margin: auto 0 0 auto;
 }
 
 .schedule-card {

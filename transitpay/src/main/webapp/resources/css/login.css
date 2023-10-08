@@ -1,6 +1,6 @@
 .group71{
     width: 100%;
-    height: auto;
+    height: 800px;
     text-align: center;
     margin: auto;
     text-align: center;
@@ -101,4 +101,12 @@
 .flexlogin{
     display: inline-block;
     width: 510px;
+}
+.group31{
+    width: 700px;
+    padding: 100px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 3px 5px 30px 0 rgba(0, 0, 0, 0.15);
 }

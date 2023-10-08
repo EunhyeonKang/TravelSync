@@ -77,7 +77,7 @@
         margin-left: auto;
     }
     .section-1{
-
+        display: flex;
         padding: 20px 0;
     }
     .section-2{
@@ -357,135 +357,9 @@
         font-size: 20px;
         font-weight: 700;
     }
-    #logo {
-        width: 240px;
-        height: 44px;
-        cursor: pointer;
-    }
 
-    #header {
-        padding-top: 62px;
-        padding-bottom: 20px;
-        text-align: center;
-    }
-
-    /* 입력폼 */
-
-
-    h3 {
-        margin: 19px 0 8px;
-        font-size: 14px;
-        font-weight: 700;
-    }
-
-
-    .box {
-        display: block;
-        width: 100%;
-        height: 51px;
-        border: solid 1px #dadada;
-        padding: 10px 14px 10px 14px;
-        box-sizing: border-box;
-        background: #fff;
-        position: relative;
-    }
-
-    .int {
-        display: block;
-        position: relative;
-        width: 100%;
-        height: 29px;
-        border: none;
-        background: #fff;
-        font-size: 15px;
-    }
-
-    input {
-        font-family: Dotum,'돋움',Helvetica,sans-serif;
-    }
-
-    .box.int_id {
-        padding-right: 110px;
-    }
-
-    .box.int_pass {
-        padding-right: 40px;
-    }
-
-    .box.int_pass_check {
-        padding-right: 40px;
-    }
-
-    .step_url {
-        /*@naver.com*/
-        position: absolute;
-        top: 16px;
-        right: 13px;
-        font-size: 15px;
-        color: #8e8e8e;
-    }
-
-    .pswdImg {
-        width: 18px;
-        height: 20px;
-        display: inline-block;
-        position: absolute;
-        top: 50%;
-        right: 16px;
-        margin-top: -10px;
-        cursor: pointer;
-    }
-
-    #bir_wrap {
-        display: table;
-        width: 100%;
-    }
-
-    #bir_yy {
-        display: table-cell;
-        width: 147px;
-
-    }
-
-    #bir_mm {
-        display: table-cell;
-        width: 147px;
-        vertical-align: middle;
-    }
-
-    #bir_dd {
-        display: table-cell;
-        width: 147px;
-    }
-
-    #bir_mm, #bir_dd {
-        padding-left: 10px;
-    }
-
-    select {
-        width: 100%;
-        height: 29px;
-        font-size: 15px;
-        background: #fff url(https://static.nid.naver.com/images/join/pc/sel_arr_2x.gif) 100% 50% no-repeat;
-        background-size: 20px 8px;
-        -webkit-appearance: none;
-        display: inline-block;
-        text-align: start;
-        border: none;
-        cursor: default;
-        font-family: Dotum,'돋움',Helvetica,sans-serif;
-    }
-    #btnJoin {
-        width: 100%;
-        padding: 21px 0 17px;
-        border: 0;
-        cursor: pointer;
-        color: #fff;
-        background-color: #08a600;
-        font-size: 20px;
-        font-weight: 400;
-        font-family: Dotum,'돋움',Helvetica,sans-serif;
 </style>
+<body>
 <div class="main">
     <%@ include file="../include/header.jsp" %>
     <div class="traveltitle">
@@ -504,193 +378,68 @@
         </div>
         <div class="contents-1">
             <div class="section-1">
-                <div id="wrapper">
-                    <!-- content-->
-                    <div id="content">
-                        <!-- ID -->
-                        <div>
-                            <h3 class="join_title">
-                                <label for="id">계좌번호</label>
-                            </h3>
-                            <span class="box int_id">
-                                            <input type="text" id="id" class="int" maxlength="20">
-                                            <span class="step_url">@naver.com</span>
-                                        </span>
-                            <span class="error_next_box"></span>
-                        </div>
-
-                        <!-- PW1 -->
-                        <div>
-                            <h3 class="join_title"><label for="pswd1">비밀번호</label></h3>
-                            <span class="box int_pass">
-                                            <input type="text" id="pswd1" class="int" maxlength="20">
-
-                                            <img src="m_icon_pass.png" id="pswd1_img1" class="pswdImg">
-                                        </span>
-                            <span class="error_next_box"></span>
-                        </div>
-
-                        <!-- PW2 -->
-                        <div>
-                            <h3 class="join_title"><label for="pswd2">비밀번호 재확인</label></h3>
-                            <span class="box int_pass_check">
-                                            <input type="text" id="pswd2" class="int" maxlength="20">
-                                            <img src="m_icon_check_disable.png" id="pswd2_img1" class="pswdImg">
-                                        </span>
-                            <span class="error_next_box"></span>
-                        </div>
-
-                        <!-- NAME -->
-                        <div>
-                            <h3 class="join_title"><label for="name">이름</label></h3>
-                            <span class="box int_name">
-                                            <input type="text" id="name" class="int" maxlength="20">
-                                        </span>
-                            <span class="error_next_box"></span>
-                        </div>
-
-                        <!-- BIRTH -->
-                        <div>
-                            <h3 class="join_title"><label for="yy">생년월일</label></h3>
-
-                            <div id="bir_wrap">
-                                <!-- BIRTH_YY -->
-                                <div id="bir_yy">
-                                                <span class="box">
-                                                    <input type="text" id="yy" class="int" maxlength="4" placeholder="년(4자)">
-                                                </span>
-                                </div>
-
-                                <!-- BIRTH_MM -->
-                                <div id="bir_mm">
-                                                <span class="box">
-                                                    <select id="mm" class="sel">
-                                                        <option>월</option>
-                                                        <option value="01">1</option>
-                                                        <option value="02">2</option>
-                                                        <option value="03">3</option>
-                                                        <option value="04">4</option>
-                                                        <option value="05">5</option>
-                                                        <option value="06">6</option>
-                                                        <option value="07">7</option>
-                                                        <option value="08">8</option>
-                                                        <option value="09">9</option>
-                                                        <option value="10">10</option>
-                                                        <option value="11">11</option>
-                                                        <option value="12">12</option>
-                                                    </select>
-                                                </span>
-                                </div>
-
-                                <!-- BIRTH_DD -->
-                                <div id="bir_dd">
-                                                <span class="box">
-                                                    <input type="text" id="dd" class="int" maxlength="2" placeholder="일">
-                                                </span>
-                                </div>
-
-                            </div>
-                            <span class="error_next_box"></span>
-                        </div>
-
-                        <!-- GENDER -->
-                        <div>
-                            <h3 class="join_title"><label for="gender">성별</label></h3>
-                            <span class="box gender_code">
-                                            <select id="gender" class="sel">
-                                                <option>성별</option>
-                                                <option value="M">남자</option>
-                                                <option value="F">여자</option>
-                                            </select>
-                                        </span>
-                            <span class="error_next_box">필수 정보입니다.</span>
-                        </div>
-
-                        <!-- EMAIL -->
-                        <div>
-                            <h3 class="join_title"><label for="email">본인확인 이메일<span class="optional">(선택)</span></label></h3>
-                            <span class="box int_email">
-                                            <input type="text" id="email" class="int" maxlength="100" placeholder="선택입력">
-                                        </span>
-                            <span class="error_next_box">이메일 주소를 다시 확인해주세요.</span>
-                        </div>
-
-                        <!-- MOBILE -->
-                        <div>
-                            <h3 class="join_title"><label>휴대전화</label></h3>
-                            <span class="box int_mobile">
-                                            <input type="tel" id="mobile" class="int" maxlength="16" placeholder="전화번호 입력">
-                                        </span>
-                            <span class="error_next_box"></span>
-                        </div>
-
-
-                        <!-- JOIN BTN-->
-                        <div class="btn_area">
-                            <button type="button" id="btnJoin">
-                                <span>가입하기</span>
-                            </button>
-                        </div>
+                <div class="contentsBox">
+                    <span class="contentsText">모임 개설</span><br>
+                    <span class="contentsText1">맞춤정보입력</span>
+                </div>
+                <div class="stepper">
+                    <div class="line"></div>
+                    <div class="step">
+                        <div class="circle">1</div>
                     </div>
-                    <!-- content-->
+                    <div class="step">
+                        <div class="circle active">2</div>
+                    </div>
+                    <div class="step">
+                        <div class="circle">3</div>
+                    </div>
                 </div>
             </div>
+            <div>
+                <div>
+                    <label for="accountName">계좌 이름:</label>
+                    <input type="text" id="accountName" name="accountName" required>
+                </div>
+                <div>
+                    <label for="accountNumber">계좌 번호:</label>
+                    <input type="text" id="accountNumber" name="accountNumber" required>
+                </div>
+                <div>
+                    <label for="balance">잔액:</label>
+                    <input type="number" id="balance" name="balance" required>
+                </div>
+                <ul class="footBtwrap clearfix">
+                    <li><button class="fpmgBt2">동의</button></li>
+                </ul>
+            </div>
+
         </div>
     </div>
     <%@ include file="../include/footer.jsp" %>
 </div>
-<!-- JavaScript 코드를 추가 -->
+</div>
+</body>
 <script>
-    $(document).ready(function() {
-        // "가입하기" 버튼 클릭 시
-        $("#btnJoin").click(function() {
-            // 입력된 정보 가져오기
-            var id = $("#id").val();
-            var pswd1 = $("#pswd1").val();
-            var pswd2 = $("#pswd2").val();
-            var name = $("#name").val();
-            var yy = $("#yy").val();
-            var mm = $("#mm").val();
-            var dd = $("#dd").val();
-            var gender = $("#gender").val();
-            var email = $("#email").val();
-            var mobile = $("#mobile").val();
-            //ACCOUNT (account_id,account_num, balance, account_bank, account_pwd, account_main, account_phone)
-            // 데이터를 JSON 형식으로 만들기
-            var userData = {
-                id: id,
-                pswd1: pswd1,
-                pswd2: pswd2,
-                name: name,
-                yy: yy,
-                mm: mm,
-                dd: dd,
-                gender: gender,
-                email: email,
-                mobile: mobile,
+    $(".fpmgBt2").click(function() {
+        var accountNum = document.getElementById("accountNumber").value;
+        var accountBank = document.getElementById("accountName").value;
 
-            };
+        $.ajax({
+            type: "POST",
+            url: "/selectHanaAccount",
+            data: {
+                account_bank: accountBank,
+                account_num: accountNum,
+            },
+            success: function (response) {
+                console.log(response);
 
-            // AJAX 요청 보내기
-            $.ajax({
-                type: "POST", // 또는 "GET" 등 요청 유형 선택
-                url: "/accountJoinForm", // 서버 엔드포인트 URL 설정
-                // data: JSON.stringify(userData), // JSON 데이터를 문자열로 변환하여 보냅니다.
-                contentType: "application/json; charset=utf-8", // 데이터 유형 설정
-                success: function(response) {
-                    // 서버 응답 성공 시 처리
-                    alert("가입 성공!");
-                    // 추가적인 처리나 리다이렉션을 여기에 추가할 수 있습니다.
-                },
-                error: function(xhr, status, error) {
-                    // 서버 응답 실패 시 처리
-                    alert("가입 실패: " + error);
-                    // 오류 처리나 다른 작업을 여기에 추가할 수 있습니다.
-                }
-            });
+            },
+            error: function (error) {
+                console.error(error);
+            },
         });
-    });
+    })
 </script>
 
-</body>
 </html>

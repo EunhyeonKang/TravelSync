@@ -412,10 +412,10 @@
                 <div class="stepper">
                     <div class="line"></div>
                     <div class="step">
-                        <div class="circle">1</div>
+                        <div class="circle active">1</div>
                     </div>
                     <div class="step">
-                        <div class="circle active">2</div>
+                        <div class="circle">2</div>
                     </div>
                     <div class="step">
                         <div class="circle">3</div>

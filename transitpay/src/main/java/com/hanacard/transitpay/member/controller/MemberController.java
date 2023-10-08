@@ -2,11 +2,15 @@ package com.hanacard.transitpay.member.controller;
 
 import com.hanacard.transitpay.member.model.dto.Member;
 import com.hanacard.transitpay.member.service.MemberService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +20,9 @@ import java.util.List;
 @RestController
 public class MemberController {
     private final MemberService memberService;
+    private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
+
+
     @Autowired
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
@@ -41,16 +48,19 @@ public class MemberController {
             Member memberInfo = memberService.selectOneMember(member.getPhone());
             if (memberInfo != null) {
                 session.setAttribute("member", memberInfo);
+                logger.debug("카카오 로그인 - 사용자: {}", member);
                 return ResponseEntity.ok("로그인 성공");
             }else{
                 memberService.insertKakaoAndPhoneMember(member);
                 Member memberId = memberService.selectOneMember(member.getPhone());
                 session.setAttribute("member", memberId);
+                logger.debug("카카오 로그인 - 사용자: {}", member);
                 return ResponseEntity.ok("로그인 성공");
             }
 
         } catch (Exception e) {
             // 예외 처리 로직
+            logger.error("카카오 로그인 실패 - 사용자: {}", member);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("로그인 실패");
         }
     }
@@ -62,6 +72,7 @@ public class MemberController {
         if(session != null) {
             session.invalidate();
         }
+        logger.debug("카카오 로그인");
         mav.addObject("msg", "로그아웃 성공");
         mav.addObject("loc","/");
         mav.setViewName("/common/message");
@@ -81,6 +92,7 @@ public class MemberController {
             session.setAttribute("acessToken", access_token);
             session.setAttribute("member", memberInfo);
             mav.setViewName("/common/message");
+            logger.debug("카카오 로그인 성공 - 사용자: {}", member);
             mav.addObject("msg", "로그인 성공");
             mav.addObject("loc","/");
         }else{
@@ -94,6 +106,36 @@ public class MemberController {
         try {
             List<Member> selectAllGroupMember = memberService.selectAllGroupMembers(groupId);
             return ResponseEntity.ok(selectAllGroupMember);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null);
+        }
+    }
+
+    @PostMapping(value = "/joinMember.do")
+    public ModelAndView joinMember(Member member, MultipartFile files[], HttpServletRequest request, Model model) throws Exception {
+        ModelAndView mav = new ModelAndView();
+        memberService.joinMember(member,files,request.getSession().getServletContext().getRealPath("/resources/upload/profile/"));
+        mav.addObject("msg", "회원가입 성공");
+        mav.addObject("loc","/");
+        mav.setViewName("/common/message");
+        return mav;
+    }
+
+    @PostMapping(value = "/loginMember")
+    public ResponseEntity<Member> loginMember(@RequestBody Member member,HttpServletRequest request) throws Exception {
+        try {
+            HttpSession session = request.getSession();
+            ModelAndView mav = new ModelAndView();
+            Member loginMember = memberService.loginMember(member.getEmail(),member.getPw());
+            if(loginMember!=null) {
+
+                session.setAttribute("member", loginMember);
+                mav.addObject("msg", "로그인 성공");
+            }else{
+                mav.addObject("msg", "로그인 실패");
+            }
+            mav.addObject("loc", "/");
+            return ResponseEntity.ok(loginMember);
         } catch (Exception e) {
             return new ResponseEntity<>(null);
         }

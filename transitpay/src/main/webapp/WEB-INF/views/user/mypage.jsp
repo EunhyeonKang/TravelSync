@@ -28,6 +28,7 @@
             width: 80%;
             max-width: 600px;
             position: relative;
+            border-radius: 10px;
         }
 
         .custom-close {
@@ -46,10 +47,10 @@
 
         /* 테이블 헤더 스타일 */
         .custom-table th {
-            background-color: #f2f2f2;
-            padding: 8px;
-            text-align: left;
+            background-color: #4a6db4;
+            padding: 14px;
             border: 1px solid #ddd;
+            color: white;
         }
 
         /* 테이블 바디 스타일 */
@@ -82,6 +83,7 @@
             padding: 20px;
             border: 1px solid #888;
             width: 80%;
+            border-radius: 10px;
         }
 
         /* 모달 닫기 버튼 스타일 */
@@ -227,6 +229,224 @@
         .menuhr hr{
             border: 2px solid #00968829;
         }
+        .modal1 {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* 반투명한 배경색 */
+            z-index: 1;
+        }
+
+        /* 모달 내용을 감싸는 컨테이너 */
+        .modal-content1 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 모달 닫기 버튼 */
+        .close1 {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        /* 모달 내용 스크롤바 스타일 (필요시) */
+        .modal-content {
+            max-height: 80vh; /* 모달 내용의 최대 높이 조정 */
+            overflow-y: auto; /* 세로 스크롤바 추가 */
+        }
+        .card-details{
+            background: #009688;
+            height: 150px;
+            padding: 30px;
+            border-radius: 10px;
+        }
+        .card-label{
+            color: #ded7d7;
+            text-align: center;
+            margin: 10px;
+            font-weight: 700;
+        }
+        .card-box{
+            text-align: center;
+            font-weight: 700;
+            font-size: 34px;
+        }
+        .card-buttons{
+            text-align: center;
+            margin: 25px;
+        }
+        .card-button, .card-cashback-button{
+            width: 170px;
+            padding: 15px;
+            border: 0;
+            border-radius: 10px;
+            background: #bbb9b69c;
+            margin-right: 5px;
+        }
+        .card-cashback-button > .one{
+            font-weight: 700;
+        }
+        .card-history{
+            text-align: center;
+        }
+        .card-history {
+            border-top: 1px solid #ddd;
+            margin-top: 20px;
+            padding-top: 20px;
+        }
+
+        .card-history-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .transaction-date,
+        .transaction-description,
+        .transaction-amount {
+            flex-basis: 30%;
+            text-align: center;
+        }
+
+        /* 반응형 스타일링 */
+        @media screen and (max-width: 600px) {
+            .modal-content {
+                width: 90%;
+            }
+        }
+        #cardHistoryTable_length, #cardHistoryTable_filter, #cardHistoryTable_info{
+            display: none;
+        }
+
+        .date-search{
+            text-align: center;
+        }
+        .date-search{
+            padding: 10px;
+            border: 0;
+            border-radius: 10px;
+            margin: 5px;
+            font-weight: 700;
+        }
+        #selectedMonth{
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #939292;
+            color: #333131;
+            font-weight: 700;
+        }
+        table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd{
+            background-color: #ffffff !important;
+        }
+        table.dataTable.display tbody tr.odd>.sorting_1, table.dataTable.order-column.stripe tbody tr.odd>.sorting_1{
+            background-color: #ffffff !important;
+        }
+        table.dataTable tbody tr{
+            background-color: #ffffff !important;
+        }
+        table.dataTable.display tbody tr.even>.sorting_1, table.dataTable.order-column.stripe tbody tr.even>.sorting_1{
+            background-color: #ffffff !important;
+        }
+        .cardAndTransfer{
+            text-align: center;
+        }
+        #myTextarea{
+            border: 0;
+            width: 100px;
+            text-align: center;
+            float: left;
+        }
+        #myButton{
+            border: 0;
+            background: 0;
+            color: #6a6a6a;
+            font-weight: 700;
+        }
+        .monthstate{
+            color: #818181;
+            text-align: center;
+            font-size: 20px;
+        }
+        /* 모달 스타일 */
+        #unpaidModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1;
+            overflow: auto;
+        }
+
+        .unpaid-modal-content {
+            background-color: #fff;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #000;
+            max-width: 500px;
+            position: relative;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        }
+
+        .unpaid-close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        #travelreport{
+            text-align: center;
+            font-weight: 600;
+            color: #696767;
+            padding: 0;
+            margin-bottom: 0px;
+        }
+        .category{
+            display: flex;
+            justify-content: center;
+        }
+        .percentage{
+            display: flex;
+            justify-content: center;
+        }
+        .category-숙박 {
+            color: #FFC107;
+            margin: 0 5px;
+            font-weight: 800;
+        }
+
+        .category-음식 {
+            color: #E91E63;
+            margin: 0 5px;
+            font-weight: 800;
+        }
+
+        .category-기타 {
+            color: #168bdc;
+            margin: 0 5px;
+            font-weight: 800;
+        }
+        .percent{
+            color: #E91E63;
+            font-weight: 800;
+            padding: 0px 5px;
+        }
     </style>
 </head>
 <body>
@@ -242,9 +462,27 @@
                         <div class="mypage-user">
                             <div class="user-detail">
                                 <div class="mypage-box">
-                                    <img class="mypage-img" src="${sessionScope.member.kakao_img}">
-                                    <p>${sessionScope.member.name}님 환영합니다</p>
+                                    <c:choose>
+                                        <c:when test="${sessionScope.member.kakao_id == 0}">
+                                            <!-- 조건이 true일 때 출력할 내용 -->
+                                            <img style="width: 50px; margin: 20px;border-radius: 50%" src="../../resources/upload/profile/${sessionScope.member.kakao_img}">
+                                        </c:when>
+                                        <c:otherwise>
+                                            <img style="width: 50px;margin: 20px;border-radius: 50%" src="${sessionScope.member.kakao_img}">
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <p><strong>${sessionScope.member.name}</strong>님 환영합니다</p>
                                 </div>
+                                <div id="myTextarea">${sessionScope.member.code}</div>
+                                <button id="myButton">복사</button>
+                                <script>
+                                    const myTextarea = document.getElementById("myTextarea");
+                                    document.getElementById("myButton").onclick = () => {
+                                        window.navigator.clipboard.writeText(myTextarea.value).then(() => {
+                                            alert("복사완료");
+                                        });
+                                    };
+                                </script>
                                 <div class="mypage_logout">로그아웃</div>
                             </div>
                             <div class="menu1">
@@ -271,10 +509,10 @@
                                         <div class="travelsavebox">
                                             <img class="saveImg" src="../../../resources/images/save-time.svg" style="width: 70px;">
                                             <div>저장된 여행</div>
-                                            <div class="saveboxcnt"><a href="/saveTravel" id="travleLength"></a></div>
+                                            <div class="saveboxcnt"><strong><a href="/saveTravel" id="travleLength"></a></strong></div>
                                         </div>
                                     </div>
-                                    <button>여행/찜🩷</button>
+                                    <button>여행 | 찜🩷</button>
                                 </div>
                             </div>
                             <div class="travelbox-2">
@@ -283,20 +521,22 @@
                                         <div class="travelsavebox">
                                             <img class="saveImg" src="../../../resources/images/save-hassle.svg" style="width: 70px;">
                                             <div>정산된 여행</div>
-                                            <div class="saveboxcnt"><a href="/afterTravel" id="completeTravelLength"></a></div>
+                                            <div class="saveboxcnt"><strong><a href="/afterTravel" id="completeTravelLength"></a></strong></div>
                                         </div>
                                     </div>
-                                    <button>정산/자동이체💰</button>
+                                    <button>1/N정산 | 자동이체💰</button>
                                 </div>
                             </div>
                             <div class="travelbox-3">
                                 <div class="chartbox">
                                     <canvas id="myChart"></canvas>
                                 </div>
+                                </p>
                                 <div>
                                     <button>정산된 여행경비</button>
                                 </div>
                             </div>
+                            <p id="travelreport">
                         </div>
                         <h2>계좌 관리</h2>
                         <div class="account-box-1">
@@ -322,7 +562,7 @@
                                 </div>
                                 <div class="account-box-2">
                                     <img src="../../resources/images/new_2204_my_login_ico004.png" alt="">
-                                    <div class="account-month">미납 회비 현황 >  </div>
+                                    <button onclick="openModal()" class="account-month" id="non-payment-account">미납 회비 현황 > </button>
                                     <div class="account-cnt">
                                         <div class="cnt-1-2" id="payment-cnt"></div><span class="cnt-1">건</span>
                                         <div class="cnt-1-2" id="payment-balance"></div><span class="cnt-1">원</span>
@@ -407,10 +647,17 @@
     <div id="customModal" class="custom-modal">
         <div class="custom-modal-content">
             <span class="custom-close">&times;</span>
-            <h2>이번달 이용내역</h2>
+            <h2 class="monthstate">이번달 이용내역</h2>
         </div>
     </div>
-
+    <div id="unpaidModal" class="modal">
+        <div class="unpaid-modal-content">
+            <span class="unpaid-close-btn" onclick="closeModal()">&times;</span>
+            <h2 class="monthstate">미납 회비 안내</h2>
+            <p>미납된 회비 정보를 여기에 표시합니다.</p>
+            <!-- 미납 회비 내용 추가 -->
+        </div>
+    </div>
     <div id="updateModal" class="update-modal">
         <div class="update-modal-content">
             <span class="update-close">&times;</span>
@@ -496,13 +743,155 @@
             </div>
         </div>
     </div>
+    <div id="cardModal" class="modal1">
+        <div class="modal-content1 card-modal-content">
+            <span class="close1" onclick="closeCardModal()">&times;</span>
+            <h2 class="card-title">프렌즈 체크카드(1394)</h2>
+            <div class="date-search">
+                <label for="selectedMonth">날짜 선택:</label>
+                <select id="selectedMonth">
+                    <option value="2023-01">2023년 1월</option>
+                    <option value="2023-02">2023년 2월</option>
+                    <!-- 다른 월도 추가 -->
+                </select>
+                <button class="date-search" onclick="searchByMonth()">검색</button>
+            </div>
+            <div class="card-details">
+                <div class="card-label">10월 사용금액</div>
+                <div class="card-usage">
+                    <div class="card-box">
+                        <div class="card-value">415,000원</div>
+                    </div>
+                    <div class="card-buttons">
+                        <button class="card-button">이번달 카드실적</button>
+                        <button class="card-button card-cashback-button">
+                            <span>받은 캐시백</span>
+                            <span class="one">0원</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-history">
+                <table id="cardHistoryTable" class="display" style="width:100%">
+                    <thead>
+                    <tr>
+                        <th>거래일자</th>
+                        <th>거래내용</th>
+                        <th>거래금액</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>2023-11-04</td>
+                        <td>도톰카츠 청라점</td>
+                        <td>-253,000원</td>
+                    </tr>
+                    <tr>
+                        <td>2023-11-04</td>
+                        <td>베스트웨스턴 하버파크호텔</td>
+                        <td>-32,000원</td>
+                    </tr>
+                    <tr>
+                        <td>2023-11-05</td>
+                        <td>파라다이스 씨티 씨메르(인천)</td>
+                        <td>-60,000원</td>
+                    </tr>
+                    <tr>
+                        <td>2023-11-05</td>
+                        <td>손커피연구소 영종하늘도시점</td>
+                        <td>-10,000원</td>
+                    </tr>
+                    <tr>
+                        <td>2023-11-05</td>
+                        <td>탕후루</td>
+                        <td>-12,000원</td>
+                    </tr>
+                    <tr>
+                        <td>2023-11-06</td>
+                        <td>청라왕아구</td>
+                        <td>-28,000원</td>
+                    </tr>
+                    <tr>
+                        <td>2023-11-06</td>
+                        <td>하나로마트</td>
+                        <td>-20,000원</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 <%--    <%@ include file="../include/footer.jsp" %>--%>
 </div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css"/>
+
 <script>
+    // 모달 열기 함수
+    function openModal() {
+        var modal = document.getElementById("unpaidModal");
+        modal.style.display = "block";
+    }
+
+    // 모달 닫기 함수
+    function closeModal() {
+        var modal = document.getElementById("unpaidModal");
+        modal.style.display = "none";
+    }
+
+    function searchByMonth() {
+        // 선택한 월 가져오기
+        var selectedMonth = document.getElementById("selectedMonth").value;
+
+        // 데이터 필터링 또는 계산
+        // 여기에서는 선택한 월을 사용하여 해당 월의 사용 금액을 계산하는 예시를 제공합니다.
+        // 실제 데이터와 데이터 구조에 따라 코드를 수정해야 할 수 있습니다.
+
+        // 예시: 데이터를 가져와서 선택한 월에 해당하는 데이터 필터링 및 계산
+        var filteredData = yourData.filter(function(item) {
+            var transactionDate = new Date(item.transactionDate); // 데이터에서 날짜 필드에 따라 수정
+            var transactionMonth = transactionDate.getFullYear() + "-" + (transactionDate.getMonth() + 1).toString().padStart(2, '0'); // "YYYY-MM" 형식으로 변환
+            return transactionMonth === selectedMonth;
+        });
+
+        // 선택한 월의 사용 금액 계산
+        var totalAmount = 0;
+        filteredData.forEach(function(item) {
+            // 실제 데이터에서 금액 필드에 따라 수정
+            totalAmount += item.amount;
+        });
+
+        // 검색 결과를 화면에 업데이트
+        updateMonthUsage(selectedMonth, totalAmount);
+    }
+
+    function updateMonthUsage(selectedMonth, totalAmount) {
+        // 선택한 월과 해당 월의 사용 금액을 화면에 업데이트하는 코드를 여기에 추가
+        // 예를 들어, 선택한 월과 사용 금액을 출력하는 등의 방식으로 업데이트할 수 있습니다.
+        document.querySelector(".card-value").textContent = selectedMonth + " 사용금액: " + totalAmount.toLocaleString() + "원";
+    }
+
+    $(document).ready(function() {
+        // DataTables 초기화 및 페이징 설정
+        $('#cardHistoryTable').DataTable();
+    });
+    // 모달 열기
+    function openCardModal() {
+        var modal = document.getElementById("cardModal");
+        modal.style.display = "block";
+    }
+
+    // 모달 닫기
+    function closeCardModal() {
+        var modal = document.getElementById("cardModal");
+        modal.style.display = "none";
+    }
+
+
     $.ajax({
         type: "GET",
         url: "/completeCalculateTravel",
@@ -517,7 +906,6 @@
         type: "GET",
         url: "/selectMemberNotificationHistory",
         success: function (response) {
-           console.log(response)
             var food = 0;
             var etc =0;
             var accommodation =0;
@@ -525,8 +913,33 @@
                 food +=item.food_expenses;
                 etc += item.etc_expenses;
                 accommodation +=item.accommodation_expenses;
+
             })
 
+            var totalcategory = food + etc + accommodation;
+            var manyCategory = "";
+            var percent;
+            if (accommodation > food && accommodation > etc) {
+                manyCategory = "숙박";
+                percent = (accommodation / totalcategory) * 100;
+            } else if (food > accommodation && food > etc) {
+                manyCategory = "음식";
+                percent = (food / totalcategory) * 100;
+            } else {
+                manyCategory = "기타·문화";
+                percent = (etc / totalcategory) * 100;
+            }
+
+            var travelreport = document.querySelector('#travelreport');
+            var cdiv = document.createElement('div');
+            cdiv.innerHTML = '여행에서 가장 많이 지출한 항목은 <div class="manyCategory category-' + manyCategory + '">' + manyCategory + '</div> 입니다.';
+            cdiv.classList.add('category'); // 'category' 클래스 추가
+            travelreport.appendChild(cdiv);
+
+            var total = document.createElement('div');
+            total.innerHTML = '총 지출 금액의 <div class="percent">' + percent.toFixed(2) + '%</div>를 차지합니다.';
+            total.classList.add('percentage'); // 'percentage' 클래스 추가
+            travelreport.appendChild(total);
 
             // 고정된 색상 배열
             const fixedColors = [
@@ -542,7 +955,7 @@
                     backgroundColor: fixedColors[0]
                 },
                 {
-                    label: '기타',
+                    label: '기타·문화',
                     data: etc,
                     backgroundColor: fixedColors[1]
                 },
@@ -681,6 +1094,7 @@
         type: "POST",
         url: "/selectNotification",
         success: function (response) {
+            console.log(response)
             var total=0;
             var paymentCnt = document.querySelector('#payment-cnt');
             var paymentBalance = document.querySelector('#payment-balance');
@@ -713,6 +1127,10 @@
         }
     });
 
+    $("#non-payment-account").click(function(){
+
+    })
+
     $.ajax({
         type: "POST",
         url: "/selectMyAccountMonthStatement",
@@ -733,6 +1151,7 @@
 
             headers.forEach(function (headerText) {
                 var th = document.createElement('th');
+                th.style.textAlign='center';
                 th.textContent = headerText;
                 headerRow.appendChild(th);
             });
@@ -751,7 +1170,7 @@
                 cell1.textContent = transaction.transaction_date;
                 cell2.textContent = transaction.transaction_content;
                 cell3.textContent = transaction.balance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
+                cell3.style.textAlign = 'right';
                 row.appendChild(cell1);
                 row.appendChild(cell2);
                 row.appendChild(cell3);
@@ -809,6 +1228,9 @@
 
                                     var cardButton = document.createElement("button");
                                     cardButton.classList.add("account-button");
+                                    cardButton.addEventListener("click", function(){
+                                        openCardModal();
+                                    });
                                     cardButton.textContent = "카드내역";
 
 

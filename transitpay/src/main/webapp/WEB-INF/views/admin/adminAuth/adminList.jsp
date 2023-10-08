@@ -22,7 +22,6 @@
 
     <!-- Custom styles for this template-->
     <link href="../../../../resources/admin/css/sb-admin-2.css" rel="stylesheet">
-
 </head>
 
 <body id="page-top">
@@ -50,7 +49,7 @@
 
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+            <a class="nav-link collapsed" href="/admin/template/list" data-toggle="collapse" data-target="#collapseTwo"
                aria-expanded="true" aria-controls="collapseTwo">
                 <i class="fas fa-fw fa-cog"></i>
                 <span>로그관리</span>
@@ -58,8 +57,8 @@
             <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Custom Components:</h6>
-                    <a class="collapse-item" href="buttons.html">Buttons</a>
-                    <a class="collapse-item" href="cards.html">Cards</a>
+                    <a class="collapse-item" href="/admin/template/list">Buttons</a>
+                    <a class="collapse-item" href="/admin/template/list">Cards</a>
                 </div>
             </div>
         </li>
@@ -82,7 +81,7 @@
 
         <!-- Nav Item - Tables -->
         <li class="nav-item">
-            <a class="nav-link" href="/adminUser">
+            <a class="nav-link" href="/admin/user/list">
                 <i class="fas fa-fw fa-table"></i>
                 <span>회원관리</span></a>
         </li>
@@ -113,7 +112,7 @@
                 <form
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                     <div class="input-group">
-                        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                        <input type="text" class="form-control bg-light border-0 small" placeholder="검색어를 입력해주세요"
                                aria-label="Search" aria-describedby="basic-addon2">
                         <div class="input-group-append">
                             <button class="btn btn-primary" type="button">
@@ -295,97 +294,25 @@
                 </ul>
 
             </nav>
-            <!-- End of Topbar -->
-
-            <!-- Begin Page Content -->
             <div class="container-fluid">
-
-                <!-- Content Row -->
-                <div class="row">
-
-                    <!-- Earnings (Monthly) Card Example -->
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-primary shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                            Earnings (Monthly)</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-calendar fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Earnings (Monthly) Card Example -->
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-success shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                            Earnings (Annual)</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Earnings (Monthly) Card Example -->
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-info shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
-                                        </div>
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col-auto">
-                                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="progress progress-sm mr-2">
-                                                    <div class="progress-bar bg-info" role="progressbar"
-                                                         style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-                                                         aria-valuemax="100"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Pending Requests Card Example -->
-                    <div class="col-xl-3 col-md-6 mb-4">
-                        <div class="card border-left-warning shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                            Pending Requests</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-comments fa-2x text-gray-300"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<%--                <div class="row">--%>
+<%--                    <div class="col-xl-3 col-md-6 mb-4">--%>
+<%--                        <div class="card border-left-success shadow h-100 py-2">--%>
+<%--                            <div class="card-body">--%>
+<%--                                <div class="row no-gutters align-items-center">--%>
+<%--                                    <div class="col mr-2">--%>
+<%--                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">--%>
+<%--                                            캐시백</div>--%>
+<%--                                        <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>--%>
+<%--                                    </div>--%>
+<%--                                    <div class="col-auto">--%>
+<%--                                        <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>--%>
+<%--                                    </div>--%>
+<%--                                </div>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
+<%--                </div>--%>
 
                 <!-- Content Row -->
 
@@ -393,11 +320,59 @@
 
                     <!-- Area Chart -->
                     <div class="col-xl-8 col-lg-7">
+                        <div class="countbox">
+                            <div class="col-md-4 mb-4" id="searchCountbox">
+                                <div class="card border-left-warning shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                                    전체 검색수</div>
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="col-auto">
+                                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800" id="searchCount"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-search fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4" id="searchCountbox">
+                                <div class="card border-left-warning shadow h-100 py-2">
+                                    <div class="card-body">
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col mr-2">
+                                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                                    사용자 수</div>
+                                                <div class="row no-gutters align-items-center">
+                                                    <div class="col-auto">
+                                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800" id="memberCount"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-auto">
+                                                <i class="fas fa-search fa-2x text-gray-300"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="regionSelect">지역별 검색 추이 </label>
+                            <select id="regionSelect" class="form-control" style="택max-height: 150px; overflow-y: scroll">
+                                <!-- 선택 옵션은 비워둡니다. -->
+                            </select>
+                        </div>
                         <div class="card shadow mb-4">
                             <!-- Card Header - Dropdown -->
                             <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">지역별 검색추이</h6>
                                 <div class="dropdown no-arrow">
                                     <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -421,60 +396,69 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Pie Chart -->
                     <div class="col-xl-4 col-lg-5">
                         <div class="card shadow mb-4">
                             <!-- Card Header - Dropdown -->
-                            <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                <h6 class="m-0 font-weight-bold text-primary">Revenue Sources</h6>
-                                <div class="dropdown no-arrow">
-                                    <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                    </a>
-                                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                         aria-labelledby="dropdownMenuLink">
-                                        <div class="dropdown-header">Dropdown Header:</div>
-                                        <a class="dropdown-item" href="#">Action</a>
-                                        <a class="dropdown-item" href="#">Another action</a>
-                                        <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="#">Something else here</a>
-                                    </div>
-                                </div>
+                            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                <h6 class="m-0 font-weight-bold text-primary">최근 검색횟수가 높은 지역 TOP10</h6>
                             </div>
                             <!-- Card Body -->
                             <div class="card-body">
-                                <div class="chart-pie pt-4 pb-2">
-                                    <canvas id="myPieChart"></canvas>
-                                </div>
-                                <div class="mt-4 text-center small">
-                                        <span class="mr-2">
-                                            <i class="fas fa-circle text-primary"></i> Direct
-                                        </span>
-                                    <span class="mr-2">
-                                            <i class="fas fa-circle text-success"></i> Social
-                                        </span>
-                                    <span class="mr-2">
-                                            <i class="fas fa-circle text-info"></i> Referral
-                                        </span>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="searchResults" width="100%" cellspacing="0">
+                                        <thead>
+                                        <tr>
+                                            <th>Top</th>
+                                            <th>검색어</th>
+                                            <th>검색 횟수</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
+
 
                 <!-- Content Row -->
                 <div class="row">
-
-                    <!-- Content Column -->
-                    <div class="col-lg-6 mb-4">
-
-                        <!-- Project Card Example -->
+                    <div class="container-fluid">
+                        <h1 class="h3 mb-2 text-gray-800">사용자관리</h1>
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Projects</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">사용자관리</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                        <tr>
+                                            <th>번호</th>
+                                            <th>이름</th>
+                                            <th>이메일</th>
+                                            <th>핸드폰</th>
+                                            <th>가입일자</th>
+                                            <th>사용자코드</th>
+                                            <th>추천인코드</th>
+                                            <th>이메일전송</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="memberTable">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-6 mb-4">
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">카테고리별 검색 통계</h6>
                             </div>
                             <div class="card-body">
                                 <h4 class="small font-weight-bold">Server Migration <span
@@ -509,30 +493,25 @@
                                 </div>
                             </div>
                         </div>
-
-                    </div>
-
-                    <div class="col-lg-6 mb-4">
-
                         <!-- Illustrations -->
-                        <div class="card shadow mb-4">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>
-                            </div>
-                            <div class="card-body">
-                                <div class="text-center">
-                                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
-                                         src="../../../../resources/admin/images/undraw_posting_photo.svg" alt="...">
-                                </div>
-                                <p>Add some quality, svg illustrations to your project courtesy of <a
-                                        target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a
-                                    constantly updated collection of beautiful svg images that you can use
-                                    completely free and without attribution!</p>
-                                <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on
-                                    unDraw &rarr;</a>
-                            </div>
-                        </div>
-
+<%--                        <div class="card shadow mb-4">--%>
+<%--                            <div class="card-header py-3">--%>
+<%--                                <h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>--%>
+<%--                            </div>--%>
+<%--                            <div class="card-body">--%>
+<%--                                <div class="text-center">--%>
+<%--                                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"--%>
+<%--                                         src="../../../../resources/admin/images/undraw_posting_photo.svg" alt="...">--%>
+<%--                                </div>--%>
+<%--                                <p>Add some quality, svg illustrations to your project courtesy of <a--%>
+<%--                                        target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a--%>
+<%--                                    constantly updated collection of beautiful svg images that you can use--%>
+<%--                                    completely free and without attribution!</p>--%>
+<%--                                <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on--%>
+<%--                                    unDraw &rarr;</a>--%>
+<%--                            </div>--%>
+<%--                        </div>--%>
+div
                         <!-- Approach -->
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
@@ -599,21 +578,243 @@
 
 <!-- Bootstrap core JavaScript-->
 <script src="../../../../resources/admin/vendor/jquery/jquery.min.js"></script>
+
 <script src="../../../../resources/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 <!-- Core plugin JavaScript-->
 <script src="../../../../resources/admin/vendor/jquery-easing/jquery.easing.min.js"></script>
 
 <!-- Custom scripts for all pages-->
-<script src="../../../../resources/admin/js/sb-admin-2.min.js"></script>
+<%--<script src="../../../../resources/admin/js/sb-admin-2.min.js"></script>--%>
 
 <!-- Page level plugins -->
 <script src="../../../../resources/admin/vendor/chart.js/Chart.min.js"></script>
 
 <!-- Page level custom scripts -->
 <script src="../../../../resources/admin/js/demo/chart-area-demo.js"></script>
-<script src="../../../../resources/admin/js/demo/chart-pie-demo.js"></script>
 
+<script>
+    $.ajax({
+        type: "POST",
+        url: "/searchCount",
+        success: function (data, state, xhr) {
+            $("#searchCount").text(data+"건");
+        },
+        error: function (xhr, data) {
+
+        }
+    });
+
+    $.ajax({
+        type: "POST",
+        url: "/searchLocation",
+        success: function (jsonData, state, xhr) {
+            // 테이블의 tbody를 가져옴
+            var tbody = $("#searchResults tbody");
+            var i = 1;
+            // JSON 데이터를 반복하여 테이블 행으로 추가
+            $.each(jsonData, function (index, item) {
+                var row = $("<tr>");
+                $("<td>").text(i).appendTo(row);
+                $("<td>").text(item.search_keyword).appendTo(row);
+                $("<td>").text(item.search_count).appendTo(row);
+                row.appendTo(tbody);
+                i++;
+            });
+        },
+        error: function (xhr, data) {
+
+        }
+    });
+    function sendEmail(email) {
+        // Implement email sending logic here
+        alert("Sending email to: " + email);
+    }
+
+    $.ajax({
+        type: "POST",
+        url: "/optionLocation",
+        success: function (jsonData, state, xhr) {
+            populateOptionDropdown(jsonData);
+        },
+        error: function (xhr, data) {
+
+        }
+    });
+    function populateOptionDropdown(optionData) {
+        var dropdown = $("#regionSelect"); // select dropdown 선택
+
+        // 기존 옵션 제거
+        dropdown.empty();
+
+        // 기본 선택 옵션 추가
+        dropdown.append($("<option>").val("").text("지역 선택"));
+
+        // 서버에서 가져온 데이터를 이용하여 옵션 추가
+        $.each(optionData, function (index, option) {
+            dropdown.append($("<option>").val(option).text(option));
+        });
+    }
+
+    // $.ajax({
+    //     type: "POST",
+    //     url: "/searchLocationByDate",
+    //     success: function (jsonData, state, xhr) {
+    //
+    //     },
+    //     error: function (xhr, data) {
+    //
+    //     }
+    // });
+    var ctx = document.getElementById("myAreaChart");
+    var myBarChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: "Earnings",
+                backgroundColor: "rgba(78, 115, 223, 0.2)",
+                borderColor: "rgba(78, 115, 223, 1)",
+                borderWidth: 1,
+                data: [],
+            }],
+        },
+        options: {
+            maintainAspectRatio: false,
+            responsive: true,
+            title: {
+                display: true,
+                text: '지역별 검색 추이',
+                fontSize: 18,
+            },
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: '날짜',
+                    },
+                },
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: '검색 수',
+                    },
+                },
+            },
+            legend: {
+                display: false,
+            },
+            tooltips: {
+                callbacks: {
+                    label: function (tooltipItem) {
+                        return tooltipItem.yLabel.toLocaleString(); // 숫자 포맷을 지원하는 경우
+                    },
+                },
+            },
+        },
+    });
+
+    $("#regionSelect").on("change", function () {
+        var selectedOption = $(this).val();
+        $.ajax({
+            type: "POST",
+            url: "/searchLocationByDate",
+            data: { option: selectedOption },
+            success: function (searchData, state, xhr) {
+                console.log(searchData)
+                var chartData = {};
+
+                searchData.forEach(function (item) {
+                    if (!chartData[item.search_date]) {
+                        chartData[item.search_date] = {};
+                    }
+                    chartData[item.search_date][item.search_keyword] = item.search_count;
+                });
+
+                var labels = Object.keys(chartData);
+                var datasets = [];
+                var keywords = Array.from(new Set(searchData.map(function (item) { return item.search_keyword; })));
+
+                keywords.forEach(function (keyword) {
+                    var data = labels.map(function (date) {
+                        return chartData[date][keyword] || 0;
+                    });
+
+                    datasets.push({
+                        label: keyword,
+                        data: data,
+                        backgroundColor: "rgba(78, 115, 223, 0.2)",
+                        borderColor: "rgba(78, 115, 223, 1)",
+                        borderWidth: 1,
+                    });
+                });
+
+                myBarChart.data.labels = labels;
+                myBarChart.data.datasets = datasets;
+                myBarChart.update();
+            },
+            error: function (xhr, data) {
+                // 오류 처리 로직 추가
+            },
+        });
+    });
+
+    $.ajax({
+        type: "POST",
+        url: "/selectMember",
+        success: function (jsonData, state, xhr) {
+            document.getElementById('memberCount').textContent=jsonData.length+'명';
+            var tableBody = document.querySelector("#memberTable");
+            for (var i = 0; i < jsonData.length; i++) {
+                var rowData = jsonData[i];
+                var row = tableBody.insertRow();
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                var cell3 = row.insertCell(2);
+                var cell4 = row.insertCell(3);
+                var cell5 = row.insertCell(4);
+                var cell6 = row.insertCell(5);
+                var cell7 = row.insertCell(6);
+                var cell8 = row.insertCell(7);
+                cell1.innerHTML = rowData.member_id;
+                cell2.innerHTML = rowData.name;
+                cell3.innerHTML = rowData.email;
+                cell4.innerHTML = rowData.phone;
+                cell5.innerHTML = rowData.join_date;
+                if(rowData.code!=null){
+                    cell6.innerHTML = rowData.code;
+                }else{
+                    cell6.innerHTML = '-';
+                }
+                if(rowData.recode!=null){
+                    cell7.innerHTML = rowData.recode;
+                }else{
+                    cell7.innerHTML = '-';
+                }
+                cell8.innerHTML = '<button class="sendEmail" onclick="sendEmail(\'' + rowData.email + '\')">이메일전송</button>';
+            }
+        },
+        error: function (xhr, data) {
+            $("#login_result").text('알 수 없는 에러가 발생했습니다.')
+        }
+    });
+    function sendEmail(email) {
+        // Implement email sending logic here
+        alert("Sending email to: " + email);
+    }
+
+    $.ajax({
+        type: "POST",
+        url: "/recommendOfMember",
+        success: function (data) {
+            console.log(data)
+        },
+        error: function (xhr, data) {
+            $("#login_result").text('알 수 없는 에러가 발생했습니다.')
+        }
+    });
+</script>
 </body>
 
 

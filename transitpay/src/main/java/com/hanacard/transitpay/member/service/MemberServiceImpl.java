@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -17,6 +18,9 @@ import javax.json.JsonReader;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.SecureRandom;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -29,6 +33,11 @@ public class MemberServiceImpl implements MemberService {
     private String apiKey;
     @Value("${coolsms.api_secret}")
     private String api_secret;
+    @Autowired
+    private SHA256Enc enc;
+
+    private static final String CHARACTERS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private static final int CODE_LENGTH = 8;
 
 
     @Autowired
@@ -195,6 +204,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     @Transactional
     public void insertKakaoAndPhoneMember(Member member) {
+        member.setCode(generateCustomCode());
         memberRepository.insertKakaoAndPhoneMember(member);
     }
 
@@ -207,4 +217,84 @@ public class MemberServiceImpl implements MemberService {
     public List<Member> selectAllGroupMembers(int groupId) {
         return memberRepository.selectAllGroupMembers(groupId);
     }
+
+    @Override
+    @Transactional
+    public void joinMember(Member member, MultipartFile[] files, String savePath) throws Exception {
+        if (member.getPw() != null) {
+            String passwd = member.getPw();
+            String encPw = enc.encData(passwd);
+            member.setPw(encPw);
+        }
+        member.setCode(generateCustomCode());
+        Date currentDate = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yy/MM/dd");
+        String formattedDate = dateFormat.format(currentDate);
+        member.setJoin_date(formattedDate);
+        if (files[0].isEmpty()) {
+
+        } else {
+            for (MultipartFile file : files) {
+                String filename = file.getOriginalFilename();
+                String onlyFilename = filename.substring(0, filename.indexOf("."));
+                String extention = filename.substring(filename.indexOf("."));
+                String filepath = null;
+                int count = 0;
+                while (true) {
+                    if (count == 0) {
+                        filepath = onlyFilename + extention;
+                    } else {
+                        filepath = onlyFilename + "_" + count + extention;
+                    }
+                    File checkFile = new File(savePath + filepath);
+                    if (!checkFile.exists()) {
+                        break;
+                    }
+                    count++;
+                }
+                member.setKakao_img(filepath);
+//                System.out.println("savepath : " + savePath);
+//                System.out.println("filepath : " + filepath);
+                try {
+                    FileOutputStream fos = new FileOutputStream(new File(savePath + filepath));
+                    BufferedOutputStream bos = new BufferedOutputStream(fos);
+                    byte[] bytes = file.getBytes();
+                    bos.write(bytes);
+                    bos.close();
+                } catch (FileNotFoundException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
+        memberRepository.joinMember(member);
+        if(member.getRecode()!=null){
+            memberRepository.updateRecommendCode(member.getRecode(),member.getEmail());
+        }
+    }
+
+    @Override
+    public Member loginMember(String email, String pw) throws Exception {
+        String inputPwHash = enc.encData(pw);
+        System.out.println(inputPwHash+"dd");
+        return memberRepository.loginMember(email,inputPwHash);
+    }
+
+
+    public String generateCustomCode() {
+        SecureRandom random = new SecureRandom();
+        StringBuilder code = new StringBuilder(CODE_LENGTH);
+
+        for (int i = 0; i < CODE_LENGTH; i++) {
+            int randomIndex = random.nextInt(CHARACTERS.length());
+            char randomChar = CHARACTERS.charAt(randomIndex);
+            code.append(randomChar);
+        }
+
+        return code.toString();
+    }
+
 }

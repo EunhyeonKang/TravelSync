@@ -11,4 +11,7 @@ public interface MemberRepository {
     void insertKakaoAndPhoneMember(Member member);
     Member selectEmailOneMember(String email);
     List<Member> selectAllGroupMembers(int groupId);
+    void joinMember(Member member);
+    void updateRecommendCode(String recode, String email);
+    Member loginMember(String email, String pw);
 }

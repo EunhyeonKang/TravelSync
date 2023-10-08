@@ -104,22 +104,17 @@
     color: white;
 }
 .main2-2{
-    width: 100%;
     max-width: 1200px;
-    margin: 50px auto;
     flex-wrap: wrap;
     border: 1px solid #d8d8d8;
     border-radius: 10px;
 }
 .parent, .parent-1{
-    margin: 0px auto;
     display: flex;
-    padding: 10px 30px 30px 30px;
 }
 
 .first {
     flex: 1;
-    height: 350px;
     margin: 15px;
     box-sizing: border-box;
     border-radius: 12px;
@@ -134,28 +129,24 @@
 }
 
 .first img{
-    height: 230px;
-    justify-content: center;
+    width: 100%;
+    height: 250px;
     text-align: center;
-    margin-top: 20px;
 }
 .t_wrap{
-    padding: 24px 0 36px 0;
     box-sizing: border-box;
 }
-.t_wrap .name{
+.t_wrap .name, .titlename{
+    color: #929292;
+    line-height: 1.4;
+    padding-left: 30px;
+}
+.titlename{
     font-weight: bold;
-    line-height: 20px;
-    text-align: center;
-    padding: 0 30px;
-    box-sizing: border-box;
+    margin: 28px 0 5px;
+    font-size: 17px;
+    color: #333;
 }
-.name{
-    color: #666;
-    line-height: 1.462em;
-}
-
-
 
 .exchange-img {
     overflow: hidden;
@@ -179,4 +170,58 @@
 .exchange-rate {
     margin-top: 5px;
     font-size: 14px;
+}
+.populbox{
+    float: left;
+    width: 20%;
+    margin-left: 20px;
+}
+.popul-1{
+    width: 100%;
+    height: 200px;
+    border-radius: 10px;
+}
+.main2box{
+    display: flex;
+    width: 1200px;
+    margin: 0 auto;
+}
+.popcount{
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-color: #82878c;
+    color: #fff;
+    text-align: center;
+    float: left;
+    border-radius: 10px;
+    font-size: 16px;
+    line-height: 30px;
+    margin-right: 5px;
+}
+.popul-2{
+    height: 200px;
+    overflow: auto;
+    margin: 0 10px 10px 0;
+}
+.popcountbox{
+    height: 30px;
+    margin:10px 0;
+    display: block;
+}
+.populsearch{
+    font-weight: 700;
+    margin: 0;
+    color: #0d2842;
+}
+.popkeyword{
+    padding: 5px 0;
+    color: #373737;
+    font-weight: 700;
+}
+.populimg{
+    width: 220px;
+    height: 200px;
+    margin-top: 5px;
+    border-radius: 10px;
 }

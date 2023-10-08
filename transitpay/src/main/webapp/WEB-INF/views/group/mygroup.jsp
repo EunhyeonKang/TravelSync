@@ -31,9 +31,11 @@
       }
     .traveltitle hr{
         border: 1px solid #929292;
-    }.contents{
+    }
+    .contents{
          width: 1200px;
          display: flex;
+        height: 1000px;
          margin: 30px auto;
      }.menu1 a:hover {
           background-color: #008485;
@@ -68,6 +70,7 @@
         font-size: 17px;
         color: #606060;
         float: left;
+        display: flex;
         padding: 13px 0;
     }
     .section-1 div:nth-child(2){
@@ -439,22 +442,30 @@
     #example_info{
         display: none;
     }
-    .card{
+    .card , .card1{
         font-weight: 700;
-        font-size: 18px;
+        font-size: 13px;
         text-align: center;
-        color: #FFFFFF;
-        background: rgb(211 50 105);
-        border: 0;
+        /*color: #E91E63;*/
+        /*border: 1px solid #E91E63;*/
+        background: #828282;
+        color: #FFFBFB;
         margin: 0 auto;
         padding: 15px 0;
-        width: 100px;
+        width: 70px;
         border-radius: 50px;
+    }
+    .card1{
+        background: #1e6c93;
+        color: #FFFBFB;
+        /*color: #009688;*/
+        /*border: 1px solid #009688;*/
     }
     .cardBtn{
         border: 0;
         background: 0;
-        margin-bottom: 30px;
+        margin-left: 0;
+        padding: 0;
     }
     .modal {
         display: none;
@@ -587,7 +598,11 @@
         background-color: #ffffff !important;
     }
     .cardAndTransfer{
-       text-align: center;
+        text-align: center;
+        margin-left: 16px;
+    }
+    .accountAndInfo{
+        margin-right: 16px;
     }
 </style>
 <body>
@@ -605,8 +620,18 @@
         <div class="contents-1">
             <div class="section-1">
                 <div class="contentsText">
-                    <div class="accountName"></div>
-                    <div class="accountNum"></div>
+                    <div class="accountAndInfo">
+                        <div class="accountName"></div>
+                        <div class="accountNum"></div>
+                    </div>
+                    <div class="cardAndTransfer">
+                        <button class="cardBtn" onclick="accountTransfer()">
+                            <div class="card1">이체</div>
+                        </button>
+                        <button class="cardBtn" onclick="openCardModal()">
+                            <div class="card">카드</div>
+                        </button>
+                    </div>
                 </div>
                 <div class="stepper">
                 </div>
@@ -642,7 +667,7 @@
                                             });
                                             // 고정된 색상 배열
                                             const fixedColors = [
-                                                'rgb(255, 99, 132)',
+                                                'rgb(89,208,201)',
                                                 'rgb(54, 162, 235)',
                                                 'rgb(255, 205, 86)'
                                             ];
@@ -709,17 +734,10 @@
                     </div>
 
                     <div class="applyBox">
-                        <button class="applyBtn1" onclick="location.href='/travel/${groupId}'">여행계획 짜러가기</button>
+                        <button class="applyBtn1" onclick="location.href='/travel/${groupId}'">여행계획</button>
                     </div>
                 </div>
-                <div class="cardAndTransfer">
-                    <button class="cardBtn" onclick="accountTransfer()">
-                        <div class="card">이체</div>
-                    </button>
-                    <button class="cardBtn" onclick="openCardModal()">
-                        <div class="card">카드</div>
-                    </button>
-                </div>
+
                 <div id="cardModal" class="modal">
                     <div class="modal-content card-modal-content">
                         <span class="close" onclick="closeCardModal()">&times;</span>
@@ -891,9 +909,8 @@
 </div>
 </div>
 </body>
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css"/>
-
+<link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
     function searchByMonth() {
         // 선택한 월 가져오기
@@ -928,8 +945,25 @@
     }
 
     $(document).ready(function() {
-        // DataTables 초기화 및 페이징 설정
-        $('#cardHistoryTable').DataTable();
+        $('#cardHistoryTable').DataTable({
+            autoWidth: false,
+            language: { //언어 설정
+                paginate: {
+                    previous: "이전",
+                    next: "다음"
+                },
+                zeroRecords: "검색 결과가 없습니다.",
+                info: "전체 거래내역 _TOTAL_개 중에서 _START_ 번부터 _END_ 번까지의 결과",
+                lengthMenu: "_MENU_ 행까지 조회"
+            }
+            , columnDefs: [
+                {
+                    targets: -1,
+                    className: 'dt-body-center'
+                },
+
+            ],
+        });
     });
     // 모달 열기
     function openCardModal() {
@@ -997,6 +1031,23 @@
         var groupAccount = document.querySelector('.accountNum').textContent;
         var table = $('#example').DataTable({
             lengthChange: false,
+            autoWidth: false,
+            language: { //언어 설정
+                paginate: {
+                    previous: "이전",
+                    next: "다음"
+                },
+                zeroRecords: "검색 결과가 없습니다.",
+                info: "전체 거래내역 _TOTAL_개 중에서 _START_ 번부터 _END_ 번까지의 결과",
+                lengthMenu: "_MENU_ 행까지 조회"
+            }
+            , columnDefs: [
+                {
+                    targets: -1,
+                    className: 'dt-body-center'
+                },
+
+            ],
             buttons: [ 'copy', 'excel', 'pdf', 'colvis' ],
             columns: [
                 { data: 'group_account_tid' },
@@ -1032,7 +1083,12 @@
             response.forEach(function(member) {
                 var groupMemberImg = document.createElement('img');
                 groupMemberImg.className = 'group-member-img';
-                groupMemberImg.src = member.kakao_img;
+                if(member.kakao_id==0){
+                    groupMemberImg.src = '../../../resources/upload/profile/'+member.kakao_img;
+                }else{
+                    groupMemberImg.src = member.kakao_img;
+                }
+
                 groupmember.appendChild(groupMemberImg);
             });
         },

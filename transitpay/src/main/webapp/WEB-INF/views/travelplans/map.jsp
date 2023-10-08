@@ -195,7 +195,7 @@
             right: 0;
         }
         #container{
-            margin: 100px 10px 10px 10px;
+            padding : 20px 10px 10px 10px;
             width: 400px;
             padding: 15px;
             height: 550px;
@@ -250,6 +250,22 @@
         .kakao-maps-draw-path {
             strokeColor: '#0000FF'; /* 선의 색상을 파란색(#0000FF)으로 변경 */
         }
+        .slider{
+            overflow: auto;
+            max-height: 500px;
+        }
+        .bookmarkh2{
+            font-size: 18px;
+            text-align: center;
+            color: dimgray;
+            margin-top: 100px;
+        }
+        .item-card img{
+            border-radius: 10px;
+        }
+        .travelboxking{
+            height: 100%;
+        }
     </style>
 </head>
 <body>
@@ -259,138 +275,190 @@
         <span>여행·일정 등록</span>
         <hr/>
     </div>
-    <div class="contents">
-        <div class="menu1">
-            <div class="menu1-1">여행 장소 선택</div>
-            <div class="menuhr"><hr/></div>
-            <a href="/travel">여행 장소 선택</a>
-            <a href="map">여행 일정 추가</a>
-            <a href="/categoryTravel">TOP 여행지</a>
+    <div class="travelboxking">
+        <div class="contents">
+            <div class="menu1">
+                <div class="menu1-1">여행 장소 선택</div>
+                <div class="menuhr"><hr/></div>
+                <a href="/travel">여행 장소 선택</a>
+                <a href="map">여행 일정 추가</a>
+                <a href="/categoryTravel">TOP 여행지</a>
+                <h2 class="bookmarkh2">즐겨찾기 목록</h2>
+                <div class="slider">
+                    <div class="item-list">
+                    </div>
+                </div>
+            </div>
+            <div class="contents-1">
+                <div class="container">
+                    <div class="contents1">
+                        <input type="text" class="title-text" value="${param.travelTitle}"><a class="update-text">수정</a></span>
+                        <button class="travel-data">과거 여행 내역</button>
+                    </div>
+                    <div class="contents2">
+                        <span class="date">${param.travelStart} - ${param.travelEnd}</span>
+                        <span class="dday">(${param.daysLeft} 일) D - ${param.dDay}</span>
+                    </div>
+                </div>
+
+                <div class="map_wrap">
+                    <div id="map"></div>
+                    <div id="menu_wrap" class="bg_white">
+                        <div class="option">
+                            <div class="search">
+                                <input id="searchInput" type="text" placeholder="여행, 어디로 떠나시나요?">
+                                <img class="searchimg" src="../../resources/images/search.png" style="width: 50px;" >
+                                <div id="searchDropdown" class="dropdown-content"></div>
+                            </div>
+                        </div>
+                        <hr>
+                        <ul id="placesList"></ul>
+                        <div id="pagination"></div>
+                    </div>
+                </div>
+                <div id="startModal" class="modal">
+                    <div class="modal-content">
+                        <span class="close">&times;</span>
+                        <div class="select-date-box">
+                            <h3>날짜를 선택해주세요.</h3>
+                            <div class="select-box">
+
+                            </div>
+                            <div class="date-btn-box">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="foodModal" id="foodModal">
+                    <div class="food-modal-content">
+                        <span class="food-close-btn">&times;</span>
+                        <div class="select-date-box">
+                            <h3>음식을 선택해주세요.</h3>
+                            <div class="food-select-box">
+                                <table id="foodTable">
+                                    <thead>
+                                    <tr>
+                                        <th>선택</th>
+                                        <th>음식</th>
+                                        <th>가격</th>
+                                        <th>개수</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                                <button id="addToCart">추가하기</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <c:set var="travelStart" value="${param.travelStart}" />
+                <c:set var="travelEnd" value="${param.travelEnd}" />
+
+                <script>
+                    var travelStart = "${travelStart}";
+                    var travelEnd = "${travelEnd}";
+                    var dateList = [];
+
+                    var currentDate = new Date(travelStart);
+                    var endDate = new Date(travelEnd);
+
+                    while (currentDate <= endDate) {
+                        dateList.push({ date: currentDate.toISOString().split("T")[0], day: currentDate.getDay() });
+                        currentDate.setDate(currentDate.getDate() + 1);
+                    }
+
+                    var daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
+                    document.write('<div class="dateListBox">')
+                    for (var i = 0; i < dateList.length; i++) {
+                        document.write('<div class="container2-box">');
+                        document.write('<div class="container2">');
+                        document.write('<div class="days">day ' + (i + 1) + '</div>');
+                        document.write('<div class="day">' + dateList[i].date+'</div>');
+                        document.write('<div class="day1">' + ' (' + daysOfWeek[dateList[i].day] + ')</div>');
+                        document.write('</div></div>');
+                    }
+                    document.write('</div>')
+                </script>
+
+                <div class="exchangebox2">
+                    <div class="payment-amount">
+                        <div class="amount-label">여행예산(원)</div>
+                        <div class="amount-value">0</div>
+                    </div>
+                    <div class="exchange-rate">
+                        <div class="discount-section">
+                            <span class="discount-label">식비</span>
+                            <span class="discount-value">0</span>
+                        </div>
+                        <div class="rate-section">
+                            <span class="rate-label">숙박비</span>
+                            <span class="rate-value">0</span>
+                        </div>
+                        <div class="etc-section">
+                            <span class="etc-label">문화·기타</span>
+                            <span class="etc-value">0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="tvlbuttons">
+                    <button class="tvlbtn2" onclick="tvlBtnFunc()">
+                        <div>저장하기</div>
+                    </button>
+                </div>
+            </div>
+            <%@ include file="../socket.jsp" %>
         </div>
-        <div class="contents-1">
-            <div class="container">
-                <div class="contents1">
-                    <input type="text" class="title-text" value="${param.travelTitle}"></span><a class="update-text">수정</a>
-                    <button class="travel-data">과거 여행 내역</button>
-                </div>
-                <div class="contents2">
-                    <span class="date">${param.travelStart} - ${param.travelEnd}</span>
-                    <span class="dday">(${param.daysLeft} 일) D - ${param.dDay}</span>
-                </div>
-            </div>
-
-            <div class="map_wrap">
-                <div id="map"></div>
-                <div id="menu_wrap" class="bg_white">
-                    <div class="option">
-                        <div class="search">
-                            <input id="searchInput" type="text" placeholder="여행, 어디로 떠나시나요?">
-                            <img class="searchimg" src="../../resources/images/search.png">
-                            <div id="searchDropdown" class="dropdown-content"></div>
-                        </div>
-                    </div>
-                    <hr>
-                    <ul id="placesList"></ul>
-                    <div id="pagination"></div>
-                </div>
-            </div>
-            <div id="startModal" class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <div class="select-date-box">
-                        <h3>날짜를 선택해주세요.</h3>
-                        <div class="select-box">
-
-                        </div>
-                        <div class="date-btn-box">
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="foodModal" id="foodModal">
-                <div class="food-modal-content">
-                    <span class="food-close-btn">&times;</span>
-                    <div class="select-date-box">
-                        <h3>음식을 선택해주세요.</h3>
-                        <div class="food-select-box">
-                            <table id="foodTable">
-                                <thead>
-                                <tr>
-                                    <th>선택</th>
-                                    <th>음식</th>
-                                    <th>가격</th>
-                                    <th>개수</th>
-                                </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
-                            <button id="addToCart">추가하기</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <c:set var="travelStart" value="${param.travelStart}" />
-            <c:set var="travelEnd" value="${param.travelEnd}" />
-
-            <script>
-                var travelStart = "${travelStart}";
-                var travelEnd = "${travelEnd}";
-                var dateList = [];
-
-                var currentDate = new Date(travelStart);
-                var endDate = new Date(travelEnd);
-
-                while (currentDate <= endDate) {
-                    dateList.push({ date: currentDate.toISOString().split("T")[0], day: currentDate.getDay() });
-                    currentDate.setDate(currentDate.getDate() + 1);
-                }
-
-                var daysOfWeek = ["일", "월", "화", "수", "목", "금", "토"];
-                document.write('<div class="dateListBox">')
-                for (var i = 0; i < dateList.length; i++) {
-                    document.write('<div class="container2-box">');
-                    document.write('<div class="container2">');
-                    document.write('<div class="days">day ' + (i + 1) + '</div>');
-                    document.write('<div class="day">' + dateList[i].date+'</div>');
-                    document.write('<div class="day1">' + ' (' + daysOfWeek[dateList[i].day] + ')</div>');
-                    document.write('</div></div>');
-                }
-                document.write('</div>')
-            </script>
-
-            <div class="exchangebox2">
-                <div class="payment-amount">
-                    <div class="amount-label">여행예산(원)</div>
-                    <div class="amount-value">0</div>
-                </div>
-                <div class="exchange-rate">
-                    <div class="discount-section">
-                        <span class="discount-label">식비</span>
-                        <span class="discount-value">0</span>
-                    </div>
-                    <div class="rate-section">
-                        <span class="rate-label">숙박비</span>
-                        <span class="rate-value">0</span>
-                    </div>
-                    <div class="etc-section">
-                        <span class="etc-label">문화·기타</span>
-                        <span class="etc-value">0</span>
-                    </div>
-                </div>
-            </div>
-            <div class="tvlbuttons">
-                <button class="tvlbtn2" onclick="tvlBtnFunc()">
-                    <div>저장하기</div>
-                </button>
-            </div>
-        </div>
-        <%@ include file="../socket.jsp" %>
     </div>
     <%@ include file="../include/footer.jsp" %>
 </div>
 
 <script>
+    $.ajax({
+        type: "GET",
+        url: "/selectBookmarkTravelList",
+        success: function (response) {
+            var itemContainer = document.querySelector('.item-list');
+            if (response.length > 0) {
+                response.forEach(function (data) {
+                    var itemDiv = document.createElement('div');
+                    itemDiv.className = 'item';
+                    var itemcCrd = document.createElement('div');
+                    itemcCrd.className = 'item-card';
+                    var itemImage = document.createElement('img');
+                    var originalURL =data.photo;
+                    var idMatch = originalURL.match(/id=([^&]+)/);
+                    var id = idMatch ? idMatch[1] : null;
+                    var modifiedURL = id ? originalURL.replace(idMatch[0], "&" + "id=" + id) : originalURL;
+                    itemImage.src = modifiedURL;
+                    itemImage.className='item-img'
+                    itemImage.alt = data.content;
+                    itemcCrd.appendChild(itemImage);
+
+                    var itemHeading = document.createElement('h2');
+                    itemHeading.style.fontSize = '16px';
+                    itemHeading.textContent = data.content;
+                    itemcCrd.appendChild(itemHeading);
+
+                    var paragraphlocation = document.createElement('p');
+                    paragraphlocation.textContent = '지역 : ' + data.location;
+                    // var paragraphtag = document.createElement('p');
+                    // paragraphtag.textContent = data.tags;
+
+                    itemcCrd.appendChild(paragraphlocation);
+                    // itemDiv.appendChild(paragraphtag);
+
+                    itemDiv.appendChild(itemcCrd);
+                    itemContainer.appendChild(itemDiv);
+                })
+            }else{
+
+            }
+        },
+        error: function (error) {
+            console.error(error);
+        },
+    });
     // 페이지 로드 시 실행
     window.onload = function () {
         // 세션 스토리지에서 WebSocket 연결 상태 확인
@@ -994,10 +1062,12 @@
 
         var path = [marker1.getPosition(), marker2.getPosition()];
         var polyline = new kakao.maps.Polyline({
-            path: path, // 선을 그릴 좌표 배열
-            strokeWeight: 3, // 선의 두께
-            strokeColor: '#0000FF', // 선의 색상
-            strokeOpacity: 1, // 선의 투명도
+            path: path,
+            strokeWeight: 5, // 선의 두께 (두껍게 설정)
+            strokeColor: 'rgb(64,64,64)',
+            strokeOpacity: 1,
+            strokeStyle: 'dashed', // 점선 스타일 설정
+            strokeDashArray: [10, 5], // 점선의 간격과 공백 설정 (10px 선, 5px 공백)
         });
 
         polyline.setMap(map); // 지도에 선을 표시

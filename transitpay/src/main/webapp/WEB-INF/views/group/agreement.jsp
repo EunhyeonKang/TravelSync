@@ -29,10 +29,12 @@
       }
     .traveltitle hr{
         border: 1px solid #929292;
-    }.contents{
-         width: 1200px;
-         display: flex;
-         margin: 30px auto;
+    }
+    .contents{
+        width: 1200px;
+        height: 100%;
+        display: flex;
+        margin: 30px auto;
      }.menu1 a:hover {
           background-color: #008485;
           color: white;

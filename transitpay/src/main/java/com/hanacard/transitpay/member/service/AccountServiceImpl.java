@@ -13,6 +13,9 @@ import java.util.Random;
 @Service
 public class AccountServiceImpl implements AccountService {
     private AccountRepository accountRepository;
+    private static final String[] BANKS = {
+            "하나저축은행", "하나은행", "하나손해보험"
+    };
     @Autowired
     public AccountServiceImpl(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
@@ -132,6 +135,38 @@ public class AccountServiceImpl implements AccountService {
         accountRepository.insertGroupAccountStatement(ga.getAccount_num(),ga.getGroup_account(),"IN",ga.getG_dues(),"(주계좌)자동이체");
         accountRepository.updateAccountBalance(ga.getMember_id(), ga.getAccount_num(), ga.getG_dues(), ga.getAccount_bank());
         accountRepository.updateGroupAccountBalance(ga.getGroup_account(),ga.getG_dues());
+    }
+
+    @Override
+    @Transactional
+    public void insertHanaAccount(int memberId, String phone) {
+        String accountNumber = generateRandomAccountNumber();
+        int balance = generateRandomBalance();
+        String bank = generateRandomBank();
+        accountRepository.insertHanaAccount(memberId,accountNumber,bank,balance,phone);
+    }
+    // 12자리의 랜덤 계좌번호 생성
+    private static String generateRandomAccountNumber() {
+        Random random = new Random();
+        StringBuilder accountNumber = new StringBuilder();
+        for (int i = 0; i < 12; i++) {
+            int digit = random.nextInt(10);
+            accountNumber.append(digit);
+        }
+        return accountNumber.toString();
+    }
+
+    // 1,000원부터 10,000,000원까지의 랜덤 잔액 생성
+    private static int generateRandomBalance() {
+        Random random = new Random();
+        return random.nextInt(10000001) + 1000; // 1000원 ~ 10,000,000원
+    }
+
+    // 랜덤으로 은행 선택
+    private static String generateRandomBank() {
+        Random random = new Random();
+        int index = random.nextInt(BANKS.length);
+        return BANKS[index];
     }
     @Override
     @Transactional

@@ -15,7 +15,6 @@
         .saveTravelTitle{
             color: #009688;
             margin-right: 10px;
-            color: #899090;
         }
         .saveDate{
             color: #a6a6a6;

@@ -64,8 +64,8 @@
         .custom-table tbody tr:nth-child(even) {
             background-color: #f2f2f2;
         }
-        /* 모달 스타일 */
-        .update-modal {
+        /* 모임 수정 모달 스타일 */
+        #updateModal {
             display: none;
             position: fixed;
             z-index: 1;
@@ -73,70 +73,56 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.7);
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
         }
 
-        /* 모달 내용 스타일 */
-        .update-modal-content {
+        #updateModal .update-modal-content {
             background-color: #fff;
             margin: 15% auto;
             padding: 20px;
             border: 1px solid #888;
             width: 80%;
-            border-radius: 10px;
+            max-width: 600px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
         }
 
-        /* 모달 닫기 버튼 스타일 */
-        .update-close {
-            color: #aaa;
+        #updateModal .update-close {
+            display: inline-block;
             float: right;
-            font-size: 28px;
+            font-size: 24px;
             font-weight: bold;
             cursor: pointer;
         }
 
-        .update-close:hover,
-        .update-close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
+        #updateModal .update-close:hover {
+            color: red;
         }
 
-        .update-modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.7);
-        }
-
-        /* 모달 내용 스타일 */
-        .update-modal-content {
-            background-color: #fff;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
+        #updateModal h2 {
             text-align: center;
+            margin-bottom: 20px;
         }
 
-        /* 모달 닫기 버튼 스타일 */
-        .update-close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
+        #updateModal table {
+            width: 100%;
         }
 
-        .update-close:hover,
-        .update-close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
+        #updateModal table td {
+            padding: 10px;
+        }
+
+        #groupAutopay{
+            width: 96% !important;
+        }
+
+        #updateModal table input[type="text"],
+        #updateModal table input[type="password"],
+        #updateModal table select {
+            width: 90%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
 
         /* 테이블 스타일 */
@@ -178,6 +164,7 @@
             margin: 10px 2px;
             cursor: pointer;
             border-radius: 3px;
+            width: 100%;
         }
 
         #updateButton:hover {
@@ -245,6 +232,7 @@
             position: absolute;
             top: 50%;
             left: 50%;
+            width: 700px;
             transform: translate(-50%, -50%);
             background-color: #fff;
             padding: 20px;
@@ -425,20 +413,8 @@
             display: flex;
             justify-content: center;
         }
-        .category-숙박 {
-            color: #FFC107;
-            margin: 0 5px;
-            font-weight: 800;
-        }
-
-        .category-음식 {
-            color: #E91E63;
-            margin: 0 5px;
-            font-weight: 800;
-        }
-
-        .category-기타 {
-            color: #168bdc;
+        .category-숙박 , .category-음식 , .category-기타{
+            color: #005CFF;
             margin: 0 5px;
             font-weight: 800;
         }
@@ -446,6 +422,10 @@
             color: #E91E63;
             font-weight: 800;
             padding: 0px 5px;
+        }
+        #travleLength:hover{
+            color: #009688;
+            font-weight: 700;
         }
     </style>
 </head>
@@ -508,7 +488,7 @@
                                     <div>
                                         <div class="travelsavebox">
                                             <img class="saveImg" src="../../../resources/images/save-time.svg" style="width: 70px;">
-                                            <div>모여라 여행</div>
+                                            <div>저장된 여행</div>
                                             <div class="saveboxcnt"><strong><a href="/saveTravel" id="travleLength"></a></strong></div>
                                         </div>
                                     </div>
@@ -520,11 +500,11 @@
                                     <div>
                                         <div class="travelsavebox">
                                             <img class="saveImg" src="../../../resources/images/save-hassle.svg" style="width: 70px;">
-                                            <div>모여라 여행</div>
+                                            <div>여행회비</div>
                                             <div class="saveboxcnt"><strong><a href="/afterTravel" id="completeTravelLength"></a></strong></div>
                                         </div>
                                     </div>
-                                    <button>모여라회비 | 자동이체💰</button>
+                                    <button>모여라회비💰</button>
                                 </div>
                             </div>
                             <div class="travelbox-3">
@@ -664,10 +644,6 @@
             <h2>모임수정</h2>
             <table>
                 <tr>
-                    <td>그룹 ID:</td>
-                    <td id="groupID"></td>
-                </tr>
-                <tr>
                     <td>그룹 이름:</td>
                     <td id="groupName"></td>
                 </tr>
@@ -746,7 +722,7 @@
     <div id="cardModal" class="modal1">
         <div class="modal-content1 card-modal-content">
             <span class="close1" onclick="closeCardModal()">&times;</span>
-            <h2 class="card-title">프렌즈 체크카드(1394)</h2>
+            <h2 class="card-title">모여라 체크카드(1394)</h2>
             <div class="date-search">
                 <label for="selectedMonth">날짜 선택:</label>
                 <select id="selectedMonth">
@@ -790,7 +766,7 @@
                         <td>2023-11-04</td>
                         <td>베스트웨스턴 하버파크호텔</td>
                         <td>-32,000원</td>
-                    </tr>
+                    </tr>카
                     <tr>
                         <td>2023-11-05</td>
                         <td>파라다이스 씨티 씨메르(인천)</td>
@@ -906,6 +882,23 @@
         type: "GET",
         url: "/selectMemberNotificationHistory",
         success: function (response) {
+            var chartCanvas = document.getElementById('myChart');
+            var ctx = chartCanvas.getContext('2d');
+
+            if (response.length === 0) {
+                // 데이터가 없을 경우 "데이터 없음" 메시지를 렌더링
+                ctx.font = 'bold 13px Verdana';
+                ctx.fillText('여행 데이터를 추가하세요', chartCanvas.width / 2 - 80, chartCanvas.height / 2);
+                return; // 데이터가 없으므로 그 이후 코드 실행을 중지
+            }
+            if (response.length === 0) {
+                // 데이터가 없을 경우 "데이터 없음" 메시지를 표시
+                var travelreport = document.querySelector('.chartbox');
+                var noDataMessage = document.createElement('div');
+                noDataMessage.textContent = '';
+                travelreport.appendChild(noDataMessage);
+                return; // 데이터가 없으므로 그 이후 코드 실행을 중지
+            }
             var food = 0;
             var etc =0;
             var accommodation =0;
@@ -932,20 +925,23 @@
 
             var travelreport = document.querySelector('#travelreport');
             var cdiv = document.createElement('div');
-            cdiv.innerHTML = '여행에서 가장 많이 지출한 항목은 <div class="manyCategory category-' + manyCategory + '">' + manyCategory + '</div> 입니다.';
+            cdiv.innerHTML = '여행·일정에서 가장 많은 항목은 <div class="manyCategory category-' + manyCategory + '">' + manyCategory + '</div> 입니다.';
             cdiv.classList.add('category'); // 'category' 클래스 추가
             travelreport.appendChild(cdiv);
 
             var total = document.createElement('div');
-            total.innerHTML = '총 지출 금액의 <div class="percent">' + percent.toFixed(2) + '%</div>를 차지합니다.';
+            total.innerHTML = '총 여행·일정(모여라회비) 금액의 <div class="percent">' + percent.toFixed(2) + '%</div>를 차지합니다.';
             total.classList.add('percentage'); // 'percentage' 클래스 추가
             travelreport.appendChild(total);
 
             // 고정된 색상 배열
             const fixedColors = [
-                'rgb(255, 99, 132)',
-                'rgb(54, 162, 235)',
-                'rgb(255, 205, 86)'
+                // 'rgb(255, 99, 132)',
+                // 'rgb(54, 162, 235)',
+                // 'rgb(255, 205, 86)'
+                'rgb(211, 211, 211)',
+                'rgb(241, 241, 241)',
+                'rgb(0, 92, 255)'
             ];
             // 데이터 가공
             const data = [
@@ -966,6 +962,14 @@
                 }
             ];
 
+            // 데이터 총합 계산
+            const total1 = data.reduce((acc, item) => acc + item.data, 0);
+
+            // 퍼센티지 계산 및 라벨 설정
+            data.forEach(item => {
+                const percentage = ((item.data / total1) * 100).toFixed(1); // 소수점 1자리까지 표시
+                item.label += '(' +percentage+'%)';
+            });
 
             // 차트 설정
             const chartData = {
@@ -982,6 +986,24 @@
             const chartConfig = {
                 type: 'doughnut',
                 data: chartData,
+                options: {
+                    plugins: {
+                        legend: {
+                            display: true, // 레전드 숨김
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    const label = context.label || '';
+                                    if (label) {
+                                        return label + ' : ' + context.formattedValue+'원';
+                                    }
+                                    return '';
+                                },
+                            },
+                        },
+                    },
+                },
             };
 
             // 차트 생성
@@ -1070,7 +1092,9 @@
         success: function (response) {
             document.getElementById("groupName").textContent = response[0].group_name;
             document.getElementById("groupAccount").textContent = response[0].group_account;
-            document.getElementById("groupBalance").textContent = response[0].g_balance;
+            var gBalance = response[0].g_balance;
+            var formattedGBalance = gBalance.toLocaleString();
+            document.getElementById("groupBalance").textContent = formattedGBalance + "원";
             document.getElementById("groupDay").value = response[0].g_day;
             document.getElementById("groupDues").value = response[0].g_dues;
             document.getElementById("groupAutopay").value = response[0].g_autopay;

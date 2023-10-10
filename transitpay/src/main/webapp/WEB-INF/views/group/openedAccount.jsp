@@ -329,6 +329,12 @@
         border-radius: 10px;
         margin-top: 30px;
     }
+
+    #calculate:hover{
+        transform: scale(1.009);
+        transition: transform 0.1s ease-in-out;
+    }
+
     .box2 > button > span{
         width: 300.21px;
         height: 18px;

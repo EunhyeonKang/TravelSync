@@ -97,5 +97,15 @@
             return;
         }
     });
+    $.ajax({
+        type: "POST",
+        url: "/recommendOfMember",
+        success: function (data) {
+
+        },
+        error: function (xhr, data) {
+            $("#login_result").text('알 수 없는 에러가 발생했습니다.')
+        }
+    });
 </script>
 </html>

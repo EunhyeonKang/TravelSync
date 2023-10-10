@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../../../resources/css/map.css">
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=aa75059f83f9e745604b52cb811450f4&libraries=services"></script>
     <script src="../../../resources/js/socket.js"></script>
     <style>
@@ -152,9 +153,12 @@
             border-radius: 10px;
             float: right;
             color: white;
+            text-align: right;
+            padding-right: 45px;
             font-weight: 700;
             text-align: right;
             margin-bottom: 5px;
+            justify-content: flex-end;
         }
         .chating .others{
             float: left;
@@ -266,6 +270,109 @@
         .travelboxking{
             height: 100%;
         }
+
+        /* 모달 스타일 */
+        .before-custom-modal {
+            display: none; /* 초기에는 숨김 */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            z-index: 2;
+        }
+
+        /* 모달 내용 스타일 */
+        .before-modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #aeb0bb;
+            width: 80%;
+            max-width: 600px;
+            position: relative;
+            border-radius: 10px;
+            height: 500px;
+        }
+
+        /* 모달 닫기 버튼 스타일 */
+        .before-close-button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        /* 모달 내용 스타일 (내용에 맞게 수정) */
+        .before-modal-content p {
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+
+        /* 추가적인 스타일을 필요에 따라 여기에 추가하세요 */
+
+        /* 모달 내부 스타일링 예시 */
+        .before-modal-content h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .before-modal-content ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+
+        .before-modal-content li {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        #travelreport{
+            text-align: center;
+            font-weight: 600;
+            color: #696767;
+            padding: 0;
+            margin-bottom: 0px;
+            margin-top: 30px;
+        }
+        .category{
+            display: flex;
+            justify-content: center;
+        }
+        .percentage{
+            display: flex;
+            justify-content: center;
+        }
+        .category-숙박 , .category-음식 , .category-기타{
+            color: #005CFF;
+            margin: 0 5px;
+            font-weight: 800;
+        }
+
+        .chartbox{
+            width: 300px;
+            margin: 20px auto;
+        }
+        .percent{
+            color: #E91E63;
+            font-weight: 800;
+            padding: 0px 5px;
+        }
+        .reportInfo{
+            text-align: center;
+            color: #403f3f;
+        }
+        .reportBtn{
+            margin: 10px;
+            padding: 10px;
+            width: 200px;
+            border: 0;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
@@ -293,7 +400,17 @@
                 <div class="container">
                     <div class="contents1">
                         <input type="text" class="title-text" value="${param.travelTitle}"><a class="update-text">수정</a></span>
-                        <button class="travel-data">과거 여행 내역</button>
+                        <button class="travel-data">과거 여행계획 내역</button>
+                    </div>
+                    <div class="before-custom-modal" id="beforeTravelModal">
+                        <div class="before-modal-content">
+                            <span class="before-close-button" id="beforeCloseTravelModal">&times;</span>
+                            <h2 class="reportInfo">내 여행 리포트📈</h2>
+                            <div class="chartbox">
+                                <canvas id="myChart"></canvas>
+                            </div>
+                            <p id="travelreport">
+                        </div>
                     </div>
                     <div class="contents2">
                         <span class="date">${param.travelStart} - ${param.travelEnd}</span>
@@ -414,6 +531,154 @@
 </div>
 
 <script>
+    $.ajax({
+        type: "GET",
+        url: "/selectMemberNotificationHistory",
+        success: function (response) {
+            var food = 0;
+            var etc =0;
+            var accommodation =0;
+            response.forEach(function(item){
+                food +=item.food_expenses;
+                etc += item.etc_expenses;
+                accommodation +=item.accommodation_expenses;
+
+            })
+
+            var totalcategory = food + etc + accommodation;
+            var manyCategory = "";
+            var percent;
+            if (accommodation > food && accommodation > etc) {
+                manyCategory = "숙박";
+                percent = (accommodation / totalcategory) * 100;
+            } else if (food > accommodation && food > etc) {
+                manyCategory = "음식";
+                percent = (food / totalcategory) * 100;
+            } else {
+                manyCategory = "기타·문화";
+                percent = (etc / totalcategory) * 100;
+            }
+
+            var travelreport = document.querySelector('#travelreport');
+            var cdiv = document.createElement('div');
+            cdiv.innerHTML = '여행·일정에서 가장 많은 항목은 <div class="manyCategory category-' + manyCategory + '">' + manyCategory + '</div> 입니다.';
+            cdiv.classList.add('category'); // 'category' 클래스 추가
+            travelreport.appendChild(cdiv);
+
+            var total = document.createElement('div');
+            total.innerHTML = '총 여행·일정(모여라회비) 금액의 <div class="percent">' + percent.toFixed(2) + '%</div>를 차지합니다.';
+            total.classList.add('percentage'); // 'percentage' 클래스 추가
+            travelreport.appendChild(total);
+
+            var reportBtn = document.createElement('button');
+            reportBtn.textContent='자세히 보기';
+            reportBtn.classList.add('reportBtn'); // 'percentage' 클래스 추가
+            travelreport.appendChild(reportBtn);
+
+            reportBtn.addEventListener('click', function() {
+                location.href = '/afterTravel';
+            });
+
+            // 고정된 색상 배열
+            const fixedColors = [
+                'rgb(211, 211, 211)',
+                'rgb(241, 241, 241)',
+                'rgb(0, 92, 255)'
+            ];
+            // 데이터 가공
+            const data = [
+                {
+                    label: '음식',
+                    data: food,
+                    backgroundColor: fixedColors[0]
+                },
+                {
+                    label: '기타·문화',
+                    data: etc,
+                    backgroundColor: fixedColors[1]
+                },
+                {
+                    label: '숙박',
+                    data: accommodation,
+                    backgroundColor: fixedColors[2]
+                }
+            ];
+
+
+            // 데이터 총합 계산
+            const total1 = data.reduce((acc, item) => acc + item.data, 0);
+
+            // 퍼센티지 계산 및 라벨 설정
+            data.forEach(item => {
+                const percentage = ((item.data / total1) * 100).toFixed(1); // 소수점 1자리까지 표시
+                item.label += '(' +percentage+'%)';
+            });
+
+            // 차트 설정
+            const chartData = {
+                labels: data.map(item => item.label),
+                datasets: [
+                    {
+                        data: data.map(item => item.data),
+                        backgroundColor: data.map(item => item.backgroundColor),
+                        hoverOffset: 4,
+                    },
+                ],
+            };
+
+            const chartConfig = {
+                type: 'doughnut',
+                data: chartData,
+                options: {
+                    plugins: {
+                        legend: {
+                            display: true, // 레전드 숨김
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    const label = context.label || '';
+                                    if (label) {
+                                        return label + ' : ' + context.formattedValue+'원';
+                                    }
+                                    return '';
+                                },
+                            },
+                        },
+                    },
+                },
+            };
+
+            // 차트 생성
+            const myChart = new Chart(
+                document.getElementById('myChart'),
+                chartConfig
+            );
+
+        },
+        error: function (error) {
+            console.error(error);
+        },
+    });
+
+    // 버튼 클릭 시 모달 열기
+    $(".travel-data").click(function() {
+        $("#beforeTravelModal").css("display", "block");
+    });
+
+    // 모달 닫기 버튼 클릭 시 모달 닫기
+    $("#beforeCloseTravelModal").click(function() {
+        $("#beforeTravelModal").css("display", "none");
+    });
+
+    // 모달 외부 클릭 시 모달 닫기
+    $(window).click(function(event) {
+        if (event.target.id === "beforeTravelModal") {
+            $("#beforeTravelModal").css("display", "none");
+        }
+    });
+
+
     $.ajax({
         type: "GET",
         url: "/selectBookmarkTravelList",

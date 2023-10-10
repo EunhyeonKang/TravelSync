@@ -87,7 +87,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 2rem;
+        margin-bottom: 1rem;
         position: relative;
     }
     .step-button {
@@ -148,6 +148,7 @@
         font-weight: 700;
         font-size: 30px;
         margin-top: 5px;
+        text-align: center;
     }
     .grid-container, .grid-container-1 {
         display: grid;
@@ -205,6 +206,8 @@
     }
     .step-title{
         margin-top: 5px;
+        font-weight: 700;
+        color: #494d4b;
     }
     .amount{
         color: #eb1158;
@@ -338,7 +341,6 @@
         margin-top: 30px;
         background: #2196F3;
         border-radius: 10px;
-        width: 95%;
         float: left;
         border: 0;
     }
@@ -355,6 +357,141 @@
         text-align: center;
         font-weight: 700;
         font-size: 20px;
+    }
+    input[type="text"]::placeholder {
+        text-align: left;
+    }
+    .selectpoint{
+        margin-left: 5px;
+        border-radius: 5px;
+        border: 0;
+        background: black;
+        color: white;
+        font-size: 12px;
+    }
+    /* 모달 스타일 */
+    .pointModal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 1;
+    }
+
+    .point-modal-content {
+        background-color: #fff;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        width: 60%;
+        max-width: 600px;
+        position: relative;
+    }
+
+    .pointModalclose {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 24px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    /* 테이블 스타일 */
+    .pointTable {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .pointTable th, .pointTable td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: center;
+    }
+
+    .pointTable th {
+        background-color: #009688;
+        font-weight: bold;
+        text-align: center;
+        color: white;
+    }
+
+    /* 체크박스 스타일 */
+    .pointTable input[type="checkbox"] {
+        margin-right: 5px;
+    }
+
+    /* 테이블 내용 스타일 */
+    .pointTable tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .pointTable tr:hover {
+        background-color: #ddd;
+    }
+    .pointh3{
+        padding: 10px 0;
+        color: #757575;
+        font-size: 23px;
+    }
+    .pointp{
+        font-size: 14px;
+        color: #929292;
+    }
+    #totalPoints{
+        text-align: center;
+        font-weight: 700;
+        font-size: 20px;
+        display: flex;
+        width: 500px;
+        margin: 0 auto;
+        justify-content: center;
+        padding-top: 20px;
+    }
+    .totaltext{
+        color: #717171;
+        font-size: 19px;
+    }
+    .totalPoint{
+        color: #2196F3;
+        margin: 0 10px;
+    }
+    .totalBtn{
+        border: 0;
+        background: #0c151a;
+        font-size: 13px;
+        width: 80px;
+        border-radius: 8px;
+        color: white;
+        font-weight: 700;
+    }
+    .tvlbuttons{
+        width: 100%;
+        text-align: center;
+        display: grid;
+        justify-content: center;
+    }
+    .complatecal{
+        border: 0;
+        background: #0b0b0b;
+        padding: 10px;
+        font-weight: 700;
+        color: white;
+        border-radius: 5px;
+        margin: 10px;
+    }
+    .complatetext1{
+        margin-bottom: 2px;
+    }
+    .complatetext1{
+
+    }
+    strong{
+        color: #008485;
     }
 </style>
 <body>
@@ -410,7 +547,7 @@
                                         1
                                     </button>
                                     <div class="step-title">
-                                        정산 정보 확인
+                                        회비 정보 확인
                                     </div>
                                 </div>
                                 <div class="step-item">
@@ -419,7 +556,7 @@
                                             2
                                     </button>
                                     <div class="step-title">
-                                        정산 내용 입력
+                                        모여라회비 내용 입력
                                     </div>
                                 </div>
                                 <div class="step-item">
@@ -428,7 +565,7 @@
                                         3
                                     </button>
                                     <div class="step-title">
-                                        정산 완료
+                                        회비납부 완료
                                     </div>
                                 </div>
                             </div>
@@ -442,7 +579,7 @@
                                         <div class="card-box">
                                             <div class="left-box">
                                                 <div>
-                                                    <div>정산하기(N/1)</div>
+                                                    <div>모여라회비(N/1)</div>
                                                     <div>${travelNoti.groupName} 모임</div>
                                                     <img src="../../../resources/images/new_2204_my_r_img002.png">
                                                 </div>
@@ -455,7 +592,7 @@
                                                 </span>
 
                                                 <div class="cal-member-amount">
-                                                    <span>정산인원 : <span class="cal-member">3명</span></span><span>총 금액 : <span>${travelNoti.etc_expenses+travelNoti.food_expenses+travelNoti.accommodation_expenses}</span>원</span>
+                                                    <span>회비 인원 : <span class="cal-member">3명</span></span><span>총 금액 : <span>${travelNoti.etc_expenses+travelNoti.food_expenses+travelNoti.accommodation_expenses}</span>원</span>
                                                 </div>
                                                 <div class="grid-container-1">
                                                 </div>
@@ -475,11 +612,11 @@
                                                 </div>
                                                 <div class="c">
                                                     <label for="faq-${travelNoti.travelId}">
-                                                        💰${sessionScope.member.name} 님이 정산할 금액은 <span class="amount">${travelNoti.amount}</span>원입니다.
+                                                        💰${sessionScope.member.name} 님이 납부할 금액은 <span class="amount">${travelNoti.amount}</span>원입니다.
                                                     </label>
                                                 </div>
                                                 <input type="hidden" value="${travelNoti.travelId}" id="notiTravelId">
-                                                <button class="travel-btn">정산하기</button>
+                                                <button class="travel-btn">회비 납부하기</button>
                                             </div>
                                         </div>
                                     </div>
@@ -492,7 +629,7 @@
                                     <div class="card-body">
                                         <div class="card-row">
                                             <div class="container2">
-                                                <div class="day">정산할 내용을 입력해주세요</div>
+                                                <div class="day">납부할 내용을 입력해주세요</div>
                                                 <button class="addplace-1"><div class="addtext"> <span class="account-number">${travelNoti.groupAccount}</span></div></button>
                                             </div>
                                             <input type="hidden" value="${travelNoti.groupAccount}" name="group_account">
@@ -522,6 +659,9 @@
                                                         <span class="idbox">입금 계좌</span>
                                                         <input type="text" name="group_account" value="${sessionScope.groupAccountDetail.group_account} (${sessionScope.groupAccountDetail.g_balance})"/>
                                                         <br/>
+                                                        <span class="idbox">포인트<button class="selectpoint" id="selectPoint">조회</button></span>
+                                                        <input type="text" name="point" value="" placeholder="포인트를 입력해주세요"/>
+                                                        <br/>
                                                         <span class="idbox">입금 금액</span>
                                                         <input type="text" name="balance" value="${travelNoti.amount}" placeholder="입금 금액을 입력해주세요"/>
                                                     </form>
@@ -543,8 +683,11 @@
                                      data-bs-parent="#accordionExample">
                                     <div class="card-body">
                                         <div class="tvlbuttons">
-                                            <button class="tvlbtn2" onclick="location.href='/mypage'">
-                                                <div>정산완료</div>
+                                            <img src="../../../resources/images/complate.png" style="width: 100px; margin: 20px auto;">
+                                            <p class="complatetext1"><strong>${travelNoti.groupName}</strong>에서 등록한 <strong>${travelNoti.travelTitle}</strong>일정의</p>
+                                            <p class="complatetext2">모여라회비 납부를 성공했습니다.</p>
+                                            <button class="complatecal" onclick="location.href='/afterTravel'">
+                                                <div>모여라회비 내역보기</div>
                                             </button>
                                         </div>
                                     </div>
@@ -555,6 +698,25 @@
                     </c:forEach>
                 </div>
             </div>
+        </div>
+    </div>
+    <div id="pointModal" class="pointModal">
+        <div class="point-modal-content">
+            <span class="pointModalclose">&times;</span>
+            <h3 class="pointh3"><img src="../../../resources/images/cashback.png" style="width: 35px;margin-right: 10px;">포인트 조회 결과</h3>
+            <p class="pointp">- 추가할 포인트를 선택해주세요</p>
+            <table class="pointTable">
+                <thead>
+                <tr>
+                    <th>선택</th>
+                    <th>포인트 내용</th>
+                    <th>포인트</th>
+                </tr>
+                </thead>
+                <tbody id="pointDetails">
+                </tbody>
+            </table>
+            <div id="totalPoints"></div>
         </div>
     </div>
 
@@ -579,6 +741,117 @@
 </div>
 </body>
 <script>
+    // 모달 열기 버튼 클릭 시
+    $('#selectPoint').click(function(event){
+        event.preventDefault(); // 이벤트의 기본 동작 중단
+
+        $.ajax({
+            url: '/selectPointListOfMember',
+            method: "POST",
+            success: function (response) {
+                // 데이터를 모달에 추가
+                var pointDetails = document.getElementById('pointDetails');
+                pointDetails.innerHTML = ''; // 이전 내용 초기화
+
+                // 변수를 사용하여 체크한 포인트 합계 초기화
+                var totalPoints = 0;
+
+                // 데이터를 테이블 형식으로 추가
+                response.forEach(function(item){
+                    var row = document.createElement('tr');
+
+                    var checkboxCell = document.createElement('td');
+                    var checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkboxCell.appendChild(checkbox);
+
+                    var contentCell = document.createElement('td');
+                    contentCell.textContent = item.poi_content;
+
+                    var pointCell = document.createElement('td');
+                    var pointValue = item.poi_point;
+                    pointCell.textContent = pointValue + 'P';
+                    pointCell.style.textAlign = 'right';
+
+                    // 체크박스 상태가 변경될 때 합계 업데이트
+                    checkbox.addEventListener('change', function() {
+                        if (checkbox.checked) {
+                            totalPoints += pointValue;
+                        } else {
+                            totalPoints -= pointValue;
+                        }
+                        updateTotalPoints(totalPoints); // 합계 업데이트 함수 호출
+                    });
+
+                    row.appendChild(checkboxCell);
+                    row.appendChild(contentCell);
+                    row.appendChild(pointCell);
+
+                    pointDetails.appendChild(row);
+                });
+
+                // 모달 열기
+                var modal = document.getElementById('pointModal');
+                modal.style.display = 'block';
+
+                // 합계 업데이트 함수 호출
+                updateTotalPoints(totalPoints);
+
+                // 합계를 표시하는 함수
+                function updateTotalPoints(totalPoints) {
+                    var totalPointsElement = document.getElementById('totalPoints');
+                    totalPointsElement.innerHTML = ''; // 이전 내용 초기화
+
+                    // 합계 표시를 위한 요소들 생성 및 추가
+                    var totaltext = document.createElement('div');
+                    totaltext.className = 'totaltext';
+                    totaltext.textContent = '합계 : ';
+
+                    var totalPoint = document.createElement('div');
+                    totalPoint.className = 'totalPoint';
+                    totalPoint.textContent = totalPoints + 'P';
+
+                    var totalBtn = document.createElement('button');
+                    totalBtn.className = 'totalBtn';
+                    totalBtn.textContent = '추가';
+
+                    // 추가 버튼 클릭 시 포인트 입력란에 합계 추가
+                    totalBtn.addEventListener('click', function() {
+                        var pointInput = document.querySelector('input[name="point"]');
+                        var balanceInput = document.querySelector('input[name="balance"]');
+                        pointInput.value = totalPoints + 'P';
+                        balanceInput.value = balanceInput.value - totalPoints;
+                        document.getElementById('pointModal').style.display = 'none';
+                    });
+
+                    totalPointsElement.appendChild(totaltext);
+                    totalPointsElement.appendChild(totalPoint);
+                    totalPointsElement.appendChild(totalBtn);
+                }
+            },
+            error: function (error) {
+                console.error("Error occurred:", error);
+            }
+        });
+    });
+
+
+    // 모달 닫기 버튼 클릭 시
+    var closeBtn = document.getElementsByClassName('pointModalclose')[0];
+    closeBtn.onclick = function() {
+        var modal = document.getElementById('pointModal');
+        modal.style.display = 'none';
+    }
+
+    // 모달 외부 클릭 시 모달 닫기
+    window.onclick = function(event) {
+        var modal = document.getElementById('pointModal');
+        if (event.target == modal) {
+            modal.style.display = 'none';
+        }
+    }
+
+
     var confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
     function calExecution() {
         confirmationModal.show();
@@ -591,7 +864,7 @@
         var accountBank = selectedOption.text;
         var groupName = document.querySelector('input[name="group_name"]').value;
         var groupAccount = document.querySelector('input[name="group_account"]').value;
-        var amount = document.querySelector('.amount').textContent;
+        var amount = document.querySelector('input[name="balance"]').value;
         var travelId = document.querySelector('#notiTravelId').value;
         var groupId =document.querySelector('input[name="group_id"]').value;
 

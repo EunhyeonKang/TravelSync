@@ -34,7 +34,6 @@
     .section-top-border{
         width: 80%;
         margin: 0 auto;
-        height: 1300px;
     }
     .rec6{
         float: right;

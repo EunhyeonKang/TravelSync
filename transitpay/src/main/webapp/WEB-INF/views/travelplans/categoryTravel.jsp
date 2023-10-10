@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -74,11 +75,13 @@
         .like-button, .bookmark-button{
             border: 0;
             background: 0;
-            margin: 5px;
             cursor: pointer;
+            padding: 0;
         }
         .bookmark-button img{
-            width: 37px;
+            width: 36px;
+            height: 35px;
+            margin-bottom: 6px;
         }
         .like-button img{
             width: 45px;
@@ -101,7 +104,7 @@
          }
          .like-count, .bookmark-count{
              font-size: 13px;
-             color: #dbdada;
+             color: #000000;
              font-weight: 700;
              position: absolute;
              transform: translate(-28px,100%);
@@ -146,86 +149,72 @@
 </div>
 </body>
 <script>
-
     let page = 1; // 현재 페이지 번호
     const itemsPerPage = 10; // 페이지당 아이템 수
     let isLoading = false; // 데이터 로딩 중 여부
     const selectedCategories = [];
     let selectedCategory = ''; // 선택한 카테고리
-    var isLiked = true;
+    var isLiked = false;
     const items = document.querySelectorAll('.item');
     var itemContainer = document.querySelector('.item-list');
 
     function appendNewData(response) {
-        // console.log(response)
         if (response.length > 0) {
-                // 새로운 데이터를 화면에 추가
-                response.forEach(function (data) {
-                    var itemDiv = document.createElement('div');
-                    itemDiv.className = 'item';
-                    var itemImage = document.createElement('img');
-                    var originalURL =data.photo;
-                    var idMatch = originalURL.match(/id=([^&]+)/);
-                    var id = idMatch ? idMatch[1] : null;
-                    var modifiedURL = id ? originalURL.replace(idMatch[0], "&" + "id=" + id) : originalURL;
-                    itemImage.src = modifiedURL;
-                    itemImage.className='item-img'
-                    itemImage.alt = data.content;
-                    itemDiv.appendChild(itemImage);
+            // 새로운 데이터를 화면에 추가
+            response.forEach(function (data) {
+                var itemDiv = document.createElement('div');
+                itemDiv.className = 'item';
+                var itemImage = document.createElement('img');
+                var originalURL = data.photo;
+                var idMatch = originalURL.match(/id=([^&]+)/);
+                var id = idMatch ? idMatch[1] : null;
+                var modifiedURL = id ? originalURL.replace(idMatch[0], "&" + "id=" + id) : originalURL;
+                itemImage.src = modifiedURL;
+                itemImage.className = 'item-img';
+                itemImage.alt = data.content;
+                itemDiv.appendChild(itemImage);
 
-                    var itemHeading = document.createElement('h2');
-                    itemHeading.className='itemHeading'
-                    itemHeading.textContent = data.content;
-                    itemDiv.appendChild(itemHeading);
+                var itemHeading = document.createElement('h2');
+                itemHeading.className = 'itemHeading';
+                itemHeading.textContent = data.content;
+                itemDiv.appendChild(itemHeading);
 
-                    var paragraphlocation = document.createElement('p');
-                    paragraphlocation.className='paragraphlocation'
-                    paragraphlocation.textContent = data.location;
-                    // var paragraphtag = document.createElement('p');
-                    // paragraphtag.textContent = data.tags;
+                var paragraphlocation = document.createElement('p');
+                paragraphlocation.className = 'paragraphlocation';
+                paragraphlocation.textContent = data.location;
+                itemDiv.appendChild(paragraphlocation);
 
-                    itemDiv.appendChild(paragraphlocation);
-                    // itemDiv.appendChild(paragraphtag);
+                // 좋아요 버튼 추가
+                var likeButton = document.createElement('button');
+                likeButton.className = 'like-button';
+                var likeimg = document.createElement('img');
+                likeimg.src = isLiked ? '../../../resources/images/hart1.png' : '../../../resources/images/hart.png';
+                likeButton.dataset.itemId = data.t_num; // 아이템 ID 저장
+                likeButton.dataset.liked = isLiked ? 'true' : 'false'; // 좋아요 초기 상태
 
-                    // 좋아요 버튼 추가
-                    var likeButton = document.createElement('button');
-                    likeButton.className = 'like-button';
-                    var likeimg = document.createElement('img');
+                var paragraphlike = document.createElement('span');
+                paragraphlike.className = 'like-count';
+                paragraphlike.textContent = data.likeCount;
 
-                    var likeCount = data.likeCount; // 좋아요 카운트, 여기에서 적절한 값으로 초기화
+                likeButton.append(likeimg);
+                likeButton.appendChild(paragraphlike);
 
-                    // 이미지 경로를 초기화할 변수
-                    var likeImgSrc = likeCount > 0 ? 'hart1.png' : 'hart.png';
+                itemDiv.appendChild(likeButton);
 
-                    likeimg.src = '../../../resources/images/' + likeImgSrc;
-                    likeButton.dataset.itemId = data.t_num; // 아이템 ID 저장
-                    likeButton.dataset.liked = likeCount > 0 ? 'true' : 'false'; // 좋아요 초기 상태
-
-                    var paragraphlike = document.createElement('span');
-                    paragraphlike.className = 'like-count';
-                    paragraphlike.textContent = likeCount;
-
-                    likeButton.append(likeimg);
-                    likeButton.appendChild(paragraphlike);
-
-                    itemDiv.appendChild(likeButton);
-
-
-
-                    // 즐겨찾기 버튼 추가
-                    var bookmarkButton = document.createElement('button');
-                    bookmarkButton.className = 'bookmark-button';
-                    var bookmarkimg = document.createElement('img');
-                    bookmarkimg.src = '../../../resources/images/bookmark.png';
-                    bookmarkButton.dataset.itemId = data.t_num; // 아이템 ID 저장
-                    bookmarkButton.append(bookmarkimg);
-                    var paragraphbookmark = document.createElement('span');
-                    paragraphbookmark.className='bookmark-count';
-                    // paragraphbookmark.textContent = data.starCount;
-                    bookmarkButton.appendChild(paragraphbookmark);
-                    itemDiv.appendChild(bookmarkButton);
-                    itemContainer.appendChild(itemDiv);
-                });
+                // 즐겨찾기 버튼 추가
+                var bookmarkButton = document.createElement('button');
+                bookmarkButton.className = 'bookmark-button';
+                var bookmarkimg = document.createElement('img');
+                bookmarkimg.src = '../../../resources/images/bookmark.png';
+                bookmarkButton.dataset.itemId = data.t_num; // 아이템 ID 저장
+                bookmarkButton.append(bookmarkimg);
+                var paragraphbookmark = document.createElement('span');
+                paragraphbookmark.className='bookmark-count';
+                // paragraphbookmark.textContent = data.starCount;
+                bookmarkButton.appendChild(paragraphbookmark);
+                itemDiv.appendChild(bookmarkButton);
+                itemContainer.appendChild(itemDiv);
+            });
             page++; // 다음 페이지로 이동
         } else {
             // 더 이상 데이터가 없을 경우 처리
@@ -233,10 +222,8 @@
     }
 
     $(document).on('click', '.like-button', function () {
-        var itemId = $(this).data("item-id");
         var likeButton = $(this);
-
-        // 현재 좋아요 상태 확인
+        var itemId = likeButton.data("item-id");
         var isLiked = likeButton.data("liked");
 
         // 서버로 좋아요 토글 이벤트 전달
@@ -245,27 +232,30 @@
             method: 'POST',
             data: {
                 itemId: itemId,
-                isLiked: !isLiked,
+                isLiked: !isLiked, // 클릭 시 상태 반전
             },
             success: function (response) {
-                console.log(response)
+                console.log(response);
                 if (response.updated) {
                     // 클라이언트에서 좋아요 상태 업데이트
-                    likeButton.data("liked", !likeButton.data("liked"));
+                    likeButton.data("liked", !isLiked);
 
                     // 좋아요 수 업데이트
-                    var likeCountElement = likeButton.siblings(".like-count");
+                    var likeCountElement = likeButton.find(".like-count");
                     var likeCount = parseInt(likeCountElement.text());
 
-                    if (likeButton.data("liked")) {
-                        likeCount++; // 좋아요 추가
-                        likeButton.find("img").attr("src", "../../../resources/images/hart1.png"); // 이미지 변경
-                    } else {
+                    if (isLiked) {
+                        // 클릭 전 상태가 좋아요일 때
                         likeCount--; // 좋아요 제거
-                        likeButton.find("img").attr("src", "../../../resources/images/hart.png"); // 이미지 변경
+                    } else {
+                        // 클릭 전 상태가 좋아요가 아닐 때
+                        likeCount++; // 좋아요 추가
                     }
 
                     likeCountElement.text(likeCount); // 좋아요 수 업데이트
+
+                    // 이미지 업데이트
+                    updateLikeButtonImage(likeButton, !isLiked);
                 }
             },
             error: function () {
@@ -274,9 +264,13 @@
         });
     });
 
+    // 이미지를 업데이트하는 함수
+    function updateLikeButtonImage(likeButton, isLiked) {
+        var likeImgSrc = isLiked ? 'hart1.png' : 'hart.png';
+        likeButton.find("img").attr("src", "../../../resources/images/" + likeImgSrc);
+    }
 
 
-    // 즐겨찾기 버튼 클릭 처리
     $(document).on('click', '.bookmark-button', function () {
         var itemId = $(this).data("item-id");
         // 서버로 좋아요 토글 이벤트 전달

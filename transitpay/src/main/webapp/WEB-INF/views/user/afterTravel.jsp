@@ -68,6 +68,13 @@
             width: 500px;
             margin: 0 auto;
         }
+        .saveTravelTitle{
+            color: #009688;
+            margin-right: 10px;
+        }
+        .saveDate{
+            color: #a6a6a6;
+        }
     </style>
 </head>
 <body>
@@ -78,7 +85,7 @@
         <div class="topbox">
         <div class="contents">
             <div class="contents-1">
-                <h2>정산된 여행</h2>
+                <h2>여행 내역</h2>
                 <div class="trafficContainerBox">
                     <span>${param.title}</span>
                     <div class="traffic-modal-content">
@@ -88,7 +95,7 @@
                                 <input type="checkbox" id="faq-${travelInfo.travelId}">
                                 <c:if test="${not empty travelInfo.travelStart}">
                                     <h1>
-                                        <label for="faq-${travelInfo.travelId}">${travelInfo.travelTitle} [${fn:substring(travelInfo.travelStart, 0, 10)} ~ ${fn:substring(travelInfo.travelEnd, 0, 10)}]
+                                        <label for="faq-${travelInfo.travelId}"><div class="saveTravelTitle">${travelInfo.travelTitle}</div><div class="saveDate">[${fn:substring(travelInfo.travelStart, 0, 10)} ~ ${fn:substring(travelInfo.travelEnd, 0, 10)}]</div>
                                                 <%--                                        <img src="../../../resources/images/testAcc.png">--%>
                                             <p class="travel-date-text-1">${travelInfo.groupName} ${travelInfo.groupAccount}</p>
                                         </label>

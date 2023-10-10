@@ -104,7 +104,7 @@
                         updateAmountValue(d.data);
                     }else if(d.type =='saveTravel'){
                         alert("여행저장 완료!");
-                        location.href='/saveTravel';
+                        location.href='/mypage';
                     }else if(d.type=='calculate'){
 
                     }

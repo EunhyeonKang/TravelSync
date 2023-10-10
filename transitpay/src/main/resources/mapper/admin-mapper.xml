@@ -54,11 +54,26 @@
         select count(*) from search_location_history
     </select>
     <select id="recommendOfMember">
-        select * from member
-        where code in (select recode
-        from member
-        where recode is not null
-        group by recode)
-        order by recode
+        SELECT m.*, s.recode_count AS count
+        FROM member m
+            INNER JOIN (
+            SELECT recode, COUNT(*) AS recode_count
+            FROM member
+            WHERE recode IS NOT NULL
+            GROUP BY recode
+            ) s ON m.code = s.recode
+        order by count desc
+    </select>
+    <insert id="cashbackPayment">
+        insert into point_table
+        values(poi_id_seq.nextval,
+               (select member_id from member where code =#{code}),
+               sysdate,'너도나도캐시백',1000,'cashback')
+    </insert>
+    <select id="selectPoint" resultType="_int">
+        select sum(poi_point) from point_table where member_id=#{memberId}
+    </select>
+    <select id="selectPointListOfMember" resultType="com.hanacard.transitpay.member.model.dto.Point">
+        select * from point_table where member_id=#{memberId}
     </select>
 </mapper>

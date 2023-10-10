@@ -7,11 +7,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <style>
     .main {
         width: 100%;
-        height: 850px;
     }
     .menu1-1{
          text-align: center;
@@ -35,7 +36,6 @@
     .contents{
          width: 1200px;
          display: flex;
-        height: 1000px;
          margin: 30px auto;
      }.menu1 a:hover {
           background-color: #008485;
@@ -135,12 +135,13 @@
         width: 100%;
         padding: 15px 0;
     }
+
     .applyBtn1{
         font-weight: 700;
         font-size: 18px;
         text-align: center;
         color: #FFFFFF;
-        background: rgba(0, 152, 153, 0.73);
+        background: rgb(0 152 153);
         border: 0;
         text-align: center;
         margin: 0 auto;
@@ -195,11 +196,7 @@
         margin-bottom: 5px;
     }
 
-    /* 활성 스탭 스타일 */
-    .active {
-        background-color: #089b9c;
-        color: #FFFFFF;
-    }
+
 
     /* 가로선 스타일 */
     .line {
@@ -622,6 +619,285 @@
     .invitecode::placeholder{
         color: #dddddd;
     }
+
+
+    #restartbtn {
+        text-align: center;
+        color: #fff;
+        cursor: pointer;
+        margin: 20px;
+    }
+    .table {
+        display: table;
+        height: 100%;
+        width: 100%;
+        position: relative;
+    }
+
+    .cell {
+        display: table-cell;
+        vertical-align: middle;
+        position: relative;
+        width: 100%;
+        text-align: center;
+    }
+
+
+    /*------
+    # Pincode
+    ----*/
+
+    #pincode {
+        position: fixed;
+        overflow: hidden;
+        height: 667px;
+        width: 375px;
+        z-index: 9999;
+        background-color: #33444e;
+        background-image: url("https://hd.unsplash.com/photo-1471047283799-ebd97acc0bc3");
+        background-size: cover;
+        background-position: center;
+        color: #fff;
+        border-radius: 10px;
+        text-align: center;
+        -webkit-box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.6);
+        -moz-box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.6);
+        box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.6);
+        top: 50%;
+        left: 50%;
+        margin-top: -335px;
+        /* Negative half of height. */
+        margin-left: -188px;
+        /* Negative half of width. */
+    }
+
+    #numbers {
+        max-width: 300px;
+        padding: 0 20px;
+        margin: 0 auto;
+        position: relative;
+        display: block;
+        -webkit-transition: all 1s ease-out;
+        -moz-transition: all 1s ease-out;
+        transition: all 1s ease-out;
+        opacity: 1;
+    }
+
+    #numbers.hide {
+        opacity: 0.3;
+    }
+
+    #pincode button {
+        width: 70px;
+        height: 70px;
+        margin-bottom: 10px;
+        background-color: rgba(0, 0, 0, 0.35);
+        border: 0;
+        color: #fff;
+        font-size: 25px;
+        line-height: 50px;
+        border-radius: 100%;
+        opacity: 1;
+        outline: 0;
+        border: 1px solid #33444e;
+    }
+
+    #pincode button:active {
+        background-color: rgba(0, 0, 0, 0.6);
+        outline: 0;
+    }
+
+    #fields {
+        max-width: 200px;
+        padding: 0 20px;
+        margin: 50px auto;
+        position: relative;
+        display: block;
+    }
+
+    #fields .numberfield {
+        text-align: center;
+    }
+
+    #fields .numberfield span {
+        height: 10px;
+        width: 10px;
+        border: 2px solid #fff;
+        background-color: transparent;
+        border-radius: 100%;
+        position: relative;
+        display: inline-block;
+        text-align: center;
+    }
+
+    #fields .numberfield.active span {
+        background-color: #fff;
+    }
+
+    #fields .numberfield.right span {
+        background-color: #33444e;
+        border-color: #33444e;
+        transition: all .5s ease-in-out;
+        -webkit-transition: all .5s ease-in-out;
+    }
+
+
+    /*------
+    # Toast Grid
+    ----*/
+
+    .grid {
+        list-style: none;
+        margin-left: -20px;
+    }
+
+    .grid__col--1-of-3,
+    .grid__col--2-of-6,
+    .grid__col--4-of-12 {
+        width: 33.33333%;
+    }
+
+    .grid__col--1-of-4,
+    .grid__col--2-of-8,
+    .grid__col--3-of-12 {
+        width: 25%;
+    }
+
+    .grid__col {
+        box-sizing: border-box;
+        display: inline-block;
+        margin-right: -.25em;
+        min-height: 1px;
+        padding-left: 20px;
+        vertical-align: top;
+    }
+
+    .grid__col--centered {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .grid__col--d-first {
+        float: left;
+    }
+
+    .grid__col--d-last {
+        float: right;
+    }
+
+    .grid--no-gutter {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .grid--no-gutter .grid__col {
+        padding-left: 0;
+    }
+
+    .grid--no-gutter .grid__col--span-all {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .grid__col--ab {
+        vertical-align: bottom;
+    }
+
+    .grid__col--am {
+        vertical-align: middle;
+    }
+
+    .miss {
+        -webkit-animation: miss .8s ease-out 1;
+        animation: miss .8s ease-out 1;
+    }
+
+    @-webkit-keyframes miss {
+        0% {
+            -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+        }
+        10% {
+            -webkit-transform: translate(-25px, 0);
+            transform: translate(-25px, 0);
+        }
+        20% {
+            -webkit-transform: translate(25px, 0);
+            transform: translate(25px, 0);
+        }
+        30% {
+            -webkit-transform: translate(-20px, 0);
+            transform: translate(-20px, 0);
+        }
+        40% {
+            -webkit-transform: translate(20px, 0);
+            transform: translate(20px, 0);
+        }
+        50% {
+            -webkit-transform: translate(-10px, 0);
+            transform: translate(-10px, 0);
+        }
+        60% {
+            -webkit-transform: translate(10px, 0);
+            transform: translate(10px, 0);
+        }
+        70% {
+            -webkit-transform: translate(-5px, 0);
+            transform: translate(-5px, 0);
+        }
+        80% {
+            -webkit-transform: translate(5px, 0);
+            transform: translate(5px, 0);
+        }
+        100% {
+            -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+        }
+    }
+
+    @keyframes miss {
+        0% {
+            -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+        }
+        10% {
+            -webkit-transform: translate(-25px, 0);
+            transform: translate(-25px, 0);
+        }
+        20% {
+            -webkit-transform: translate(25px, 0);
+            transform: translate(25px, 0);
+        }
+        30% {
+            -webkit-transform: translate(-20px, 0);
+            transform: translate(-20px, 0);
+        }
+        40% {
+            -webkit-transform: translate(20px, 0);
+            transform: translate(20px, 0);
+        }
+        50% {
+            -webkit-transform: translate(-10px, 0);
+            transform: translate(-10px, 0);
+        }
+        60% {
+            -webkit-transform: translate(10px, 0);
+            transform: translate(10px, 0);
+        }
+        70% {
+            -webkit-transform: translate(-5px, 0);
+            transform: translate(-5px, 0);
+        }
+        80% {
+            -webkit-transform: translate(5px, 0);
+            transform: translate(5px, 0);
+        }
+        100% {
+            -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+        }
+    }
 </style>
 <body>
 <div class="main">
@@ -859,50 +1135,96 @@
 
                     </tbody>
                 </table>
-                <div class="modal" id="myModal">
-                    <div class="modal-content">
-                        <span class="close-btn" onclick="closeModal()">&times;</span>
-                        <h2>비밀번호 입력</h2>
-                        <div class="group71">
-                            <div class="groupForm" id="groupForm">
-                                <br/>
-                                <div class="flexClass">
-                                    <span class="idbox">비밀번호</span>
-                                    <input type="password" name="groupPwd" class="rec6" placeholder="비밀번호를 입력해주세요"/>
-                                </div>
-                                <br/>
-                                <div class="agreement-table">
-                                    <label for="agree_all">
-                                        <input type="checkbox" name="agree_all" id="agree_all">
-                                        <span>모두 동의합니다</span>
-                                    </label>
-                                    <label>
-                                        <input type="checkbox" name="agree" value="1">
-                                        <span>서비스 이용약관 동의<strong>(필수)</strong></span>
-                                    </label>
-                                    <label>
-                                        <input type="checkbox" name="agree" value="2">
-                                        <span>개인정보처리방침 동의<strong>(필수)</strong></span>
-                                    </label>
-                                    <label>
-                                        <input type="checkbox" name="agree" value="3">
-                                        <span>개인정보처리방침 동의<strong>(필수)</strong></span>
-                                    </label>
-                                    <label>
-                                        <input type="checkbox" name="agree" value="4">
-                                        <span>위치정보사업 약관 동의<strong>(필수)</strong></span>
-                                    </label>
-                                    <label>
-                                        <input type="checkbox" name="agree" value="5">
-                                        <span>마케팅 수집 동의<strong class="select_disable">(선택)</strong></span>
-                                    </label>
+                <div class="modal" id="myModal" >
+                        <div id="pincode">
+
+                            <div class="table">
+
+                                <div class="cell">
+                                    <div id="anleitung">
+                                        <div class="close" onclick="closeModal()">x</div>
+                                        <p>
+                                            <strong>모임 비밀번호 입력</strong><br> 비밀번호 4자리를 입력해주세요
+                                        </p>
+                                    </div>
+
+                                    <div id="fields">
+                                        <div class="grid">
+                                            <div class="grid__col grid__col--1-of-4 numberfield"><span></span></div>
+                                            <div class="grid__col grid__col--1-of-4 numberfield"><span></span></div>
+                                            <div class="grid__col grid__col--1-of-4 numberfield"><span></span></div>
+                                            <div class="grid__col grid__col--1-of-4 numberfield"><span></span></div>
+                                        </div>
+                                    </div>
+
+                                    <div id="numbers">
+                                        <div class="grid">
+                                            <div class="grid__col grid__col--1-of-3"><button>1</button></div>
+                                            <div class="grid__col grid__col--1-of-3"><button>2</button></div>
+                                            <div class="grid__col grid__col--1-of-3"><button>3</button></div>
+
+                                            <div class="grid__col grid__col--1-of-3"><button>4</button></div>
+                                            <div class="grid__col grid__col--1-of-3"><button>5</button></div>
+                                            <div class="grid__col grid__col--1-of-3"><button>6</button></div>
+
+                                            <div class="grid__col grid__col--1-of-3"><button>7</button></div>
+                                            <div class="grid__col grid__col--1-of-3"><button>8</button></div>
+                                            <div class="grid__col grid__col--1-of-3"><button>9</button></div>
+
+                                            <div class="grid__col grid__col--1-of-3"></div>
+                                            <div class="grid__col grid__col--1-of-3"><button>0</button></div>
+                                            <div class="grid__col grid__col--1-of-3"></div>
+
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
-                            <button id="calculate" onclick="submitForm()">
-                                <span>접속하기</span>
-                            </button>
-
                         </div>
+                        <div id="restartbtn">RESTART</div>
+
+
+<%--                        <h2>비밀번호 입력</h2>--%>
+<%--                        <div class="group71">--%>
+<%--                            <div class="groupForm" id="groupForm">--%>
+<%--                                <br/>--%>
+<%--                                <div class="flexClass">--%>
+<%--                                    <span class="idbox">비밀번호</span>--%>
+<%--                                    <input type="password" name="groupPwd" class="rec6" placeholder="비밀번호를 입력해주세요"/>--%>
+<%--                                </div>--%>
+<%--                                <br/>--%>
+<%--                                <div class="agreement-table">--%>
+<%--                                    <label for="agree_all">--%>
+<%--                                        <input type="checkbox" name="agree_all" id="agree_all">--%>
+<%--                                        <span>모두 동의합니다</span>--%>
+<%--                                    </label>--%>
+<%--                                    <label>--%>
+<%--                                        <input type="checkbox" name="agree" value="1">--%>
+<%--                                        <span>서비스 이용약관 동의<strong>(필수)</strong></span>--%>
+<%--                                    </label>--%>
+<%--                                    <label>--%>
+<%--                                        <input type="checkbox" name="agree" value="2">--%>
+<%--                                        <span>개인정보처리방침 동의<strong>(필수)</strong></span>--%>
+<%--                                    </label>--%>
+<%--                                    <label>--%>
+<%--                                        <input type="checkbox" name="agree" value="3">--%>
+<%--                                        <span>개인정보처리방침 동의<strong>(필수)</strong></span>--%>
+<%--                                    </label>--%>
+<%--                                    <label>--%>
+<%--                                        <input type="checkbox" name="agree" value="4">--%>
+<%--                                        <span>위치정보사업 약관 동의<strong>(필수)</strong></span>--%>
+<%--                                    </label>--%>
+<%--                                    <label>--%>
+<%--                                        <input type="checkbox" name="agree" value="5">--%>
+<%--                                        <span>마케팅 수집 동의<strong class="select_disable">(선택)</strong></span>--%>
+<%--                                    </label>--%>
+<%--                                </div>--%>
+<%--                            </div>--%>
+<%--                            <button id="calculate" onclick="submitForm()">--%>
+<%--                                <span>접속하기</span>--%>
+<%--                            </button>--%>
+
+
                     </div>
 
                 </div>
@@ -913,7 +1235,7 @@
                         <div class="invite-box">
                             <img class="invite-img" src="../../../resources/images/invite2.png">
                         </div>
-                        <div class="invitecodebox"><input type="text" value="" class="invitecode" placeholder="초대코드를 입력해주세요"></div>
+                        <div class="invitecodebox"><input type="text" value="" class="invitecode" id="code" placeholder="초대코드를 입력해주세요"></div>
                         <div class="group71">
                             <button class="selecloc-1" onclick="inviteAccept()">초대수락</button>
                             <button class="selecloc-2" onclick="location.href='/'">초대거절</button>
@@ -930,6 +1252,84 @@
 <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
+    function closeModal(){
+        document.querySelector('#myModal').style.display = 'none';
+    }
+    function openModal(){
+        $(document).ready(function() {
+
+            var pin = (+!![] + []) + (!+[] + !![] + []) + (!+[] + !![] + !![] + []) + (!+[] + !![] + !![] + !![] + []);
+            var enterCode = "";
+            enterCode.toString();
+
+            $("#numbers button").click(function() {
+
+                var clickedNumber = $(this).text().toString();
+                enterCode = enterCode + clickedNumber;
+                var lengthCode = parseInt(enterCode.length);
+                lengthCode--;
+                $("#fields .numberfield:eq(" + lengthCode + ")").addClass("active");
+
+                if (lengthCode == 3) {
+                    var enteredCode = parseInt(enterCode);
+                    var modal = document.getElementById('myModal');
+                    modal.style.display = 'none';
+                    var groupId = "${groupId}";
+                    $.ajax({
+                        type: "POST",
+                        url: "/inputCheckPassword",
+                        data: { groupId : groupId },
+                        success: function(response) {
+                            var storePw = parseInt(response.trim());
+                            if(storePw===enteredCode){
+                                alert('접속완료')
+                                //groupaccount에 insert
+                                //연결계좌 확인
+                                // connectAccount();
+                                //총 그룹계좌 내역 조회
+                                // totalGroupAccountStat();
+                            }else{
+                                alert("비밀번호가 틀립니다");
+                                openModal();
+                            }
+                        },
+                        error: function(error) {
+                        }
+                    });
+                    // Check the PIN
+                    if (enterCode == pin) {
+
+                        // Right PIN!
+                        $("#fields .numberfield").addClass("right");
+                        $("#numbers").addClass("hide");
+                        $("#anleitung p").html("Amazing!<br>You entered the correct Code!");
+
+                    } else {
+                        $("#fields").addClass("miss");
+                        enterCode = "";
+                        setTimeout(function() {
+                            $("#fields .numberfield").removeClass("active");
+                        }, 200);
+                        setTimeout(function() {
+                            $("#fields").removeClass("miss");
+                        }, 500);
+
+                    }
+
+                } else {}
+
+            });
+
+            $("#restartbtn").click(function(){
+                enterCode = "";
+                $("#fields .numberfield").removeClass("active");
+                $("#fields .numberfield").removeClass("right");
+                $("#numbers").removeClass("hide");
+                $("#anleitung p").html("<strong>Please enter the correct PIN-Code.</strong><br> It is: 1234 / Also try a wrong code");
+            });
+
+        });
+    }
     function inviteAccept(){
         var inviteCodeInput = document.querySelector(".invitecode").value;
         $.ajax({
@@ -937,12 +1337,31 @@
             method: "POST",
             data : {code : inviteCodeInput},
             success: function(response) {
+                var recode = document.getElementById('code').value;
+                var code = "${sessionScope.member.code}"
+                var data = {
+                    code: code,
+                    recode: recode
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "/cashbackPayment",
+                    data: JSON.stringify(data), // 데이터를 JSON 문자열로 변환
+                    contentType: "application/json", // 데이터 타입을 JSON으로 설정
+                    success: function (data) {
+                        // 성공 시 처리
+                    },
+                    error: function (xhr, data) {
+                        $("#login_result").text('알 수 없는 에러가 발생했습니다.');
+                    }
+                });
                 location.href='/mygroup/${groupId}';
             },
             error: function(error) {
                 console.error("Error occurred:", error);
             }
         });
+
     }
     function searchByMonth() {
         // 선택한 월 가져오기
@@ -1109,7 +1528,6 @@
         url: "/selectAllGroupMembers",
         data: { groupId: "${groupId}" },
         success: function (response) {
-            console.log(response);
             var groupmember = document.querySelector('.stepper');
             response.forEach(function(member) {
                 var groupMemberImg = document.createElement('img');
@@ -1138,55 +1556,20 @@
         return color;
     }
     // 동의 모두선택 / 해제
-    const agreeChkAll = document.querySelector('input[name=agree_all]');
-    agreeChkAll.addEventListener('change', (e) => {
-        let agreeChk = document.querySelectorAll('input[name=agree]');
-        for(let i = 0; i < agreeChk.length; i++){
-            agreeChk[i].checked = e.target.checked;
-        }
-    });
+    // const agreeChkAll = document.querySelector('input[name=agree_all]');
+    // agreeChkAll.addEventListener('change', (e) => {
+    //     let agreeChk = document.querySelectorAll('input[name=agree]');
+    //     for(let i = 0; i < agreeChk.length; i++){
+    //         agreeChk[i].checked = e.target.checked;
+    //     }
+    // });
     function deposit(){
-        var groupAccount = "${sessionScope.groupAccountDetail}";
-
-        if(groupAccount !=""){
-            //회비 입금
-            location.href='/deposit';
-        }else{
-            //계좌개설
-            location.href='/account';
-        }
+        location.href='/deposit';
     }
     function accountTransfer(){
         location.href ='/transfer';
     }
-    function submitForm(){
-        var modal = document.getElementById('myModal');
-        modal.style.display = 'none';
-        var groupId = "${groupId}";
-        var groupPwdInputs = document.getElementsByName("groupPwd");
-        var firstGroupPwdInput = groupPwdInputs[0];
-        var groupPwdValue = firstGroupPwdInput.value;
-        $.ajax({
-            type: "POST",
-            url: "/inputCheckPassword",
-            data: { groupId : groupId },
-            success: function(response) {
-                if(groupPwdValue === response){
-                    alert('접속완료')
-                    //groupaccount에 insert
-                    //연결계좌 확인
-                    // connectAccount();
-                    //총 그룹계좌 내역 조회
-                    // totalGroupAccountStat();
-                }else{
-                    alert("비밀번호가 틀립니다");
-                    openModal();
-                }
-            },
-            error: function(error) {
-            }
-        });
-    }
+
 
     function totalGroupAccountStat(){
         var groupId = "${groupId}";
@@ -1213,6 +1596,7 @@
             }
         });
     }
+
     function selectGroupMember(){
         var groupId = "${groupId}";
         $.ajax({

@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -20,14 +21,12 @@
                         <li><a href="/categoryTravel">여행정보 보기</a></li>
                         <li><a href="/group">모임통장 개설</a></li>
                         <li><a href="/travel">여행계획</a></li>
-                        <li><a href="/travel">게시판</a></li>
+                        <li><a href="/mypage">마이페이지</a></li>
                     </c:when>
                     <c:otherwise>
-<%--                        <li><a href="/categoryTravel">여행정보 보기</a></li>--%>
-<%--                        <li><a href="/group">모임통장 개설</a></li>--%>
-<%--                        <li><a href="/travel">여행계획</a></li>--%>
-<%--                        <li><a href="/travel">게시판</a></li>--%>
-<%--                        <li><a href="/mypage">마이페이지</a></li>--%>
+                        <li><a href="/categoryTravel">여행정보 보기</a></li>
+                        <li><a href="/group">모임통장 개설</a></li>
+                        <li><a href="/travel">여행계획</a></li>
                     </c:otherwise>
                 </c:choose>
             </ul>

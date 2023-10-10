@@ -251,6 +251,10 @@
         border-radius: 10px;
         margin-top: 30px;
     }
+    #kakaotalk-sharing-btn:hover{
+        transform: scale(1.009);
+        transition: transform 0.1s ease-in-out;
+    }
 </style>
 <body>
 <div class="main">

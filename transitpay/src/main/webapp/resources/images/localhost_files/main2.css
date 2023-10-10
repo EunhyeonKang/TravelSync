@@ -1,0 +1,227 @@
+.main2{
+    /*background-color: rgba(255, 184, 0, 0.37);*/
+    display: grid;
+    margin-top: 150px;
+    width: 100%;
+}
+.ctext1{
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 40px;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: #000000c2;
+    display: inline-block;
+    box-sizing: border-box;
+}
+.ctext2{
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 25px;
+    align-items: center;
+    text-align: center;
+    color: #079596c9;
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+.tbutton {
+    box-sizing: border-box;
+    height: 68px;
+    background: #FFFFFF;
+    border: 3px solid #008485;
+    border-radius: 100px;
+    text-align: center;
+    margin: 0 auto;
+    width: 200px;
+}
+.tTrable{
+    font-weight: 700;
+    font-size: 20px;
+    color: #008485;
+    margin: 0 auto;
+}
+.ttext{
+    margin-top: 10px;
+    text-align: center;
+}
+.mtext{
+    margin-top: 40px;
+    text-align: center;
+}
+.bbutton{
+    margin-top: 100px;
+    text-align: center;
+}.main3{
+     display: grid;
+     margin-top: 150px;
+     text-align: center;
+     background-color: rgb(80, 227, 194);
+     padding: 150px;
+ }
+
+.exchgimg{
+    width: 500px;
+    margin: 50px auto;
+    display: flow;
+}
+.exchgbutton{
+    box-sizing: border-box;
+    width: 150px;
+    height: 50px;
+    background: #FFFFFF;
+    border: 1px solid #ffffff;
+    border-radius: 26px;
+    text-align: center;
+    margin: 0 auto;
+    box-shadow: rgba(0, 0, 0, 0.18) 0px 13px 24px 0px, rgba(0, 0, 0, 0.08) 0px -6px 9px 0px inset;
+}
+.tbutton:hover {
+    background-color: #008485;
+    color: white;
+}
+.exchgtext{
+    color: rgb(54, 102, 255);
+    font-weight: bold;
+    font-size: 20px;
+}
+.ttext, .mtext, .bbutton {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+.ttext.show, .mtext.show, .bbutton.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.tbutton:hover .tTrable {
+    color: white;
+}
+.main2-2{
+    max-width: 1200px;
+    flex-wrap: wrap;
+    border: 1px solid #d8d8d8;
+    border-radius: 10px;
+}
+.parent, .parent-1{
+    display: flex;
+}
+
+.first {
+    flex: 1;
+    margin: 15px;
+    box-sizing: border-box;
+    border-radius: 12px;
+    background: #f3f6fb;
+
+}
+.first .img{
+    border-radius: 12px 12px 0 0;
+    overflow: hidden;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.first img{
+    width: 100%;
+    height: 250px;
+    text-align: center;
+}
+.t_wrap{
+    box-sizing: border-box;
+}
+.t_wrap .name, .titlename{
+    color: #929292;
+    line-height: 1.4;
+    padding-left: 30px;
+}
+.titlename{
+    font-weight: bold;
+    margin: 28px 0 5px;
+    font-size: 17px;
+    color: #333;
+}
+
+.exchange-img {
+    overflow: hidden;
+}
+
+.exchange-img img {
+    width: 100%;
+    float: left;
+
+    object-fit: cover;
+}
+
+.exchange-info {
+    flex-grow: 1;
+}
+
+.exchange-name {
+    font-weight: bold;
+}
+
+.exchange-rate {
+    margin-top: 5px;
+    font-size: 14px;
+}
+.populbox{
+    float: left;
+    width: 20%;
+    margin-left: 20px;
+}
+.popul-1{
+    width: 100%;
+    height: 200px;
+    border-radius: 10px;
+}
+.main2box{
+    display: flex;
+    width: 1200px;
+    margin: 0 auto;
+}
+.popcount{
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-color: #82878c;
+    color: #fff;
+    text-align: center;
+    float: left;
+    border-radius: 10px;
+    font-size: 16px;
+    line-height: 30px;
+    margin-right: 5px;
+}
+.popul-2{
+    height: 200px;
+    overflow: auto;
+    margin: 0 10px 10px 0;
+}
+.popcountbox{
+    height: 30px;
+    margin:10px 0;
+    display: block;
+}
+.populsearch{
+    font-weight: 700;
+    margin: 0;
+    color: #0d2842;
+}
+.popkeyword{
+    padding: 5px 0;
+    color: #373737;
+    font-weight: 700;
+}
+.populimg{
+    width: 220px;
+    height: 200px;
+    margin-top: 5px;
+    border-radius: 10px;
+}

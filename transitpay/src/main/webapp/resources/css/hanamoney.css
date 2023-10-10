@@ -22,7 +22,6 @@ body{
 .hanatitle{
     font-weight: 700;
     font-size: 30px;
-    display: inline-grid;
     align-items: center;
     text-align: center;
     color: #616161;
@@ -74,15 +73,15 @@ body{
     float: right;
 }
 .charge{
-    width: 200px;
     height: 37px;
     border: 1px solid #FFFBFB;
     background-color: #FFFBFB;
     margin: 10px;
+    display: inline-flex;
 }
 .charge span{
     font-weight: 700;
-    font-size: 30px;
+    font-size: 18px;
     align-items: center;
     text-align: center;
     color: #393333;
@@ -96,7 +95,7 @@ body{
 }
 .remit span{
     font-weight: 700;
-    font-size: 30px;
+    font-size: 18px;
     align-items: center;
     text-align: center;
     color: #008485;

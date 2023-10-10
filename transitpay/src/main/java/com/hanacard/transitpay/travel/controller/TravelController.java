@@ -167,7 +167,6 @@ public class TravelController {
 
     @GetMapping("/selectCategoryTravel")
     public ResponseEntity<?> selectCategoryTravel(@RequestParam int page, @RequestParam int itemsPerPage, @RequestParam  String category) {
-        System.out.println(page + " "+ itemsPerPage + " "+ category);
         try {
             List<TravelInfo> selectTravelList =  travelService.selectCategoryTravel(page,itemsPerPage,category);
             return ResponseEntity.ok(selectTravelList);

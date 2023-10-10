@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <html>
 <head>
     <meta charset="UTF-8" />
@@ -22,6 +23,7 @@
 
     <!-- Custom styles for this template-->
     <link href="../../../../resources/admin/css/sb-admin-2.css" rel="stylesheet">
+
 </head>
 
 <body id="page-top">
@@ -107,20 +109,6 @@
                 <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                     <i class="fa fa-bars"></i>
                 </button>
-
-                <!-- Topbar Search -->
-                <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                    <div class="input-group">
-                        <input type="text" class="form-control bg-light border-0 small" placeholder="검색어를 입력해주세요"
-                               aria-label="Search" aria-describedby="basic-addon2">
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="button">
-                                <i class="fas fa-search fa-sm"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
 
                 <!-- Topbar Navbar -->
                 <ul class="navbar-nav ml-auto">
@@ -279,6 +267,42 @@
 
                 <!-- Content Row -->
                 <div class="row">
+                    <div class="col-lg-6 mb-4">
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">추천코드 받을 사람들 (너도 나도 1000포인트)</h6>
+                            </div>
+                            <div class="card-body">
+                                <c:forEach var="user" items="${recommendUser}">
+                                    <h4 class="small font-weight-bold" id="recommenduser">${user.name}<span
+                                            class="float-right">${user.count} 번</span></h4>
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar bg-danger" role="progressbar" style="width: ${user.count+100}px"
+                                             aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </c:forEach>
+                            </div>
+                        </div>
+                        <!-- Illustrations -->
+                        <%--                        <div class="card shadow mb-4">--%>
+                        <%--                            <div class="card-header py-3">--%>
+                        <%--                                <h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>--%>
+                        <%--                            </div>--%>
+                        <%--                            <div class="card-body">--%>
+                        <%--                                <div class="text-center">--%>
+                        <%--                                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"--%>
+                        <%--                                         src="../../../../resources/admin/images/undraw_posting_photo.svg" alt="...">--%>
+                        <%--                                </div>--%>
+                        <%--                                <p>Add some quality, svg illustrations to your project courtesy of <a--%>
+                        <%--                                        target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a--%>
+                        <%--                                    constantly updated collection of beautiful svg images that you can use--%>
+                        <%--                                    completely free and without attribution!</p>--%>
+                        <%--                                <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on--%>
+                        <%--                                    unDraw &rarr;</a>--%>
+                        <%--                            </div>--%>
+                        <%--                        </div>--%>
+
+                    </div>
                     <div class="container-fluid">
                         <h1 class="h3 mb-2 text-gray-800">사용자관리</h1>
                         <div class="card shadow mb-4">
@@ -287,7 +311,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <table class="table table-bordered" id="datatablesSimple" width="100%" cellspacing="0">
                                         <thead>
                                         <tr>
                                             <th>번호</th>
@@ -297,7 +321,7 @@
                                             <th>가입일자</th>
                                             <th>사용자코드</th>
                                             <th>추천인코드</th>
-                                            <th>이메일전송</th>
+                                            <th>캐시백</th>
                                         </tr>
                                         </thead>
                                         <tbody id="memberTable">
@@ -309,78 +333,6 @@
 
                     </div>
 
-                    <div class="col-lg-6 mb-4">
-                        <div class="card shadow mb-4">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">카테고리별 검색 통계</h6>
-                            </div>
-                            <div class="card-body">
-                                <h4 class="small font-weight-bold">Server Migration <span
-                                        class="float-right">20%</span></h4>
-                                <div class="progress mb-4">
-                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 20%"
-                                         aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                                <h4 class="small font-weight-bold">Sales Tracking <span
-                                        class="float-right">40%</span></h4>
-                                <div class="progress mb-4">
-                                    <div class="progress-bar bg-warning" role="progressbar" style="width: 40%"
-                                         aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                                <h4 class="small font-weight-bold">Customer Database <span
-                                        class="float-right">60%</span></h4>
-                                <div class="progress mb-4">
-                                    <div class="progress-bar" role="progressbar" style="width: 60%"
-                                         aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                                <h4 class="small font-weight-bold">Payout Details <span
-                                        class="float-right">80%</span></h4>
-                                <div class="progress mb-4">
-                                    <div class="progress-bar bg-info" role="progressbar" style="width: 80%"
-                                         aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                                <h4 class="small font-weight-bold">Account Setup <span
-                                        class="float-right">Complete!</span></h4>
-                                <div class="progress">
-                                    <div class="progress-bar bg-success" role="progressbar" style="width: 100%"
-                                         aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Illustrations -->
-<%--                        <div class="card shadow mb-4">--%>
-<%--                            <div class="card-header py-3">--%>
-<%--                                <h6 class="m-0 font-weight-bold text-primary">Illustrations</h6>--%>
-<%--                            </div>--%>
-<%--                            <div class="card-body">--%>
-<%--                                <div class="text-center">--%>
-<%--                                    <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"--%>
-<%--                                         src="../../../../resources/admin/images/undraw_posting_photo.svg" alt="...">--%>
-<%--                                </div>--%>
-<%--                                <p>Add some quality, svg illustrations to your project courtesy of <a--%>
-<%--                                        target="_blank" rel="nofollow" href="https://undraw.co/">unDraw</a>, a--%>
-<%--                                    constantly updated collection of beautiful svg images that you can use--%>
-<%--                                    completely free and without attribution!</p>--%>
-<%--                                <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on--%>
-<%--                                    unDraw &rarr;</a>--%>
-<%--                            </div>--%>
-<%--                        </div>--%>
-div
-                        <!-- Approach -->
-                        <div class="card shadow mb-4">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Development Approach</h6>
-                            </div>
-                            <div class="card-body">
-                                <p>SB Admin 2 makes extensive use of Bootstrap 4 utility classes in order to reduce
-                                    CSS bloat and poor page performance. Custom CSS classes are used to create
-                                    custom components and custom utility classes.</p>
-                                <p class="mb-0">Before working with this theme, you should become familiar with the
-                                    Bootstrap framework, especially the utility classes.</p>
-                            </div>
-                        </div>
-
-                    </div>
                 </div>
 
             </div>
@@ -446,8 +398,11 @@ div
 
 <!-- Page level custom scripts -->
 <script src="../../../../resources/admin/js/demo/chart-area-demo.js"></script>
-
+<!-- 새로운 DataTables 링크 추가 -->
+<link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
+
     $.ajax({
         type: "POST",
         url: "/searchCount",
@@ -480,10 +435,6 @@ div
 
         }
     });
-    function sendEmail(email) {
-        // Implement email sending logic here
-        alert("Sending email to: " + email);
-    }
 
     $.ajax({
         type: "POST",
@@ -510,16 +461,6 @@ div
         });
     }
 
-    // $.ajax({
-    //     type: "POST",
-    //     url: "/searchLocationByDate",
-    //     success: function (jsonData, state, xhr) {
-    //
-    //     },
-    //     error: function (xhr, data) {
-    //
-    //     }
-    // });
     var ctx = document.getElementById("myAreaChart");
     var myBarChart = new Chart(ctx, {
         type: 'line',
@@ -613,61 +554,87 @@ div
             },
         });
     });
+        $.ajax({
+            type: "POST",
+            url: "/selectMember",
+            success: function (jsonData, state, xhr) {
+                document.getElementById('memberCount').textContent = jsonData.length + '명';
+                var tableBody = document.querySelector("#memberTable");
+                for (var i = 0; i < jsonData.length; i++) {
+                    var rowData = jsonData[i];
+                    var row = tableBody.insertRow();
+                    var cell1 = row.insertCell(0);
+                    var cell2 = row.insertCell(1);
+                    var cell3 = row.insertCell(2);
+                    var cell4 = row.insertCell(3);
+                    var cell5 = row.insertCell(4);
+                    var cell6 = row.insertCell(5);
+                    var cell7 = row.insertCell(6);
+                    var cell8 = row.insertCell(7);
+                    cell1.innerHTML = rowData.member_id;
+                    cell2.innerHTML = rowData.name;
+                    cell3.innerHTML = rowData.email;
+                    cell4.innerHTML = rowData.phone;
+                    cell5.innerHTML = rowData.join_date;
+                    if (rowData.code != null) {
+                        cell6.innerHTML = rowData.code;
+                    } else {
+                        cell6.innerHTML = '-';
+                    }
+                    if (rowData.recode != null) {
+                        cell7.innerHTML = rowData.recode;
+                    } else {
+                        cell7.innerHTML = '-';
+                    }
+                    cell8.innerHTML = '<button class="sendEmail" onclick="cashback(\'' + rowData.code + '\', \'' + rowData.recode + '\');">캐시백 지급</button>';
+                }
 
-    $.ajax({
-        type: "POST",
-        url: "/selectMember",
-        success: function (jsonData, state, xhr) {
-            document.getElementById('memberCount').textContent=jsonData.length+'명';
-            var tableBody = document.querySelector("#memberTable");
-            for (var i = 0; i < jsonData.length; i++) {
-                var rowData = jsonData[i];
-                var row = tableBody.insertRow();
-                var cell1 = row.insertCell(0);
-                var cell2 = row.insertCell(1);
-                var cell3 = row.insertCell(2);
-                var cell4 = row.insertCell(3);
-                var cell5 = row.insertCell(4);
-                var cell6 = row.insertCell(5);
-                var cell7 = row.insertCell(6);
-                var cell8 = row.insertCell(7);
-                cell1.innerHTML = rowData.member_id;
-                cell2.innerHTML = rowData.name;
-                cell3.innerHTML = rowData.email;
-                cell4.innerHTML = rowData.phone;
-                cell5.innerHTML = rowData.join_date;
-                if(rowData.code!=null){
-                    cell6.innerHTML = rowData.code;
-                }else{
-                    cell6.innerHTML = '-';
-                }
-                if(rowData.recode!=null){
-                    cell7.innerHTML = rowData.recode;
-                }else{
-                    cell7.innerHTML = '-';
-                }
-                cell8.innerHTML = '<button class="sendEmail" onclick="sendEmail(\'' + rowData.email + '\')">이메일전송</button>';
+                // DataTables 초기화 및 설정
+                var dataTable = $('#datatablesSimple').DataTable({
+                    autoWidth: false, // 열 너비 자동 조정 비활성화
+                    searching: true, // 검색 기능 활성화
+                    language: { // 언어 설정
+                        paginate: {
+                            previous: "이전",
+                            next: "다음"
+                        },
+                        zeroRecords: "검색 결과가 없습니다.",
+                        info: "전체 거래내역 _TOTAL_개 중에서 _START_ 번부터 _END_ 번까지의 결과",
+                        lengthMenu: "_MENU_ 행까지 조회"
+                    },
+                    columnDefs: [
+                        {
+                            targets: -1,
+                            className: 'dt-body-center' // 마지막 열의 셀 스타일 지정
+                        }
+                    ]
+                });
+            },
+            error: function (xhr, data) {
+                $("#login_result").text('알 수 없는 에러가 발생했습니다.')
             }
-        },
-        error: function (xhr, data) {
-            $("#login_result").text('알 수 없는 에러가 발생했습니다.')
-        }
-    });
-    function sendEmail(email) {
-        // Implement email sending logic here
-        alert("Sending email to: " + email);
+        });
+
+    function cashback(code, recode) {
+        var data = {
+            code: code,
+            recode: recode
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "/cashbackPayment",
+            data: JSON.stringify(data), // 데이터를 JSON 문자열로 변환
+            contentType: "application/json", // 데이터 타입을 JSON으로 설정
+            success: function (data) {
+                // 성공 시 처리
+            },
+            error: function (xhr, data) {
+                $("#login_result").text('알 수 없는 에러가 발생했습니다.');
+            }
+        });
     }
 
-    $.ajax({
-        type: "POST",
-        url: "/recommendOfMember",
-        success: function (data) {
-            console.log(data)
-        },
-        error: function (xhr, data) {
-            $("#login_result").text('알 수 없는 에러가 발생했습니다.')
-        }
-    });
 </script>
 </body>
 

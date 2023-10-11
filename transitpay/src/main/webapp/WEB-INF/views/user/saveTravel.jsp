@@ -238,13 +238,13 @@
                                                 </table>
                                                 <div class="totalTravel">
                                                     <span>총</span>
-                                                    <span class="totaltext2-${travelInfo.travelId}"></span>
+                                                    <span class="totaltext2-${travelInfo.travelId}" id="totaltravel"></span>
                                                     <span>원</span>
                                                 </div>
                                                 <c:if test="${sessionScope.member.member_id == travelInfo.groupLeader}">
                                                     <p class="travel-date-text">
                                                         <span><img src="../../../resources/images/free-icon-crown-4315531.png"></span>
-                                                        <button class="calBtn" onclick="calculate(${travelInfo.travelId})">모임원들에게 회비요청</button>
+                                                        <button class="calBtn" onclick="calculate()">모임원들에게 회비요청</button>
                                                     </p>
                                                 </c:if>
                                             </c:when>
@@ -255,7 +255,55 @@
 <%--                                        <canvas id="myChart" style="width: 200px; height: 200px"></canvas>--%>
                                     </div>
                             </div>
+                            <script>
+                                function calculate(){
+                                    var calBtn = document.querySelector(".calBtn");
+                                    var ancestorElement = calBtn.parentElement.parentElement.parentElement;
+                                    var inputElement = ancestorElement.querySelector("input");
+                                    var inputValue = inputElement.id;
 
+                                    var cinput =  document.getElementById(inputValue).parentElement;
+                                    var totalTravel = document.querySelector('.totaltext2-' + ${travelInfo.travelId});
+                                    var total = totalTravel.textContent;
+
+                                    //모임원 인원 수대로
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/selectAllGroupMembers",
+                                        data: {
+                                            groupId: "${sessionScope.groupAccountDetail.group_id}"
+                                        },
+                                        success: function (response) {
+                                            notification(response,total,${travelInfo.travelId});
+                                        },
+                                        error: function (error) {
+                                            console.error(error);
+                                        },
+                                    });
+
+                                }
+
+                                function notification(groupMember,totalAmount,travelId){
+                                    var requestData = {
+                                        groupMember: groupMember,
+                                        amount: totalAmount,
+                                        group_id: "${sessionScope.groupAccountDetail.group_id}",
+                                        travel_id : travelId
+                                    };
+                                    $.ajax({
+                                        type: "POST",
+                                        url: "/calTravelGroupMemberNotification",
+                                        data: JSON.stringify(requestData),
+                                        contentType: "application/json",
+                                        success: function (response) {
+                                            alert(response)
+                                        },
+                                        error: function (error) {
+                                            console.error(error);
+                                        },
+                                    });
+                                }
+                            </script>
                         </c:forEach>
                     </div>
                     <h2>즐겨찾기 목록</h2>
@@ -273,50 +321,6 @@
 </body>
 <script>
 
-    function calculate(travelId){
-        var calBtn = document.querySelector(".calBtn");
-        var ancestorElement = calBtn.parentElement.parentElement.parentElement;
-        var inputElement = ancestorElement.querySelector("input");
-        var inputValue = inputElement.id;
-
-        var cinput =  document.getElementById(inputValue).parentElement;
-        var total = cinput.querySelector('.totaltext2-'+travelId).textContent;
-        //모임원 인원 수대로
-        $.ajax({
-            type: "POST",
-            url: "/selectAllGroupMembers",
-            data: {
-                groupId: "${sessionScope.groupAccountDetail.group_id}"
-            },
-            success: function (response) {
-                notification(response,total,travelId);
-            },
-            error: function (error) {
-                console.error(error);
-            },
-        });
-
-    }
-    function notification(groupMember,totalAmount,travelId){
-        var requestData = {
-            groupMember: groupMember,
-            amount: totalAmount,
-            group_id: "${sessionScope.groupAccountDetail.group_id}",
-            travel_id : travelId
-        };
-        $.ajax({
-            type: "POST",
-            url: "/calTravelGroupMemberNotification",
-            data: JSON.stringify(requestData),
-            contentType: "application/json",
-            success: function (response) {
-                alert(response)
-            },
-            error: function (error) {
-                console.error(error);
-            },
-        });
-    }
     $.ajax({
         type: "POST",
         url: "/selectMygroupTravelList",

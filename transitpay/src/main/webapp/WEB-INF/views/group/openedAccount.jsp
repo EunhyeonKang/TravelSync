@@ -471,12 +471,15 @@
         <div class="menu1">
             <div class="menu1-1">모임통장 개설</div>
             <div class="menuhr"><hr/></div>
-            <a href="group">모임약관동의</a>
             <c:choose>
                 <c:when test="${sessionScope.member != null}">
+                    <a href="group">모임약관동의</a>
                     <a href="openedAccount">모임통장 개설</a>
                     <a href="groupInvite">모임통장 초대</a>
                 </c:when>
+                <c:otherwise>
+                    <a href="openedAccount">모임통장 개설</a>
+                </c:otherwise>
             </c:choose>
         </div>
         <div class="contents-1">
@@ -560,7 +563,7 @@
                     <br/>
                     <div class="flexClass">
                         <span class="idbox">회비</span>
-                        <input type="text" name="g_dues" class="rec6" placeholder="회비를 입력해주세요"/>
+                        <input type="text" name="g_dues" class="rec6" placeholder="회비를 입력해주세요" autocomplete="off"/>
                     </div>
                     <div class="flexClass">
                         <span class="idbox">자동이체 여부</span>
@@ -578,7 +581,7 @@
                     </div>
                 </form>
 <%--                <button id="calculate" onclick="phoneAuth()"/>--%>
-                <button id="calculate" onclick="submitForm()"/>
+                <button id="calculate" onclick="phoneAuth()"/>
                     <span>개설하기</span>
                 </button>
 
@@ -596,7 +599,7 @@
                     <p><c:out value="${member.name}"/>님의 휴대폰 인증</p>
                     <img src="../../../resources/images/phone-call.svg" alt="">
 
-                    <input type ="tel" id ="phone-number" name="phone" placeholder="전화번호를 입력해주세요">
+                    <input type ="tel" id ="phone-number" name="phone" placeholder="전화번호를 입력해주세요" autocomplete="off">
                     <button type ="button" id ="auth-req-button">인증요청</button>
                     <p id="ViewTimer"></p>
                     <div class="authbox">
@@ -621,6 +624,7 @@
        var modal = $("#myModal");
        modal.css("display", "block");
     };
+
     var span = $(".close").eq(0);
     span.click(function(){
         var modal = $("#myModal");
@@ -640,7 +644,7 @@
             data: JSON.stringify(member),
             contentType: "application/json",
             success: function(response) {
-                $("#auth-number").val(response);
+
             },
             error: function(error) {
                 console.error("로그인 실패 : ", error);

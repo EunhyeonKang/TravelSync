@@ -74,6 +74,6 @@
         select sum(poi_point) from point_table where member_id=#{memberId}
     </select>
     <select id="selectPointListOfMember" resultType="com.hanacard.transitpay.member.model.dto.Point">
-        select * from point_table where member_id=#{memberId}
+        select * from point_table where member_id=#{memberId} and poi_type='n';
     </select>
 </mapper>

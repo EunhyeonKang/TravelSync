@@ -6,18 +6,18 @@
             <div class="first">
                 <a href="">
                     <div class="img">
-                        <img src="../../resources/images/groupicon.png" style="" alt="">
+                        <img src="../../resources/images/groupicon.png" style="background: aliceblue" alt="">
                     </div>
                     <div class="t_wrap">
                         <p class="titlename">HANA모임통장</p>
-                        <p class="name">둘이, 셋이, 여럿이 함께쓰고<br>같이 보는 모임통장을 사용해보세요</p>
+                        <p class="name">둘이, 셋이, 여럿이 함께쓰고<br>같이 보는 모임통장을 사용하세요</p>
                     </div>
                 </a>
             </div>
             <div class="first">
                 <a href="">
                     <div class="img">
-                        <img src="../../resources/images/travelSchedule.png" style="" alt="">
+                        <img src="../../resources/images/travelSchedule.png" style="background: aliceblue" alt="">
                     </div>
                     <div class="t_wrap">
                         <p class="titlename">실시간 여행계획</p>
@@ -28,54 +28,67 @@
             <div class="first">
                 <a href="">
                     <div class="img">
-                        <img src="../../resources/images/main2.jpeg" style="" alt="">
+                        <img src="../../resources/images/main2.png" style="background: aliceblue" alt="">
                     </div>
                     <div class="t_wrap">
                         <p class="titlename">여행경비 리포트</p>
-                        <p class="name">여행예산을 1/N정산하고<br>정산통계로 현명한 여행소비를 하세요</p>
+                        <p class="name">여행예산을 1/N하고 회비통계로<br>나만의 여행비용패턴을 확인하세요</p>
+                    </div>
+                </a>
+            </div>
+            <div class="first">
+                <a href="">
+                    <div class="img">
+                        <img src="../../resources/images/friendinvite.png" style="background: #f2f4f4" alt="">
+                    </div>
+                    <div class="t_wrap">
+                        <p class="titlename">너도나도 포인트</p>
+                        <p class="name">친구를 초대하고 모임통장에서<br>포인트를 사용하세요</p>
                     </div>
                 </a>
             </div>
         </div>
     </div>
-    <div class="populbox">
-        <p class="populsearch">인기검색어</p>
-        <div class="popul-2">
+<%--    <div class="populbox">--%>
+<%--        <p class="populsearch">인기검색어</p>--%>
+<%--        <div class="popul-2">--%>
 
-        </div>
-        <div class="popul-1">
-            <img class="populimg" src="../../resources/images/invite.png">
-        </div>
-    </div>
+<%--        </div>--%>
+<%--        <div class="popul-1">--%>
+<%--            <img class="populimg" src="../../resources/images/invite.png">--%>
+<%--        </div>--%>
+<%--    </div>--%>
 </div>
 <div class="main2">
+    <img class="" src="../../resources/images/groupAccount1.png" style="width: 200px; margin : 0 auto; display: block">
     <div class="ttext">
         <div class="ctext1">총무님은 쉬세요</div><br>
         <div class="ctext1"><span class="t1"> 트래블싱크</span>가 대신할게요.</div>
     </div>
     <div class="mtext">
-        <div class="ctext2">회비 낼 때 알림으로 알려주고</div><br>
-        <div class="ctext2">회비가 밀려도 알아서 관리할게요.</div>
+        <div class="ctext2">회비규칙으로</div><br>
+        <div class="ctext2">회비관리를 더 편하게</div>
     </div>
+
     <div class="bbutton">
         <button type="submit" class="tbutton" onclick="location.href = 'group'">
             <div class="tTrable">모임통장 개설하기</div>
         </button>
-    </div>s
+    </div>
 </div>
 <div class="main3">
     <div class="exchangebox1">
         <button type="submit" class="exchgbutton">
-            <div class="exchgtext">정산</div>
+            <div class="exchgtext">실시간여행계획</div>
         </button>
         <button type="submit" class="exchgbutton">
-            <div class="exchgtext">알림</div>
+            <div class="exchgtext">여행리포트</div>
         </button>
     </div>
     <div class="exchangebox2">
-        <img class="exchgimg" src="../../resources/images/exchange.png">
-        <div class="ctext2">나의 여행 기반으로 제공되는</div><br>
-        <div class="ctext2">환율, 길찾기 정보로 더 쉬운 여행을 경험하세요.</div>
+        <img class="exchgimg" src="../../resources/images/travelmain.png">
+        <div class="ctext2">친구와 함께 여행계획을 세우고</div><br>
+        <div class="ctext2">모여라 회비를 통해 편리한 여행을 시작하세요</div>
     </div>
 
 </div>

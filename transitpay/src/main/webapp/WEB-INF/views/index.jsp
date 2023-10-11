@@ -253,8 +253,8 @@
                 <ul class="menu">
                     <c:choose>
                         <c:when test="${sessionScope.member != null}">
-                            <li><a href="/categoryTravel">여행정보 보기</a></li>
-                            <li><a href="/group">모임통장 개설</a></li>
+                            <li><a href="/categoryTravel">여행정보</a></li>
+                            <li><a href="/group">모임통장</a></li>
                             <li><a href="/travel">여행계획</a></li>
                             <li><a href="/travel">마이페이지</a></li>
                         </c:when>
@@ -272,8 +272,9 @@
         <div class="navbar-fixed">
             <div class="title"><a href="/">TRAVELSYNC</a></div>
             <ul id="menu">
-                <li><a href="top3Travel">TOP 여행지</a></li>
-                <li><a href="mypage">내예약</a></li>
+                <li><a href="top3Travel">여행정보</a></li>
+                <li><a href="mypage">모임통장</a></li>
+                <li><a href="login">여행계획</a></li>
                 <li><a href="login">로그인</a></li>
             </ul>
         </div>
@@ -346,7 +347,7 @@
                                     <div class="hanamenu-1">
                                         <div class="phonebox">
                                             <img src="../../resources/images/new_2204_my_login_img001.png" alt="">
-                                            <span class="phoneauth">핸드폰 본인인증으로 로그인해주세요</span>
+                                            <span class="phoneauth">본인인증으로 로그인해주세요</span>
                                         </div>
                                         <button class="button-container" onclick="performLogin();">
                                             <span class="login-button">간편 로그인</span>
@@ -627,7 +628,8 @@
                         //2. 모임통장이 있으면 모임통장 경로로 이동
                     } else {
                         //1. 모임통장 개설하러가기
-
+                        const hanawon = document.querySelector('.hanawon');
+                        hanawon.textContent = '0원';
                     }
                 },
                 error: function (error) {

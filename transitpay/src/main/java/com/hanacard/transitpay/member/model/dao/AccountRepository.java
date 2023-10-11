@@ -67,4 +67,6 @@ public interface AccountRepository {
     List<GroupAccount> getAutoPhoneOfPaymentDayOfMonth();
 
     void insertHanaAccount(int memberId, String accountNumber, String bank, int balance, String phone,int pw);
+
+    void updatePoint(int memberId);
 }

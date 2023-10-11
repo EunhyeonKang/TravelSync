@@ -1004,7 +1004,7 @@
                                                 ctx.font = '20px Arial';
                                                 ctx.fillStyle = 'rgb(0, 0, 0)';
                                                 ctx.textAlign = 'center';
-                                                ctx.fillText('사용 이력이 없습니다.', canvas.width / 2, canvas.height / 2);
+                                                ctx.fillText('사용 이력이 없습니다.', canvas.width / 4, canvas.height / 4);
                                             }
                                         },
                                         error: function (error) {
@@ -1252,10 +1252,14 @@
 <link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
+
     function closeModal(){
         document.querySelector('#myModal').style.display = 'none';
     }
     function openModal(){
+        var modal = document.getElementById('myModal');
+        modal.style.display = 'block';
+        jQuery(document).ready(function($) {
         $(document).ready(function() {
 
             var pin = (+!![] + []) + (!+[] + !![] + []) + (!+[] + !![] + !![] + []) + (!+[] + !![] + !![] + !![] + []);
@@ -1328,6 +1332,7 @@
                 $("#anleitung p").html("<strong>Please enter the correct PIN-Code.</strong><br> It is: 1234 / Also try a wrong code");
             });
 
+        });
         });
     }
     function inviteAccept(){
@@ -1707,10 +1712,7 @@
             }
         });
     }*/
-    function openModal() {
-        var modal = document.getElementById('myModal');
-        modal.style.display = 'block';
-    }
+
     function groupInviteModal(){
         var modal = document.getElementById('inviteModal');
         modal.style.display = 'block';

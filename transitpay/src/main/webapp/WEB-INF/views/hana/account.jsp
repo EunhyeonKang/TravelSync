@@ -12,7 +12,7 @@
 
     .main {
         width: 100%;
-        height: 850px;
+        max-height: 850px;
     }.menu1-1{
          text-align: center;
          padding-top: 10px;
@@ -164,7 +164,7 @@
     }
     .classSection{
         display: flex;
-        padding: 10px;
+        padding-top: 10px;
         margin: 10px 0;
     }
     .class-1{
@@ -362,7 +362,13 @@
     a{text-decoration: none;}
     .clearfix::after{content: "";display: block;clear: both;}
     #joinForm{width: 500px;margin: 0 auto;}
-    ul.join_box{border: 1px solid #ddd;background-color: #fff;padding: 30px;}
+
+    ul.join_box {
+        border: 1px solid #ddd;
+        background-color: #fff;
+        padding: 30px;
+        min-height: 800px; /* 높이를 조정하실 수 있습니다. */
+    }
     .checkBox,.checkBox>ul{position: relative;}
     .checkBox>ul>li{float: left;}
     .checkBox>ul>li:first-child{width: 85%;padding: 15px;font-weight: 600;color: #888;}
@@ -370,6 +376,13 @@
     .checkBox textarea{width: 96%;height: 90px; margin: 0 2%;background-color: #f7f7f7;color: #888; border: none;}
     .footBtwrap{margin-top: 15px; padding: 30px;}
     .footBtwrap>li{height: 60px;width: 50%;height: 60px;margin: 0 auto;}
+    ul.footBtwrap {
+        margin-top: 20px; /* 여백을 더 늘릴 수 있습니다. */
+        padding: 30px;
+    }
+    .g__pop-content{
+        color: #2f2f2f;
+    }
     .footBtwrap>li>button{
         font-weight: 700;
         font-size: 18px;

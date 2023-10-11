@@ -1099,18 +1099,18 @@
         newLikeSpan.className = 'likeSpan';
         newLikeSpan.textContent = selectedDetails.likeCount;
 
-        var newStarImg = document.createElement('img');
-        newStarImg.src = '../../resources/images/star.png'
-        newStarImg.style.width = '21px';
-        newStarImg.className = 'StarImg';
-        var newStarSpan = document.createElement('span');
-        newStarSpan.className = 'starSpan';
-        newStarSpan.textContent = selectedDetails.starCount;
+        // var newStarImg = document.createElement('img');
+        // newStarImg.src = '../../resources/images/star.png'
+        // newStarImg.style.width = '21px';
+        // newStarImg.className = 'StarImg';
+        // var newStarSpan = document.createElement('span');
+        // newStarSpan.className = 'starSpan';
+        // newStarSpan.textContent = selectedDetails.starCount;
 
         newLikeStarBox.appendChild(newLikeImg);
         newLikeStarBox.appendChild(newLikeSpan);
-        newLikeStarBox.appendChild(newStarImg);
-        newLikeStarBox.appendChild(newStarSpan);
+        // newLikeStarBox.appendChild(newStarImg);
+        // newLikeStarBox.appendChild(newStarSpan);
         newPriceInfo.appendChild(newLikeStarBox);
         newPriceInfo.appendChild(newPlusButton);
         var newPNums = document.createElement('div');

@@ -32,7 +32,6 @@ public class MemberController {
     @PostMapping("/checkPhone")
     @ResponseBody
     public String checkPhone(@RequestBody Member member) {
-        // Member 객체에 요청 데이터가 매핑됩니다.
         String phone = member.getPhone();
         String groupName = member.getGroupName();
         String authenticationCode=memberService.sendAuthenticationCode(phone,groupName);
@@ -128,7 +127,6 @@ public class MemberController {
             ModelAndView mav = new ModelAndView();
             Member loginMember = memberService.loginMember(member.getEmail(),member.getPw());
             if(loginMember!=null) {
-
                 session.setAttribute("member", loginMember);
                 mav.addObject("msg", "로그인 성공");
             }else{

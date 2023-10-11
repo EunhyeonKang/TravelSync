@@ -660,7 +660,7 @@
                                                         <input type="text" name="group_account" value="${sessionScope.groupAccountDetail.group_account} (${sessionScope.groupAccountDetail.g_balance})"/>
                                                         <br/>
                                                         <span class="idbox">포인트<button class="selectpoint" id="selectPoint">조회</button></span>
-                                                        <input type="text" name="point" value="" placeholder="포인트를 입력해주세요"/>
+                                                        <input type="text" name="point" value="0" placeholder="포인트를 입력해주세요"/>
                                                         <br/>
                                                         <span class="idbox">입금 금액</span>
                                                         <input type="text" name="balance" value="${travelNoti.amount}" placeholder="입금 금액을 입력해주세요"/>
@@ -686,7 +686,7 @@
                                             <img src="../../../resources/images/complate.png" style="width: 100px; margin: 20px auto;">
                                             <p class="complatetext1"><strong>${travelNoti.groupName}</strong>에서 등록한 <strong>${travelNoti.travelTitle}</strong>일정의</p>
                                             <p class="complatetext2">모여라회비 납부를 성공했습니다.</p>
-                                            <button class="complatecal" onclick="location.href='/afterTravel'">
+                                            <button class="complatecal" onclick="location.href='/mypage'">
                                                 <div>모여라회비 내역보기</div>
                                             </button>
                                         </div>
@@ -703,7 +703,8 @@
     <div id="pointModal" class="pointModal">
         <div class="point-modal-content">
             <span class="pointModalclose">&times;</span>
-            <h3 class="pointh3"><img src="../../../resources/images/cashback.png" style="width: 35px;margin-right: 10px;">포인트 조회 결과</h3>
+            <h3 class="pointh3"><img src="../../../resources/images/cashback.png" style="width: 35px;margin-right: 10px;">
+                포인트 조회 결과</h3>
             <p class="pointp">- 추가할 포인트를 선택해주세요</p>
             <table class="pointTable">
                 <thead>
@@ -868,6 +869,8 @@
         var travelId = document.querySelector('#notiTravelId').value;
         var groupId =document.querySelector('input[name="group_id"]').value;
 
+        var pointInput = document.querySelector('input[name="point"]');
+        var point = pointInput ? pointInput.value : "0";
         var dataToSend = {
             accountBank: accountBank,
             accountNum: accountNum,
@@ -875,7 +878,8 @@
             groupAccount: groupAccount,
             amount : amount,
             groupId : groupId,
-            travelId : travelId
+            travelId : travelId,
+            point : point
         };
 
         $.ajax({

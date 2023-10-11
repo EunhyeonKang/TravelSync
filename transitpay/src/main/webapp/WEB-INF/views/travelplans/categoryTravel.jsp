@@ -90,7 +90,7 @@
         .contents{
             margin: 30px auto;
             text-align: center;
-            width: 80%;
+            /*width: 80%;*/
         }
         .traveltitle{
             color: #7a7d7d;

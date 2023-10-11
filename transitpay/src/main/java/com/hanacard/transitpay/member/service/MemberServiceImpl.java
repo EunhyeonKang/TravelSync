@@ -61,8 +61,8 @@ public class MemberServiceImpl implements MemberService {
         Message coolsms = new Message(apiKey, api_secret);
         String authenticationCode=createAuthenticationCode();
         HashMap<String , String> params= new HashMap<String,String>();
-        params.put("to", "+82 1577-0000");
         params.put("from", phone);
+        params.put("to", "+82 1588-1111");
         params.put("type", "SMS");
         params.put("text", "[트래블싱크 모임통장 자동이체] "+name+ "님 모임통장에 매월 "+day+"일, "+amount+"원이 이체되었습니다.");
 //        params.put("text", "트래블로그 가입 인증번호 "+authenticationCode+" 입니다");
@@ -82,8 +82,8 @@ public class MemberServiceImpl implements MemberService {
         Message coolsms = new Message(apiKey, api_secret);
         String authenticationCode = createAuthenticationCode();
         HashMap<String, String> params = new HashMap<String, String>();
-        params.put("to", "+82 1577-0000");
-        params.put("from", phone);
+        params.put("from", "01093660469");
+        params.put("to", phone);
         params.put("type", "SMS");
         params.put("text", "[트래블싱크 모임통장 개설인증] " + groupName + "모임 인증 번호는 "+authenticationCode+"입니다.");
 //        params.put("text", "트래블로그 가입 인증번호 "+authenticationCode+" 입니다");

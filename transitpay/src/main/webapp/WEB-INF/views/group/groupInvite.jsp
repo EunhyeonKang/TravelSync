@@ -266,7 +266,7 @@
             <div class="menu1-1">모임통장 초대</div>
             <div class="menuhr"><hr/></div>
             <a href="group">약관동의</a>
-            <a href="openedAccount">모임개설</a>
+            <a href="openedAccount">모임통장 개설</a>
             <a href="groupInvite">모임통장 초대</a>
         </div>
         <div class="contents-1">

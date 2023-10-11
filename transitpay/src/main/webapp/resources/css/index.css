@@ -29,6 +29,10 @@ li {
     margin-right: 20px;
     display: contents;
 }
+#menu li a{
+    color: white;
+    font-weight: 700;
+}
 
 @media screen and (max-width: 625px) {
 
@@ -102,6 +106,7 @@ body{
     padding: 30px;
 }
 .mytravel{
+    cursor: pointer;
     position: relative;
     display: inline-block;
     text-decoration: none;
@@ -303,6 +308,7 @@ a{
     display: block;
     position: relative;
     padding-bottom: 19px;
+    cursor: pointer;
 }
 .hanamenu > li > .hanamenu-a:hover{
     color: #31D8BA;

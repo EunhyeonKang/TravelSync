@@ -25,7 +25,7 @@
                     </c:when>
                     <c:otherwise>
                         <li><a href="/categoryTravel">여행정보 보기</a></li>
-                        <li><a href="/group">모임통장 개설</a></li>
+                        <li><a href="/group">모임통장</a></li>
                         <li><a href="/travel">여행계획</a></li>
                     </c:otherwise>
                 </c:choose>

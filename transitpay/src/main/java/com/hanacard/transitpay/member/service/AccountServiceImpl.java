@@ -274,12 +274,14 @@ public class AccountServiceImpl implements AccountService {
         String balance = (String) calData.get("amount");
         String groupId = (String)calData.get("groupId");
         String travelId = (String)calData.get("travelId");
+        String point = (String)calData.get("point");
         accountRepository.insertAccountStatement(accountNum,groupAccount,"OUT",Integer.parseInt(balance),"여행 경비-회비 정산");
         accountRepository.insertGroupAccountStatement(accountNum,groupAccount,"IN",Integer.parseInt(balance),"여행 경비-회비 정산");
         accountRepository.updateAccountBalance(memberId, accountNum, Integer.parseInt(balance), accountBank);
         accountRepository.updateGroupAccountBalance(groupAccount,Integer.parseInt(balance));
+        accountRepository.updatePoint(memberId);
         accountRepository.calExecution(Integer.parseInt(groupId),memberId,Integer.parseInt(travelId));
-        accountRepository.calExecutionHistory(Integer.parseInt(groupId),memberId,Integer.parseInt(travelId),Integer.parseInt(balance));
+        accountRepository.calExecutionHistory(Integer.parseInt(groupId),memberId,Integer.parseInt(travelId),Integer.parseInt(balance)+Integer.parseInt(point));
     }
 
     @Override

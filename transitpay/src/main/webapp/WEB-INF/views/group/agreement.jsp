@@ -8,7 +8,10 @@
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <style>
-
+    .section-4{
+        overflow: auto;
+        max-height: 400px;
+    }
     .main {
         width: 100%;
         height: 850px;
@@ -176,6 +179,12 @@
         float: right;
         text-align: right;
     }
+    .class-1 {
+        cursor: pointer;
+    }
+    .hidden {
+        display: none;
+    }
     /* 스테퍼 컨테이너 */
     .stepper {
         display: flex;
@@ -231,6 +240,7 @@
     }
     .agreeDetail {
         display: none;
+        margin-top: 20px;
     }
     .plusButton{
         border: 0;
@@ -307,6 +317,59 @@
     form{
         margin: 0 auto;
     }
+
+    ul>li{list-style: none}
+    a{text-decoration: none;}
+    .clearfix::after{content: "";display: block;clear: both;}
+    #joinForm{width: 700px;margin: 0 auto;}
+
+    ul.join_box {
+        border: 1px solid #ddd;
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 10px;
+    }
+    .checkBox,.checkBox>ul{position: relative; padding-left: 0;}
+    .checkBox>ul>li{float: left;}
+    .checkBox>ul>li:first-child{width: 85%;padding: 15px;font-weight: 600;color: #888;}
+    .checkBox>ul>li:nth-child(2){position: absolute;top: 50%;right: 30px;margin-top: -12px;}
+    .checkBox textarea{width: 96%;height: 90px; margin: 0 2%;background-color: #f7f7f7;color: #888; border: none;}
+    .footBtwrap{margin-top: 15px; padding: 30px;}
+    .footBtwrap>li{height: 60px;width: 50%;height: 60px;margin: 0 auto;}
+    ul.footBtwrap {
+        margin-top: 20px; /* 여백을 더 늘릴 수 있습니다. */
+        padding: 30px;
+    }
+    .g__pop-content{
+        color: #2f2f2f;
+    }
+    .footBtwrap>li>button{
+        font-weight: 700;
+        font-size: 18px;
+        text-align: center;
+        color: #FFFFFF;
+        background: rgba(0, 152, 153, 0.73);
+        border: 0;
+        text-align: center;
+        margin: 0 auto;
+        width: 100%;
+        padding: 15px 0;
+    }
+    .fpmgBt1{background-color: #fff;color:#888}
+    .fpmgBt2{
+        background-color: #009688;
+        color: #fff;
+        border: 0;
+        padding: 10px;
+        margin: 0 auto;
+        text-align: center;
+        border-radius: 10px;
+        margin-top: 30px;
+        width: 300px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
 </style>
 <body>
 <div class="main">
@@ -317,12 +380,15 @@
         <div class="menu1">
             <div class="menu1-1">모임약관동의</div>
             <div class="menuhr"><hr/></div>
-            <a href="group">모임약관동의</a>
             <c:choose>
                 <c:when test="${sessionScope.member != null}">
+                    <a href="group">모임약관동의</a>
                     <a href="openedAccount">모임통장 개설</a>
                     <a href="groupInvite">모임통장 초대</a>
                 </c:when>
+                <c:otherwise>
+                    <a href="openedAccount">모임통장 개설</a>
+                </c:otherwise>
             </c:choose>
         </div>
 
@@ -363,7 +429,7 @@
                                 <br/>
                                 <div class="flexClass">
                                     <span class="idbox">모임명</span>
-                                    <input type="text" name="groupname" class="rec6" placeholder="모임명을 입력해주세요"/>
+                                    <input type="text" name="groupname" class="rec6" placeholder="모임명을 입력해주세요" autocomplete="off"/>
                                 </div>
                                 <br/>
                                 <div class="flexClass">
@@ -393,7 +459,7 @@
             </div>
             <div class="section-4">
                 <div class="classSection">
-                    <div class="class-1">모임통장 안내</div>
+                    <div class="class-1" onclick="toggleAgreement('agreeDetail1')">모임통장 안내</div>
                     <div class="plus"><button class="plusButton" data-target="agreeDetail1">&#43;</button></div>
                 </div>
                 <div class="agreeDetail" id="agreeDetail1">
@@ -426,7 +492,7 @@
                 </div>
                 <hr>
                 <div class="classSection">
-                    <div class="class-1">모임통장 유의사항</div>
+                    <div class="class-1" onclick="toggleAgreement('agreeDetail2')">모임통장 유의사항</div>
                     <div class="plus"><button class="plusButton" data-target="agreeDetail2">&#43;</button></div>
                 </div>
                 <div class="agreeDetail" id="agreeDetail2">
@@ -463,7 +529,7 @@
                 </div>
                 <hr>
                 <div class="classSection">
-                    <div class="class-1">상품설명서 및 이용약관</div>
+                    <div class="class-1" onclick="toggleAgreement('agreeDetail13')">상품설명서 및 이용약관</div>
                     <div class="plus"><button class="plusButton" data-target="agreeDetail3">&#43;</button></div>
                 </div>
                 <div class="agreeDetail" id="agreeDetail3">
@@ -488,6 +554,116 @@
                     </div>
                 </div>
                 <hr>
+                <div class="modal" id="agreeModal">
+                    <div id="joinForm">
+                        <ul class="join_box">
+                            <h2>약관동의</h2>
+                            <li class="checkBox check01">
+                                <ul class="clearfix">
+                                    <li>이용약관, 개인정보 수집 및 이용,
+                                        위치정보 이용약관(선택)에 모두 동의합니다.</li>
+                                    <li class="checkAllBtn">
+                                        <input type="checkbox" name="chkAll" id="chk" class="chkAll">
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="checkBox check02">
+                                <ul class="clearfix">
+                                    <li>이용약관 동의(필수)</li>
+                                    <li class="checkBtn">
+                                        <input type="checkbox" name="chk">
+                                    </li>
+                                </ul>
+                                <textarea name="" id="">
+
+
+서비스 신청 제한 계좌
+
+• 비상금대출, 마이너스 통장 등 한도 대출 이용 계좌
+• 하나 트래블싱크 대출 이자 또는 원리금 납부 이용 계좌
+• 하나 트래블싱크 개인사업자통장 가입 계좌
+• 압류, 질권이 설정되었거나, 금융사기 등 사고신고 등록 계좌
+
+서비스 이용 계좌 거래 제한
+
+• 비상금대출, 마이너스 통장 등 한도 대출로 이용 불가
+• 하나 트래블싱크 대출 이자 또는 원리금 납부계좌로 이용 불가
+• 하나 트래블싱크 개인사업자통장으로 상품 전환 불가
+
+서비스 이용 정지
+
+모임통장 또는 모임주가 다음에 해당되는 경우 모임통장서비스 이용이 일시적으로 중단됨 (단, 이용정지 사유가 해소된 경우 모임주는 모바일앱을 통해 즉시 이용정지해제 신청 가능)
+
+모임통장을 장기간 사용하지 않는 경우 (1년간 로그인 또는 입출금이 없는 경우)
+모임통장에 압류 등이 설정되거나, 금융사기 등 사고신고가 등록된 경우
+모임주가 고객센터를 통해 직접 요청한 경우
+서비스 유의사항
+
+• 모임통장은 모임주 개인 명의의 통장으로 멤버들이 납입한 모임회비의 지급, 해지 권한은 모임주에게 있으며, 압류 등 모임주의 상태에 따라 모임회비 및 모임통장서비스 이용이 제한될 수 있음
+• 모임통장서비스를 종료하려면 모임에 참여 중인 멤버를 모두 내보내기 한 이후에 가능하며, 해지 후 모임통장 내용 복원은 불가함
+• 모임통장서비스는 하나 트래블싱크 입출금통장에 연계되어 제공되는 서비스로, 입출금통장에 대한 자세한 사항은 하나 트래블싱크 입출금통장 상품설명서 및 약관을 참고하시기 바랍니다.
+
+서비스 관련 문의 및 민원 절차
+
+서비스에 대한 문의·민원 등 상담이 필요하실 경우 하나 트래블싱크 고객센터, 앱, 인터넷 홈페이지를 통해 상담이 가능합니다.
+       </textarea>
+                            </li>
+                            <li class="checkBox check03">
+                                <ul class="clearfix">
+                                    <li>개인정보 수집 및 이용에 대한 안내(필수)</li>
+                                    <li class="checkBtn">
+                                        <input type="checkbox" name="chk">
+                                    </li>
+                                </ul>
+
+                                <textarea name="" id="">서비스 신청 제한 계좌
+
+비상금대출, 마이너스 통장 등 한도 대출 이용 계좌
+하나 트래블싱크 대출 이자 또는 원리금 납부 이용 계좌
+하나 트래블싱크 개인사업자통장 가입 계좌
+압류, 질권이 설정되었거나, 금융사기 등 사고신고 등록 계좌
+서비스 이용 계좌 거래 제한
+
+비상금대출, 마이너스 통장 등 한도 대출로 이용 불가
+하나 트래블싱크 대출 이자 또는 원리금 납부계좌로 이용 불가
+하나 트래블싱크 개인사업자통장으로 상품 전환 불가
+서비스 이용 정지
+모임통장 또는 모임주가 다음에 해당되는 경우 모임통장서비스 이용이 일시적으로 중단됨 (단, 이용정지 사유가 해소된 경우 모임주는 모바일앱을 통해 즉시 이용정지해제 신청 가능)
+
+모임통장을 장기간 사용하지 않는 경우 (1년간 로그인 또는 입출금이 없는 경우)
+모임통장에 압류 등이 설정되거나, 금융사기 등 사고신고가 등록된 경우
+모임주가 고객센터를 통해 직접 요청한 경우
+서비스 유의사항
+
+모임통장은 모임주 개인 명의의 통장으로 멤버들이 납입한 모임회비의 지급, 해지 권한은 모임주에게 있으며, 압류 등 모임주의 상태에 따라 모임회비 및 모임통장서비스 이용이 제한될 수 있음
+모임통장서비스를 종료하려면 모임에 참여 중인 멤버를 모두 내보내기 한 이후에 가능하며, 해지 후 모임통장 내용 복원은 불가함
+모임통장서비스는 하나 트래블싱크 입출금통장에 연계되어 제공되는 서비스로, 입출금통장에 대한 자세한 사항은 하나 트래블싱크 입출금통장 상품설명서 및 약관을 참고하시기 바랍니다.
+서비스 관련 문의 및 민원 절차
+
+서비스에 대한 문의·민원 등 상담이 필요하실 경우 하나 트래블싱크 고객센터, 앱, 인터넷 홈페이지를 통해 상담이 가능합니다.
+
+       </textarea>
+                            </li>
+                            <li class="checkBox check03">
+                                <ul class="clearfix">
+                                    <li>위치정보 이용약관 동의(선택)</li>
+                                    <li class="checkBtn">
+                                        <input type="checkbox" name="chk">
+                                    </li>
+                                </ul>
+
+                                <textarea name="" id="">여러분을 환영합니다.
+네이버 서비스 및 제품(이하 ‘서비스’)을 이용해 주셔서 감사합니다. 본 약관은 다양한 네이버 서비스의 이용과 관련하여 네이버 서비스를 제공하는 네이버 주식회사(이하 ‘네이버’)와 이를 이용하는 네이버 서비스 회원(이하 ‘회원’) 또는 비회원과의 관계를 설명하며, 아울러 여러분의 네이버 서비스 이용에 도움이 될 수 있는 유익한 정보를 포함하고 있습니다.
+       </textarea>
+                            </li>
+
+                            <li style="text-align: center;"><button onclick="groupFunc()" class="fpmgBt2" type="submit">약관동의</button></li>
+
+                        </ul>
+
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -496,10 +672,23 @@
 </div>
 </body>
 <script>
-    const classSection = document.querySelector('.classSection');
-    const agreeDetail = document.querySelector('.agreeDetail');
+    const agreeChkAll = document.querySelector('input[name=chkAll]');
+    agreeChkAll.addEventListener('change', (e) => {
+        let agreeChk = document.querySelectorAll('input[name=chk]');
+        for(let i = 0; i < agreeChk.length; i++){
+            agreeChk[i].checked = e.target.checked;
+        }
+    });
+    function toggleAgreement(targetId) {
+        const agreements = document.querySelectorAll('.agreeDetail');의
+        for (let agreement of agreements) {
+            agreement.style.display = 'none';
+        }
+        const targetAgreement = document.getElementById(targetId);
+        targetAgreement.style.display = 'block';
+    }
+
     const plusButtons = document.querySelectorAll('.plusButton');
-    let isExpanded = false;
     plusButtons.forEach((plusButton) => {
         plusButton.addEventListener('click', function () {
             const targetId = this.getAttribute('data-target');
@@ -507,33 +696,42 @@
 
             if (agreeDetail.style.display === 'block') {
                 agreeDetail.style.display = 'none';
-                classSection.style.maxHeight = '1000px'; // 필요에 따라 조절
                 plusButton.innerHTML = '&#43;';
-                plusButton.classList.remove('active');
             } else {
                 agreeDetail.style.display = 'block';
-                agreeDetail.style.marginTop = '20px';
-                classSection.style.maxHeight = classSection.scrollHeight + 'px';
                 plusButton.innerHTML = '&#45;';
-                plusButton.classList.add('active');
             }
         });
     });
-
-    // 모달 열기
-    function openModal() {
+    // const classSection = document.querySelector('.classSection');
+    // const agreeDetail = document.querySelector('.agreeDetail');
+    // const plusButtons = document.querySelectorAll('.plusButton');
+    // let isExpanded = false;
+    // plusButtons.forEach((plusButton) => {
+    //     plusButton.addEventListener('click', function () {
+    //         const targetId = this.getAttribute('data-target');
+    //         const agreeDetail = document.getElementById(targetId);
+    //
+    //         if (agreeDetail.style.display === 'block') {
+    //             agreeDetail.style.display = 'none';
+    //             classSection.style.maxHeight = '1000px'; // 필요에 따라 조절
+    //             plusButton.innerHTML = '&#43;';
+    //             plusButton.classList.remove('active');
+    //         } else {
+    //             agreeDetail.style.display = 'block';
+    //             agreeDetail.style.marginTop = '20px';
+    //             classSection.style.maxHeight = classSection.scrollHeight + 'px';
+    //             plusButton.innerHTML = '&#45;';
+    //             plusButton.classList.add('active');
+    //         }
+    //     });
+    // });
+    function groupFunc(){
         var memberId = "${sessionScope.member.member_id}";
-        var groupId = "${sessionScope.groupAccount.group_id}";
-        if(groupId!=""){
-            closeModal();
-            alert("이미 모임통장을 개설했습니다.");
-            location.href='/mygroup/'+groupId;
-        }else{
-            var modal = document.getElementById('myModal');
-            modal.style.display = 'block';
-        }
-
-
+        var modal = document.getElementById('agreeModal');
+        modal.style.display = 'none';
+        var modal = document.getElementById('myModal');
+        modal.style.display = 'block';
         if(memberId != ""){
             $.ajax({
                 url:'/selectBackAccount',
@@ -554,6 +752,18 @@
         }else{
             alert("로그인을 하세요!");
             location.href='/';
+        }
+    }
+    // 모달 열기
+    function openModal() {
+        var groupId = "${sessionScope.groupAccount.group_id}";
+        if(groupId!=""){
+            closeModal();
+            alert("이미 모임통장을 개설했습니다.");
+            location.href='/mygroup/'+groupId;
+        }else{
+            var modal = document.getElementById('agreeModal');
+            modal.style.display = 'block';
         }
 
     }
@@ -595,6 +805,7 @@
             }
         });
     }
+
 </script>
 
 </html>

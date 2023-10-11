@@ -179,6 +179,7 @@
                                             url: "/selectNotificationTravel",
                                             data : {travelId : ${travelInfo.travelId}},
                                             success: function (response) {
+                                                console.log(response)
                                                 var tableBody = document.querySelector("#calculationTable-${travelInfo.travelId} tbody");
                                                 var calMember = document.querySelector('.cal-member-${travelInfo.travelId}');
                                                 calMember.textContent = response.length + "명";

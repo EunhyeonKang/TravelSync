@@ -319,5 +319,8 @@
         VALUES
             (#{param1}, #{param2}, #{param4}, #{param3}, #{param6} ,1, #{param5})
     </insert>
+    <update id="updatePoint">
+        update point_table set poi_type='y' where member_id=#{memberId}
+    </update>
 </mapper>
 

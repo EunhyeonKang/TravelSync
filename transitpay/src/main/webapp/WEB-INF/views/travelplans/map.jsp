@@ -142,7 +142,7 @@
         .chating{
             background-color: #e3efffc2;
             height: 400px;
-            overflow: auto;
+            overflow: scroll;
             border-radius: 10px;
             padding: 10px;
 
@@ -423,7 +423,7 @@
                     <div id="menu_wrap" class="bg_white">
                         <div class="option">
                             <div class="search">
-                                <input id="searchInput" type="text" placeholder="여행, 어디로 떠나시나요?">
+                                <input id="searchInput" type="text" placeholder="여행, 어디로 떠나시나요?" autocomplete="off">
                                 <img class="searchimg" src="../../resources/images/search.png" style="width: 50px;" >
                                 <div id="searchDropdown" class="dropdown-content"></div>
                             </div>
@@ -519,6 +519,9 @@
                     </div>
                 </div>
                 <div class="tvlbuttons">
+                    <button class="tvlbtn2" onclick="tvlBtnFunc()">
+                        <div>이전</div>
+                    </button>
                     <button class="tvlbtn2" onclick="tvlBtnFunc()">
                         <div>저장하기</div>
                     </button>

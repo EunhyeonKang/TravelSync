@@ -14,6 +14,20 @@
         }
     </style>
     <script>
+        function scrollToBottom() {
+            var chatContainer = document.getElementById("chating");
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        // 맨 처음 페이지 로드 시 스크롤을 맨 아래로 이동
+        window.onload = function() {
+            scrollToBottom();
+            // document.getElementById("chatting").addEventListener("keyup", function(event) {
+            //     if (event.key === "Enter") {
+            //         send(); // Call the send function when Enter key is pressed
+            //     }
+            // });
+        }
 
         function wsEvt() {
             ws.onopen = function (event) {
@@ -140,11 +154,6 @@
                         console.warn("unknown type!")
                     }
                 }
-                // document.addEventListener("keypress", function (e) {
-                //     if (e.keyCode == 13) { //enter press
-                //         send();
-                //     }
-                // });
 
             };
             // 웹 소켓 연결이 닫혔을 때 실행
@@ -174,8 +183,31 @@
                 $("#yourMsg").show();
             }
         }
+        var isSending = false; // 중복 전송 방지 변수 추가
+
+        function onEnterKey(event) {
+            if (event.key === "Enter") {
+                if (!isSending) {
+                    send();
+                }
+            }
+        }
+        var isScrolling = false;
+
+        function startScroll() {
+            isScrolling = true;
+        }
+
+        function endScroll() {
+            isScrolling = false;
+        }
 
         function send() {
+            if (isScrolling) {
+                return;
+            }
+
+            isSending = true;
             var obj ={
                 type: "message",
                 sessionId : "${sessionScope.member.member_id}",
@@ -189,9 +221,10 @@
                 contentType: "application/json",
                 data: JSON.stringify(obj),
                 success: function (response) {
-
                     $('#chatting').val("");
-
+                    // 메시지를 전송한 후 스크롤을 맨 아래로 이동
+                    scrollToBottom();
+                    isSending = false; // 전송 완료 후 다시 false로 설정
                 },
                 error: function (error) {
                     console.error("Error:", error);
@@ -223,6 +256,8 @@
                 }
             });
         }
+
+
     </script>
 </head>
 <body>
@@ -240,7 +275,7 @@
         <table class="inputTable">
             <tr>
                 <th class="sendth">
-                    <input id="chatting" placeholder="보내실 메시지를 입력하세요.">
+                    <input id="chatting" placeholder="보내실 메시지를 입력하세요." onkeydown="onEnterKey(event)">
                     <button onclick="send()" id="sendBtn">
                         <div class="sendbtnbox">
                             <img class="sendimg" src="../../../resources/images/send1.webp">

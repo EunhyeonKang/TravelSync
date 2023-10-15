@@ -185,7 +185,7 @@
                     <div class="placeselect">
                         제목입력
                     </div><br>
-                    <input type="text" class="title-text" name="title" placeholder="여행 제목을 입력해주세요">
+                    <input type="text" class="title-text" name="title" placeholder="여행 제목을 입력해주세요" autocomplete="off">
                 </div>
 
                 <div class="selectinfo">

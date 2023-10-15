@@ -95,7 +95,7 @@
         .traveltitle{
             color: #7a7d7d;
             font-size: 25px;
-            width: 80%;
+            width: 90%;
             margin: 30px auto;
             font-weight: 600;
         }.main {
@@ -116,6 +116,26 @@
              margin: 5px auto;
              height: 70px;
          }
+        .search{
+            position: relative;
+            margin: 5px auto;
+            width: 300px;
+        }
+        #searchInput {
+
+            border-radius: 10px;
+            width: 95%;
+            border: 1px solid #bbb;
+            padding: 15px 15px;
+        }
+        .searchimg{
+            top: 0;
+            position: absolute;
+            padding: 13px 0 13px 0;
+            right: 0;;
+            margin-right: 0;
+        }
+
     </style>
 </head>
 <body>
@@ -131,6 +151,11 @@
             <div class="header">
                 <h1>여행 키워드를 선택하세요🗺</h1>
             </div>
+            <div class="search">
+                <input id="searchInput" type="text" placeholder="여행, 어디로 떠나시나요?" autocomplete="off">
+                <img class="searchimg" src="../../resources/images/search.png" style="width: 50px;" >
+                <div id="searchDropdown" class="dropdown-content"></div>
+            </div>
             <div class="category-list">
                 <button data-category="" onclick="filterItems('')">전체</button>
                 <button data-category="숙박" onclick="filterItems('숙박')">숙박</button>
@@ -143,9 +168,10 @@
             <div class="item-list">
 
             </div>
+
         </div>
     </div>
-    <%@ include file="../include/footer.jsp" %>
+<%--    <%@ include file="../include/footer.jsp" %>--%>
 </div>
 </body>
 <script>
@@ -317,6 +343,10 @@
         // 스크롤이 아래로 내려갔을 때 추가 데이터를 로드
         if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100 && !isLoading) {
             isLoading = true;
+
+            // 로딩 스피너를 보이게 할 수 있음
+            $('.loading-spinner').show();
+
             // 서버로부터 추가 데이터를 가져오는 AJAX 요청
             $.ajax({
                 url: '/selectCategoryTravel',
@@ -328,13 +358,28 @@
                 },
                 success: function (response) {
                     isLoading = false;
+                    // 로딩 스피너를 숨김
+                    $('.loading-spinner').hide();
                     appendNewData(response);
                 },
                 error: function () {
                     isLoading = false;
                     // 에러 처리
+                    // 로딩 스피너를 숨기는 코드는 여기에도 추가 가능
                 },
             });
+        }
+    });
+
+
+    // 초기 데이터 로드 여부를 확인할 변수
+    let isInitialDataLoaded = false;
+
+    // 스크롤 이벤트를 감지하여 무한 스크롤 동작
+    $(window).on('scroll', function () {
+        // 스크롤이 아래로 내려갔을 때 추가 데이터를 로드
+        if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100 && !isLoading && isInitialDataLoaded) {
+            // ... (이하 동일한 코드)
         }
     });
 
@@ -350,6 +395,9 @@
             },
             success: function (response) {
                 appendNewData(response);
+
+                // 초기 데이터가 로드되었음을 표시
+                isInitialDataLoaded = true;
             },
             error: function () {
                 // 에러 처리

@@ -312,6 +312,7 @@ public class AccountController {
     }
     @PostMapping("/calExecution")
     public ResponseEntity<?> calExecution(@RequestBody Map<String, String> calData, HttpServletRequest request){
+        System.out.println(calData);
         try {
             HttpSession session = request.getSession();
             Member member =(Member)session.getAttribute("member");

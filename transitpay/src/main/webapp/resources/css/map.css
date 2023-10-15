@@ -686,6 +686,6 @@ body{
 
 #member-name, #member-img{
     display: inline-flex;
-    width: 105px;
+    /*width: 105px;*/
     justify-content: space-evenly;
 }

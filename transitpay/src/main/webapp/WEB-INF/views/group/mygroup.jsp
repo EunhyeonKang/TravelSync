@@ -620,6 +620,7 @@
         color: #dddddd;
     }
 
+    /*비밀번호 css*/
 
     #restartbtn {
         text-align: center;
@@ -1004,7 +1005,8 @@
                                                 ctx.font = '20px Arial';
                                                 ctx.fillStyle = 'rgb(0, 0, 0)';
                                                 ctx.textAlign = 'center';
-                                                ctx.fillText('사용 이력이 없습니다.', canvas.width / 4, canvas.height / 4);
+                                                // ctx.fillText('사용 이력이 없습니다.', canvas.width / 4, canvas.height / 4);
+                                                ctx.fillText('사용 이력이 없습니다.', canvas.width / 1.6, canvas.height / 1.5);
                                             }
                                         },
                                         error: function (error) {
@@ -1440,6 +1442,8 @@
             method: "POST",
             data : {accountNum : selectedAccount},
             success: function(response) {
+                console.log(response + " 거래별내역")
+
                 var table = $('#example').DataTable();
                 table.clear().draw();
                 table.rows.add(response).draw();
@@ -1456,6 +1460,7 @@
             method: "POST",
             data: { groupId: "${groupId}" , memberId: selectedMember},
             success: function(response) {
+                console.log(response + " 사용자별")
                 var table = $('#example').DataTable();
                 table.clear().draw();
                 table.rows.add(response).draw();
@@ -1520,7 +1525,9 @@
             type: "POST",
             data: { groupAccount: groupAccount},
             success: function (data) {
-                console.log(data)
+                console.log(data+"data");
+                var table = $('#example').DataTable();
+                table.clear().draw();
                 table.rows.add(data).draw();
             },
             error: function (request, status, error) {
@@ -1610,12 +1617,13 @@
             data: { groupId : groupId},
             success: function(response) {
                 if(response!=""){
-                    if(response.pw_state !=1){
-                        //모임원인데 비밀번호입력안한 모임원만 비밀번호입력
-                        openModal();
-                    }else {
-                        connectAccount();
-                    }
+                    // if(response.pw_state !=1){
+                    //     //모임원인데 비밀번호입력안한 모임원만 비밀번호입력
+                    //     // openModal();
+                    // }else {
+                    //     connectAccount();
+                    // }
+                    connectAccount();
                 }else{
                     //모임원아니면 초대수락
                     groupInviteModal();

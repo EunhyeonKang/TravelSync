@@ -357,8 +357,8 @@
                             container: '#kakaotalk-sharing-btn',
                             objectType: 'feed',
                             content: {
-                                title: 'HANA-TRAVELSYNC 모임통장 초대',
-                                description: response.group_name+'에 초대되었습니다. 초대 코드는 ${sessionScope.member.code}입니다.',
+                                title: 'HANA-TRAVELSYNC 초대 이벤트',
+                                description: response.group_name+'모임에 초대되었습니다. 초대 코드는 ${sessionScope.member.code}입니다.',
                                 imageUrl: 'https://api.card-gorilla.com:8080/storage/post/2549/contents/29162/card_1272_1.jpg',
                                 link: {
                                     mobileWebUrl: 'http://localhost:8080',

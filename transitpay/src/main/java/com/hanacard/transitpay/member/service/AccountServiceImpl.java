@@ -242,14 +242,13 @@ public class AccountServiceImpl implements AccountService {
     @Transactional
     public void insertGroupMemberNotification(GroupMember[] groupMembers,int amount,int groupId,int travelId) {
         double dividedAmount = (double) amount / groupMembers.length;
-        int roundedAmount = (int) Math.round(dividedAmount);
+        int roundedAmount = (int) Math.floor(dividedAmount);
         for(GroupMember member : groupMembers){
             member.setAmount(roundedAmount);
             member.setGroup_id(groupId);
             member.setTravel_id(travelId);
             accountRepository.insertGroupMemberNotification(member);
         }
-
     }
 
     @Override
@@ -275,6 +274,9 @@ public class AccountServiceImpl implements AccountService {
         String groupId = (String)calData.get("groupId");
         String travelId = (String)calData.get("travelId");
         String point = (String)calData.get("point");
+        if (point.endsWith("P")) {
+            point = point.substring(0, point.length() - 1);
+        }
         accountRepository.insertAccountStatement(accountNum,groupAccount,"OUT",Integer.parseInt(balance),"여행 경비-회비 정산");
         accountRepository.insertGroupAccountStatement(accountNum,groupAccount,"IN",Integer.parseInt(balance),"여행 경비-회비 정산");
         accountRepository.updateAccountBalance(memberId, accountNum, Integer.parseInt(balance), accountBank);

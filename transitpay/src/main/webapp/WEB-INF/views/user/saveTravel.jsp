@@ -101,7 +101,7 @@
                                                                 var distance = getDistance(latlng1, latlng2);
 
                                                                 // 거리 정보를 표시할 커스텀 오버레이 생성
-                                                                var overlayContent = '<div class="distance-overlay">거리: ' + distance.toFixed(2) + ' 미터</div>';
+                                                                var overlayContent = '<div class="distance-overlay">거리: ' + (distance / 1000).toFixed(2) + ' km</div>';
                                                                 var overlay = new kakao.maps.CustomOverlay({
                                                                     content: overlayContent,
                                                                     position: linePath[1], // 선의 끝점 위치에 표시

@@ -166,7 +166,7 @@
         FROM schedule s
                  JOIN schedule_amount sa ON s.travel_id = sa.travel_id
         WHERE s.travel_id = #{travelId}
-        ORDER BY schedule_date
+        ORDER BY pnum, schedule_date
     </select>
     <insert id="insertBookmarkTraveling">
         insert into favorite_travel values(favorite_id_seq.nextval,#{param2},#{param1})
@@ -213,7 +213,8 @@
         SELECT
             group_id AS groupId,
             travel_id AS travelId,
-            SUM(amount) AS price
+--             SUM(amount) AS price
+            TO_NUMBER(TO_CHAR(ROUND(SUM(amount), 0), 'FM999999'))-1 AS price
         FROM notification_history
         WHERE travel_id = #{travelId}
         GROUP BY group_id, travel_id

@@ -571,7 +571,15 @@
         var memberId = "${sessionScope.member.member_id}";
         if(memberId!="") {
             //모임통장 여러개 ,,, 이건 나중에 수정...
-            groupIdList.forEach(function (val) {
+            groupIdList.forEach(function (val) {var isScrolling = false;
+
+                function startScroll() {
+                    isScrolling = true;
+                }
+
+                function endScroll() {
+                    isScrolling = false;
+                }
                 var groupId = val.group_id;
                 $.ajax({
                     type: "POST",

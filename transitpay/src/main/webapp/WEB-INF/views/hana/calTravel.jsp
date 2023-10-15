@@ -1,6 +1,10 @@
+<%@ page import="java.text.DecimalFormat" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -345,10 +349,14 @@
         border: 0;
     }
     .modal-content{
-        margin-top: 500px;
+        margin-top: 200px;
     }
     .modal-body{
         text-align: center;
+    }
+    p{
+        margin-top : 20px !important;
+        margin-bottom: 1rem !important;
     }
     .calComplate{
         color: #707473;
@@ -526,7 +534,7 @@
                                         }
                                         var itemP = document.createElement('p');
                                         itemP.className = 'item-p';
-                                        itemP.textContent = val.amount + "원";
+                                        itemP.textContent = val.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원";
                                         item.appendChild(itemImg);
                                         item.appendChild(itemP);
                                         container1.appendChild(item);
@@ -592,27 +600,27 @@
                                                 </span>
 
                                                 <div class="cal-member-amount">
-                                                    <span>회비 인원 : <span class="cal-member">3명</span></span><span>총 금액 : <span>${travelNoti.etc_expenses+travelNoti.food_expenses+travelNoti.accommodation_expenses}</span>원</span>
+                                                    <span>회비 인원 : <span class="cal-member">3명</span></span><span>총 금액 :<span> <fmt:formatNumber type="number" value="${travelNoti.etc_expenses+travelNoti.food_expenses+travelNoti.accommodation_expenses}" pattern="#,###" />원</span></span>
                                                 </div>
                                                 <div class="grid-container-1">
                                                 </div>
                                                 <div class="grid-container">
                                                     <div class="grid-item">
                                                         <div class="item-food">식비</div>
-                                                        <div class="item-food-1">${travelNoti.food_expenses}원</div>
+                                                        <div class="item-food-1"><fmt:formatNumber type="number" value="${travelNoti.food_expenses}" pattern="#,###"/>원</div>
                                                     </div>
                                                     <div class="grid-item">
                                                         <div class="item-food">숙박비</div>
-                                                        <div class="item-food-1">${travelNoti.accommodation_expenses}원</div>
+                                                        <div class="item-food-1"><fmt:formatNumber type="number" value="${travelNoti.accommodation_expenses}" pattern="#,###"/>원</div>
                                                     </div>
                                                     <div class="grid-item">
                                                         <div class="item-food">문화/기타</div>
-                                                        <div class="item-food-1">${travelNoti.etc_expenses}원</div>
+                                                        <div class="item-food-1"><fmt:formatNumber type="number" value="${travelNoti.etc_expenses}" pattern="#,###"/>원</div>
                                                     </div>
                                                 </div>
                                                 <div class="c">
                                                     <label for="faq-${travelNoti.travelId}">
-                                                        💰${sessionScope.member.name} 님이 납부할 금액은 <span class="amount">${travelNoti.amount}</span>원입니다.
+                                                        💰${sessionScope.member.name} 님이 납부할 금액은 <span class="amount"><fmt:formatNumber type="number" value="${travelNoti.amount}" pattern="#,###"/></span>원입니다.
                                                     </label>
                                                 </div>
                                                 <input type="hidden" value="${travelNoti.travelId}" id="notiTravelId">
@@ -663,12 +671,14 @@
                                                         <input type="text" name="point" value="0" placeholder="포인트를 입력해주세요"/>
                                                         <br/>
                                                         <span class="idbox">입금 금액</span>
-                                                        <input type="text" name="balance" value="${travelNoti.amount}" placeholder="입금 금액을 입력해주세요"/>
+
+                                                        <input type="text" name="balance" value="<fmt:formatNumber type='number' value='${travelNoti.amount}' pattern='#,###원'/>" placeholder="입금 금액을 입력해주세요"/>
+
                                                     </form>
                                                 </div>
                                                 <div class="tvlbuttons">
                                                     <button class="tvlbtn2" onclick="calExecution()">
-                                                        <div>정산실행</div>
+                                                        <div>납부하기</div>
                                                     </button>
                                                 </div>
                                             </div>
@@ -725,11 +735,11 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">정산 실행 확인</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">(모여라)회비 실행 확인</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    정말로 정산을 실행하시겠습니까?
+                    (모여라)회비 실행하시겠습니까?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
@@ -820,8 +830,11 @@
                     totalBtn.addEventListener('click', function() {
                         var pointInput = document.querySelector('input[name="point"]');
                         var balanceInput = document.querySelector('input[name="balance"]');
+                        var balance = parseInt(balanceInput.value.replace(/\D/g, ''),10);
                         pointInput.value = totalPoints + 'P';
-                        balanceInput.value = balanceInput.value - totalPoints;
+                        var result = balance - totalPoints;
+                        var formattedResult = result.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원";
+                        balanceInput.value = formattedResult;
                         document.getElementById('pointModal').style.display = 'none';
                     });
 
@@ -866,17 +879,19 @@
         var groupName = document.querySelector('input[name="group_name"]').value;
         var groupAccount = document.querySelector('input[name="group_account"]').value;
         var amount = document.querySelector('input[name="balance"]').value;
+        var numericValue = amount.replace(/\D/g, '');
         var travelId = document.querySelector('#notiTravelId').value;
         var groupId =document.querySelector('input[name="group_id"]').value;
 
         var pointInput = document.querySelector('input[name="point"]');
         var point = pointInput ? pointInput.value : "0";
+
         var dataToSend = {
             accountBank: accountBank,
             accountNum: accountNum,
             groupName: groupName,
             groupAccount: groupAccount,
-            amount : amount,
+            amount : numericValue,
             groupId : groupId,
             travelId : travelId,
             point : point
@@ -926,17 +941,17 @@
                     const accountNumber = document.querySelector('.account-number');
                     accountNumber.textContent = "(주계좌) " + item.account_bank + " " + item.account_num;
                     option.selected = true;
-                    inputAccountNum.val(item.account_num + "(" + item.balance + ")");
+                    inputAccountNum.val(item.account_num + "(" + parseFloat(item.balance).toLocaleString() + "원)");
                 }
             });
-
             select.addEventListener('change', function () {
                 var selectedOption = select.options[select.selectedIndex];
                 const bank = document.querySelector('.bank');
                 const accountBalance = selectedOption.getAttribute('data-balance');
+                const formattedBalance = parseFloat(accountBalance).toLocaleString();
                 bank.textContent = selectedOption.text;
                 const accountNum = selectedOption.getAttribute('data-account-num');
-                inputAccountNum.val(accountNum + ' (' + accountBalance + ')');
+                inputAccountNum.val(accountNum + ' (' + formattedBalance + '원)');
             });
         },
         error: function (error) {

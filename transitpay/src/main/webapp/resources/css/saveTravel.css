@@ -148,22 +148,23 @@ input:checked ~ h1 ~ div.p {
 
 .item-list{
     display:flex;
-    width: calc(300px * 12);
-    animation: scroll 40s linear infinite;
+    width: 100%;
+    /*width: calc(300px * 12);*/
+    /*animation: scroll 40s linear reverse;*/
 }
 
 .item-list:hover{
     animation-play-state:paused;
 }
+/*@keyframes scroll {*/
+/*    0% {*/
+/*        transform: translateX(0);*/
+/*    }*/
+/*    100% {*/
+/*        transform: translateX(calc(300px * 6)); !* 오른쪽으로 이동하도록 변경 *!*/
+/*    }*/
+/*}*/
 
-@keyframes scroll{
-    0% {
-        transform: translateX(0);
-    }
-    100%{
-        transform: translateX(calc(-300px * 6));
-    }
-}
 
 .item{
     height: 250px;

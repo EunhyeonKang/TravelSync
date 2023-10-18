@@ -50,6 +50,7 @@
                                                 url: "/selectMygroupSchedule",
                                                 data: {travelId: ${travelInfo.travelId}},
                                                 success: function (response) {
+                                                    console.log(response)
                                                     var mapContainerId = "map-${travelInfo.travelId}"; // travelId를 사용하여 고유한 ID 생성
                                                     var mapContainer = document.getElementById(mapContainerId);
 
@@ -127,7 +128,7 @@
 
                                                             // 가격
                                                             var priceCell = document.createElement("td");
-                                                            priceCell.textContent = schedule.price + "원";
+                                                            priceCell.textContent = schedule.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원";
                                                             row.appendChild(priceCell);
 
                                                             // 카테고리
@@ -141,7 +142,7 @@
                                                         var etc = response[0].etc_expenses;
                                                         var accommodation = response[0].accommodation_expenses;
                                                         var totalText2 = document.querySelector(".totaltext2-${travelInfo.travelId}");
-                                                        totalText2.textContent = food + etc + accommodation;
+                                                        totalText2.textContent =(food + etc + accommodation).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                                                         // 차트를 그릴 데이터 준비
                                                         var chartData = {
                                                             labels: ["음식", "기타", "숙박", "교통"], // 카테고리 레이블
@@ -209,7 +210,7 @@
                                     <h1>
                                         <label for="faq-${travelInfo.travelId}">
                                             <button class="travel-btn">여행일정 짜기</button>
-                                            <p class="travel-date-text-1">${travelInfo.groupName} ${travelInfo.groupAccount}</p>
+<%--                                            <p class="travel-date-text-1">${travelInfo.groupName} ${travelInfo.groupAccount}</p>--%>
                                         </label>
                                     </h1>
                                 </c:if>
@@ -244,7 +245,7 @@
                                                 <c:if test="${sessionScope.member.member_id == travelInfo.groupLeader}">
                                                     <p class="travel-date-text">
                                                         <span><img src="../../../resources/images/free-icon-crown-4315531.png"></span>
-                                                        <button class="calBtn" onclick="calculate()">모임원들에게 회비요청</button>
+                                                        <button class="calBtn" onclick="calculate(${travelInfo.travelId})">모임원들에게 회비요청</button>
                                                     </p>
                                                 </c:if>
                                             </c:when>
@@ -256,14 +257,14 @@
                                     </div>
                             </div>
                             <script>
-                                function calculate(){
+                                function calculate(travelId){
                                     var calBtn = document.querySelector(".calBtn");
                                     var ancestorElement = calBtn.parentElement.parentElement.parentElement;
                                     var inputElement = ancestorElement.querySelector("input");
                                     var inputValue = inputElement.id;
 
                                     var cinput =  document.getElementById(inputValue).parentElement;
-                                    var totalTravel = document.querySelector('.totaltext2-' + ${travelInfo.travelId});
+                                    var totalTravel = document.querySelector('.totaltext2-' + travelId);
                                     var total = totalTravel.textContent;
 
                                     //모임원 인원 수대로
@@ -274,7 +275,7 @@
                                             groupId: "${sessionScope.groupAccountDetail.group_id}"
                                         },
                                         success: function (response) {
-                                            notification(response,total,${travelInfo.travelId});
+                                            notification(response,total,travelId);
                                         },
                                         error: function (error) {
                                             console.error(error);
@@ -286,8 +287,8 @@
                                 function notification(groupMember,totalAmount,travelId){
                                     var requestData = {
                                         groupMember: groupMember,
-                                        amount: totalAmount,
-                                        group_id: "${sessionScope.groupAccountDetail.group_id}",
+                                        amount: parseFloat(totalAmount.replace(/,/g, '')),
+                                        group_id: ${sessionScope.groupAccountDetail.group_id},
                                         travel_id : travelId
                                     };
                                     $.ajax({

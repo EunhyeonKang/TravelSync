@@ -150,7 +150,7 @@
         WHERE gm.member_id = #{memberId}
     </select>
     <select id="selectMygroupSchedule" resultType="com.hanacard.transitpay.travel.model.dto.Schedule">
-        SELECT
+        SELECT distinct
             s.schedule_id AS schedule_id,
             s.pnum AS pnum,
             s.schedule_date AS schedule_date,
@@ -177,7 +177,7 @@
         on ti.t_num = ft.t_num where ft.member_id = #{memberId}
     </select>
     <select id="selectTravelNoti" resultType="com.hanacard.transitpay.travel.model.dto.MyGroupTravelInfo">
-        SELECT
+        SELECT distinct
             g.group_name AS groupName,
             g.group_account AS groupAccount,
             t.travel_id AS travelId,
@@ -205,7 +205,7 @@
         where group_id = #{groupId}
     </select>
     <select id="selectSheduleAmount" resultType="_int">
-        select (food_expenses+accommodation_expenses+etc_expenses) AS total
+        select distinct (food_expenses+accommodation_expenses+etc_expenses) AS total
         from schedule_amount
         where travel_id=#{travelId}
     </select>
@@ -214,7 +214,7 @@
             group_id AS groupId,
             travel_id AS travelId,
 --             SUM(amount) AS price
-            TO_NUMBER(TO_CHAR(ROUND(SUM(amount), 0), 'FM999999'))-1 AS price
+            TO_NUMBER(TO_CHAR(ROUND(SUM(amount), 0), 'FM999999')) AS price
         FROM notification_history
         WHERE travel_id = #{travelId}
         GROUP BY group_id, travel_id

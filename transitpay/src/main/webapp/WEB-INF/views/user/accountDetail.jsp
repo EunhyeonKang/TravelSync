@@ -137,7 +137,7 @@
                                     <div class="hanabtn">
                                         <button class="charge">
                                             <span>사용가능한포인트</span>
-                                            <div class="usePoint"></div>
+<%--                                            <div class="usePoint"></div>--%>
                                         </button>
                                         <span></span>
                                         <button class="remit" onclick="location.href='/transfer'">
@@ -278,8 +278,18 @@
                 { data: 'account_num' },
                 { data: 'name' },
                 { data: 'transaction_type' },
-                { data: 'amount' },
-                { data: 'balance' },
+                {
+                    data: 'amount',
+                    render: function(data) {
+                        return data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+"원";
+                    }
+                },
+                {
+                    data: 'balance',
+                    render: function(data) {
+                        return data.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")+"원";
+                    }
+                },
                 { data: 'transaction_date' },
                 { data: 'transaction_content' },
             ]

@@ -21,7 +21,7 @@
         .modal-detail {
             display: none;
             position: fixed;
-            top: 50%;
+            top: 40%;
             left: 50%;
             transform: translate(-50%, -50%);
             width: 800px;
@@ -65,7 +65,7 @@
             font-weight: 700;
         }
         .chart-div{
-            width: 500px;
+            width: 300px;
             margin: 0 auto;
         }
         .saveTravelTitle{
@@ -74,6 +74,35 @@
         }
         .saveDate{
             color: #a6a6a6;
+        }
+        #totalamount{
+            color: #E91E63;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .totalamountbox{
+            font-size: 18px;
+            font-weight: 700;
+            color: #646464;
+        }
+        .interest{
+            color: darkcyan;
+            font-size: 20px;
+        }
+        .interestbox{
+            display: flex;
+            justify-content: center; display: flex;
+        }
+        .red-text{
+            color: red;
+        }
+        .rec6{
+            width: 120px;
+            padding: 10px;
+            border-radius: 10px;
+            font-weight: 700;
+            color: #757777;
         }
     </style>
 </head>
@@ -86,6 +115,14 @@
         <div class="contents">
             <div class="contents-1">
                 <h2>여행 내역</h2>
+                <div>
+                    <select name="grouptype" class="rec6">
+                        <option value="" selected>모임통장 선택</option>
+                        <option value="여행">323-309815-93841</option>
+                        <option value="여행">251-125382-12432</option>
+                        <option value="여행">982-401023-12002</option>
+                    </select>
+                </div>
                 <div class="trafficContainerBox">
                     <span>${param.title}</span>
                     <div class="traffic-modal-content">
@@ -125,7 +162,8 @@
 
                                                         // 가격
                                                         var priceCell = document.createElement("td");
-                                                        priceCell.textContent = schedule.price + "원";
+                                                        var formattedPrice = schedule.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                                                        priceCell.textContent = formattedPrice + "원";
                                                         row.appendChild(priceCell);
 
                                                         // 카테고리
@@ -138,24 +176,32 @@
                                                     var food = response[0].food_expenses;
                                                     var etc = response[0].etc_expenses;
                                                     var accommodation = response[0].accommodation_expenses;
-
                                                     var totalText2 = document.querySelector(".totaltext2-"+${travelInfo.travelId});
-                                                    totalText2.textContent = food + etc + accommodation;
+                                                    totalText2.textContent = (food + etc + accommodation).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
 
                                                     // 차트 생성
                                                     const ctx = document.getElementById('myChart-${travelInfo.travelId}');
 
                                                     new Chart(ctx, {
-                                                        type: 'bar',
+                                                        type: 'doughnut',
                                                         data: {
                                                             labels: ["음식", "기타", "숙박"],
                                                             datasets: [{
                                                                 label: '여행경비',
                                                                 data: [food, etc, accommodation],
-                                                                borderWidth: 1
+                                                                borderWidth: 1,
+                                                                backgroundColor: [
+                                                                    'rgb(211, 211, 211)',
+                                                                    'rgb(241, 241, 241)',
+                                                                    'rgb(0, 92, 255)'
+                                                                ],
+                                                                hoverOffset: 4
                                                             }]
                                                         },
+
+                                                        // 데이터 가공
+
                                                         options: {
                                                             scales: {
                                                                 y: {
@@ -179,20 +225,22 @@
                                             url: "/selectNotificationTravel",
                                             data : {travelId : ${travelInfo.travelId}},
                                             success: function (response) {
-                                                console.log(response)
                                                 var tableBody = document.querySelector("#calculationTable-${travelInfo.travelId} tbody");
                                                 var calMember = document.querySelector('.cal-member-${travelInfo.travelId}');
                                                 calMember.textContent = response.length + "명";
-
+                                                var totalamount =0;
                                                 response.forEach(function(item){
                                                     var row = tableBody.insertRow();
                                                     var nameCell = row.insertCell(0);
                                                     var amountCell = row.insertCell(1);
                                                     var calCell = row.insertCell(2);
                                                     nameCell.textContent = item.name;
-                                                    amountCell.textContent = item.amount + "원";
+                                                    totalamount+=item.amount;
+                                                    amountCell.textContent = item.amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원";
                                                     calCell.textContent='정산완료';
                                                 })
+                                                var formattedPrice =totalamount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                                                document.querySelector('#totalamount-${travelInfo.travelId}').textContent = formattedPrice;
                                                 selectMygroupSchedule(${travelInfo.travelId});
                                             },
                                             error: function (error) {
@@ -205,6 +253,7 @@
                                     <p class="travel-date-text">
                                         <span><img src="../../../resources/images/free-icon-crown-4315531.png"></span>
                                         <button class="calBtn">정산완료</button>
+                                        <button class="calBtn" style="background: cadetblue;">삭제</button>
                                     </p>
                                     <c:choose>
                                         <c:when test="${not empty travelInfo.travelStart}">
@@ -213,7 +262,7 @@
                                                     <span>정산인원 :
                                                         <span class="cal-member-${travelInfo.travelId}"></span>
                                                     </span>
-                                                <span>총</span>
+                                                <span>/ 총</span>
                                                 <span class="totaltext2-${travelInfo.travelId}"></span>
                                                 <span>원</span>
                                                 </div>
@@ -232,13 +281,18 @@
                                                     </tbody>
                                                 </table>
                                             </div>
+                                            <div class="totalamountbox"><span class="totalamount">(모여라)회비를 <span class="red-text" id="totalamount-${travelInfo.travelId}"></span>원 지불했습니다.</span>
+                                                <div class="interestbox">
+                                                    <div class="interest">${sessionScope.interest}원</div>은 트래블싱크에서 지원해드립니다.</div>
+                                                </div>
                                             <div class="chart-div">
-                                                <canvas id="myChart-${travelInfo.travelId}" style="width: 300px; height: 200px;"></canvas>
+                                                <img src="../../../resources/images/5022329.png" style="width: 80px; margin: 15px">
+<%--                                                <canvas id="myChart-${travelInfo.travelId}" style="width: 300px; height: 200px;"></canvas>--%>
                                             </div>
                                             <button class="detail-button" data-travelId="${travelInfo.travelId}">자세히 보기</button>
                                             <div id="myModalDetail-${travelInfo.travelId}" class="modal-detail">
                                                 <div class="modal-content-detail">
-                                                    <span class="close">&times;</span>
+                                                    <span class="close" id="closex" onclick="closex()">&times;</span>
                                                     <h2>일정 내용</h2>
                                                     <table>
                                                         <thead>
@@ -296,14 +350,18 @@
         });
     });
 
-
+    function closex(){
+        var modal = document.querySelector("#myModalDetail-375");
+        modal.style.display = "none";
+    }
     // 모달 닫기 버튼 처리
-    var closeButton = document.querySelector(".close");
-    closeButton.addEventListener("click", function() {
+    var closeButton = document.getElementById("closex");
+    closeButton.onclick = function() {
+
+        console.log(111)
         // 모달 숨기기
         modal.style.display = "none";
-    });
-
+    }
     // 모달 외부 클릭 시 모달 숨기기
     window.addEventListener("click", function(event) {
         if (event.target === modal) {

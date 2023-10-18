@@ -156,14 +156,10 @@
         JOIN account a ON m.member_id = a.account_id
         WHERE gm.member_id = #{memberId} AND a.account_main =1
     </select>
-    <delete id="deleteGroups" parameterType="int">
-        delete from groups where group_id = #{groupId}
+    <delete id="deleteGroups">
+        delete from group_member where group_id = #{param1} and member_id=#{param2}
     </delete>
-    <insert id="accountJoinForm">
-        INSERT INTO ACCOUNT (account_id,account_num, balance, account_bank, account_pwd, account_main, account_phone)
-        VALUES
-            (#{param1}, '1723133312312', 152000, '하나은행', 5454, 0, #{param2})
-    </insert>
+
     <select id="selectGroupAccountChart" resultType="com.hanacard.transitpay.member.model.dto.GroupAccountStatement">
         SELECT
             gm.MEMBER_ID AS member_id,

@@ -71,7 +71,7 @@
                sysdate,'너도나도캐시백',1000,'n')
     </insert>
     <select id="selectPoint" resultType="_int">
-        select sum(poi_point) from point_table where member_id=#{memberId}
+        select sum(poi_point) from point_table where member_id=#{memberId} and poi_type='y'
     </select>
     <select id="selectPointListOfMember" resultType="com.hanacard.transitpay.member.model.dto.Point">
         select * from point_table where member_id=#{memberId} and poi_type='n'

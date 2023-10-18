@@ -58,15 +58,15 @@
                         <div class="col-lg-12">
                             <form id="searchForm-1" action="">
                                 <span class="idbox">모임 통장</span>
-                                <input type="text" name="group_name" value="${sessionScope.groupAccountDetail.group_name}"/>
+                                <input type="text" name="group_name" value="${sessionScope.groupAccountDetail.group_name}" autocomplete="off"/>
                                 <br/>
                                 <span class="idbox">입금 계좌</span>
-                                <input type="text" name="group_account" value="${sessionScope.groupAccountDetail.group_account} (잔액 : ${sessionScope.groupAccountDetail.g_balance})"/>
+                                <input type="text" name="group_account" value="${sessionScope.groupAccountDetail.group_account} (잔액 : ${sessionScope.groupAccountDetail.g_balance})" autocomplete="off"/>
                                 <br/>
                                 <span class="idbox">입금 금액</span>
-                                <input type="text" name="balance" value="" placeholder="입금 금액을 입력해주세요"/>
+                                <input type="text" name="balance" value="" placeholder="입금 금액을 입력해주세요" autocomplete="off"/>
                                 <span class="idbox">거래내용</span>
-                                <input type="text" name="transaction_content" value="" placeholder="거래 내용을 입력해주세요"/>
+                                <input type="text" name="transaction_content" value="" placeholder="거래 내용을 입력해주세요" autocomplete="off"/>
                             </form>
                         </div>
                     </div>
@@ -75,11 +75,9 @@
             </div>
             <div class="exchangebox">
                 <div class="exchangebox-1">
-                트래블로그 서비스로 외화 환전 시 *무료환전 혜택(환율 100% 우대)을 제공합니다.<br>
-                총 18종 통화로 4종(미국 USD, 일본 JPY, 유럽 EUR, 영국 GBP)을 제외한 14종 통화는 이벤트로 진행<br>
-                - 10종[2023년 8월 31일까지] : 뉴질랜드 NZD, 베트남 VND, 스웨덴 SEK, 스위스 CHF, 인도네시아 IDR, 체코 CZK, 태국 THB, 필리핀 PHP, 헝가리 HUF, 홍콩 HKD<br>
-                - 4종[2023년 12월 31일까지] : 싱가포르 SGD, 중국 CNY, 캐나다 CAD, 호주 AUD<br>
-
+                    모임 통장 계좌은 트래블싱크에서 계좌 연결 후 주 계좌로 설정이 필요합니다.<br>
+                    이 후, 트래블싱크를 이용하여 상대방으로부터 입출금을 할 수 있습니다.<br>
+                    입금,이체 메뉴를 선택하시면 거래할 수 있는 화면이 표시되고 계좌 입출금이 가능합니다.
                 </div>
             </div>
 

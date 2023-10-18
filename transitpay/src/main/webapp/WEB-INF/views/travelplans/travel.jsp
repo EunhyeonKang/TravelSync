@@ -23,8 +23,9 @@
             height: 400px;
             overflow: auto;
             border-radius: 10px;
+            width: 230px;
             padding: 10px;
-
+            font-size: 25px;
         }
         .chating .me{
             padding: 10px;
@@ -166,7 +167,7 @@
                 </div>
 
                 <div class="search">
-                    <input id="searchInput" type="text" placeholder="여행, 어디로 떠나시나요?">
+                    <input id="searchInput" type="text" placeholder="여행, 어디로 떠나시나요?" autocomplete="off"/>
                     <img class="searchimg" src="../../resources/images/search.png"  style="width: 50px;" onclick="searchBtn()" >
                     <div id="searchDropdown" class="dropdown-content"></div>
                 </div>

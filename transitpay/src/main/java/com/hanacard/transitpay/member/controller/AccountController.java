@@ -214,12 +214,13 @@ public class AccountController {
         }
     }
     @PostMapping("deleteGroups")
-    public ResponseEntity<String> deleteGroups(String groupId,HttpServletRequest request){
+    public ResponseEntity<String> deleteGroups(int groupId,HttpServletRequest request){
         try {
             HttpSession session = request.getSession(); // 세션 가져오기
             session.removeAttribute("groupAccount");
             session.removeAttribute("GroupAccountDetail");
-            accountService.deleteGroups(groupId);
+            Member member = (Member)session.getAttribute("member");
+            accountService.deleteGroups(groupId,member.getMember_id());
             return ResponseEntity.ok("모임탈퇴 성공");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("모임탈퇴 실패");

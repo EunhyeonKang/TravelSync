@@ -3,11 +3,12 @@ package com.hanacard.transitpay.member.service;
 import com.hanacard.transitpay.member.model.dto.GroupAccount;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.List;
 
 @Configurable
-//@EnableScheduling
+@EnableScheduling
 //@Component
 public class AutoPaymentScheduler {
     @Autowired

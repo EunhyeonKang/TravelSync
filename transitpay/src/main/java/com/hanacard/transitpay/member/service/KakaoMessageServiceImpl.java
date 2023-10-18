@@ -45,7 +45,7 @@ public class KakaoMessageServiceImpl extends HttpCallService{
         templateObj.put("link", linkObj);
         templateObj.put("button_title", msgDto.getBtnTitle());
 
-        System.out.println(accessToken + " 흐미흐미흐힣");
+
         HttpHeaders header = new HttpHeaders();
         header.set("Content-Type", APP_TYPE_URL_ENCODED);
         header.set("Authorization", "Bearer " + accessToken);

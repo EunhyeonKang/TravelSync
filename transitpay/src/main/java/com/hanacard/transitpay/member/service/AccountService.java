@@ -20,7 +20,7 @@ public interface AccountService {
     void updateAccountBalanceTransfer(int memberId, Map<String, String> depositData);
     List<GroupAccount> selectGroupAccountStatement(String groupAccount);
     List<Account> JoinGroupAccountAndMemberAccount(int memberId);
-    void deleteGroups(String groupId);
+    void deleteGroups(int groupId,int memberId);
     void accountJoinForm(int memberId,String phone);
     List<GroupAccountStatement> selectGroupAccountChart(int groupId,String groupAccount);
     void updatePwState(int memberId, String groupId);

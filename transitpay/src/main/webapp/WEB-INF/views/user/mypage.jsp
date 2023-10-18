@@ -427,6 +427,364 @@
             color: #009688;
             font-weight: 700;
         }
+        /* 모달 스타일 */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            width: 60%;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* 테이블 스타일 */
+        .group-table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            overflow: hidden;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .group-table th, .group-table td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        .group-table th {
+            background-color: #f2f2f2;
+        }
+
+        .group-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .group-table tr:hover {
+            background-color: #ddd;
+        }
+
+        /* 삭제 버튼 스타일 */
+        .delete-button {
+            background-color: white;
+            color: #009688;
+            border: 2px solid #009688;
+            border-radius: 4px;
+            padding: 12px 24px;
+            margin-top: 20px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .delete-button:hover {
+            background-color: #009688;
+            color: white;
+        }
+
+
+
+
+
+        /*비밀번호 css*/
+
+        #restartbtn {
+            text-align: center;
+            color: #fff;
+            cursor: pointer;
+            margin: 20px;
+        }
+        .table {
+            display: table;
+            height: 100%;
+            width: 100%;
+            position: relative;
+        }
+
+        .cell {
+            display: table-cell;
+            vertical-align: middle;
+            position: relative;
+            width: 100%;
+            text-align: center;
+        }
+
+
+        /*------
+        # Pincode
+        ----*/
+
+        #pincode {
+            position: fixed;
+            overflow: hidden;
+            height: 667px;
+            width: 375px;
+            z-index: 9999;
+            background-color: #33444e;
+            background-image: url("https://hd.unsplash.com/photo-1471047283799-ebd97acc0bc3");
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            border-radius: 10px;
+            text-align: center;
+            -webkit-box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.6);
+            -moz-box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.6);
+            box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.6);
+            top: 50%;
+            left: 50%;
+            margin-top: -335px;
+            /* Negative half of height. */
+            margin-left: -188px;
+            /* Negative half of width. */
+        }
+
+        #numbers {
+            max-width: 300px;
+            padding: 0 20px;
+            margin: 0 auto;
+            position: relative;
+            display: block;
+            -webkit-transition: all 1s ease-out;
+            -moz-transition: all 1s ease-out;
+            transition: all 1s ease-out;
+            opacity: 1;
+        }
+
+        #numbers.hide {
+            opacity: 0.3;
+        }
+
+        #pincode button {
+            width: 70px;
+            height: 70px;
+            margin-bottom: 10px;
+            background-color: rgba(0, 0, 0, 0.35);
+            border: 0;
+            color: #fff;
+            font-size: 25px;
+            line-height: 50px;
+            border-radius: 100%;
+            opacity: 1;
+            outline: 0;
+            border: 1px solid #33444e;
+        }
+
+        #pincode button:active {
+            background-color: rgba(0, 0, 0, 0.6);
+            outline: 0;
+        }
+
+        #fields {
+            max-width: 200px;
+            padding: 0 20px;
+            margin: 50px auto;
+            position: relative;
+            display: block;
+        }
+
+        #fields .numberfield {
+            text-align: center;
+        }
+
+        #fields .numberfield span {
+            height: 10px;
+            width: 10px;
+            border: 2px solid #fff;
+            background-color: transparent;
+            border-radius: 100%;
+            position: relative;
+            display: inline-block;
+            text-align: center;
+        }
+
+        #fields .numberfield.active span {
+            background-color: #fff;
+        }
+
+        #fields .numberfield.right span {
+            background-color: #33444e;
+            border-color: #33444e;
+            transition: all .5s ease-in-out;
+            -webkit-transition: all .5s ease-in-out;
+        }
+
+
+        /*------
+        # Toast Grid
+        ----*/
+
+        .grid {
+            list-style: none;
+            margin-left: -20px;
+        }
+
+        .grid__col--1-of-3,
+        .grid__col--2-of-6,
+        .grid__col--4-of-12 {
+            width: 33.33333%;
+        }
+
+        .grid__col--1-of-4,
+        .grid__col--2-of-8,
+        .grid__col--3-of-12 {
+            width: 25%;
+        }
+
+        .grid__col {
+            box-sizing: border-box;
+            display: inline-block;
+            margin-right: -.25em;
+            min-height: 1px;
+            padding-left: 20px;
+            vertical-align: top;
+        }
+
+        .grid__col--centered {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .grid__col--d-first {
+            float: left;
+        }
+
+        .grid__col--d-last {
+            float: right;
+        }
+
+        .grid--no-gutter {
+            margin-left: 0;
+            width: 100%;
+        }
+
+        .grid--no-gutter .grid__col {
+            padding-left: 0;
+        }
+
+        .grid--no-gutter .grid__col--span-all {
+            margin-left: 0;
+            width: 100%;
+        }
+
+        .grid__col--ab {
+            vertical-align: bottom;
+        }
+
+        .grid__col--am {
+            vertical-align: middle;
+        }
+
+        .miss {
+            -webkit-animation: miss .8s ease-out 1;
+            animation: miss .8s ease-out 1;
+        }
+
+        @-webkit-keyframes miss {
+            0% {
+                -webkit-transform: translate(0, 0);
+                transform: translate(0, 0);
+            }
+            10% {
+                -webkit-transform: translate(-25px, 0);
+                transform: translate(-25px, 0);
+            }
+            20% {
+                -webkit-transform: translate(25px, 0);
+                transform: translate(25px, 0);
+            }
+            30% {
+                -webkit-transform: translate(-20px, 0);
+                transform: translate(-20px, 0);
+            }
+            40% {
+                -webkit-transform: translate(20px, 0);
+                transform: translate(20px, 0);
+            }
+            50% {
+                -webkit-transform: translate(-10px, 0);
+                transform: translate(-10px, 0);
+            }
+            60% {
+                -webkit-transform: translate(10px, 0);
+                transform: translate(10px, 0);
+            }
+            70% {
+                -webkit-transform: translate(-5px, 0);
+                transform: translate(-5px, 0);
+            }
+            80% {
+                -webkit-transform: translate(5px, 0);
+                transform: translate(5px, 0);
+            }
+            100% {
+                -webkit-transform: translate(0, 0);
+                transform: translate(0, 0);
+            }
+        }
+
+        @keyframes miss {
+            0% {
+                -webkit-transform: translate(0, 0);
+                transform: translate(0, 0);
+            }
+            10% {
+                -webkit-transform: translate(-25px, 0);
+                transform: translate(-25px, 0);
+            }
+            20% {
+                -webkit-transform: translate(25px, 0);
+                transform: translate(25px, 0);
+            }
+            30% {
+                -webkit-transform: translate(-20px, 0);
+                transform: translate(-20px, 0);
+            }
+            40% {
+                -webkit-transform: translate(20px, 0);
+                transform: translate(20px, 0);
+            }
+            50% {
+                -webkit-transform: translate(-10px, 0);
+                transform: translate(-10px, 0);
+            }
+            60% {
+                -webkit-transform: translate(10px, 0);
+                transform: translate(10px, 0);
+            }
+            70% {
+                -webkit-transform: translate(-5px, 0);
+                transform: translate(-5px, 0);
+            }
+            80% {
+                -webkit-transform: translate(5px, 0);
+                transform: translate(5px, 0);
+            }
+            100% {
+                -webkit-transform: translate(0, 0);
+                transform: translate(0, 0);
+            }
+        }
     </style>
 </head>
 <body>
@@ -624,6 +982,97 @@
             </div>
         </div>
     </div>
+    <div class="modal" id="myModal1" >
+        <div id="pincode">
+            <div class="table">
+                <div class="cell">
+                    <div id="anleitung">
+<%--                        <div class="close" onclick="closeModal()">x</div>--%>
+                        <p>
+                            <strong>모임 비밀번호 입력</strong><br> 비밀번호 4자리를 입력해주세요
+                        </p>
+                    </div>
+
+                    <div id="fields">
+                        <div class="grid">
+                            <div class="grid__col grid__col--1-of-4 numberfield"><span></span></div>
+                            <div class="grid__col grid__col--1-of-4 numberfield"><span></span></div>
+                            <div class="grid__col grid__col--1-of-4 numberfield"><span></span></div>
+                            <div class="grid__col grid__col--1-of-4 numberfield"><span></span></div>
+                        </div>
+                    </div>
+
+                    <div id="numbers">
+                        <div class="grid">
+                            <div class="grid__col grid__col--1-of-3"><button>1</button></div>
+                            <div class="grid__col grid__col--1-of-3"><button>2</button></div>
+                            <div class="grid__col grid__col--1-of-3"><button>3</button></div>
+
+                            <div class="grid__col grid__col--1-of-3"><button>4</button></div>
+                            <div class="grid__col grid__col--1-of-3"><button>5</button></div>
+                            <div class="grid__col grid__col--1-of-3"><button>6</button></div>
+
+                            <div class="grid__col grid__col--1-of-3"><button>7</button></div>
+                            <div class="grid__col grid__col--1-of-3"><button>8</button></div>
+                            <div class="grid__col grid__col--1-of-3"><button>9</button></div>
+
+                            <div class="grid__col grid__col--1-of-3"></div>
+                            <div class="grid__col grid__col--1-of-3"><button>0</button></div>
+                            <div class="grid__col grid__col--1-of-3"></div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div id="restartbtn">RESTART</div>
+
+
+        <%--                        <h2>비밀번호 입력</h2>--%>
+        <%--                        <div class="group71">--%>
+        <%--                            <div class="groupForm" id="groupForm">--%>
+        <%--                                <br/>--%>
+        <%--                                <div class="flexClass">--%>
+        <%--                                    <span class="idbox">비밀번호</span>--%>
+        <%--                                    <input type="password" name="groupPwd" class="rec6" placeholder="비밀번호를 입력해주세요"/>--%>
+        <%--                                </div>--%>
+        <%--                                <br/>--%>
+        <%--                                <div class="agreement-table">--%>
+        <%--                                    <label for="agree_all">--%>
+        <%--                                        <input type="checkbox" name="agree_all" id="agree_all">--%>
+        <%--                                        <span>모두 동의합니다</span>--%>
+        <%--                                    </label>--%>
+        <%--                                    <label>--%>
+        <%--                                        <input type="checkbox" name="agree" value="1">--%>
+        <%--                                        <span>서비스 이용약관 동의<strong>(필수)</strong></span>--%>
+        <%--                                    </label>--%>
+        <%--                                    <label>--%>
+        <%--                                        <input type="checkbox" name="agree" value="2">--%>
+        <%--                                        <span>개인정보처리방침 동의<strong>(필수)</strong></span>--%>
+        <%--                                    </label>--%>
+        <%--                                    <label>--%>
+        <%--                                        <input type="checkbox" name="agree" value="3">--%>
+        <%--                                        <span>개인정보처리방침 동의<strong>(필수)</strong></span>--%>
+        <%--                                    </label>--%>
+        <%--                                    <label>--%>
+        <%--                                        <input type="checkbox" name="agree" value="4">--%>
+        <%--                                        <span>위치정보사업 약관 동의<strong>(필수)</strong></span>--%>
+        <%--                                    </label>--%>
+        <%--                                    <label>--%>
+        <%--                                        <input type="checkbox" name="agree" value="5">--%>
+        <%--                                        <span>마케팅 수집 동의<strong class="select_disable">(선택)</strong></span>--%>
+        <%--                                    </label>--%>
+        <%--                                </div>--%>
+        <%--                            </div>--%>
+        <%--                            <button id="calculate" onclick="submitForm()">--%>
+        <%--                                <span>접속하기</span>--%>
+        <%--                            </button>--%>
+
+
+    </div>
+
+</div>
     <div id="customModal" class="custom-modal">
         <div class="custom-modal-content">
             <span class="custom-close">&times;</span>
@@ -719,6 +1168,36 @@
             </div>
         </div>
     </div>
+
+    <div id="deletemodal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">×</span>
+            <h3>삭제 확인</h3>
+             
+            <p>정말로 삭제하시겠습니까?</p>
+            <img src="../../../resources/images/check.webp" style="width: 70px;margin: 5px;">
+            <table id="groupTable" class="group-table">
+                <thead>
+                <tr>
+                    <th>선택</th>
+                    <th>그룹 이름</th>
+                    <th>계좌</th>
+                    <th>잔액</th>
+                    <th>자동결제</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- 여기에 데이터 행을 추가할 것입니다. -->
+                </tbody>
+            </table>
+            <br>
+            <hr>
+            <div style="color: #ee002d">모임탈퇴는 모임장만 할 수 있습니다. 모임원일 경우 모임퇴장하게 됩니다.</div>
+            <div style="color: #ee002d">모임을 탈퇴할 시 모임 계설 시 연결된 계좌에 환급됩니다.</div>
+            <button id="confirmDelete" class="delete-button">삭제</button>
+        </div>
+    </div>
+
     <div id="cardModal" class="modal1">
         <div class="modal-content1 card-modal-content">
             <span class="close1" onclick="closeCardModal()">&times;</span>
@@ -807,6 +1286,93 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css"/>
 
 <script>
+
+    function phoneModal(){
+        var deletemodal = document.querySelector('#deletemodal');
+        deletemodal.style.display='none';
+        var modal = document.getElementById('myModal1');
+        modal.style.display = 'block';
+        jQuery(document).ready(function($) {
+            $(document).ready(function() {
+
+                var pin = (+!![] + []) + (!+[] + !![] + []) + (!+[] + !![] + !![] + []) + (!+[] + !![] + !![] + !![] + []);
+                var enterCode = "";
+                enterCode.toString();
+
+                $("#numbers button").click(function() {
+
+                    var clickedNumber = $(this).text().toString();
+                    enterCode = enterCode + clickedNumber;
+                    var lengthCode = parseInt(enterCode.length);
+                    lengthCode--;
+                    $("#fields .numberfield:eq(" + lengthCode + ")").addClass("active");
+
+                    if (lengthCode == 3) {
+                        var enteredCode = parseInt(enterCode);
+
+                        var groupId = "${groupId}";
+                        $.ajax({
+                            type: "POST",
+                            url: "/inputCheckPassword",
+                            data: { groupId : groupId },
+                            success: function(response) {
+                                var storePw = parseInt(response.trim());
+                                // 모달 닫기
+                                $('#deletemodal').hide();
+                                $('#myModal1').hide();
+                                var groupId = "${sessionScope.groupAccount.group_id}";
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/deleteGroups",
+                                    data: { groupId: groupId },
+                                    success: function(response) {
+                                        alert("그룹이 삭제되었습니다.")
+                                        location.href = "/";
+                                    },
+                                    error: function(error) {
+                                        // 에러 처리 로직 추가
+                                    }
+                                });
+                            },
+                            error: function(error) {
+                            }
+                        });
+                        // Check the PIN
+                        if (enterCode == pin) {
+
+                            // Right PIN!
+                            $("#fields .numberfield").addClass("right");
+                            $("#numbers").addClass("hide");
+                            $("#anleitung p").html("Amazing!<br>You entered the correct Code!");
+
+                        } else {
+                            $("#fields").addClass("miss");
+                            enterCode = "";
+                            setTimeout(function() {
+                                $("#fields .numberfield").removeClass("active");
+                            }, 200);
+                            setTimeout(function() {
+                                $("#fields").removeClass("miss");
+                            }, 500);
+
+                        }
+
+                    } else {}
+
+                });
+
+                $("#restartbtn").click(function(){
+                    enterCode = "";
+                    $("#fields .numberfield").removeClass("active");
+                    $("#fields .numberfield").removeClass("right");
+                    $("#numbers").removeClass("hide");
+                    $("#anleitung p").html("<strong>Please enter the correct PIN-Code.</strong><br> It is: 1234 / Also try a wrong code");
+                });
+
+            });
+        });
+    }
+
     // 모달 열기 함수
     function openModal() {
         var modal = document.getElementById("unpaidModal");
@@ -1088,29 +1654,57 @@
     $.ajax({
         type: "POST",
         url: "/selectGroupInfo",
-        data: { groupId : "${sessionScope.groupAccountDetail.group_id}" },
+        data: { groupId: "${sessionScope.groupAccountDetail.group_id}" },
         success: function (response) {
-            document.getElementById("groupName").textContent = response[0].group_name;
-            document.getElementById("groupAccount").textContent = response[0].group_account;
-            var gBalance = response[0].g_balance;
-            var formattedGBalance = gBalance.toLocaleString();
-            document.getElementById("groupBalance").textContent = formattedGBalance + "원";
-            document.getElementById("groupDay").value = response[0].g_day;
-            document.getElementById("groupDues").value = response[0].g_dues;
-            document.getElementById("groupAutopay").value = response[0].g_autopay;
-            var autopayValue = response[0].g_autopay;
-            var groupAutopaySelect = document.getElementById("groupAutopay");
+            // 테이블을 보여줄 요소 가져오기
+            var groupTable = document.getElementById("groupTable").getElementsByTagName('tbody')[0];
 
-            var options = groupAutopaySelect.options;
+            // response를 반복하여 데이터 행을 생성
+            response.forEach(function (item) {
+                var row = groupTable.insertRow(-1);
 
-            for (var i = 0; i < options.length; i++) {
-                if (options[i].value === autopayValue) {
-                    options[i].selected = i;
-                    break;
+                // 체크박스 셀 생성
+                var checkboxCell = row.insertCell(0);
+                var checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.name = "groupToDelete";
+                checkbox.value = item.group_id;
+                checkboxCell.appendChild(checkbox);
+
+                // 나머지 데이터 셀 생성
+                var dataCells = [
+                    item.group_name,
+                    item.group_account,
+                    item.g_balance.toLocaleString() + "원",
+                    item.g_autopay
+                ];
+
+                for (var i = 0; i < dataCells.length; i++) {
+                    var cell = row.insertCell(i + 1);
+                    cell.textContent = dataCells[i];
                 }
+            });
+
+            // 나머지 정보를 업데이트
+            document.getElementById("groupName").textContent = response[0].group_name;
+            var selectedGroupIds = [];
+            // 체크박스의 선택 여부를 확인하려면 추가 로직이 필요합니다.
+            var checkboxes = document.getElementsByName("groupToDelete");
+
+
+            for (var i = 0; i < checkboxes.length; i++) {
+                checkboxes[i].addEventListener("change", function () {
+                    if (this.checked) {
+                        selectedGroupIds.push(this.value);
+                    } else {
+                        var index = selectedGroupIds.indexOf(this.value);
+                        if (index !== -1) {
+                            selectedGroupIds.splice(index, 1);
+                        }
+                    }
+                });
             }
-            document.getElementById("groupPassword").value = response[0].group_pw;
-            console.log(response);
+
         }
     });
 
@@ -1311,19 +1905,20 @@
     }
 
 
-    $('#deleteGroup').click( function() {
-        var groupId = "${sessionScope.groupAccount.group_id}";
-        $.ajax({
-            type: "POST",
-            url: "/deleteGroups",
-            data: { groupId : groupId },
-            success: function(response) {
-                location.href="/";
-            },
-            error: function(error) {
-            }
+    $('#deleteGroup').click(function() {
+        // 모달 열기
+        $('#deletemodal').show();
+
+        // "x" 버튼 클릭 시 모달 닫기
+        $('#closeModal').click(function() {
+            $('#deletemodal').hide();
         });
-    } );
+
+        // "삭제" 버튼 클릭 시
+        $('#confirmDelete').click(function() {
+            phoneModal();
+        });
+    });
 
 
     $('.slider-2 .page-nav > div').click(function() {

@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <style>
         #wrap {
-            min-height: 50vh;
+            min-height: 40vh;
             position: relative;
             width: 100%;
         }

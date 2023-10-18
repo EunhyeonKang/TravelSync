@@ -18,12 +18,12 @@
                 <br/>
                 <div class="flexlogin">
                     <span class="idbox">아이디</span>
-                    <input type="text" name="id" id="rec6" placeholder="아이디를 입력해주세요"/>
+                    <input type="text" name="id" id="rec6" placeholder="아이디를 입력해주세요" autocomplete="off"/>
                 </div>
                 <br/>
                 <div class="flexlogin">
                     <span class="idbox">비밀번호</span>
-                    <input type="password" name="pw" id="rec6" placeholder="비밀번호를 입력해주세요"/>
+                    <input type="password" name="pw" id="rec6" placeholder="비밀번호를 입력해주세요" autocomplete="off"/>
                 </div>
                 <br/>
 

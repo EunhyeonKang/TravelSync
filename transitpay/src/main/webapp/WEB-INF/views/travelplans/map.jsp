@@ -145,6 +145,8 @@
             overflow: scroll;
             border-radius: 10px;
             padding: 10px;
+            width: 230px;
+            font-size: 25px;
 
         }
         .chating .me{
@@ -451,13 +453,13 @@
                     <div class="food-modal-content">
                         <span class="food-close-btn">&times;</span>
                         <div class="select-date-box">
-                            <h3>음식을 선택해주세요.</h3>
+                            <h3>여행경비를 선택해주세요.</h3>
                             <div class="food-select-box">
                                 <table id="foodTable">
                                     <thead>
                                     <tr>
                                         <th>선택</th>
-                                        <th>음식</th>
+                                        <th>키워드</th>
                                         <th>가격</th>
                                         <th>개수</th>
                                     </tr>
@@ -584,9 +586,9 @@
 
             // 고정된 색상 배열
             const fixedColors = [
+                'rgb(0, 92, 255)',
                 'rgb(211, 211, 211)',
-                'rgb(241, 241, 241)',
-                'rgb(0, 92, 255)'
+                'rgb(241, 241, 241)'
             ];
             // 데이터 가공
             const data = [

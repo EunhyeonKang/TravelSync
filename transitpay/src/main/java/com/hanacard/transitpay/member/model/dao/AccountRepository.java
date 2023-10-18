@@ -36,7 +36,7 @@ public interface AccountRepository {
     void insertGroupAccountStatement(String accountNum, String groupAccount, String type, int balance, String accountContent);
     List<GroupAccount> selectGroupAccountStatement(String groupAccount);
     List<Account> JoinGroupAccountAndMemberAccount(int memberId);
-    void deleteGroups(int groupId);
+    void deleteGroups(int groupId,int memberId);
     void accountJoinForm(int memberId,String phone);
     List<GroupAccountStatement> selectGroupAccountChart(int groupId,String groupAccount);
     void updatePwState(int memberId, String groupId);

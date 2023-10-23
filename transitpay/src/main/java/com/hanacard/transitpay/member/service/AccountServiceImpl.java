@@ -204,7 +204,6 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @Transactional
     public void deleteGroups(int groupId, int memberId) {
-        System.out.println(groupId + " "+memberId+" zzdf");
         accountRepository.deleteGroups(groupId,memberId);
     }
 

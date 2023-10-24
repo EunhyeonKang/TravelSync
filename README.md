@@ -28,7 +28,7 @@
 
 ```
 OS : Mac
-Framework : Spring Boot
+Framework : Spring Boot, mybatis
 Server : tomcat9
 Tool : Eclipse, Sql Developer, Github
 DBMS : Oracle DBMS
@@ -71,7 +71,8 @@ DBMS : Oracle DBMS
 • Javascript 및 Jquery를 활용한 비동기 처리<br/>
 • Kakao API, coolSMS API 활용한 간편 인증<br/>
 • Selenium, BeautifulSoup을 활용하여 여행지,여행경비(식비,숙박비,문화 등) 크롤링<br/>
-• Interceptor를 통한 일반회원 접근 페이지 분리<br/>
+• SHA-256 해시 알고리즘을 통한 일반 회원 비밀번호 암호화
+
 
 <img src="img/tech.png"/> <br/>
 

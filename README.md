@@ -91,7 +91,7 @@ DBMS : Oracle DBMS
 
 
 ## 시연 동영상
- <a href="[https://youtu.be/HvvNSyFevJA](https://youtu.be/EX_0rZvv_CM)"><img src="img/thumbnail.png"></a><br/>
+ <a href="https://youtu.be/HvvNSyFevJA"><img src="img/thumbnail.png"></a><br/>
 
 
 # 4. 본인 소개

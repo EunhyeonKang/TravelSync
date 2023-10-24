@@ -27,13 +27,12 @@ public class TravelServiceImpl implements TravelService {
             String[] parts = travelPlaces.split(",");
             for (String place : parts){
                 String[] p = place.split(" ");
-                // 인천 남동구 or 서울 마포구
                 if (p.length >= 2) {
                     Map<String, String> travelInfoMap = new HashMap<>();
                     travelInfoMap.put("place1", p[0]);
                     travelInfoMap.put("place2", p[1]);
                     travelTwoList.add(travelInfoMap);
-                }// 인천 or 서울 or 경기도
+                }
                 else {
                     travelOneList.add(travelPlaces);
                 }

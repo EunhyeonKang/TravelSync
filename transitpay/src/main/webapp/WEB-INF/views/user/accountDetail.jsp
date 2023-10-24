@@ -5,108 +5,16 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" href="../../resources/css/hanamoney.css">
+    <link rel="stylesheet" href="../../../resources/css/hanamoney.css">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <style>
-    .prev{
-        font-size: 100px;
-        position: absolute;
-        bottom: 63%;
-        left: 100px;
-        color: #949494;
-        cursor: pointer;
-    }
-    .next-1{
-        position: absolute;
-        font-size: 100px;
-        bottom: 63%;
-        right: 0px;
-        color: #949494;
-        cursor: pointer;
-    }
 
-    .section-2{
-        display: flex;
-        margin-bottom: 30px;
-    }
-    .section-2 div:nth-child(1), .section-2 div:nth-child(2){
-        box-sizing: border-box;
-        background: #FFFFFF;
-        border: 2px solid #EBF1F1;
-        font-weight: 600;
-        font-size: 20px;
-        text-align: center;
-        align-items: center;
-        color: #000000;
-        padding: 30px 0;
-        margin: 0 auto;
-        width: 48%;
-    }
-    .section-2 div:nth-child(2){
-        box-sizing: border-box;
-        background: #FFFFFF;
-        border: 2px solid #EBF1F1;
-        font-weight: 600;
-        font-size: 20px;
-        text-align: center;
-        align-items: center;
-        color: #000000;
-        padding: 30px 0;
-        margin: 0 auto;
-        width: 48%;
-    }
-    .accountbox{
-        width: 800px;
-        margin: 0 auto;
-    }
-    .accountbox1{
-        margin: 20px;
-    }
-    #accountSelect, #memberSelect{
-        border: 1px solid #a4a4a4;
-        padding: 10px;
-        width: 205px;
-        border-bottom-left-radius: 10px;
-        border-top-left-radius: 10px;
-    }
-    .accountBtn, .memberBtn{
-        padding: 10px;
-        border: 1px solid #5e83aafc;
-        background: #5e83aafc;
-        color: white;
-        border-bottom-right-radius: 10px;
-        border-top-right-radius: 10px;
-    }
-    #example_filter{
-        display: none;
-    }
-    #example_length{
-        display: none;
-    }
-    #example_info{
-        display: none;
-    }
-    .accountconnect{
-        margin-top: 5px;
-        margin-left: 5px;
-        color: #727272;
-    }
-    .mainaccount{
-        color: #E91E63;
-    }
-    .usePoint{
-        font-weight: 700;
-        color: cornflowerblue;
-        font-size: 18px;
-        margin-left: 5px;
-    }
 </style>
 <body>
 <div class="main">
     <%@ include file="../include/header.jsp" %>
        <div class="mainBox1">
-<%--           <a class="prev" onclick="plusSlides(-1)">&#10094;</a>--%>
            <c:forEach var="account" items="${sessionScope.account}">
                 <div class="hanacontainer-1">
                     <table>
@@ -137,7 +45,7 @@
                                     <div class="hanabtn">
                                         <button class="charge">
                                             <span>사용가능한포인트</span>
-<%--                                            <div class="usePoint"></div>--%>
+                                            <div class="usePoint"></div>
                                         </button>
                                         <span></span>
                                         <button class="remit" onclick="location.href='/transfer'">
@@ -180,37 +88,6 @@
 
         </div>
     </div>
-
-<%--
-            <table>
-                <tr>
-                    <td class="total"><span class="totaltext">전체</span></td>
-                </tr>
-                <tr>
-                    <td class="date"><span class="datetext">8월6일(일)</span></td>
-                </tr>
-                <tr>
-                    <td class="acntdetail"><span class="detailinfo">잠금화면</span></td>
-                    <td class="detailwon">2원</td>
-                </tr>
-                <tr>
-                    <td class="acntdetail">
-                        <div class="detailinfo-1">
-                            <span>15:52</span> | <span>무료적립</span>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="detailinfo-1">649원
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="acntdetail"><span class="detailinfo">잠금화면</span></td>
-                    <td class="detailwon">2원</td>
-                </tr>
-            </table>
-       </div>--%>
-
 </div>
 <%@ include file="../include/footer.jsp" %>
 </body>
@@ -227,8 +104,8 @@
 
         }
     });
-    var currentIteration = 0; // Initialize the counter
-    var iterations = document.querySelectorAll('.hanacontainer-1'); // Get all iterations
+    var currentIteration = 0;
+    var iterations = document.querySelectorAll('.hanacontainer-1');
     var totalIterations = iterations.length;
 
     function showIteration(index) {
@@ -237,26 +114,26 @@
             iterations[i].style.display = 'none';
         }
 
-        // Show the specific iteration
+
         iterations[index].style.display = 'block';
     }
 
     function plusSlides(step) {
-        currentIteration += step; // Increment or decrement the counter
+        currentIteration += step;
         if (currentIteration >= totalIterations) {
-            currentIteration = 0; // Reset to the beginning
+            currentIteration = 0;
         } else if (currentIteration < 0) {
-            currentIteration = totalIterations - 1; // Set to the end
+            currentIteration = totalIterations - 1;
         }
         showIteration(currentIteration);
     }
 
-    // Initialize by showing the first iteration
+
     showIteration(currentIteration);
     $(document).ready(function() {
         var table = $('#example').DataTable({
             autoWidth: false,
-            language: { //언어 설정
+            language: {
                 paginate: {
                     previous: "이전",
                     next: "다음"

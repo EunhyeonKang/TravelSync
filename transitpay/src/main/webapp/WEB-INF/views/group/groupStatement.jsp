@@ -6,422 +6,8 @@
     <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-
+    <link rel="stylesheet" href="../../../resources/css/groupStatement.css">
 </head>
-<style>
-
-    .main {
-        width: 100%;
-        height: 850px;
-    }.menu1-1{
-         text-align: center;
-         padding-top: 10px;
-         color: #008485;
-         font-weight: 700;
-         font-size: 20px;
-     }.traveltitle{
-          text-align: left;
-          left: 10px;
-          color: #7a7d7d;
-          font-size: 29px;
-          width: 1155px;
-          margin: 30px auto;
-          font-weight: 600;
-      }
-    .traveltitle hr{
-        border: 1px solid #929292;
-    }.contents{
-         width: 1200px;
-         display: flex;
-         margin: 30px auto;
-     }.menu1 a:hover {
-          background-color: #008485;
-          color: white;
-      }
-    .menu1 a {
-        text-decoration: none;
-        color: #333;
-        padding: 8px 10px;
-        text-align: center;
-        margin: 0 auto;
-        border-radius: 5px;
-        transition: background-color 0.2s;
-    }.menu1 {
-         display: flex;
-         flex-direction: column;
-         width: 200px;
-         border-radius: 0px;
-         padding: 10px;
-         float: left;
-         margin: 20px;
-     }.menuhr hr{
-          border: 2px solid #008485;
-      }.contents-1{
-           padding: 10px 0 20px 20px;
-           border-radius: 50px;
-           width: 800px;
-           display: table;
-       }
-    .contentsBox{
-        float: left;
-
-    }
-    .contentsText{
-        font-weight: 600;
-        font-size: 17px;
-        color: #606060;
-        float: left;
-        padding-top: 7px;
-    }
-    .section-1 div:nth-child(2){
-        margin-left: auto;
-    }
-    .section-1{
-        display: flex;
-        padding: 20px 0;
-    }
-    .section-2{
-        display: flex;
-        margin-bottom: 30px;
-    }
-    .section-2 div:nth-child(1), .section-2 div:nth-child(2){
-        box-sizing: border-box;
-        background: #FFFFFF;
-        border: 2px solid #EBF1F1;
-        font-weight: 600;
-        font-size: 20px;
-        text-align: center;
-        align-items: center;
-        color: #000000;
-        padding: 30px 0;
-        margin: 0 auto;
-        width: 48%;
-    }
-    .section-2 div:nth-child(2){
-        box-sizing: border-box;
-        background: #FFFFFF;
-        border: 2px solid #EBF1F1;
-        font-weight: 600;
-        font-size: 20px;
-        text-align: center;
-        align-items: center;
-        color: #000000;
-        padding: 30px 0;
-        margin: 0 auto;
-        width: 48%;
-    }
-    .section-3{
-        box-sizing: border-box;
-        background: #F7F9F9;
-        border-width: 1px 0px;
-        border-style: solid;
-        border-color: #BEBABA;
-
-    }
-    .newAccount{
-        width: 141px;
-        border: 1px solid rgba(0, 152, 153, 0.73);
-        border-radius: 5px;
-        font-weight: 700;
-        font-size: 15px;
-        padding: 5px 0;
-        text-align: center;
-        color: #008485;
-        margin: 30px auto;
-    }
-    .hanaClassBox{
-        width: 511px;
-        padding: 15px 0;
-        margin: 0 auto;
-        background: #FFFFFF;
-        border-radius: 5px;
-    }
-    .hanaClass{
-        font-weight: 600;
-        font-size: 20px;
-        text-align: center;
-        color: #000000;
-    }
-    .applyBox{
-        width: 358px;
-        height: 50px;
-        margin: 20px auto;
-        background: rgba(0, 152, 153, 0.73);
-        border: 1px solid #FFFFFF;
-        border-radius: 5px;
-    }
-    .applyBtn{
-        font-weight: 700;
-        font-size: 18px;
-        text-align: center;
-        color: #FFFFFF;
-        background: rgba(0, 152, 153, 0.73);
-        border: 0;
-        text-align: center;
-        margin: 0 auto;
-        width: 100%;
-        padding: 15px 0;
-    }
-    .classSection{
-        display: flex;
-        padding: 10px;
-        margin: 10px 0;
-    }
-    .class-1{
-        width: 50%;
-        font-weight: 600;
-        font-size: 18px;
-        color: #878787;
-        float: left;
-    }
-    .plus{
-        width: 50%;
-        float: right;
-        text-align: right;
-    }
-    /* 스테퍼 컨테이너 */
-    .stepper {
-        display: flex;
-        align-items: center;
-    }
-
-    /* 각 스탭 */
-    .step {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-left: 50px;
-        z-index: 1;
-    }
-
-    /* 원 형태 스타일 */
-    .circle {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        text-align: center;
-        line-height: 31px;
-        background-color: #FFFFFF;
-        border: 2px solid #089b9c;
-        color: #089b9c;
-        font-family: 'Inter';
-        font-weight: 700;
-        font-size: 15px;
-        margin-bottom: 5px;
-    }
-
-    /* 활성 스탭 스타일 */
-    .active {
-        background-color: #089b9c;
-        color: #FFFFFF;
-    }
-
-    /* 가로선 스타일 */
-    .line {
-        width: 170px;
-        height: 3px;
-        background-color: #DCDCDC;
-        position: relative;
-        left: 180px;
-    }
-
-    /* 라벨 스타일 */
-    .label {
-        font-family: 'Inter';
-        font-weight: 600;
-        font-size: 15px;
-        color: #089b9c;
-    }
-
-    .group71{
-        text-align: center;
-    }
-
-
-    .rec6{
-        float: right;
-        padding: 15px;
-        width: 100%;
-        box-sizing: border-box;
-        height: 50px;
-        text-align: left;
-        background: #FFFFFF;
-        border: 1px solid #CDC9C9;
-        border-radius: 10px;
-    }
-    .pay1{
-        width: 49%;
-        height: 50px;
-        padding: 15px;
-        background: #FFFFFF;
-        border: 1px solid #CDC9C9;
-        border-radius: 10px;
-        float: left;
-    }
-    .pay2{
-        width: 49%;
-        height: 50px;
-        padding: 15px;
-        background: #FFFFFF;
-        border: 1px solid #CDC9C9;
-        border-radius: 10px;
-        margin-left: 0;
-        float: right;
-    }
-
-    .gradio{
-        padding: 15px;
-        width: 10%;
-    }
-    .rec7{
-        box-sizing: border-box;
-
-        position: absolute;
-        width: 141px;
-        height: 50px;
-
-        background: #FFFFFF;
-        border: 1px solid rgba(0, 152, 153, 0.73);
-        border-radius: 10px;
-
-    }
-
-    #signup{
-        width: 69px;
-        height: 30px;
-
-        font-family: 'Inter';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 25px;
-        line-height: 30px;
-        text-align: center;
-
-        color: #000000;
-    }
-    .idbox{
-        padding: 10px;
-        box-sizing: border-box;
-        text-align: left;
-        display: flex;
-
-        font-family: 'Inter';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 15px;
-        line-height: 18px;
-        text-align: center;
-
-        color: #000000;
-
-
-    }
-
-    #calculate{
-        box-sizing: border-box;
-        width: 800px;
-        height: 50px;
-        background: rgba(0, 152, 153, 0.73);
-        color: #FFFFFF;
-        border: 1px solid rgba(0, 152, 153, 0.73);
-        border-radius: 10px;
-        margin-top: 30px;
-    }
-    .box2 > button > span{
-        width: 300.21px;
-        height: 18px;
-        font-family: 'Inter';
-        font-style: normal;
-        font-weight: 700;
-        font-size: 15px;
-        line-height: 18px;
-        text-align: center;
-        color: #008485;
-    }
-
-    .flexClass{
-        display: inline-block;
-        width: 800px;
-    }
-    .contentsText1{
-        font-size: 14px;
-    }
-    .payBox{
-        margin: 0 auto;
-    }
-    #selAccount{
-        background-color: #f0f0f0;
-    }
-    .groupname{
-        color: #008485;
-        font-size: 20px;
-        font-weight: 700;
-    }
-
-
-    .cont{
-        padding: 15px 15px;
-        overflow-y: auto;
-    }
-    .searchArea{
-        background: #eef2fb;
-        border: solid 1px #c5d4e9;
-        border-radius: 5px;
-        padding: 10px 15px;
-        margin-bottom: 15px;
-        clear: both;
-    }
-    .searchArea .searchIn p:first-child{
-        padding-top: 0px;
-    }
-    .searchArea .searchIn p{
-        padding-top: 7px;
-    }
-    .searchArea .searchIn span{
-        margin-right: 40px;
-    }
-
-    .searchArea .searchIn span label{
-        padding-right: 7px;
-        color: #05090c;
-        vertical-align: middle;
-    }
-    .bt{
-        display: inline-block;
-        padding: 1px 10px;
-        border: solid 1px #94a2b9;
-        background: #f9fafe;
-        border-radius: 2px;
-        box-shadow: inset 0 0 1px 1px #d7dfeb;
-        color: #404144;
-        font-size: 12px;
-    }
-    .stit{
-        text-align: right;
-        margin-bottom: 10px;
-        position: relative;
-    }
-    .stit h3{
-        float: left;
-        color: #1d1d1d;
-        margin-top: 8px;
-        font-size: 14px;
-        padding-left: 18px;
-        font-weight: bold;
-        background-size: 15px auto;
-    }
-    .stit .s_search em{
-        margin-right: 10px;
-    }
-    .list{
-        border-top: solid 1px #3758a7;
-        border-bottom: solid 1px #8393b4;
-    }
-    .list table{
-        width: 100%;
-        border-collapse: collapse;
-    }
-</style>
 <body>
 <div class="main">
     <%@ include file="../include/header.jsp" %>
@@ -555,90 +141,78 @@
 
                         </div>
                     </div>
-
-
-                        <p></p>
                         <p>
-								<span>
-									<label>조회기간</label>
-									<input type="text" style="width:70px" value="2023/8/19" id="search_date_start"> ~
-									<input type="text" style="width:70px" value="2023/9/18" id="search_date_last"> <a href="#" class="cal"></a>
-								</span>
-                            <span class="terms">
-									<label><input type="radio" name="s_date" id="day_before_0"> 당일</label>
-									<label><input type="radio" name="s_date" id="day_before_1"> 전일</label>
-									<label><input type="radio" name="s_date" id="day_before_3"> 3일 </label>
-									<label><input type="radio" name="s_date" id="day_before_7"> 7일 </label>
-									<label><input type="radio" name="s_date" id="day_before_15"> 15일</label>
-									<label><input type="radio" name="s_date" id="day_before_30" checked="checked"> 1개월</label>
-								</span>
-                        </p>
-                        <p>
-								<span>
-									<label>조회순서</label>
-									<em class="terms">
-										<label><input type="radio" name="s_sort" checked="checked" disabled="false"> 은행/계좌별</label>
-										<label><input type="radio" name="s_sort" disabled="false"> 거래일자별</label>
-									</em>
-
-								</span>
-
                             <span>
-									<label>상세검색조건</label>
-									<select style="width:100px" id="evt_sub01_detail_sort">
-											<option value="00">-전체-</option>
-											<option value="01">계좌번호</option>
-											<option value="02">입금액</option>
-											<option value="03">출금액</option>
-											<option value="04">거래 후 잔액</option>
-											<option value="05">적요</option>
-											<option value="06">내용</option>
-											<option value="07">조회시간</option>
-									</select>
-									<em><em></em></em>
-
-									<a href="#modal_loding_only" class="modal_open bt">DB조회</a>
-
-									<label class="mgL10"><input type="checkbox" id="evt_sub01_bank_total_num"> 소계포함</label>
-								</span>
-
+                                <label>조회기간</label>
+                                <input type="text" style="width:70px" value="2023/8/19" id="search_date_start"> ~
+                                <input type="text" style="width:70px" value="2023/9/18" id="search_date_last"> <a href="#" class="cal"></a>
+                            </span>
+                            <span class="terms">
+                                <label><input type="radio" name="s_date" id="day_before_0"> 당일</label>
+                                <label><input type="radio" name="s_date" id="day_before_1"> 전일</label>
+                                <label><input type="radio" name="s_date" id="day_before_3"> 3일 </label>
+                                <label><input type="radio" name="s_date" id="day_before_7"> 7일 </label>
+                                <label><input type="radio" name="s_date" id="day_before_15"> 15일</label>
+                                <label><input type="radio" name="s_date" id="day_before_30" checked="checked"> 1개월</label>
+                            </span>
                         </p>
+                        <p>
+                            <span>
+                                <label>조회순서</label>
+                                <em class="terms">
+                                    <label><input type="radio" name="s_sort" checked="checked" disabled="false"> 은행/계좌별</label>
+                                    <label><input type="radio" name="s_sort" disabled="false"> 거래일자별</label>
+                                </em>
 
+                            </span>
+                            <span>
+                                <label>상세검색조건</label>
+                                <select style="width:100px" id="evt_sub01_detail_sort">
+                                        <option value="00">-전체-</option>
+                                        <option value="01">계좌번호</option>
+                                        <option value="02">입금액</option>
+                                        <option value="03">출금액</option>
+                                        <option value="04">거래 후 잔액</option>
+                                        <option value="05">적요</option>
+                                        <option value="06">내용</option>
+                                        <option value="07">조회시간</option>
+                                </select>
+                                <em><em></em></em>
+
+                                <a href="#modal_loding_only" class="modal_open bt">DB조회</a>
+
+                                <label class="mgL10"><input type="checkbox" id="evt_sub01_bank_total_num"> 소계포함</label>
+                            </span>
+                        </p>
                     </div>
                 </div>
-
                 <div class="">
                     <div class="stit">
                         <h3>은행계좌별 조회내역</h3>
                         <span class="s_search">
-								<em>
-								<label>거래구분 </label>
-								<select style="width:65px" id="evt_sub01_ok_gubun">
-										<option value="전체">-전체-</option>
-										<option value="입금">입금</option>
-										<option value="지급">지급</option>
-								</select>
-								</em>
-
-								<em>
-								<label>정렬순서 </label>
-								<select style="width:100px" class="disable">
-										<option value="">최근내역순</option>
-										<option value="">과거내역순</option>
-								</select>
-								</em>
-
-								<em>
-								<label class="point"><input type="checkbox" id="evt_sub01_ok_time"> 거래일시보기</label>
-								</em>
-							</span>
-
+                            <em>
+                            <label>거래구분 </label>
+                            <select style="width:65px" id="evt_sub01_ok_gubun">
+                                    <option value="전체">-전체-</option>
+                                    <option value="입금">입금</option>
+                                    <option value="지급">지급</option>
+                            </select>
+                            </em>
+                            <em>
+                            <label>정렬순서 </label>
+                            <select style="width:100px" class="disable">
+                                    <option value="">최근내역순</option>
+                                    <option value="">과거내역순</option>
+                            </select>
+                            </em>
+                            <em>
+                            <label class="point"><input type="checkbox" id="evt_sub01_ok_time"> 거래일시보기</label>
+                            </em>
+                        </span>
                         <span class="bts">
-								<a href="#" class="disable">크게보기</a>
-								<a href="#" class="disable">조회결과</a>
-                            <!--<a href="#" class="disable">전표발행</a>
-                            <a href="#" class="disable">전표발행취소</a>-->
-							</span>
+                            <a href="#" class="disable">크게보기</a>
+                            <a href="#" class="disable">조회결과</a>
+                        </span>
                     </div>
 
                     <div class="list">
@@ -863,15 +437,6 @@
 </div>
 </body>
 <script>
-    // window.onload = function() {
-    //     $.ajax({
-    //         url:'/selectVirtureAccountNumber',
-    //         method: "POST",
-    //         success: function(response) {
-    //             $('#group_account').val(response);
-    //         }
-    //     })
-    // }
     function submitForm() {
         // serialize 함수를 사용하여 문자열로 직렬화
         var formData = $("#groupForm").serialize();

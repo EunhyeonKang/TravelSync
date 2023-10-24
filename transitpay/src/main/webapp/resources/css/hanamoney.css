@@ -159,3 +159,96 @@ body{
     text-align: right;
     padding-right: 30px;
 }
+
+.prev{
+    font-size: 100px;
+    position: absolute;
+    bottom: 63%;
+    left: 100px;
+    color: #949494;
+    cursor: pointer;
+}
+.next-1{
+    position: absolute;
+    font-size: 100px;
+    bottom: 63%;
+    right: 0px;
+    color: #949494;
+    cursor: pointer;
+}
+
+.section-2{
+    display: flex;
+    margin-bottom: 30px;
+}
+.section-2 div:nth-child(1), .section-2 div:nth-child(2){
+    box-sizing: border-box;
+    background: #FFFFFF;
+    border: 2px solid #EBF1F1;
+    font-weight: 600;
+    font-size: 20px;
+    text-align: center;
+    align-items: center;
+    color: #000000;
+    padding: 30px 0;
+    margin: 0 auto;
+    width: 48%;
+}
+.section-2 div:nth-child(2){
+    box-sizing: border-box;
+    background: #FFFFFF;
+    border: 2px solid #EBF1F1;
+    font-weight: 600;
+    font-size: 20px;
+    text-align: center;
+    align-items: center;
+    color: #000000;
+    padding: 30px 0;
+    margin: 0 auto;
+    width: 48%;
+}
+.accountbox{
+    width: 800px;
+    margin: 0 auto;
+}
+.accountbox1{
+    margin: 20px;
+}
+#accountSelect, #memberSelect{
+    border: 1px solid #a4a4a4;
+    padding: 10px;
+    width: 205px;
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+}
+.accountBtn, .memberBtn{
+    padding: 10px;
+    border: 1px solid #5e83aafc;
+    background: #5e83aafc;
+    color: white;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 10px;
+}
+#example_filter{
+    display: none;
+}
+#example_length{
+    display: none;
+}
+#example_info{
+    display: none;
+}
+.accountconnect{
+    margin-top: 5px;
+    margin-left: 5px;
+    color: #727272;
+}
+.mainaccount{
+    color: #E91E63;
+}
+.usePoint{
+    font-weight: 700;
+    color: cornflowerblue;
+    font-size: 18px;
+    margin-left: 5px;
+}

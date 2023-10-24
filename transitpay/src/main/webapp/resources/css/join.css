@@ -1,0 +1,140 @@
+.tabs {
+    display: flex;
+    margin-bottom: 30px;
+    padding-left: 0;
+}
+
+.tab {
+    color: #009688;
+    border: 1px solid #009688;
+    width: 100%;
+    height: 80px;
+    font-size: 20px;
+    line-height: 80px;
+    text-align: center;
+}
+
+.step{
+    display: none;
+}
+h4{
+    display: inline-block;
+}
+.section-top-border{
+    width: 80%;
+    margin: 0 auto;
+}
+.rec6{
+    float: right;
+    padding: 15px;
+    width: 100%;
+    box-sizing: border-box;
+    height: 50px;
+    text-align: left;
+    background: #FFFFFF;
+    border: 1px solid #CDC9C9;
+    border-radius: 10px;
+}
+.rec6::placeholder{
+    position: absolute;
+    width: 147px;
+    height: 18px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 18px;
+    text-align: left;
+    color: #CDC9C9;
+}
+#address1{
+    padding:10px;
+    border : 1px solid #009688;
+    background: 0;
+    color: #009688;
+    border-radius: 10px;
+    margin-left: 10px;
+}
+.targetimg{
+    width: 200px;
+}
+.infomation{
+    resize: none;
+    border-radius: 2px;
+    width: 100%;
+    height: 300px;
+    border: 2px solid #ddd;
+    background: #f6f6f6;
+}
+
+#nextBtn, #signup{
+    padding: 16px;
+    width: 100%;
+    border: 0;
+    background: #009688;
+    color: white;
+    border-radius: 10px;
+}
+/* 체크 박스 커스텀 스타일 */
+.checkbox input[type="checkbox"] {
+    display: none; /* 기본 체크 박스 숨김 */
+}
+
+.checkbox label {
+    position: relative;
+    padding-left: 30px; /* 체크 박스와 텍스트 간격 조절 */
+    cursor: pointer;
+}
+
+.checkbox .checkbox-custom {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 15px; /* 체크 박스 크기 조절 */
+    height: 15px;
+    border: 2px solid #009688; /* 체크 박스 테두리 스타일 */
+    border-radius: 4px;
+    background-color: transparent;
+}
+
+/* 체크 박스 체크된 상태 스타일 */
+.checkbox input[type="checkbox"]:checked + .checkbox-custom::before {
+    content: "\2713"; /* 체크 모양 아이콘 (유니코드) */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+    color: #009688; /* 체크 모양 색상 */
+}
+/* 파일 선택 버튼 커스텀 스타일 */
+.custom-file-upload {
+    border: 2px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    color: #333;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.custom-file-upload:hover {
+    background-color: #ddd;
+}
+.single-input{
+    display: none;
+}
+.mb-30{
+    margin: 20px 0 5px 0;
+}
+.accountBtn{
+    border: 2px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    color: #333;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}

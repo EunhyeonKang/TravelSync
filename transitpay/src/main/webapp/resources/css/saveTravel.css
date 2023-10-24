@@ -42,17 +42,16 @@ div.p {
     border-bottom-right-radius: 10px;
 }
 
-/* 스크롤바 스타일링 */
 div.p::-webkit-scrollbar {
-    width: 10px;  /* 스크롤바의 너비 */
+    width: 10px;
 }
 div.p::-webkit-scrollbar-thumb {
-    height: 30%; /* 스크롤바의 길이 */
-    background: #848484; /* 스크롤바의 색상 */
+    height: 30%;
+    background: #848484;
     border-radius: 10px;
 }
 div.p::-webkit-scrollbar-track {
-    background: #84848447;  /* 스크롤바 뒷 배경 색상 */
+    background: #84848447;
 }
 
 div.p p {
@@ -114,7 +113,7 @@ input:checked ~ h1 ~ div.p {
     font-weight: bold;
 }
 
-/* 여행 일정 카드 내부의 각 항목 스타일링 */
+
 .schedule-card .category {
     color: #007BFF;
 }
@@ -125,8 +124,6 @@ input:checked ~ h1 ~ div.p {
 }
 
 #myChart {
-
-    /*display: block;*/
     margin: 10px auto;
     box-sizing: border-box;
 }
@@ -149,21 +146,11 @@ input:checked ~ h1 ~ div.p {
 .item-list{
     display:flex;
     width: 100%;
-    /*width: calc(300px * 12);*/
-    /*animation: scroll 40s linear reverse;*/
 }
 
 .item-list:hover{
     animation-play-state:paused;
 }
-/*@keyframes scroll {*/
-/*    0% {*/
-/*        transform: translateX(0);*/
-/*    }*/
-/*    100% {*/
-/*        transform: translateX(calc(300px * 6)); !* 오른쪽으로 이동하도록 변경 *!*/
-/*    }*/
-/*}*/
 
 
 .item{
@@ -186,12 +173,8 @@ input:checked ~ h1 ~ div.p {
     transform:translateZ(18px);
 }
 
-/* 슬라이더 그라데이션 그림자 */
-
 .slider::before,
 .slider::after {
-    /*background:linear-gradient(to right, #f6f4f2 0%,*/
-    /*rgba(255,255,255,0) 100%);*/
     content:'';
     height:100%;
     position:absolute;
@@ -235,33 +218,30 @@ input:checked ~ h1 ~ div.p {
     background: white;
 }
 
-/* 버튼에 호버할 때 툴팁 스타일 */
-/* 버튼을 포함하는 부모 요소에 상대적인 위치 설정 */
 .label-wrapper {
     position: relative;
 }
 
-/* 버튼에 호버할 때 툴팁 스타일 */
 .travel-btn:hover + p.travel-date-text-1::before {
-  content: "여행일정이 없습니다"; /* 툴팁 내용 설정 */
+  content: "여행일정이 없습니다";
   position: absolute;
-  background-color: #333; /* 배경색 설정 */
-  color: #fff; /* 글자색 설정 */
-  padding: 10px 10px; /* 내부 여백 설정 */
-  border-radius: 5px; /* 테두리 둥글기 설정 */
-  font-size: 14px; /* 글자 크기 설정 */
-  white-space: nowrap; /* 텍스트가 한 줄로 유지되도록 설정 */
-  z-index: 1; /* 다른 요소 위에 표시하기 위한 z-index 설정 */
-  top: -50px; /* 버튼 위에 위치하도록 설정 */
-  left: 8.2%; /* 가운데 정렬을 위한 왼쪽 위치 설정 */
-  transform: translateX(-50%); /* 가운데 정렬 */
-  opacity: 0; /* 처음에는 툴팁 숨김 */
-  transition: opacity 0.3s ease-in-out; /* 부드러운 페이드 효과 설정 */
+  background-color: #333;
+  color: #fff;
+  padding: 10px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  white-space: nowrap;
+  z-index: 1;
+  top: -50px;
+  left: 8.2%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
 }
 
-/* 버튼 위에 호버할 때 툴팁 표시 */
+
 .travel-btn:hover + p.travel-date-text-1::before {
-    opacity: 1; /* 툴팁을 표시 */
+    opacity: 1;
 }
 .calBtn{
     padding: 6px;
@@ -311,14 +291,112 @@ table thead {
     border: 1px solid #ddd;
 }
 .distance-overlay {
-    background-color: rgba(0, 0, 0, 0.7); /* 배경색 */
-    color: #fff; /* 텍스트 색상 */
-    font-size: 14px; /* 폰트 크기 */
-    padding: 8px 16px; /* 패딩 */
-    border-radius: 4px; /* 둥근 테두리 */
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: 4px;
 }
 
-/* 선의 색상을 빨간색에서 파란색으로 변경 */
 .kakao-maps-draw-path {
-    strokeColor: '#0000FF'; /* 선의 색상을 파란색(#0000FF)으로 변경 */
+    strokeColor: '#0000FF';
+}
+
+.saveTravelTitle{
+    color: #009688;
+    margin-right: 10px;
+}
+.saveDate{
+    color: #a6a6a6;
+}
+
+.cal-member{
+    color: #2196F3;
+}
+.totaltext2{
+    color: #ff0049;
+}
+/* 모달 전체 화면을 덮는 배경 */
+.modal-detail {
+    display: none;
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    background-color: rgb(216 229 242);
+    z-index: 1;
+    overflow: auto;
+    text-align: center;
+    border-radius: 20px;
+}
+
+/* 모달 내용을 감싸는 컨테이너 */
+.modal-content-detail {
+    background-color: #fefefe; /* 모달 내용 배경색 */
+    margin: 10% auto; /* 모달을 화면 중앙에 위치시킴 */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* 모달 내용의 너비 */
+}
+
+/* 모달 닫기 버튼 */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* 모달 내용의 스크롤바 스타일 (필요시) */
+.modal-content-detail {
+    max-height: 80vh; /* 모달 내용의 최대 높이 조정 */
+    overflow-y: auto; /* 세로 스크롤바 추가 */
+}
+.detail-button{
+    padding: 10px;
+    background: 0;
+    margin: 10px;
+    border: 2px solid #b1b2b3;
+    border-radius: 5px;
+    color: #939596;
+    font-weight: 700;
+}
+.chart-div{
+    width: 300px;
+    margin: 0 auto;
+}
+
+.saveDate{
+    color: #a6a6a6;
+}
+#totalamount{
+    color: #E91E63;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.totalamountbox{
+    font-size: 18px;
+    font-weight: 700;
+    color: #646464;
+}
+.interest{
+    color: darkcyan;
+    font-size: 20px;
+}
+.interestbox{
+    display: flex;
+    justify-content: center; display: flex;
+}
+.red-text{
+    color: red;
+}
+.rec6{
+    width: 120px;
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: 700;
+    color: #757777;
 }

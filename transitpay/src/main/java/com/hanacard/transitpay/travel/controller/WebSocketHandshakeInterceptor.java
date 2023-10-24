@@ -17,21 +17,14 @@ public class WebSocketHandshakeInterceptor implements HandshakeInterceptor {
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
         if (request instanceof ServletServerHttpRequest) {
             ServletServerHttpRequest servletRequest = (ServletServerHttpRequest) request;
-
-            // HttpSession을 얻기 위해 HttpServletRequest에서 HttpSession을 가져옵니다.
             HttpSession httpSession = servletRequest.getServletRequest().getSession();
-
-            // HttpSession에 저장된 Member 객체 또는 다른 속성을 가져옵니다.
             Member member = (Member) httpSession.getAttribute("member");
-            // 가져온 Member 객체를 WebSocket 핸들러로 전달합니다.
             attributes.put("member", member);
         }
-
         return true;
     }
 
     @Override
     public void afterHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Exception ex) {
-        // 사용하지 않음
     }
 }

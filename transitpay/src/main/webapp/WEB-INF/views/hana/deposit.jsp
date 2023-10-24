@@ -93,7 +93,6 @@
 </div>
 </body>
 <script>
-    //입출금
     function deposit(){
         var selectedOption = $('#selecttype option:selected');
         var selectType = document.getElementById("selecttype");
@@ -118,7 +117,7 @@
             type: "POST",
             url: "/insertGroupAccountDeposit",
             data: JSON.stringify(dataToSend),
-            contentType: "application/json; charset=UTF-8", // 컨텐츠 타입 설정
+            contentType: "application/json; charset=UTF-8",
             success: function(response) {
                 alert("회비 입금 성공");
 
@@ -135,15 +134,15 @@
             method: "POST",
             success: function(response) {
                 var select = document.getElementById('selecttype');
-                var inputAccountNum = $('input[name=accountNum]'); // input 엘리먼트를 변수로 저장
+                var inputAccountNum = $('input[name=accountNum]');
 
-                // 데이터를 옵션으로 추가
+
                 response.forEach(function (item) {
                     var option = document.createElement('option');
                     option.value = item.account_id;
                     option.text = item.account_bank;
-                    option.setAttribute('data-account-num', item.account_num); // 각 옵션에 account_num을 저장
-                    option.setAttribute('data-balance', item.balance); // 각 옵션에 balance를 저장
+                    option.setAttribute('data-account-num', item.account_num);
+                    option.setAttribute('data-balance', item.balance);
                     select.appendChild(option);
                     if (item.account_main === '1') {
                         var main = document.createElement('div');
@@ -161,14 +160,14 @@
                         inputAccountNum.val(item.account_num + " (잔액 : "+item.balance+")");
                     }
                 });
-                // select 요소의 변경 이벤트 리스너 추가
+
                 select.addEventListener('change', function () {
                     var selectedOption = select.options[select.selectedIndex];
                     const bank = document.querySelector('.bank');
-                    const accountBalance = selectedOption.getAttribute('data-balance'); // 선택한 옵션의 balance 가져오기
+                    const accountBalance = selectedOption.getAttribute('data-balance');
                     bank.textContent = selectedOption.text;
-                    const accountNum = selectedOption.getAttribute('data-account-num'); // 선택한 옵션의 account_num 가져오기
-                    inputAccountNum.val(accountNum + ' (잔액 : ' + accountBalance + ')'); // input에 account_num과 잔액 설정
+                    const accountNum = selectedOption.getAttribute('data-account-num');
+                    inputAccountNum.val(accountNum + ' (잔액 : ' + accountBalance + ')');
                 });
             },
             error: function(error) {

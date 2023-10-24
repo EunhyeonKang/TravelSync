@@ -12,7 +12,6 @@ public class SocialToken {
     private Integer expires_in;
     private String scope;
     private Integer refresh_token_expires_in;
-
     private String objType;
     private String text;
     private String webUrl;

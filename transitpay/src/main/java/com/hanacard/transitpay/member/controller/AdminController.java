@@ -65,7 +65,6 @@ public class AdminController {
     public ResponseEntity<List<Search>> searchLocationByDate(String option) {
         try {
             List<Search> optionBydate = adminService.searchLocationByDate(option);
-            System.out.println(optionBydate);
             return ResponseEntity.ok(optionBydate);
         } catch (Exception e) {
             // 예외 처리 로직

@@ -7,162 +7,17 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script defer src="../../resources/js/join.js"></script>
+    <link rel="stylesheet" href="../../resources/css/join.css">
 </head>
-<style>
-    .tabs {
-        display: flex;
-        margin-bottom: 30px;
-        padding-left: 0;
-    }
-
-    .tab {
-        color: #009688;
-        border: 1px solid #009688;
-        width: 100%;
-        height: 80px;
-        font-size: 20px;
-        line-height: 80px;
-        text-align: center;
-    }
-
-    .step{
-        display: none;
-    }
-    h4{
-        display: inline-block;
-    }
-    .section-top-border{
-        width: 80%;
-        margin: 0 auto;
-    }
-    .rec6{
-        float: right;
-        padding: 15px;
-        width: 100%;
-        box-sizing: border-box;
-        height: 50px;
-        text-align: left;
-        background: #FFFFFF;
-        border: 1px solid #CDC9C9;
-        border-radius: 10px;
-    }
-    .rec6::placeholder{
-        position: absolute;
-        width: 147px;
-        height: 18px;
-        font-family: 'Inter';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 15px;
-        line-height: 18px;
-        text-align: left;
-        color: #CDC9C9;
-    }
-    #address1{
-        padding:10px;
-        border : 1px solid #009688;
-        background: 0;
-        color: #009688;
-        border-radius: 10px;
-        margin-left: 10px;
-    }
-    .targetimg{
-        width: 200px;
-    }
-    .infomation{
-        resize: none;
-        border-radius: 2px;
-        width: 100%;
-        height: 300px;
-        border: 2px solid #ddd;
-        background: #f6f6f6;
-    }
-
-    #nextBtn, #signup{
-        padding: 16px;
-        width: 100%;
-        border: 0;
-        background: #009688;
-        color: white;
-        border-radius: 10px;
-    }
-    /* 체크 박스 커스텀 스타일 */
-    .checkbox input[type="checkbox"] {
-        display: none; /* 기본 체크 박스 숨김 */
-    }
-
-    .checkbox label {
-        position: relative;
-        padding-left: 30px; /* 체크 박스와 텍스트 간격 조절 */
-        cursor: pointer;
-    }
-
-    .checkbox .checkbox-custom {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 15px; /* 체크 박스 크기 조절 */
-        height: 15px;
-        border: 2px solid #009688; /* 체크 박스 테두리 스타일 */
-        border-radius: 4px;
-        background-color: transparent;
-    }
-
-    /* 체크 박스 체크된 상태 스타일 */
-    .checkbox input[type="checkbox"]:checked + .checkbox-custom::before {
-        content: "\2713"; /* 체크 모양 아이콘 (유니코드) */
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        font-size: 16px;
-        color: #009688; /* 체크 모양 색상 */
-    }
-    /* 파일 선택 버튼 커스텀 스타일 */
-    .custom-file-upload {
-        border: 2px solid #ccc;
-        display: inline-block;
-        padding: 6px 12px;
-        cursor: pointer;
-        background-color: #f9f9f9;
-        color: #333;
-        border-radius: 4px;
-        transition: background-color 0.3s;
-    }
-
-    .custom-file-upload:hover {
-        background-color: #ddd;
-    }
-    .single-input{
-        display: none;
-    }
-    .mb-30{
-        margin: 20px 0 5px 0;
-    }
-    .accountBtn{
-        border: 2px solid #ccc;
-        display: inline-block;
-        padding: 6px 12px;
-        cursor: pointer;
-        background-color: #f9f9f9;
-        color: #333;
-        border-radius: 4px;
-        transition: background-color 0.3s;
-    }
-
-</style>
 <body>
 <%@include file="./include/header.jsp"%>
 <div class="section-top-border">
-
-    <!-- 상단 텝 -->
     <ul class="tabs">
         <li class="tab" style="background: #009688; color: #fff;">약관 확인</li>
         <li class="tab">정보입력</li>
     </ul>
-    <!-- 상단 텝 끝-->
     <div class="step col-lg-8 col-md-8" style="padding-left:0; height : 100%; display:none; color: #313131;">
-        <!-- 약관동의  -->
         <h3 class="mb-30">약관 동의</h3>
         <div class="checkbox">
             <label>
@@ -173,7 +28,6 @@
         </div>
         <br>
         <div>
-            <!-- 동의창 한 블럭 -->
             <h3 class="mb-30">트래블싱크 구매약관</h3>
             <textarea class="infomation" readonly style="resize: none;">
 						제1장 총칙
@@ -632,7 +486,7 @@
 
         </div>
         <div>
-            <!-- 동의창 한 블럭 -->
+
             <h3 class="mb-30">개인정보 수집 및 이용동의</h3>
             <textarea class="infomation" readonly style="resize: none;">
 						제1장 총칙
@@ -954,199 +808,7 @@ LG U+	안심번호 / 전자결제 / SMS전송
         </div>
     </div>
 </div>
-<!--================ Blog Area end =================-->
 <%@include file="./include/footer.jsp"%>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script>
-    // 우편번호 찾기 화면을 넣을 element
-    var element_layer = document.getElementById('layer');
-
-    function closeDaumPostcode() {
-        // iframe을 넣은 element를 안보이게 한다.
-        element_layer.style.display = 'none';
-    }
-
-    function findAddress() {
-        new daum.Postcode({
-            oncomplete: function(data) {
-                // 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-                var addr = ''; // 주소 변수
-                var extraAddr = ''; // 참고항목 변수
-
-                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
-                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
-                    addr = data.roadAddress;
-                } else { // 사용자가 지번 주소를 선택했을 경우(J)
-                    addr = data.jibunAddress;
-                }
-
-                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
-                if(data.userSelectedType === 'R'){
-                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-                        extraAddr += data.bname;
-                    }
-                    // 건물명이 있고, 공동주택일 경우 추가한다.
-                    if(data.buildingName !== '' && data.apartment === 'Y'){
-                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-                    }
-                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-                    if(extraAddr !== ''){
-                        extraAddr = ' (' + extraAddr + ')';
-                    }
-                    // 조합된 참고항목을 해당 필드에 넣는다.
-                    document.getElementById("sample2_extraAddress").value = extraAddr;
-
-                } else {
-                    document.getElementById("sample2_extraAddress").value = '';
-                }
-
-                // 우편번호와 주소 정보를 해당 필드에 넣는다.
-                document.getElementById("address").value = addr;
-                // 커서를 상세주소 필드로 이동한다.
-                document.getElementById("detailAddress").focus();
-
-                // iframe을 넣은 element를 안보이게 한다.
-                // (autoClose:false 기능을 이용한다면, 아래 코드를 제거해야 화면에서 사라지지 않는다.)
-                element_layer.style.display = 'none';
-            },
-            width : '100%',
-            height : '100%',
-            maxSuggestItems : 5
-        }).embed(element_layer);
-
-        // iframe을 넣은 element를 보이게 한다.
-        element_layer.style.display = 'block';
-
-        // iframe을 넣은 element의 위치를 화면의 가운데로 이동시킨다.
-        initLayerPosition();
-    }
-
-    // 브라우저의 크기 변경에 따라 레이어를 가운데로 이동시키고자 하실때에는
-    // resize이벤트나, orientationchange이벤트를 이용하여 값이 변경될때마다 아래 함수를 실행 시켜 주시거나,
-    // 직접 element_layer의 top,left값을 수정해 주시면 됩니다.
-    function initLayerPosition(){
-        var width = 300; //우편번호서비스가 들어갈 element의 width
-        var height = 400; //우편번호서비스가 들어갈 element의 height
-        var borderWidth = 5; //샘플에서 사용하는 border의 두께
-
-        // 위에서 선언한 값들을 실제 element에 넣는다.
-        element_layer.style.width = width + 'px';
-        element_layer.style.height = height + 'px';
-        element_layer.style.border = borderWidth + 'px solid';
-        // 실행되는 순간의 화면 너비와 높이 값을 가져와서 중앙에 뜰 수 있도록 위치를 계산한다.
-        element_layer.style.left = (((window.innerWidth || document.documentElement.clientWidth) - width)/2 - borderWidth) + 'px';
-        element_layer.style.top = (((window.innerHeight || document.documentElement.clientHeight) - height)/2 - borderWidth) + 'px';
-    }
-    function previewImage(f){
-
-        var file = f.files;
-
-        // 확장자 체크
-        if(!/\.(gif|jpg|jpeg|png)$/i.test(file[0].name)){
-            alert('gif, jpg, png 파일만 선택해 주세요.\n\n현재 파일 : ' + file[0].name);
-
-            // 선택한 파일 초기화
-            f.outerHTML = f.outerHTML;
-
-            document.getElementById('imagePreview').innerHTML = '';
-
-        }
-        else {
-
-            // FileReader 객체 사용
-            var reader = new FileReader();
-
-            // 파일 읽기가 완료되었을때 실행
-            reader.onload = function(rst){
-                document.getElementById('imagePreview').innerHTML = '<img class="targetimg" src="' + rst.target.result + '">';
-            }
-
-            // 파일을 읽는다
-            reader.readAsDataURL(file[0]);
-
-        }
-    }
-
-</script>
-<script>
-    /* 약관동의 필수동의 클릭시 페이지 넘김 */
-    $(function(){
-        $(".step").eq(0).show();
-
-
-    })
-    $(".next").click(function(){
-        if($(".requiredAgree:checked").length == 3) {
-            $(".step").hide();
-            $(".step").eq(1).show();
-            $(".tab").eq(0).css("color","#009688");
-            $(".tab").eq(0).css("background-color","#fff");
-            $(".tab").eq(1).css("color","#fff");
-            $(".tab").eq(1).css("background-color","#009688");
-        }else{
-            alert("필수항목을 체크해주세요");
-        }
-    })
-    $("#allAgree").change(function(){
-        $(".requiredAgree").prop("checked",$(this).prop("checked"));
-        $(".agree").prop("checked",$(this).prop("checked"));
-    })
-
-    var passwordInput = document.getElementById("password");
-    var confirmPasswordInput = document.getElementById("confirmPassword");
-    var messageElement = document.getElementById("message");
-
-    passwordInput.addEventListener("keyup", function() {
-        checkPassword();
-    });
-
-    confirmPasswordInput.addEventListener("keyup", function() {
-        checkPassword();
-    });
-
-    function checkPassword() {
-        var password = passwordInput.value;
-        var confirmPassword = confirmPasswordInput.value;
-
-        if (password === confirmPassword) {
-            messageElement.textContent = "비밀번호가 일치합니다.";
-            messageElement.style.color = "green";
-        } else {
-            messageElement.textContent = "비밀번호가 일치하지 않습니다.";
-            messageElement.style.color = "red";
-        }
-    }
-
-    // $(".fpmgBt2").click(function(){
-    //     var memberId = document.getElementById("accountName").value;
-    //     var accountNum = document.getElementById("accountNumber").value;
-    //     var accountBank = document.getElementById("accountName").value;
-    //     var balance = document.getElementById("balance").value;
-    //     var account_phone = document.getElementById("balance").value;
-    //
-    //     $.ajax({
-    //         type: "POST",
-    //         url: "/insertAccount",
-    //         data: {
-    //             account_bank : accountBank,
-    //             account_num : accountNum,
-    //             balance : balance
-    //         },
-    //         success: function (response) {
-    //             console.log(response);
-    //
-    //         },
-    //         error: function (error) {
-    //             console.error(error);
-    //         },
-    //     });
-    // })
-
-</script>
 </body>
 </html>

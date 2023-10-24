@@ -689,3 +689,367 @@ body{
     /*width: 105px;*/
     justify-content: space-evenly;
 }
+
+#chatting::placeholder{
+    font-size: 11px;
+}
+.mypriceText {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+/* Tooltip text */
+.mypriceText::before {
+    content: "+ 버튼을 눌러 음식을 추가해주세요!";
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    padding: 5px;
+    border-radius: 50px;
+    width: 200px;
+    padding: 20px 10px;
+    margin: 5px;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.2s;
+    visibility: hidden;
+    bottom: 100%;
+    left: 100%;
+    transform: translateX(-50%);
+}
+
+/* Show the tooltip on hover */
+.mypriceText:hover::before {
+    opacity: 1;
+    visibility: visible;
+}
+
+.mypriceText{
+    display: none;
+}
+.foodModal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1;
+    overflow: auto;
+}
+
+/* Modal Content */
+.food-modal-content {
+    background-color: #fff;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 500px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+
+.food-close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+
+.food-select-box {
+    background-color: #fff;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Styling for the food table */
+#foodTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+#foodTable th, #foodTable td {
+    padding: 10px;
+    text-align: left;
+    width: 20%;
+    border-bottom: 1px solid #ddd;
+}
+
+#foodTable th:first-child {
+    width: 20px; /* Adjust the checkbox column width */
+}
+
+/* Styling for checkboxes */
+input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+/* Styling for the Add to Cart button */
+#addToCart {
+    background-color: #fff;
+    color: #009688;
+    border: 1px solid #009688;;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    justify-content: center;
+    width: 100%;
+}
+
+#addToCart:hover {
+    background-color: #009688;
+    color: #fff;
+}
+
+
+#chatting{
+    border: 1px solid #bbb;
+    border-radius: 10px;
+    padding: 15px 15px;
+}
+.chating{
+    background-color: #e3efffc2;
+    height: 400px;
+    overflow: scroll;
+    border-radius: 10px;
+    padding: 10px;
+    width: 230px;
+    font-size: 25px;
+
+}
+.chating .me{
+    padding: 10px;
+    background: #1286f3;
+    border-radius: 10px;
+    float: right;
+    color: white;
+    text-align: right;
+    padding-right: 45px;
+    font-weight: 700;
+    text-align: right;
+    margin-bottom: 5px;
+    justify-content: flex-end;
+}
+.chating .others{
+    float: left;
+    margin: 0;
+}
+.user-name{
+    font-weight: 700;
+    color: #363636;
+    padding: 4px;
+    float: left;
+    width: 100%;
+}
+.other-msg{
+    background: white;
+    padding: 10px;
+    float: left;
+    font-weight: 700;
+    color: #676767;
+    border-radius: 10px;
+}
+.chating .start{
+    color: #AAAAAA;
+    text-align: center;
+}
+.chating .exit{
+    color: red;
+    text-align: center;
+    font-size: 11px;
+}
+.sendimg{
+    width: 34px;
+}
+#sendBtn{
+    background: 0;
+    border: 0;
+    margin: 5px;
+    position: absolute;
+    right: 0;
+}
+#container{
+    padding : 20px 10px 10px 10px;
+    width: 400px;
+    padding: 15px;
+    height: 550px;
+    background: white;
+    border-radius: 10px;
+    z-index: 1;
+}
+
+.sendth{
+    display: flex;
+    width: 100%;
+    position: relative;
+}
+.inputTable{
+    width: 100%;
+}
+#chating img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #3498db;
+    margin: 5px auto;
+    background-size: cover;
+}
+.start{
+    font-size: 10px;
+    margin: 0;
+    color: #000000;
+    font-weight: 700;
+    background: #ececec;
+    border-radius: 10px;
+    padding: 5px;
+    line-height: 6px;
+}
+.food-add{
+    border: 0;
+    background: #bdbdbd;
+    border-radius: 10px;
+    line-height: 20px;
+    font-weight: 700;
+    color: #424242;
+}
+.distance-overlay {
+    background-color: rgba(0, 0, 0, 0.7); /* 배경색 */
+    color: #fff; /* 텍스트 색상 */
+    font-size: 14px; /* 폰트 크기 */
+    padding: 8px 16px; /* 패딩 */
+    border-radius: 4px; /* 둥근 테두리 */
+}
+
+/* 선의 색상을 빨간색에서 파란색으로 변경 */
+.kakao-maps-draw-path {
+    strokeColor: '#0000FF'; /* 선의 색상을 파란색(#0000FF)으로 변경 */
+}
+.slider{
+    overflow: auto;
+    max-height: 500px;
+}
+.bookmarkh2{
+    font-size: 18px;
+    text-align: center;
+    color: dimgray;
+    margin-top: 100px;
+}
+.item-card img{
+    border-radius: 10px;
+}
+.travelboxking{
+    height: 100%;
+}
+
+/* 모달 스타일 */
+.before-custom-modal {
+    display: none; /* 초기에는 숨김 */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    z-index: 2;
+}
+
+/* 모달 내용 스타일 */
+.before-modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #aeb0bb;
+    width: 80%;
+    max-width: 600px;
+    position: relative;
+    border-radius: 10px;
+    height: 500px;
+}
+
+/* 모달 닫기 버튼 스타일 */
+.before-close-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+/* 모달 내용 스타일 (내용에 맞게 수정) */
+.before-modal-content p {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+
+/* 추가적인 스타일을 필요에 따라 여기에 추가하세요 */
+
+/* 모달 내부 스타일링 예시 */
+.before-modal-content h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.before-modal-content ul {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+.before-modal-content li {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+#travelreport{
+    text-align: center;
+    font-weight: 600;
+    color: #696767;
+    padding: 0;
+    margin-bottom: 0px;
+    margin-top: 30px;
+}
+.category{
+    display: flex;
+    justify-content: center;
+}
+.percentage{
+    display: flex;
+    justify-content: center;
+}
+.category-숙박 , .category-음식 , .category-기타{
+    color: #005CFF;
+    margin: 0 5px;
+    font-weight: 800;
+}
+
+.chartbox{
+    width: 300px;
+    margin: 20px auto;
+}
+.percent{
+    color: #E91E63;
+    font-weight: 800;
+    padding: 0px 5px;
+}
+.reportInfo{
+    text-align: center;
+    color: #403f3f;
+}
+.reportBtn{
+    margin: 10px;
+    padding: 10px;
+    width: 200px;
+    border: 0;
+    border-radius: 5px;
+}

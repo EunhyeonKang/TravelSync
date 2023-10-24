@@ -13,9 +13,7 @@ import java.util.Random;
 @Service
 public class AccountServiceImpl implements AccountService {
     private AccountRepository accountRepository;
-    private static final String[] BANKS = {
-            "하나저축은행", "하나은행", "하나손해보험"
-    };
+
     @Autowired
     public AccountServiceImpl(AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
@@ -169,12 +167,15 @@ public class AccountServiceImpl implements AccountService {
         return random.nextInt(10000001) + 1000; // 1000원 ~ 10,000,000원
     }
 
-    // 랜덤으로 은행 선택
+    private static final String[] BANKS = {
+            "하나저축은행", "하나은행", "하나손해보험"
+    };
     private static String generateRandomBank() {
         Random random = new Random();
         int index = random.nextInt(BANKS.length);
         return BANKS[index];
     }
+
     @Override
     @Transactional
     public void updateAccountBalanceTransfer(int memberId, Map<String, String> depositData) {

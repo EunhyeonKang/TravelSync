@@ -9,10 +9,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Customer {
     @Id
     public String id;
-
     public String firstName;
     public String lastName;
-
     public Customer() {}
 
     public Customer(String firstName, String lastName) {

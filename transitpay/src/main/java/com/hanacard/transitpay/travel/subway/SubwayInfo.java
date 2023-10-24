@@ -78,8 +78,8 @@ public class SubwayInfo {
                     + "&EID=" + commonSet + "&Sopt=" + tempFlag
                     + "&apiKey=PvNe2k0NSnk5nUfZuvIT+A");
             // WcVpRfZ6U%2BAuKf8AgOTZapx9edixkIvmJLWnT9KgiaE-하이드아웃
-            // 15XH4EhsIQGTKIwZAjii5dwtmXtv%2BdVulD4QWniB%2Bjg-히수집
-            // 9loymI1RM20ytIKmWKFe0x8arsNpYKoPSgHLoGhzANE-은비집
+            // 15XH4EhsIQGTKIwZAjii5dwtmXtv%2BdVulD4QWniB%2Bjg-친구집1
+            // 9loymI1RM20ytIKmWKFe0x8arsNpYKoPSgHLoGhzANE-친구집2
             // FKNgHXbbPDpB2qoqgvkmA3DAKApfxjOfbp%2Fz%2F0gWnOU-학교
             reader = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
 

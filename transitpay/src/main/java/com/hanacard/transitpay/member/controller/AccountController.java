@@ -33,7 +33,6 @@ public class AccountController {
             session.setAttribute("account",account);
             return ResponseEntity.ok(account);
         } catch (Exception e) {
-            // 예외 처리 로직
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
@@ -44,14 +43,12 @@ public class AccountController {
             accountService.updateMainAccount(accountIdList);
             return ResponseEntity.ok("계좌 변경 성공");
         } catch (Exception e) {
-            // 예외 처리 로직
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("계좌 변경 실패");
         }
     }
 
     @PostMapping("/selectAmountMember")
     public ResponseEntity<Integer> selectAmountMember(@RequestBody String memberId) {
-
         try {
             GroupAccountDetail balance = accountService.selectAmountMember(memberId);
             return ResponseEntity.ok(balance.getG_balance());
@@ -76,7 +73,6 @@ public class AccountController {
         try {
             HttpSession session = request.getSession();
             GroupAccount groupAccount = (GroupAccount)session.getAttribute("groupAccount");
-
             logger.info("Received formData: {}", groupData);
             Map<String, String> groupAccountDetail = accountService.insertGroupAccount(groupAccount,groupData);
             int groupId = accountService.selectGroupAccount(groupAccountDetail.get("group_account"));
@@ -229,7 +225,7 @@ public class AccountController {
     @PostMapping("accountJoinForm")
     public ResponseEntity<String> accountJoinForm(HttpServletRequest request){
         try {
-            HttpSession session = request.getSession(); // 세션 가져오기
+            HttpSession session = request.getSession();
             Member member = (Member)session.getAttribute("member");
             accountService.accountJoinForm(member.getMember_id(),member.getPhone());
             return ResponseEntity.ok("계좌개설 성공");
@@ -313,7 +309,6 @@ public class AccountController {
     }
     @PostMapping("/calExecution")
     public ResponseEntity<?> calExecution(@RequestBody Map<String, String> calData, HttpServletRequest request){
-        System.out.println(calData);
         try {
             HttpSession session = request.getSession();
             Member member =(Member)session.getAttribute("member");

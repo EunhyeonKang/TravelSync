@@ -447,3 +447,126 @@ input {
     display: inline-flex;
     justify-content: space-evenly;
 }
+
+#chatting::placeholder{
+    font-size: 11px;
+}
+.chating{
+    background-color: #e3efff;
+    height: 400px;
+    overflow: auto;
+    border-radius: 10px;
+    width: 230px;
+    padding: 10px;
+    font-size: 25px;
+}
+.chating .me{
+    padding: 10px;
+    background: #1286f3;
+    border-radius: 10px;
+    float: right;
+    color: white;
+    font-weight: 700;
+    text-align: right;
+    margin-bottom: 5px;
+}
+.chating .others{
+    float: left;
+    margin: 0;
+}
+.user-name{
+    font-weight: 700;
+    color: #363636;
+    padding: 4px;
+    float: left;
+    width: 100%;
+}
+.other-msg{
+    background: white;
+    padding: 10px;
+    float: left;
+    font-weight: 700;
+    color: #676767;
+    border-radius: 10px;
+}
+.chating .start{
+    color: #AAAAAA;
+    text-align: center;
+}
+.chating .exit{
+    color: red;
+    text-align: center;
+    font-size: 11px;
+}
+.sendimg{
+    width: 34px;
+}
+#sendBtn{
+    background: 0;
+    border: 0;
+    margin: 5px;
+    position: absolute;
+    right: 0;
+}
+#container{
+    margin: 20px 10px 10px 10px;
+    width: 500px;
+    padding: 15px;
+    height: 550px;
+    background: white;
+    border-radius: 10px;
+    z-index: 1;
+}
+.sendth{
+    display: flex;
+    width: 100%;
+    position: relative;
+}
+.inputTable{
+    width: 100%;
+}
+.start{
+    font-size: 10px;
+    margin: 0;
+    color: #000000;
+    font-weight: 700;
+    background: #ececec;
+    border-radius: 10px;
+    padding: 5px;
+    line-height: 6px;
+}
+
+/* 숫자 스타일 */
+.count-badge {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-color: #242b33;
+    color: #fff; /* 글자 색상 */
+    text-align: center;
+    float: left;
+    border-radius: 50%; /* 원 모양 */
+    font-size: 16px; /* 글자 크기 */
+    line-height: 30px; /* 세로 중앙 정렬 */
+    margin-right: 5px; /* 숫자와 텍스트 사이 여백 */
+}
+
+/* 텍스트 스타일 */
+.item-text {
+    font-size: 16px; /* 텍스트 글자 크기 */
+    text-align: left;
+    line-height: 30px; /* 세로 중앙 정렬 */
+}
+.table td{
+    width: 300px;
+    text-align: left;
+    float: left;
+}
+.table{
+
+    margin: 0 auto;
+}
+.popul{
+    margin-left: 50px;
+    color: #5F5F5F;
+}

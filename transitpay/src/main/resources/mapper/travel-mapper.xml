@@ -13,9 +13,6 @@
         <result column="place2" property="place2" />
     </resultMap>
 
-
-
-    <!-- When combining both types of travelPlaces -->
     <select id="handleSearchRequest" resultType="com.hanacard.transitpay.travel.model.dto.TravelInfo">
         SELECT *
         FROM travelinfo
@@ -147,7 +144,7 @@
             travel t
             RIGHT JOIN group_member gm ON t.group_id = gm.group_id
             JOIN groups g ON gm.group_id = g.group_id
-        WHERE gm.member_id = #{memberId}
+        WHERE gm.member_id = #{memberId} and t.travel_id is not null
     </select>
     <select id="selectMygroupSchedule" resultType="com.hanacard.transitpay.travel.model.dto.Schedule">
         SELECT distinct

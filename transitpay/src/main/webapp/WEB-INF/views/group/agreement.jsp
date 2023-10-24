@@ -6,371 +6,9 @@
     <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <link rel="stylesheet" href="../../../resources/css/agreement.css">
+    <script defer src="../../../resources/js/agreement.js"></script>
 </head>
-<style>
-    .section-4{
-        overflow: auto;
-        max-height: 400px;
-    }
-    .main {
-        width: 100%;
-        height: 850px;
-    }.menu1-1{
-         text-align: center;
-         padding-top: 10px;
-         color: #008485;
-         font-weight: 700;
-         font-size: 20px;
-     }.traveltitle{
-          text-align: left;
-          left: 10px;
-          color: #7a7d7d;
-          font-size: 29px;
-          width: 1155px;
-          margin: 30px auto;
-          font-weight: 600;
-      }
-    .traveltitle hr{
-        border: 1px solid #929292;
-    }
-    .contents{
-        width: 1200px;
-        height: 100%;
-        display: flex;
-        margin: 30px auto;
-     }.menu1 a:hover {
-          background-color: #008485;
-          color: white;
-      }
-    .menu1 a {
-        text-decoration: none;
-        color: #333;
-        padding: 8px 10px;
-        text-align: center;
-        margin: 0 auto;
-        border-radius: 5px;
-        transition: background-color 0.2s;
-    }.menu1 {
-         display: flex;
-         flex-direction: column;
-         width: 200px;
-         border-radius: 0px;
-         padding: 10px;
-         float: left;
-         margin: 20px;
-     }.menuhr hr{
-          border: 2px solid #008485;
-      }.contents-1{
-           padding: 10px 0 20px 20px;
-           border-radius: 50px;
-           width: 800px;
-           display: table;
-       }
-    .contentsText{
-        font-weight: 600;
-        font-size: 17px;
-        color: #606060;
-        float: left;
-        padding: 13px 0;
-    }
-    .section-1 div:nth-child(2){
-        margin-left: auto;
-    }
-    .section-1{
-        display: flex;
-        padding: 20px 0;
-    }
-    .section-2{
-        display: flex;
-        margin-bottom: 30px;
-    }
-    .section-2 div:nth-child(1), .section-2 div:nth-child(2){
-        box-sizing: border-box;
-        background: #FFFFFF;
-        border: 2px solid #EBF1F1;
-        font-weight: 600;
-        font-size: 20px;
-        text-align: center;
-        align-items: center;
-        color: #000000;
-        padding: 30px 0;
-        margin: 0 auto;
-        width: 48%;
-    }
-    .section-2 div:nth-child(2){
-        box-sizing: border-box;
-        background: #FFFFFF;
-        border: 2px solid #EBF1F1;
-        font-weight: 600;
-        font-size: 20px;
-        text-align: center;
-        align-items: center;
-        color: #000000;
-        padding: 30px 0;
-        margin: 0 auto;
-        width: 48%;
-    }
-    .section-3{
-        box-sizing: border-box;
-        background: #F7F9F9;
-        border-width: 1px 0px;
-        border-style: solid;
-        border-color: #BEBABA;
-
-    }
-    .newAccount{
-        width: 141px;
-        border: 1px solid rgba(0, 152, 153, 0.73);
-        border-radius: 5px;
-        font-weight: 700;
-        font-size: 15px;
-        padding: 5px 0;
-        text-align: center;
-        color: #008485;
-        margin: 30px auto;
-    }
-    .hanaClassBox{
-        width: 511px;
-        padding: 15px 0;
-        margin: 0 auto;
-        background: #FFFFFF;
-        border-radius: 5px;
-    }
-    .hanaClass{
-        font-weight: 600;
-        font-size: 20px;
-        text-align: center;
-        color: #000000;
-    }
-    .applyBox{
-        width: 358px;
-        height: 50px;
-        margin: 20px auto;
-        background: rgba(0, 152, 153, 0.73);
-        border: 1px solid #FFFFFF;
-        border-radius: 5px;
-    }
-    .applyBtn{
-        font-weight: 700;
-        font-size: 18px;
-        text-align: center;
-        color: #FFFFFF;
-        background: rgba(0, 152, 153, 0.73);
-        border: 0;
-        text-align: center;
-        margin: 0 auto;
-        width: 100%;
-        padding: 15px 0;
-    }
-    .classSection{
-        display: flex;
-        padding: 10px;
-        margin: 10px 0;
-    }
-    .class-1{
-        width: 50%;
-        font-weight: 600;
-        font-size: 18px;
-        color: #878787;
-        float: left;
-    }
-    .plus{
-        width: 50%;
-        float: right;
-        text-align: right;
-    }
-    .class-1 {
-        cursor: pointer;
-    }
-    .hidden {
-        display: none;
-    }
-    /* 스테퍼 컨테이너 */
-    .stepper {
-        display: flex;
-        align-items: center;
-    }
-
-    /* 각 스탭 */
-    .step {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-left: 50px;
-        z-index: 1;
-    }
-
-    /* 원 형태 스타일 */
-    .circle {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        text-align: center;
-        line-height: 31px;
-        background-color: #FFFFFF;
-        border: 2px solid #089b9c;
-        color: #089b9c;
-        font-family: 'Inter';
-        font-weight: 700;
-        font-size: 15px;
-        margin-bottom: 5px;
-    }
-
-    /* 활성 스탭 스타일 */
-    .active {
-        background-color: #089b9c;
-        color: #FFFFFF;
-    }
-
-    /* 가로선 스타일 */
-    .line {
-        width: 170px;
-        height: 3px;
-        background-color: #DCDCDC;
-        position: relative;
-        left: 180px;
-    }
-
-    /* 라벨 스타일 */
-    .label {
-        font-family: 'Inter';
-        font-weight: 600;
-        font-size: 15px;
-        color: #089b9c;
-    }
-    .agreeDetail {
-        display: none;
-        margin-top: 20px;
-    }
-    .plusButton{
-        border: 0;
-        background: 0;
-        font-size: 18px;
-        font-weight: 600;
-        color: #878787;
-    }
-    .agreeDetail{
-        padding: 0 0 20px 20px;
-    }
-
-    .modal {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.7);
-        z-index: 2;
-    }
-
-    .modal-content {
-        background-color: #fff;
-        margin: 150px auto;
-        padding: 30px;
-        width: 600px;
-        border-radius: 5px;
-    }
-
-    /* 닫기 버튼 스타일 */
-    .close-btn {
-        float: right;
-        cursor: pointer;
-    }
-
-    .group71{
-        display: grid;
-    }
-    .rec6{
-        float: right;
-        padding: 15px;
-        width: 100%;
-        box-sizing: border-box;
-        height: 50px;
-        text-align: left;
-        background: #FFFFFF;
-        border: 1px solid #CDC9C9;
-        border-radius: 10px;
-    }
-    .flexClass{
-        display: inline-block;
-        width: 500px;
-        margin-bottom: 20px;
-    }
-    #calculate{
-        box-sizing: border-box;
-        width: 500px;
-        height: 50px;
-        background: rgba(0, 152, 153, 0.73);
-        color: #FFFFFF;
-        border: 1px solid rgba(0, 152, 153, 0.73);
-        border-radius: 10px;
-        text-align: center;
-        margin: 30px auto;
-    }
-    .idbox{
-        text-align: left;
-    }
-    h2{
-        text-align: center;
-    }
-    form{
-        margin: 0 auto;
-    }
-
-    ul>li{list-style: none}
-    a{text-decoration: none;}
-    .clearfix::after{content: "";display: block;clear: both;}
-    #joinForm{width: 700px;margin: 0 auto;}
-
-    ul.join_box {
-        border: 1px solid #ddd;
-        background-color: #fff;
-        padding: 30px;
-        border-radius: 10px;
-    }
-    .checkBox,.checkBox>ul{position: relative; padding-left: 0;}
-    .checkBox>ul>li{float: left;}
-    .checkBox>ul>li:first-child{width: 85%;padding: 15px;font-weight: 600;color: #888;}
-    .checkBox>ul>li:nth-child(2){position: absolute;top: 50%;right: 30px;margin-top: -12px;}
-    .checkBox textarea{width: 96%;height: 90px; margin: 0 2%;background-color: #f7f7f7;color: #888; border: none;}
-    .footBtwrap{margin-top: 15px; padding: 30px;}
-    .footBtwrap>li{height: 60px;width: 50%;height: 60px;margin: 0 auto;}
-    ul.footBtwrap {
-        margin-top: 20px; /* 여백을 더 늘릴 수 있습니다. */
-        padding: 30px;
-    }
-    .g__pop-content{
-        color: #2f2f2f;
-    }
-    .footBtwrap>li>button{
-        font-weight: 700;
-        font-size: 18px;
-        text-align: center;
-        color: #FFFFFF;
-        background: rgba(0, 152, 153, 0.73);
-        border: 0;
-        text-align: center;
-        margin: 0 auto;
-        width: 100%;
-        padding: 15px 0;
-    }
-    .fpmgBt1{background-color: #fff;color:#888}
-    .fpmgBt2{
-        background-color: #009688;
-        color: #fff;
-        border: 0;
-        padding: 10px;
-        margin: 0 auto;
-        text-align: center;
-        border-radius: 10px;
-        margin-top: 30px;
-        width: 300px;
-        font-weight: 700;
-        cursor: pointer;
-    }
-
-</style>
 <body>
 <div class="main">
     <%@ include file="../include/header.jsp" %>
@@ -616,62 +254,49 @@
     <%@ include file="../include/footer.jsp" %>
 </div>
 </div>
-</body>
 <script>
-    const agreeChkAll = document.querySelector('input[name=chkAll]');
-    agreeChkAll.addEventListener('change', (e) => {
-        let agreeChk = document.querySelectorAll('input[name=chk]');
-        for(let i = 0; i < agreeChk.length; i++){
-            agreeChk[i].checked = e.target.checked;
+    function openModal() {
+        var groupId = "${sessionScope.groupAccount.group_id}";
+        if(groupId!=""){
+            closeModal();
+            alert("이미 모임통장을 개설했습니다.");
+            location.href='/mygroup/'+groupId;
+        }else{
+            var modal = document.getElementById('agreeModal');
+            modal.style.display = 'block';
         }
-    });
-    function toggleAgreement(targetId) {
-        const agreements = document.querySelectorAll('.agreeDetail');의
-        for (let agreement of agreements) {
-            agreement.style.display = 'none';
-        }
-        const targetAgreement = document.getElementById(targetId);
-        targetAgreement.style.display = 'block';
+
     }
 
-    const plusButtons = document.querySelectorAll('.plusButton');
-    plusButtons.forEach((plusButton) => {
-        plusButton.addEventListener('click', function () {
-            const targetId = this.getAttribute('data-target');
-            const agreeDetail = document.getElementById(targetId);
+    function submitForm() {
+        var form = document.getElementById('groupForm');
+        var memberId = "${sessionScope.member.member_id}";
 
-            if (agreeDetail.style.display === 'block') {
-                agreeDetail.style.display = 'none';
-                plusButton.innerHTML = '&#43;';
-            } else {
-                agreeDetail.style.display = 'block';
-                plusButton.innerHTML = '&#45;';
+        var groupname = form.querySelector('input[name="groupname"]').value;
+        var grouptype = form.querySelector('select[name="grouptype"]').value;
+        var accounts = form.querySelector('select[name="accounts"]').value;
+
+        var data = {
+            group_name: groupname,
+            group_type: grouptype,
+            account_num: accounts,
+            group_leader : memberId
+        };
+
+        $.ajax({
+            url: '/insertGroupAccount',
+            method: 'GET',
+            data: data,
+            success: function(response) {
+                alert(response);
+                location.href='/openedAccount';
+            },
+            error: function(error) {
+                console.error(error);
             }
         });
-    });
-    // const classSection = document.querySelector('.classSection');
-    // const agreeDetail = document.querySelector('.agreeDetail');
-    // const plusButtons = document.querySelectorAll('.plusButton');
-    // let isExpanded = false;
-    // plusButtons.forEach((plusButton) => {
-    //     plusButton.addEventListener('click', function () {
-    //         const targetId = this.getAttribute('data-target');
-    //         const agreeDetail = document.getElementById(targetId);
-    //
-    //         if (agreeDetail.style.display === 'block') {
-    //             agreeDetail.style.display = 'none';
-    //             classSection.style.maxHeight = '1000px'; // 필요에 따라 조절
-    //             plusButton.innerHTML = '&#43;';
-    //             plusButton.classList.remove('active');
-    //         } else {
-    //             agreeDetail.style.display = 'block';
-    //             agreeDetail.style.marginTop = '20px';
-    //             classSection.style.maxHeight = classSection.scrollHeight + 'px';
-    //             plusButton.innerHTML = '&#45;';
-    //             plusButton.classList.add('active');
-    //         }
-    //     });
-    // });
+    }
+
     function groupFunc(){
         var memberId = "${sessionScope.member.member_id}";
         var modal = document.getElementById('agreeModal');
@@ -683,7 +308,6 @@
                 url:'/selectBackAccount',
                 method: "POST",
                 success: function(response) {
-                    console.log(response)
                     var selAccount = document.getElementById('selAccount');
                     for (let i = 0; i < response.length; i++) {
                         var option = document.createElement('option');
@@ -700,58 +324,7 @@
             location.href='/';
         }
     }
-    // 모달 열기
-    function openModal() {
-        var groupId = "${sessionScope.groupAccount.group_id}";
-        if(groupId!=""){
-            closeModal();
-            alert("이미 모임통장을 개설했습니다.");
-            location.href='/mygroup/'+groupId;
-        }else{
-            var modal = document.getElementById('agreeModal');
-            modal.style.display = 'block';
-        }
-
-    }
-    // 모달 닫기
-    function closeModal() {
-        var modal = document.getElementById('myModal');
-        modal.style.display = 'none';
-    }
-
-    function submitForm() {
-        // form 요소 가져오기
-        var form = document.getElementById('groupForm');
-        var memberId = "${sessionScope.member.member_id}";
-        // form 내의 값 가져오기
-        var groupname = form.querySelector('input[name="groupname"]').value;
-        var grouptype = form.querySelector('select[name="grouptype"]').value;
-        var accounts = form.querySelector('select[name="accounts"]').value;
-
-        // AJAX 요청을 위한 데이터 구성
-        var data = {
-            group_name: groupname,
-            group_type: grouptype,
-            account_num: accounts,
-            group_leader : memberId
-        };
-        // AJAX 요청 보내기 (GET 방식)
-        $.ajax({
-            url: '/insertGroupAccount',
-            method: 'GET',
-            data: data,
-            success: function(response) {
-                // 성공적으로 응답을 받았을 때 수행할 동작
-                alert(response);
-                location.href='/openedAccount';
-            },
-            error: function(error) {
-                // 에러 처리
-                console.error(error);
-            }
-        });
-    }
 
 </script>
-
+</body>
 </html>

@@ -322,3 +322,232 @@ a{
 .hanameneSpan {
     position:absolute; bottom:0; left:50%;  white-space:nowrap; transform:translate(-50%, 0)
 }
+.login{
+    text-align: center;
+    display: inline-block;
+}
+.login img{
+    width: 150px;
+    margin: 0 auto;
+}
+#phone-number, #auth-number{
+    width: 70%;
+    height: 50px;
+    float: left;
+    display: flex;
+    border: 1px solid #f9fafc;
+    background-color: #ffffff;
+    mix-blend-mode: normal;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    margin: 10px 0 5px 0;
+}
+.confirm-button{
+    height: 50px;
+    width: 25%;
+    float: right;
+    border: 1px solid #0bb2a2;
+    background-color:#0bb2a2;
+    mix-blend-mode: normal;
+    color: white;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    margin: 10px 0 14px 0;
+}
+.authbox{
+    width: 100%;
+}
+#auth-req-button{
+    height: 50px;
+    width: 25%;
+    float: right;
+    border: 1px solid #0bb2a2;
+    background-color: #0bb2a2;
+    mix-blend-mode: normal;
+    color: white;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    margin: 10px 0 14px 0;
+}
+.phone-container{
+    width: 100%;
+    text-align: center;
+    margin-top: 30px;
+}
+input::placeholder{
+    text-align: center;
+}
+.button-container:hover{
+    transform:scale(1.01);
+    transition: transform .2s;
+}
+.main-2 p{
+    text-align: right;
+    padding-right: 50px;
+    font-weight: normal;
+    color: #9E9E9E;
+}
+
+.loginbox{
+    height: 240px;
+    margin-top: 20px;
+}
+
+.loginafter {
+    width: 80%;
+    height: 160px;
+    background-color: white;
+    margin: 0 auto;
+    border-radius: 10px;
+    box-shadow: 1px 2px 12px 0px rgba(0, 0, 0, 0.25);
+    padding-top: 30px;
+}
+#hanaloginbox  .logout{
+    float: right;
+    border: 0;
+    background: 0;
+    margin-right: 50px;
+    padding-top: 20px;
+    font-weight: normal;
+    color: #9E9E9E;
+}
+.hanabox{
+    width: 80%;
+    margin: 0 auto;
+}
+
+.hana-1{
+    display: flex;
+    width: 100%;
+    float: left;
+    height: 20px;
+    color: #8b8b8b;
+    font-weight: 700;
+    align-items: center;
+}
+
+.hanamoney-1{
+    width: 100%;
+    display: flex;
+    width: 100%;
+    display: flex;
+    height: 70px;
+    font-weight: 700;
+    padding-top: 10px;
+    font-size: 40px;
+    align-items: center;
+    color: #000000;
+}
+
+.hanawon{
+    float: left;
+    display: flex;
+}
+.hanawon-1{
+    float: left;
+    display: flex;
+    margin: 10px;
+}
+
+.hana-1 img{
+    width: 40px;
+    height: 40px;
+    margin-right: 5px;
+    border-radius: 50%;
+}
+.seemore > .seemore-1{
+    color: #0ec1b1;
+    align-items: center;
+    width: 100%;
+    float: right;
+    text-align: right;
+    margin: 0;
+}
+.notification{
+    border-radius: 50%;
+    background: #ff0049;
+    width: 17px;
+    height: 17px;
+    padding: 3px 2px 1px 2px;
+    color: white;
+    display: block;
+    bottom: 10px;
+    float: right;
+    line-height: 18px;
+    font-weight: 800;
+    position: relative;
+    font-size: 15px;
+}
+.t1{
+    color: #ff6400;
+}
+.kakaoa .kakao_btn{
+    width: 40px;
+    margin: 10px;
+    float: left;
+}
+
+
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: 20% auto;
+    padding: 20px;
+    width: 400px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    text-align: center;
+    position: relative;
+    border-radius: 20px;
+}
+
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+}
+.selecloc-1, .selecloc-2{
+    box-sizing: border-box;
+    height: 50px;
+    border: 1px solid #0073681c;
+    border-radius: 26px;
+    text-align: center;
+    margin: 0 auto;
+    margin-right: 5px;
+    margin-left: 5px;
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+    box-shadow: rgba(0, 0, 0, 0.18) 0px 13px 24px 0px, rgba(0, 0, 0, 0.08) 0px -6px 9px 0px inset;
+}
+.selecloc-1{
+    background: #0bb2a2;
+}
+.selecloc-2{
+    background: #d91717c4;
+}
+#notificationDropdown {
+    display: none; /* 초기에는 드롭다운 숨김 */
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    /* 기타 스타일 속성을 여기에 추가할 수 있습니다. */
+}
+.signup,.login{
+    cursor: pointer;
+}
+.signup:hover,.login:hover{
+    color: #008485;
+}

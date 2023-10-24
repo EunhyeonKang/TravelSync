@@ -309,7 +309,6 @@ public class TravelController {
             // 정산한 데이터 조회
             Schedule notifHistoryAmount = travelService.selectNotificationHistoryTravel(travelId);
             int interest = sheduleAmount - notifHistoryAmount.getPrice();
-            System.out.println(interest);
             session.setAttribute("interest",interest);
             //정산완료
             if(sheduleAmount == notifHistoryAmount.getPrice() + interest){

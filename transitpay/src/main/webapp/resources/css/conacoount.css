@@ -170,3 +170,9 @@
     font-size: 18px;
     color: #FFFFFF;
 }
+.bank{
+      display: none;
+  }
+.idbox{
+    margin-top: 5px;
+}

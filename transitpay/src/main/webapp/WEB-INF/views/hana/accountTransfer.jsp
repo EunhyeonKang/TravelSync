@@ -6,15 +6,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" href="../../../resources/css/travel.css">
     <link rel="stylesheet" href="../../../resources/css/conacoount.css">
+    <script defer src="../../../resources/js/index.js"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 </head>
 <style>
-    .bank{
-        display: none;
-    }
-    .idbox{
-        margin-top: 5px;
-    }
+
 </style>
 <body>
 <div class="main">

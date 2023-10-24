@@ -22,36 +22,30 @@ import java.util.Set;
 
 @ServerEndpoint("/websocket")
 public class TravelSocketHandler extends TextWebSocketHandler {
-
     private static HttpURLConnection connection;
     private static final Set<WebSocketSession> sessions = new HashSet<>();
     private static final Map<String,WebSocketSession> sessionMap = new HashMap<>();
     private static final HashMap<String, String> userMap = new HashMap<>();
-
-
     private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
-    //사용자의 메시지를 받게되면 동작하는 메소드
+
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         String msg = message.getPayload();
         logger.info("===============Message=================");
         logger.info("{}", msg);
         logger.info("===============Message=================");
-
         JSONObject obj = jsonToObjectParser(msg);
-        //로그인된 Member (afterConnectionEstablished 메소드에서 session을 저장함)
         for(String key : sessionMap.keySet()) {
             WebSocketSession wss = sessionMap.get(key);
             if(userMap.get(wss.getId()) == null) {
                 userMap.put(wss.getId(), (String)obj.get("userName"));
             }
 
-            //클라이언트에게 메시지 전달
             wss.sendMessage(new TextMessage(obj.toJSONString()));
         }
     }
-    //사용자가(브라우저) 웹소켓 서버에 붙게되면 동작하는 메서드
+
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         logger.info("{} 연결되었습니다.", session.getId());
@@ -63,40 +57,31 @@ public class TravelSocketHandler extends TextWebSocketHandler {
         session.getAttributes().put("memberName", member.getName());
         session.getAttributes().put("userimg", member.getKakao_img());
 
-        // 현재 사용자 정보
         JSONObject newUserObj = new JSONObject();
         newUserObj.put("type", "open");
-        newUserObj.put("userimg", member.getKakao_img());// 현재 사용자의 이름
-        newUserObj.put("userName", member.getName());// 현재 사용자의 이름
+        newUserObj.put("userimg", member.getKakao_img());
+        newUserObj.put("userName", member.getName());
         newUserObj.put("sessionId", session.getId());
-
-        // 현재 사용자에게 이전 세션들의 정보 전송
         for (String key : sessionMap.keySet()) {
             WebSocketSession wss = sessionMap.get(key);
-
-            // 이전 사용자 정보 전송
             if (!key.equals(session.getId())) {
                 JSONObject oldUserObj = new JSONObject();
                 String previousUserName = (String) wss.getAttributes().get("memberName");
                 String userimg = (String) wss.getAttributes().get("userimg");
                 oldUserObj.put("type", "open");
-                oldUserObj.put("userName", previousUserName); // 이전 사용자의 이름
-                oldUserObj.put("userimg", userimg); // 이전 사용자의 이름
+                oldUserObj.put("userName", previousUserName);
+                oldUserObj.put("userimg", userimg);
                 oldUserObj.put("sessionId", wss.getId());
 
-                // 이전 사용자에게 현재 사용자 정보 전송
                 wss.sendMessage(new TextMessage(newUserObj.toJSONString()));
-
-                // 현재 사용자에게 이전 사용자 정보 전송
                 session.sendMessage(new TextMessage(oldUserObj.toJSONString()));
             }
         }
 
-        // 자신에게도 정보 전송 (자신 입장)
         JSONObject selfObj = new JSONObject();
         selfObj.put("type", "open");
-        selfObj.put("userimg", member.getKakao_img()); // 자신의 이름
-        selfObj.put("userName", "나("+member.getName()+")"); // 자신의 이름
+        selfObj.put("userimg", member.getKakao_img());
+        selfObj.put("userName", "나("+member.getName()+")");
         selfObj.put("sessionId", session.getId());
         session.sendMessage(new TextMessage(selfObj.toJSONString()));
     }
@@ -106,19 +91,15 @@ public class TravelSocketHandler extends TextWebSocketHandler {
         logger.info("{} 연결이 종료되었습니다.", session.getId());
         super.afterConnectionClosed(session, status);
         sessionMap.remove(session.getId());
-
         Member member = (Member) session.getAttributes().get("member");
-
         String userName = userMap.get(session.getId());
         for(String key : sessionMap.keySet()) {
             WebSocketSession wss = sessionMap.get(key);
-
             if(wss == session) continue;
             JSONObject obj = new JSONObject();
             obj.put("type", "close");
             obj.put("userName", member.getName());
 
-            //클라이언트에게 메시지 전달
             wss.sendMessage(new TextMessage(obj.toJSONString()));
         }
         userMap.remove(session.getId());

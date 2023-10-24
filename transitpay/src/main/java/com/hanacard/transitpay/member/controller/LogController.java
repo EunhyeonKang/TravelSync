@@ -7,9 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class LogController {
-
     private final Logger logger = LoggerFactory.getLogger("LoggerController 의 로그");
-
     @GetMapping("/log")
     public void log() {
         logger.info("로깅 발생!");

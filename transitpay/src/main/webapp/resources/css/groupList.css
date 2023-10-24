@@ -1,0 +1,224 @@
+
+div.c {
+    position: relative;
+    margin: 2em 0 0 0;
+}
+input {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    opacity: 0;
+
+}
+h1 {
+    padding: 23px 15px 10px 15px;
+    position: relative;
+    color: #414141;
+    box-shadow: 9px -4px 15px 0px #e5e5e5;
+    border-radius: 10px;
+    margin: 0;
+    background: aliceblue;
+}
+label::before {
+    content: "";
+    border: 15px solid transparent;
+    font-size: 20px;
+}
+label {
+    cursor: pointer;
+    position: relative;
+    align-items: center;
+    font-size: 20px;
+}
+div.p {
+    max-height: 0;
+    overflow: auto;
+    transition: max-height 0.5s ease;
+    background-color: white;
+    box-shadow: 3px 3px 20px 0 rgba(0, 0, 0, 0.2);
+    text-align: center;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+/* 스크롤바 스타일링 */
+div.p::-webkit-scrollbar {
+    width: 10px;  /* 스크롤바의 너비 */
+}
+div.p::-webkit-scrollbar-thumb {
+    height: 30%; /* 스크롤바의 길이 */
+    background: #848484; /* 스크롤바의 색상 */
+    border-radius: 10px;
+}
+div.p::-webkit-scrollbar-track {
+    background: #84848447;  /* 스크롤바 뒷 배경 색상 */
+}
+
+div.p p {
+    padding: 10px 0 0 20px;
+}
+
+input:checked ~ h1 ~ div.p {
+    max-height: 600px;
+}
+.faq-235 {
+    font-size: 20px;
+}
+.travel-date-text {
+    text-align: left;
+}
+.travel-date-text-1 {
+    text-align: right;
+}
+
+.schedule-card {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 10px;
+    display: flex;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    transition: transform 0.3s ease-in-out;
+}
+
+.schedule-card:hover {
+    transform: translateY(-5px);
+}
+
+.schedule-card h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.schedule-card p {
+    margin: 0;
+    font-size: 14px;
+}
+
+.schedule-card p:first-child {
+    font-weight: bold;
+}
+
+/* 여행 일정 카드 내부의 각 항목 스타일링 */
+.schedule-card .category {
+    color: #007BFF;
+}
+.item-img{
+    width: 200px;
+    height: 200px;
+    border-radius: 100px;
+}
+
+#myChart {
+    width: 500px !important;
+    height: 500px !important;
+    /*display: block;*/
+    margin: 10px auto;
+    box-sizing: border-box;
+}
+.totalTravel{
+    font-size: 25px;
+    font-weight: 700;
+    color: #252525;
+    margin-top: 20px;
+}
+
+.slider{
+    height: 400px;
+    margin: 0 auto;
+    position: relative;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+}
+
+.item-list{
+    display:flex;
+    width: calc(300px * 12);
+    animation: scroll 40s linear infinite;
+}
+
+.item-list:hover{
+    animation-play-state:paused;
+}
+
+@keyframes scroll{
+    0% {
+        transform: translateX(0);
+    }
+    100%{
+        transform: translateX(calc(-300px * 6));
+    }
+}
+
+.item{
+    height: 250px;
+    width: 300px;
+    display: flex;
+    align-items:center;
+    padding: 15px;
+    perspective:100px;
+}
+
+.item-card{
+    width:100%;
+    transition:transform 1s;
+    border-radius:10px;
+    overflow:hidden;
+}
+
+.item-card:hover{
+    transform:translateZ(18px);
+}
+
+/* 슬라이더 그라데이션 그림자 */
+
+.slider::before,
+.slider::after {
+    /*background:linear-gradient(to right, #f6f4f2 0%,*/
+    /*rgba(255,255,255,0) 100%);*/
+    content:'';
+    height:100%;
+    position:absolute;
+    width:15%;
+    z-index:2;
+}
+
+.slider::before{
+    left:0;
+    top:0;
+}
+
+.slider::after{
+    right:0;
+    top:0;
+    transform: rotateZ(180deg);
+}
+.travel-btn{
+    padding: 13px;
+    border-radius: 10px;
+    border: 0;
+    font-size: 18px;
+    color: #ffffff;
+    font-weight: 600;
+    border: 1px solid;
+    background: #2196F3;
+}
+.backgroundbox{
+    width: 100%;
+    height: 300px;
+    background: linear-gradient(156deg, #0c96a8 0%, rgb(165 225 234 / 87%) 52.08%, #159db0 100%);
+    position: relative;
+}
+.backgroundbox .topbox{
+    width: 1400px;
+    height: 700px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%);
+    margin-top: -50px;
+    background: white;
+}
